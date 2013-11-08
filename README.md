@@ -1,0 +1,4 @@
+core
+====
+
+EntireJ core framework
