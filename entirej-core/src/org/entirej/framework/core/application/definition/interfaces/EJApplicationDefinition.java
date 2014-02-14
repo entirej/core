@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.application.definition.interfaces;
 
+import org.entirej.framework.core.properties.EJCoreLayoutItem;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.definitions.interfaces.EJPropertyDefinition;
 import org.entirej.framework.core.properties.definitions.interfaces.EJPropertyDefinitionGroup;
@@ -73,4 +74,13 @@ public interface EJApplicationDefinition
      * @return
      */
     public String getApplicationManagerClassName();
+    
+    /**
+     * Return the Supported layout component types  by the specific GUI
+     * implementation being used
+     * 
+     * @return
+     */
+    public EJCoreLayoutItem.TYPE[] getSupportedLayoutTypes();
+    
 }
