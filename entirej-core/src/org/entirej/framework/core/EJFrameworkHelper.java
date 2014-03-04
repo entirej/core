@@ -84,5 +84,62 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      */
     public void changeLocale(Locale locale);
     
+    /**
+     * Used to open the form with the given name
+     * <p>
+     * If the form is set to blocking, then the form will be opened in a modal
+     * form. This means that the application is blocked until the form is
+     * closed. This enables the form to pass values back to the calling form. To
+     * do this, the calling form can pass its form manager to the form as a
+     * global parameter. The form which is opened can then set global parameters
+     * 
+     * in the calling form
+     * 
+     * @param formName
+     *            The name of the form to be opened
+     * @param parameterList
+     *            An optional list of parameters to be passed to the form being
+     *            opened
+     * @param blocking
+     *            Indicates if the form should be opened in blocking or non
+     *            blocking mode
+     */
+    public void openForm(String formName, EJParameterList parameterList, boolean blocking);
+    
+    /**
+     * Used to open the form with the given name
+     * <p>
+     * If the form is set to blocking, then the form will be opened in a modal
+     * form. This means that the application is blocked until the form is
+     * closed. This enables the form to pass values back to the calling form. To
+     * do this, the calling form can pass its form manager to the form as a
+     * global parameter. The form which is opened can then set global parameters
+     * 
+     * in the calling form
+     * 
+     * @param formName
+     *            The name of the form to be opened
+     * @param parameterList
+     *            An optional list of parameters to be passed to the form being
+     *            opened
+     */
+    public void openForm(String formName, EJParameterList parameterList);
+
+    /**
+     * Used to open the form with the given name
+     * <p>
+     * If the form is set to blocking, then the form will be opened in a modal
+     * form. This means that the application is blocked until the form is
+     * closed. This enables the form to pass values back to the calling form. To
+     * do this, the calling form can pass its form manager to the form as a
+     * global parameter. The form which is opened can then set global parameters
+     * 
+     * in the calling form
+     * 
+     * @param formName
+     *            The name of the form to be opened
+     */
+    public void openForm(String formName);
+    
     public EJTranslatorHelper getTranslatorHelper();
 }

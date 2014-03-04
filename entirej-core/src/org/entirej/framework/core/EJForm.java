@@ -685,6 +685,11 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.translateMessageText(textKey, locale);
     }
+
+    public void openForm(String formName)
+    {
+        openForm(formName, null, false);
+    }
     
     public void openForm(String formName, EJParameterList parameterList)
     {
