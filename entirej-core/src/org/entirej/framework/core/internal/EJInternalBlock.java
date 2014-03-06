@@ -51,34 +51,45 @@ import org.slf4j.LoggerFactory;
 public class EJInternalBlock implements Serializable
 {
     final Logger                       logger = LoggerFactory.getLogger(EJInternalBlock.class);
-    
+
     private EJDefaultServicePojoHelper _servicePojoHelper;
     private EJBlockController          _blockController;
-    
+
     public EJInternalBlock(EJBlockController blockController)
     {
         _blockController = blockController;
-        _servicePojoHelper = new EJDefaultServicePojoHelper(blockController.getProperties());
-        _servicePojoHelper.addFieldNamesToItems();
     }
-    
+
     public EJBlockController getBlockController()
     {
         return _blockController;
     }
-    
+
     public EJDefaultServicePojoHelper getServicePojoHelper()
     {
+        if (_servicePojoHelper == null)
+        {
+            if (_blockController.getMirrorBlockSynchronizer() != null && _blockController.getMirrorBlockSynchronizer().getMirrorParent() != null)
+            {
+                _servicePojoHelper = new EJDefaultServicePojoHelper(_blockController.getMirrorBlockSynchronizer().getMirrorParent().getProperties());
+            }
+            else
+            {
+                _servicePojoHelper = new EJDefaultServicePojoHelper(_blockController.getProperties());
+            }
+            _servicePojoHelper.addFieldNamesToItems();
+        }
+        
         return _servicePojoHelper;
     }
-    
+
     public void refreshAfterChange(EJDataRecord record)
     {
         logger.trace("START refreshRecordValues");
         _blockController.refreshAfterChange(record);
         logger.trace("END refreshRecordValues");
     }
-    
+
     /**
      * Indicates if operations on this controller should be ignored until its
      * master block has values
@@ -94,7 +105,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.preventMasterlessOperations();
     }
-    
+
     /**
      * Returns the <code>InternalForm</code> to which this block belongs
      * 
@@ -104,7 +115,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getFormController().getInternalForm();
     }
-    
+
     /**
      * Returns the paging renderer for this block
      * <p>
@@ -117,7 +128,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getRendererController();
     }
-    
+
     /**
      * Indicates if this block contains the specified record
      * <p>
@@ -134,7 +145,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.containsRecord(record);
     }
-    
+
     /**
      * Returns the display properties of the query screen on this block
      * 
@@ -145,7 +156,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getProperties().getQueryScreenRendererProperties();
     }
-    
+
     /**
      * Returns the query screen renderer defined for this block, or
      * <code>null</code> if this block uses no query screen
@@ -157,7 +168,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getManagedQueryScreenRenderer();
     }
-    
+
     /**
      * Returns the display properties of the insert screen on this block
      * <p>
@@ -171,7 +182,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getProperties().getInsertScreenRendererProperties();
     }
-    
+
     /**
      * Returns the insert screen renderer defined for this block, or
      * <code>null</code> if this block uses no insert screen
@@ -186,7 +197,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getManagedInsertScreenRenderer();
     }
-    
+
     /**
      * Returns the display properties of the update screen on this block
      * <p>
@@ -200,7 +211,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getProperties().getUpdateScreenRendererProperties();
     }
-    
+
     /**
      * Returns the update screen renderer defined for this block or
      * <code>null</code> if the block contains no update screen
@@ -215,7 +226,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getManagedUpdateScreenRenderer();
     }
-    
+
     /**
      * Returns a collection of all item controllers available on this block
      * 
@@ -225,7 +236,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getAllBlockItemControllers();
     }
-    
+
     /**
      * Returns the block item controller with the given name or
      * <code>null</code> if there is no item with the given name
@@ -238,7 +249,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getBlockItemController(itemName);
     }
-    
+
     /**
      * Returns the screen item with the given name
      * 
@@ -257,10 +268,10 @@ public class EJInternalBlock implements Serializable
                     _blockController.getProperties().getName(), _blockController.getFormController().getProperties().getName());
             throw new EJApplicationException(message);
         }
-        
+
         return item;
     }
-    
+
     /**
      * Returns a list of all screen items defined for the given screen type
      * 
@@ -272,7 +283,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getAllScreenItems(screenType);
     }
-    
+
     /**
      * Returns the <code>FrameworkManager</code>
      * 
@@ -284,7 +295,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getFrameworkManager();
     }
-    
+
     /**
      * Instructs EntireJ to clear this block
      * <p>
@@ -298,7 +309,7 @@ public class EJInternalBlock implements Serializable
     {
         _blockController.clearBlock(disregardChanges);
     }
-    
+
     /**
      * Instructs EntireJ to clear the current focused record of this block
      */
@@ -312,7 +323,7 @@ public class EJInternalBlock implements Serializable
         }
         logger.trace("END clearFocusedRecord");
     }
-    
+
     /**
      * Makes a copy of the current record of this block
      * 
@@ -323,7 +334,7 @@ public class EJInternalBlock implements Serializable
         logger.trace("START copyFocusedRecord");
         return _blockController.copyFocusedRecord();
     }
-    
+
     /**
      * Creates an empty query criteria for this block
      * <p>
@@ -336,7 +347,7 @@ public class EJInternalBlock implements Serializable
     {
         return new EJQueryCriteria(new EJLovBlock(_blockController.getBlock()));
     }
-    
+
     /**
      * Used to create an empty record for this block
      * <p>
@@ -351,7 +362,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.createRecord(recordType);
     }
-    
+
     /**
      * Used to create an empty record for this block without firing the
      * whenCreateRecord action within the blocks action mediator
@@ -364,7 +375,7 @@ public class EJInternalBlock implements Serializable
         logger.trace("START createRecordNoAction - Returning directly");
         return _blockController.createRecordNoAction();
     }
-    
+
     /**
      * Instructs EntireJ to perform a query on the given block using the
      * specified criteria
@@ -375,9 +386,9 @@ public class EJInternalBlock implements Serializable
     public void executeQuery(EJQueryCriteria queryCriteria)
     {
         logger.trace("START executeQuery");
-        
+
         EJManagedFrameworkConnection connection = getFrameworkManager().getConnection();
-        
+
         try
         {
             if (queryCriteria == null)
@@ -410,10 +421,10 @@ public class EJInternalBlock implements Serializable
                 connection.close();
             }
         }
-        
+
         logger.trace("END executeQuery");
     }
-    
+
     /**
      * Instructs the block to execute the given action command on the given
      * screen
@@ -429,7 +440,7 @@ public class EJInternalBlock implements Serializable
         _blockController.executeActionCommand(actionCommand, screenType);
         logger.trace("END executeActionCommand");
     }
-    
+
     /**
      * Instructs EntireJ to re-query this block using the query criteria
      * previously entered
@@ -461,7 +472,7 @@ public class EJInternalBlock implements Serializable
         }
         logger.trace("END executeLastQuery");
     }
-    
+
     /**
      * Retrieves the current focused record for the given block
      * 
@@ -474,7 +485,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getFocusedRecord();
     }
-    
+
     /**
      * Returns the item that is currently focused on the current record or
      * <code>null</code> if no item has focus
@@ -485,7 +496,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getFocusedItem();
     }
-    
+
     /**
      * Returns a collection of item names contained within this block
      * 
@@ -499,10 +510,10 @@ public class EJInternalBlock implements Serializable
         {
             names.add(itemProps.getName());
         }
-        
+
         return names;
     }
-    
+
     /**
      * Returns the item names displayed on the given screen type
      * 
@@ -516,7 +527,7 @@ public class EJInternalBlock implements Serializable
     public Collection<String> getScreenItemNames(EJScreenType screenType)
     {
         ArrayList<String> names = new ArrayList<String>();
-        
+
         switch (screenType)
         {
             case MAIN:
@@ -528,10 +539,10 @@ public class EJInternalBlock implements Serializable
             case UPDATE:
                 return names;
         }
-        
+
         return names;
     }
-    
+
     /**
      * Indicates if this block can query its data in pages
      * <p>
@@ -546,7 +557,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.canQueryInPages();
     }
-    
+
     /**
      * Indicates if this block has more pages
      * <p>
@@ -560,7 +571,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.hasMorePages();
     }
-    
+
     /**
      * Indicates if the block is currently displaying the first page of data
      * <p>
@@ -574,7 +585,7 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.isOnFirstPage();
     }
-    
+
     /**
      * Informs this block to retrieve the next page of data if the block is
      * retrieving its data in pages
@@ -604,7 +615,7 @@ public class EJInternalBlock implements Serializable
         }
         logger.trace("END nextPage");
     }
-    
+
     /**
      * Informs this block to retrieve the previous page of data if the block is
      * retrieving its data in pages
@@ -634,7 +645,7 @@ public class EJInternalBlock implements Serializable
         }
         logger.trace("END previousPage");
     }
-    
+
     /**
      * Instructs the block to navigate to the next record
      * <p>
@@ -646,7 +657,7 @@ public class EJInternalBlock implements Serializable
         _blockController.nextRecord();
         logger.trace("END nextRecord");
     }
-    
+
     /**
      * Indicates if the user is currently on the last record
      * 
@@ -658,7 +669,7 @@ public class EJInternalBlock implements Serializable
         logger.trace("START isLastDisplayedRecord");
         return _blockController.isLastDisplayedRecord();
     }
-    
+
     /**
      * Instructs the block to navigate to the previous record<
      * <p>
@@ -670,7 +681,7 @@ public class EJInternalBlock implements Serializable
         _blockController.previousRecord();
         logger.trace("END previousRecord");
     }
-    
+
     /**
      * Indicates if the user is currently on the first record of this block
      * 
@@ -683,7 +694,7 @@ public class EJInternalBlock implements Serializable
         logger.trace("START isFirstDisplayedRecord");
         return _blockController.isFirstDisplayedRecord();
     }
-    
+
     /**
      * Called by the block renderer whenever a new record is chosen by the user
      * <p>
@@ -700,7 +711,7 @@ public class EJInternalBlock implements Serializable
         _blockController.newRecordInstance(selectedRecord);
         logger.trace("END newRecordInstance");
     }
-    
+
     /**
      * Returns a collection if IDataRecords for this block Retrieving all
      * records will force <B>EntireJ</B> to refresh the blocks records. If only
@@ -721,7 +732,7 @@ public class EJInternalBlock implements Serializable
             return new ArrayList<EJDataRecord>();
         }
     }
-    
+
     /**
      * Returns the amount of records this block currently holds
      * 
@@ -732,7 +743,7 @@ public class EJInternalBlock implements Serializable
         logger.trace("START getBlockRecordCount");
         return _blockController.getDataBlock().getBlockRecordCount();
     }
-    
+
     /**
      * Returns the total number of records displayed by this blocks renderer
      * 
@@ -743,13 +754,13 @@ public class EJInternalBlock implements Serializable
         logger.trace("START getDisplayedRecordCount");
         return _blockController.getDisplayedRecordCount();
     }
-    
+
     public int getDisplayedRecordNumber(EJDataRecord record)
     {
         logger.trace("START getDisplayedRecordNumber");
         return _blockController.getDisplayedRecordNumber(record);
     }
-    
+
     /**
      * Returns the properties of this block
      * 
@@ -759,27 +770,27 @@ public class EJInternalBlock implements Serializable
     {
         return _blockController.getProperties();
     }
-    
+
     public boolean isDeleteAllowed()
     {
         return false;
     }
-    
+
     public boolean isInsertAllowed()
     {
         return false;
     }
-    
+
     public boolean isInsertMode()
     {
         return false;
     }
-    
+
     public boolean isUpdateAllowed()
     {
         return false;
     }
-    
+
     public boolean isUpdateMode()
     {
         return false;
