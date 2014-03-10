@@ -69,6 +69,7 @@ public class EJLovController extends EJBlockController implements Serializable
         initialiseScreenRenderers();
         
         _lovRendererController.initialiseRenderer(this);
+        _lovBlock.initialiseServicePojoHelper();
     }
     
     @Override

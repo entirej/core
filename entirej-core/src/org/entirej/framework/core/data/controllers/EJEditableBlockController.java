@@ -109,6 +109,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
         _blockRendererController.setRenderer(EJRendererFactory.getInstance().getBlockRenderer(this));
         _questionController = new EJQuestionController();
         initialiseItems();
+        _block.initialiseServicePojoHelper();
     }
     
     @Override

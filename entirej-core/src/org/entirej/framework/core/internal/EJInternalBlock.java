@@ -65,7 +65,7 @@ public class EJInternalBlock implements Serializable
         return _blockController;
     }
 
-    public EJDefaultServicePojoHelper getServicePojoHelper()
+    public void initialiseServicePojoHelper()
     {
         if (_servicePojoHelper == null)
         {
@@ -78,6 +78,14 @@ public class EJInternalBlock implements Serializable
                 _servicePojoHelper = new EJDefaultServicePojoHelper(_blockController.getProperties());
             }
             _servicePojoHelper.addFieldNamesToItems();
+        }
+    }
+    
+    public EJDefaultServicePojoHelper getServicePojoHelper()
+    {
+        if (_servicePojoHelper == null)
+        {
+            initialiseServicePojoHelper();
         }
         
         return _servicePojoHelper;
