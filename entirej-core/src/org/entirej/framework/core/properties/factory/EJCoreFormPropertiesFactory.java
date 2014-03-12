@@ -139,6 +139,60 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
             throw new EJApplicationException(e);
         }
     }
+    /**
+     * Retrieves a ObjectGroup from its definition file
+     * <p>
+     * All ObjectGroup are stored using the same XML format as a form. This
+     * allows EntireJ to use the standard FormHandler to read the form
+     * properties. Once the form properties have been read the ObjectGroup
+     * properties will be retrieved and returned to the caller. Once a ObjectGroup
+     * has been integrated into the form, it works as any of the
+     * from elements
+     * 
+     * @param referencedBlockName
+     *            The name of the required referenced block
+     * @return The <code>EJCoreFormProperties</code> for the ObjectGroup
+     * @throws EJApplicationException
+     *             If there is no reusable block with the given name or there
+     *             was an error reading the reusable block definition file
+     */
+    public EJCoreFormProperties createObjectGroupProperties( String objectGroupName)
+    {
+        if (objectGroupName == null)
+        {
+            throw new NullPointerException("The objectGroupName passed to createObjectGroupProperties is null");
+        }
+        
+        try
+        {
+            InputStream inStream = getFormPropertiesDocumentForObjectGroup(objectGroupName);
+            
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxPArser = factory.newSAXParser();
+            EJCoreFormPropertiesHandler handler = _frameworkManager.getHandlerFactory().createFormHandler(objectGroupName, false, true);
+            saxPArser.parse(inStream, handler);
+            
+            // The form properties within the handler are not the same as those
+            // past as a parameter
+            // The parameter is the actual form to which these
+            EJCoreFormProperties objectGroup = handler.getFormProperties();
+            if (objectGroup == null)
+            {
+                throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NO_FORM_PROPERTIES_FOR_OBJECTGROUP,
+                        objectGroupName));
+            }
+            else
+            {
+                
+                
+                return objectGroup;
+            }
+        }
+        catch (Exception e)
+        {
+            throw new EJApplicationException(e);
+        }
+    }
     
     private InputStream getFormPropertiesDocument(String formName)
     {
@@ -248,6 +302,37 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_REUSABLE_BLOCK,
                     blockName + EJConstants.REUSABLE_BLOCK_PROPERTIES_FILE_SUFFIX));
+        }
+        
+        return inStream;
+    }
+    
+    private InputStream getFormPropertiesDocumentForObjectGroup(String blockName)
+    {
+        // The reusable objectgroups are stored  standard
+        // form properties document. This enables
+        // me to use the standard form reader to read the properties of the
+        // objectgroups and then retrieve the
+        // required elements  from it
+        
+        InputStream inStream = null;
+        
+        String objectgroupsLoc = EJCoreProperties.getInstance().getObjectGroupDefinitionLocation();
+        if (objectgroupsLoc == null || objectgroupsLoc.trim().length() == 0)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NO_OBJECTGROUP_LOCATION_DEFINED));
+        }
+        
+        if (EJFileLoader.fileExists(objectgroupsLoc + EJConstants.DIRECTORY_SEPERATOR + blockName + EJConstants.OBJECTGROUP_PROPERTIES_FILE_SUFFIX))
+        {
+            inStream = EJFileLoader
+                    .loadFile(objectgroupsLoc + EJConstants.DIRECTORY_SEPERATOR + blockName + EJConstants.OBJECTGROUP_PROPERTIES_FILE_SUFFIX);
+        }
+        
+        if (inStream == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_OBJECTGROUP,
+                    blockName + EJConstants.OBJECTGROUP_PROPERTIES_FILE_SUFFIX));
         }
         
         return inStream;

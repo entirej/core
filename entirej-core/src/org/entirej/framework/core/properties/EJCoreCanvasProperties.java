@@ -68,6 +68,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private EJCoreCanvasPropertiesContainer      _popupCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _groupCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _splitCanvasContainer;
+    private EJCoreCanvasPropertiesContainer      _parentCanvasContainer;
     
     //
     // If the Canvas type is TAB, then the following properties are also
@@ -1030,6 +1031,17 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         return _name;
     }
     
+    
+    public void setParentCanvasContainer(EJCoreCanvasPropertiesContainer parentCanvasContainer)
+    {
+        this._parentCanvasContainer = parentCanvasContainer;
+    }
+    
+    public EJCoreCanvasPropertiesContainer getParentCanvasContainer()
+    {
+        return _parentCanvasContainer;
+    }
+    
     @Override
     public int hashCode()
     {
@@ -1055,5 +1067,8 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         if (_type != other._type) return false;
         return true;
     }
+    
+    
+    
     
 }

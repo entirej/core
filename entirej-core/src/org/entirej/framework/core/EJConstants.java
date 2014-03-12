@@ -25,4 +25,5 @@ public class EJConstants
     public static final String FORM_PROPERTIES_FILE_SUFFIX             = ".form";
     public static final String REUSABLE_LOVDEF_PROPERTIES_FILE_SUFFIX  = ".lovdef";
     public static final String REUSABLE_BLOCK_PROPERTIES_FILE_SUFFIX   = ".block";
+    public static final String OBJECTGROUP_PROPERTIES_FILE_SUFFIX      = ".objgroup";
 }

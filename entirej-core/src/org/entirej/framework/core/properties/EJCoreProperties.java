@@ -43,6 +43,7 @@ public class EJCoreProperties implements EJEntireJProperties
     private ArrayList<String>                            _formPackageNames;
     private String                                       _reusableBlocksLocation;
     private String                                       _reusableLovDefinitionLocation;
+    private String                                       _objectGroupDefinitionLocation;
     
     private HashMap<String, String>                      _accessProcessorNames;
     private EJCoreRendererAssignmentContainer            _formRendererAssignmentContainer;
@@ -313,6 +314,16 @@ public class EJCoreProperties implements EJEntireJProperties
     public String getReusableLovDefinitionLocation()
     {
         return _reusableLovDefinitionLocation;
+    }
+    public void setObjectGroupDefinitionLocation(String location)
+    {
+        _objectGroupDefinitionLocation = location.trim();
+    }
+    
+    @Override
+    public String getObjectGroupDefinitionLocation()
+    {
+        return _objectGroupDefinitionLocation;
     }
     
     @Override

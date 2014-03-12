@@ -93,6 +93,11 @@ public class EJCorePropertiesHandlerFactory implements Serializable
         return new EJCoreLovDefinitionPropertiesHandler(this, formProperties, isCreatingReferecedBlock);
     }
     
+    public EJCoreObjectGroupDefinitionPropertiesHandler createObjectGroupDefinitionHandler(EJCoreFormProperties formProperties)
+    {
+        return new EJCoreObjectGroupDefinitionPropertiesHandler(this, formProperties);
+    }
+    
     public EJCoreLovMappingPropertiesHandler createLovMappingHandler(EJCoreFormProperties formProperties, EJCoreBlockProperties blockProperties)
     {
         return new EJCoreLovMappingPropertiesHandler(this, formProperties, blockProperties);

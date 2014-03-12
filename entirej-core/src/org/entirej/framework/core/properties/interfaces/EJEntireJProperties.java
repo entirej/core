@@ -54,6 +54,13 @@ public interface EJEntireJProperties extends Serializable
     public abstract String getReusableLovDefinitionLocation();
     
     /**
+     * Returns the package name where the re-usable Objectgroup's are contained
+     * 
+     * @return The package name of the reusable ObjectGroup location
+     */
+    public abstract String getObjectGroupDefinitionLocation();
+    
+    /**
      * Returns the <code>VisualAttributeContaier</code> that contains all the
      * visual attributes that can be used within the application
      * 

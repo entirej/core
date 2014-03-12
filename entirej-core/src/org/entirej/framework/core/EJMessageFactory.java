@@ -162,6 +162,8 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("Unable to load a file with the name $1 from any of the forms directories", replacementStrings);
             case UNABLE_TO_LOAD_REUSABLE_BLOCK:
                 return new EJMessage("Unable to load a file with the name $1 from the reusable block location", replacementStrings);
+            case UNABLE_TO_LOAD_OBJECTGROUP:
+                return new EJMessage("Unable to load a file with the name $1 from the ObjectGroup location", replacementStrings);
             case UNABLE_TO_LOAD_REUSABLE_LOV:
                 return new EJMessage("Unable to load a file with the name $1 from the reusable lov definition location", replacementStrings);
             case UNABLE_TO_LOAD_BLOCK_RENDERER:
@@ -277,11 +279,16 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("There is no primary key defined for block $1, no $2 can be performed", replacementStrings);
             case NO_FORM_PROPERTIES_FOR_REUSABLE_BLOCK:
                 return new EJMessage("No FormProperties available for reusable block $1", replacementStrings);
+            case NO_FORM_PROPERTIES_FOR_OBJECTGROUP:
+                return new EJMessage("No FormProperties available for reusable block $1", replacementStrings);
             case NO_FORM_PROPERTIES_FOR_REUSABLE_LOV:
-                return new EJMessage("No FormProperties available for reusable lov definition $1", replacementStrings);
+                return new EJMessage("No FormProperties available for ObjectGroup definition $1", replacementStrings);
             case NO_REUSABLE_BLOCK_LOCATION_DEFINED:
                 return new EJMessage(
                         "A request has been made to retrieve a reusable block but no reusable block location has been defined within the EntireJ properties");
+            case NO_OBJECTGROUP_LOCATION_DEFINED:
+                return new EJMessage(
+                        "A request has been made to retrieve a ObjectGroup but no ObjectGroup location has been defined within the EntireJ properties");
             case NO_REUSABLE_LOV_LOCATION_DEFINED:
                 return new EJMessage(
                         "A request has been made to retrieve a reusable lov definition but no reusable lov definition location has been defined within the EntireJ properties");

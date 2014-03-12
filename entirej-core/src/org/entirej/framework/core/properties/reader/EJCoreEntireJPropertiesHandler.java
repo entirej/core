@@ -33,6 +33,7 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
     protected static final String          APPLICATION_MANAGER_CLASS_NAME = "applicationManager";
     protected static final String          REUSABLE_BLOCK_LOC             = "reusableBlocksLocation";
     protected static final String          REUSABLE_LOV_LOV               = "reusableLovDefinitionLocation";
+    protected static final String          OBJECTGROUP_LOC                = "objectGroupDefinitionLocation";
     protected static final String          APPLICATION_PROPERTIES         = "applicationDefinedProperties";
     
     protected static final String          CONNECTION_FACTORY_CLASS_NAME  = "connectionFactoryClassName";
@@ -193,6 +194,10 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(REUSABLE_LOV_LOV))
         {
             _properties.setReusableLovDefinitionLocation(value);
+        }
+        else if (name.equals(OBJECTGROUP_LOC))
+        {
+            _properties.setObjectGroupDefinitionLocation(value);
         }
         else if (name.equals(FORM_RENDERERS))
         {

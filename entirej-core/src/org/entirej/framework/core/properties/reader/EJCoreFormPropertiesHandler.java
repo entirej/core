@@ -46,6 +46,7 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_BLOCK               = "block";
     private static final String            ELEMENT_RELATION            = "relation";
     private static final String            ELEMENT_LOV_DEFINITION      = "lovDefinition";
+    private static final String            ELEMENT_OBJGROUP_DEFINITION = "objGroupDefinition";
     
     public EJCoreFormPropertiesHandler(EJCorePropertiesHandlerFactory handlerFactory, String formName, boolean isCreatingLovDefinition,
             boolean isCreatingReferecedBlock)
@@ -88,6 +89,10 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(ELEMENT_LOV_DEFINITION))
         {
             setDelegate(_handlerFactory.createLovDefinitionHandler(_formProperties, _isCreatingReferecedBlock));
+        }
+        else if (name.equals(ELEMENT_OBJGROUP_DEFINITION))
+        {
+            setDelegate(_handlerFactory.createObjectGroupDefinitionHandler(_formProperties));
         }
         else if (name.equals(ELEMENT_FORM_PARAMETER))
         {
@@ -173,6 +178,11 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(ELEMENT_LOV_DEFINITION))
         {
             _formProperties.addLovDefinitionProperties(((EJCoreLovDefinitionPropertiesHandler) currentDelegate).getLovDefinitionProperties());
+            return;
+        }
+        else if (name.equals(ELEMENT_OBJGROUP_DEFINITION))
+        {
+           
             return;
         }
         else if (name.equals(ELEMENT_RENDERER_PROPERTIES))

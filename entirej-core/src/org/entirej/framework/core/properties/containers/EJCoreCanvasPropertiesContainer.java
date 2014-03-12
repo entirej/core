@@ -55,6 +55,25 @@ public class EJCoreCanvasPropertiesContainer implements EJCanvasPropertiesContai
         if (canvasProperties != null)
         {
             _canvasProperties.add(canvasProperties);
+            canvasProperties.setParentCanvasContainer(this);
+        }
+    }
+    
+    
+    public void replaceCanvasProperties(EJCoreCanvasProperties oldProp, EJCoreCanvasProperties newProp)
+    {
+        if (oldProp != null && newProp !=null)
+        {
+            int indexOf = _canvasProperties.indexOf(oldProp);
+            if(indexOf>-1)
+            {
+                _canvasProperties.set(indexOf, newProp);
+            }
+            else
+            {
+                _canvasProperties.add(newProp);
+            }
+            ( newProp).setParentCanvasContainer(this);
         }
     }
     
