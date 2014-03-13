@@ -34,13 +34,14 @@ public class EJCoreVisualAttributeProperties implements Comparable<EJCoreVisualA
      */
     
     private String             _name;
-    private String             _foregroundRgb = UNSPECIFIED;
-    private String             _backgroundRgb = UNSPECIFIED;
-    
-    private String             _fontName      = UNSPECIFIED;
-    private int                _fontSize      = -1;
-    private EJFontStyle        _fontStyle     = EJFontStyle.Unspecified;
-    private EJFontWeight       _fontWeight    = EJFontWeight.Unspecified;
+    private String             _foregroundRgb        = UNSPECIFIED;
+    private String             _backgroundRgb        = UNSPECIFIED;
+
+    private String             _fontName             = UNSPECIFIED;
+    private int                _fontSize             = -1;
+    private boolean            _fontSizeAsPercentage = false;
+    private EJFontStyle        _fontStyle            = EJFontStyle.Unspecified;
+    private EJFontWeight       _fontWeight           = EJFontWeight.Unspecified;
     
     public EJCoreVisualAttributeProperties()
     {
@@ -174,6 +175,21 @@ public class EJCoreVisualAttributeProperties implements Comparable<EJCoreVisualA
     public int getFontSize()
     {
         return _fontSize;
+    }
+    
+    /**
+     * The size relative to default font size as percentage of the text defined by this <code>VisualAttribute</code>
+     * 
+     * @return the fontSize
+     */
+    public boolean isFontSizeAsPercentage()
+    {
+        return _fontSizeAsPercentage;
+    }
+    
+    public void setFontSizeAsPercentage(boolean _fontSizeAsPercentage)
+    {
+        this._fontSizeAsPercentage = _fontSizeAsPercentage;
     }
     
     /**

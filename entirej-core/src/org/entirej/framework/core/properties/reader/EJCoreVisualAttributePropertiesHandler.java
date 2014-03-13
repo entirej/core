@@ -27,14 +27,15 @@ import org.xml.sax.SAXException;
 public class EJCoreVisualAttributePropertiesHandler extends EJCorePropertiesTagHandler
 {
     private EJCoreVisualAttributeProperties _vaProperties;
-    
-    private static final String             VISUAL_ATTRIBUTE = "visualAttribute";
-    private static final String             FONT_NAME        = "fontName";
-    private static final String             FONT_SIZE        = "fontSize";
-    private static final String             STYLE            = "style";
-    private static final String             WEIGHT           = "weight";
-    private static final String             FOREGROUND_COLOR = "foregroundColor";
-    private static final String             BACKGROUND_COLOR = "backgroundColor";
+
+    private static final String             VISUAL_ATTRIBUTE        = "visualAttribute";
+    private static final String             FONT_NAME               = "fontName";
+    private static final String             FONT_SIZE               = "fontSize";
+    private static final String             FONT_SIZE_AS_PERCENTAGE = "fontSizeAsPercentage";
+    private static final String             STYLE                   = "style";
+    private static final String             WEIGHT                  = "weight";
+    private static final String             FOREGROUND_COLOR        = "foregroundColor";
+    private static final String             BACKGROUND_COLOR        = "backgroundColor";
     
     @Override
     public void startLocalElement(String name, Attributes attributes) throws SAXException
@@ -69,6 +70,13 @@ public class EJCoreVisualAttributePropertiesHandler extends EJCorePropertiesTagH
             if (value.length() > 0)
             {
                 _vaProperties.setFontSize(Integer.parseInt(value));
+            }
+        }
+        else if (name.equals(FONT_SIZE_AS_PERCENTAGE))
+        {
+            if (value.length() > 0)
+            {
+                _vaProperties.setFontSizeAsPercentage(Boolean.valueOf(value));
             }
         }
         else if (name.equals(WEIGHT))
