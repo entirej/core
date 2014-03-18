@@ -74,8 +74,15 @@ public class EJCoreObjectGroupDefinitionPropertiesHandler extends EJCoreProperti
                 //import all blocks to form
                 for (EJCoreBlockProperties block : allBlockProperties)
                 {
-                    
-                    _formProperties.getBlockContainer().addBlockProperties(block);
+                    EJCoreBlockProperties oldProp = _formProperties.getBlockContainer().getBlockProperties(block.getName());
+                    if(oldProp!=null )
+                    {
+                        _formProperties.getBlockContainer().replaceBlockProperties(oldProp, block);
+                    }
+                    else
+                    {
+                        _formProperties.getBlockContainer().addBlockProperties(block);
+                    }
                 }
                 
                 EJCoreRelationPropertiesContainer relationContainer = objectGroupProperties.getRelationContainer();

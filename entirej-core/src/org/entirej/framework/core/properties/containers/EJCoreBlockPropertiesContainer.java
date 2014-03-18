@@ -58,6 +58,22 @@ public class EJCoreBlockPropertiesContainer implements Serializable
         }
     }
     
+    public void replaceBlockProperties(EJCoreBlockProperties oldProp, EJCoreBlockProperties newProp)
+    {
+        if (oldProp != null && newProp !=null)
+        {
+            int indexOf = _blockProperties.indexOf(oldProp);
+            if(indexOf>-1)
+            {
+                _blockProperties.set(indexOf, newProp);
+            }
+            else
+            {
+                _blockProperties.add(newProp);
+            }
+        }
+    }
+    
     /**
      * Used to retrieve a specific blocks properties.
      * 

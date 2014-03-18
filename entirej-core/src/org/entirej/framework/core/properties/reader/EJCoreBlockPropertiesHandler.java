@@ -36,6 +36,7 @@ public class EJCoreBlockPropertiesHandler extends EJCorePropertiesTagHandler
     private EJCoreLovDefinitionProperties  _lovDefinitionProperties;
     
     protected static final String          ELEMENT_BLOCK                             = "block";
+private static final String                ELEMENT_OBJECTGROUP                       = "objectgroup";
     protected static final String          ELEMENT_MIRRORED_BLOCK                    = "isMirrored";
     protected static final String          ELEMENT_MIRROR_PARENT                     = "mirrorParent";
     protected static final String          ELEMENT_QUERY_ALLOWED                     = "queryAllowed";
@@ -109,11 +110,22 @@ public class EJCoreBlockPropertiesHandler extends EJCorePropertiesTagHandler
             _referenced = Boolean.parseBoolean(referenced);
             if (_referenced)
             {
-                EJCoreFormPropertiesFactory formFactory = new EJCoreFormPropertiesFactory(_handlerFactory.getFrameworkManager());
-                setBlockProperties(formFactory.createReferencedBlockProperties(_formProperties, referencedBlockName));
-                getBlockProperties().setLovDefinitionProperties(_lovDefinitionProperties);
-                getBlockProperties().internalSetName(blockName);
-                getBlockProperties().internalSetReferenced(true);
+                String objectGroup = attributes.getValue(ELEMENT_OBJECTGROUP);
+                if(objectGroup!=null && objectGroup.length()>0)
+                {
+                    // objectgroup block holder 
+                    setBlockProperties(new EJCoreBlockProperties(_handlerFactory.getFrameworkManager(), _formProperties, blockName,
+                           true,true));
+                    _blockProperties.internalSetName(blockName);
+                }
+                else
+                {
+                    EJCoreFormPropertiesFactory formFactory = new EJCoreFormPropertiesFactory(_handlerFactory.getFrameworkManager());
+                    setBlockProperties(formFactory.createReferencedBlockProperties(_formProperties, referencedBlockName));
+                    getBlockProperties().setLovDefinitionProperties(_lovDefinitionProperties);
+                    getBlockProperties().internalSetName(blockName);
+                    getBlockProperties().internalSetReferenced(true);
+                }
                 
             }
             else
