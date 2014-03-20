@@ -371,6 +371,7 @@ public class EJCoreVisualAttributeProperties implements Comparable<EJCoreVisualA
         props.setFontSize(_fontSize);
         props.setFontStyle(_fontStyle);
         props.setFontWeight(_fontWeight);
+        props.setFontSizeAsPercentage(_fontSizeAsPercentage);
         
         return props;
     }
