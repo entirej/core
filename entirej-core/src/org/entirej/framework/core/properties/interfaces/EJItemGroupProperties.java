@@ -21,6 +21,7 @@ package org.entirej.framework.core.properties.interfaces;
 import java.io.Serializable;
 import java.util.Collection;
 
+import org.entirej.framework.core.enumerations.EJItemGroupAlignment;
 import org.entirej.framework.core.properties.containers.interfaces.EJItemGroupPropertiesContainer;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 
@@ -80,6 +81,10 @@ public interface EJItemGroupProperties extends Serializable
     public boolean canExpandHorizontally();
     
     public boolean canExpandVertically();
+    
+    public EJItemGroupAlignment getHorizontalAlignment();
+    
+    public EJItemGroupAlignment getVerticalAlignment();
     
     /**
      * Returns the name of this item group
