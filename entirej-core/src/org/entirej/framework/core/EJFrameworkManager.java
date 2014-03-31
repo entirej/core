@@ -296,6 +296,16 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
 
     public void handleException(Exception exception, boolean displayUserMessage)
     {
+        if (exception instanceof EJApplicationException)
+        {
+            if (((EJApplicationException) exception).stopProcessing())
+            {
+                // If the user has thrown an empty exception then nothing should
+                // be done as they only want to stop processing
+                return;
+            }
+        }
+
         if (_applicationManager != null)
         {
             _applicationManager.handleException(exception, displayUserMessage);
@@ -441,7 +451,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             handleException(e);
         }
     }
-    
+
     /**
      * Used to open the form with the given name
      * <p>
@@ -471,7 +481,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             handleException(e);
         }
     }
-    
+
     /**
      * Used to open the form with the given name
      * <p>
@@ -498,7 +508,6 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             handleException(e);
         }
     }
-    
 
     /**
      * Creates a <code>Form</code> with the given name
