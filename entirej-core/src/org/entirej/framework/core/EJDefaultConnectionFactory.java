@@ -45,11 +45,11 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
 {
     private XPathFactory _xpathFactory;
     private XPath        _xpath;
-    
+
     private String       _connectionUrl = "";
     private String       _username;
     private String       _password;
-    
+
     @Override
     public EJFrameworkConnection createConnection(EJFrameworkManager frameworkManager)
     {
@@ -61,16 +61,16 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
             {
                 userProps.put("user", _username);
             }
-            if(_password != null)
+            if (_password != null)
             {
                 userProps.put("password", _password);
             }
             Connection con = DriverManager.getConnection(_connectionUrl, userProps);
-            
+
             // Need to set autocommit false to allow EntireJ to handle
             // transactions
             con.setAutoCommit(false);
-            
+
             return new EJDefaultFrameworkConnection(con);
         }
         catch (SQLException e)
@@ -78,7 +78,7 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
             throw new EJApplicationException(new EJMessage(e.getMessage()), e);
         }
     }
-    
+
     private void config()
     {
         /*
@@ -86,7 +86,7 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
          * Connection.properties file
          */
         Properties prop = loadParams();
-        
+
         try
         {
             Class.forName(prop.getProperty("driverClassName"));
@@ -95,27 +95,27 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
         {
             throw new EJApplicationException(new EJMessage("The driver class name entered within the Connection.properties file cannot be found"), e);
         }
-        
+
         /* Set Host name */
         _connectionUrl = prop.getProperty("url");
-        
+
         /* Set User name */
         _username = prop.getProperty("username");
-        
+
         /* Set Password */
         _password = prop.getProperty("password");
     }
-    
+
     private Properties loadParams()
     {
         Properties properties = new Properties();
         Document document = loadFileFromClasspath("Connection.properties");
-        
+
         String driverClassNameStmt = "/propertyList/property[@name=\"driverClassName\"]/text()";
         String urlStmt = "/propertyList/property[@name=\"url\"]/text()";
         String usernameStmt = "/propertyList/property[@name=\"username\"]/text()";
         String passwordStmt = "/propertyList/property[@name=\"password\"]/text()";
-        
+
         try
         {
             if (driverClassNameStmt == null || urlStmt == null || usernameStmt == null || passwordStmt == null)
@@ -129,65 +129,71 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
                 builder.append("        <property name=\"username\"></property>\n");
                 builder.append("        <property name=\"password\"></property>\n");
                 builder.append("    </propertyList>");
-                
+
                 throw new EJApplicationException(new EJMessage(builder.toString()));
             }
-            
+
             NodeList nodeList = (NodeList) getXpath().evaluate(driverClassNameStmt.toString(), document, XPathConstants.NODESET);
             String nodeValue;
-            
+
             if (nodeList.getLength() == 0)
             {
                 throw new EJApplicationException(new EJMessage("Please enter a value for the Driver Name within your Connection.properties file"));
             }
             nodeValue = nodeList.item(0).getNodeValue();
             properties.put("driverClassName", nodeValue);
-            
+
             nodeList = (NodeList) getXpath().evaluate(urlStmt.toString(), document, XPathConstants.NODESET);
             nodeValue = nodeList.item(0).getNodeValue();
             properties.put("url", nodeValue);
-            
+
             nodeList = (NodeList) getXpath().evaluate(usernameStmt.toString(), document, XPathConstants.NODESET);
-            nodeValue = nodeList.item(0).getNodeValue();
-            properties.put("username", nodeValue);
-            
+            if (nodeList != null && nodeList.item(0) != null)
+            {
+                nodeValue = nodeList.item(0).getNodeValue();
+                properties.put("username", nodeValue);
+            }
+
             nodeList = (NodeList) getXpath().evaluate(passwordStmt.toString(), document, XPathConstants.NODESET);
-            nodeValue = nodeList.item(0).getNodeValue();
-            properties.put("password", nodeValue);
+            if (nodeList != null && nodeList.item(0) != null)
+            {
+                nodeValue = nodeList.item(0).getNodeValue();
+                properties.put("password", nodeValue);
+            }
         }
         catch (XPathExpressionException e)
         {
             throw new IllegalStateException("The Connection.properties file is not of a correct XML format.");
         }
-        
+
         return properties;
     }
-    
+
     public Document loadFileFromClasspath(String fileName)
     {
         EJParameterChecker.checkNotZeroLength(fileName, "loadFileFromClasspath", "fileName");
-        
+
         InputStream inStream = getClass().getClassLoader().getResourceAsStream(fileName);
         if (inStream == null)
         {
             throw new IllegalArgumentException("The file name passed to loadFileFromClasspath is invalid and cannot be found. FileName: " + fileName);
         }
-        
+
         try
         {
             Document document = null;
             // Initiate DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            
+
             // To get a validating parser
             factory.setValidating(false);
             // To get one that understands namespaces
             factory.setNamespaceAware(true);
-            
+
             DocumentBuilder builder = factory.newDocumentBuilder();
             // Parse and load into memory the Document
             document = builder.parse(inStream);
-            
+
             return document;
         }
         catch (IOException e)
@@ -206,7 +212,7 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
                     "Unable to validate the contents of the given file contents passed to loadFileFromClasspath. FileName: " + fileName), e);
         }
     }
-    
+
     public XPath getXpath()
     {
         if (_xpath == null)
