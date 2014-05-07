@@ -18,9 +18,9 @@
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessage;
@@ -130,4 +130,135 @@ public class EJApplicationLevelParameter implements Serializable
     {
         public void parameterChanged(String parameterName, Object oldValue, Object newValue);
     }
+    
+    
+    public  boolean isValidDefaultValueType()
+    {
+        
+        // support only primitives and String
+        // String
+        if (String.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        // Boolean
+        if (Boolean.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        // int
+        if (Integer.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        // long
+        if (Long.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        
+        // Float
+        if (Float.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        
+        // Double
+        if (Double.class.equals(_dataTypeClass))
+        {
+            return true;
+        }
+        
+        
+        
+        
+        return false;
+    }
+    
+    
+    public  Object toDefaultValue(String value)
+    {
+        
+        if(value==null || value.length()==0)
+            return null;
+        
+        // String
+        if (String.class.equals(_dataTypeClass))
+        {
+            //String is valid always
+            return value;
+        }
+        
+       
+        // support only primitives and String
+        // Boolean
+        if (Boolean.class.equals(_dataTypeClass))
+        {
+            
+            if("TRUE".equalsIgnoreCase(value) || "FALSE".equalsIgnoreCase(value))
+            {
+                return Boolean.parseBoolean(value);
+            }
+            
+            return null;
+        }
+        // int
+        if (Integer.class.equals(_dataTypeClass))
+        {
+            try
+            {
+                return Integer.parseInt(value);
+            }
+            catch (NumberFormatException  e)
+            {
+                return null;
+            }
+            
+        }
+        // long
+        if (Long.class.equals(_dataTypeClass))
+        {
+            try
+            {
+                return Long.parseLong(value);
+            }
+            catch (NumberFormatException  e)
+            {
+                return null;
+            }
+            
+        }
+        
+        // Float
+        if (Float.class.equals(_dataTypeClass))
+        {
+            try
+            {
+                return Float.parseFloat(value);
+            }
+            catch (NumberFormatException  e)
+            {
+                return null;
+            }
+        }
+        
+        // Double
+        if (Double.class.equals(_dataTypeClass))
+        {
+            try
+            {
+               return  Double.parseDouble(value);
+            }
+            catch (NumberFormatException  e)
+            {
+                return null;
+            }
+        }
+        
+        
+        
+        
+        return null;
+    }
+    
 }

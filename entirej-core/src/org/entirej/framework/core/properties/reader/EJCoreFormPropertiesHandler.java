@@ -99,7 +99,12 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
             String paramName = attributes.getValue("name");
             String dataTypeName = attributes.getValue("dataType");
             
-            _formProperties.addFormParameter(new EJInternalFormParameter(paramName, dataTypeName));
+            EJInternalFormParameter parameter = new EJInternalFormParameter(paramName, dataTypeName);
+            if(parameter.isValidDefaultValueType())
+            {
+                parameter.setValue(parameter.toDefaultValue( attributes.getValue("defaultValue")));
+            }
+            _formProperties.addFormParameter(parameter);
         }
     }
     

@@ -103,6 +103,10 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
             String dataTypeName = attributes.getValue("dataType");
             
             EJApplicationLevelParameter parameter = new EJApplicationLevelParameter(paramName, dataTypeName);
+            if(parameter.isValidDefaultValueType())
+            {
+                parameter.setValue(parameter.toDefaultValue( attributes.getValue("defaultValue")));
+            }
             _properties.addApplicationLevelParameter(parameter);
         }
         else if (name.equals(FORMS_PACKAGE))
