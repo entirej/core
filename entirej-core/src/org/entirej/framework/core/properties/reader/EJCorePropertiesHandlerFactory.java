@@ -56,6 +56,11 @@ public class EJCorePropertiesHandlerFactory implements Serializable
         return new EJCoreBlockPropertiesHandler(this, formProperties, lovDefinitionProperties);
     }
     
+    public EJCoreBlockGroupPropertiesHandler createBlockGroupHandler(EJCoreFormProperties formProperties)
+    {
+        return new EJCoreBlockGroupPropertiesHandler(this, formProperties);
+    }
+    
     public EJCoreCanvasPropertiesHandler createCanvasHandler()
     {
         return new EJCoreCanvasPropertiesHandler(this);
