@@ -31,6 +31,7 @@ public class EJCoreBlockGroupPropertiesHandler extends EJCorePropertiesTagHandle
     private EJCorePropertiesHandlerFactory _handlerFactory;
     private EJCoreFormProperties           _formProperties;
 
+    private static final String            ELEMENT_BLOCK_GROUP = "blockGroup";
     private static final String            ELEMENT_BLOCK = "block";
 
     public EJCoreBlockGroupPropertiesHandler(EJCorePropertiesHandlerFactory factory, EJCoreFormProperties formProperties)
@@ -50,7 +51,11 @@ public class EJCoreBlockGroupPropertiesHandler extends EJCorePropertiesTagHandle
     @Override
     void endLocalElement(String name, String value, String untrimmedValue) throws SAXException
     {
-        
+        if (name.equals(ELEMENT_BLOCK_GROUP))
+        {
+            quitAsDelegate();
+            return;
+        }
         
     }
 
