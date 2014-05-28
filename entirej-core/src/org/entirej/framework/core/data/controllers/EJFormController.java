@@ -191,6 +191,13 @@ public class EJFormController implements Serializable
             }
         }
         
+        LOGGER.trace("Initialising Pojo Helpers");
+        for (EJEditableBlockController parentController : mirroredParents)
+        {
+            parentController.getBlock().initialiseServicePojoHelper();
+        }
+        LOGGER.trace("DONE initialising Pojo Helpers");
+        
         LOGGER.trace("Setting up relations");
         // Now loop through the relations and set the corresponding properties
         // within the correct block controllers.
