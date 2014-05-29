@@ -192,7 +192,7 @@ public class EJFormController implements Serializable
         }
         
         LOGGER.trace("Initialising Pojo Helpers");
-        for (EJEditableBlockController parentController : mirroredParents)
+        for (EJEditableBlockController parentController : _blockControllers.values())
         {
             parentController.getBlock().initialiseServicePojoHelper();
         }
