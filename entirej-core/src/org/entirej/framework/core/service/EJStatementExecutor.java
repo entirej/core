@@ -172,7 +172,10 @@ public class EJStatementExecutor implements Serializable
             {
                 for (EJRestriction<?> restriction : criteria.getBlockServiceItemRestrictions())
                 {
-                    stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, updateParameters)));
+                    if (restriction.isServiceItemRestriction())
+                    {
+                        stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, updateParameters)));
+                    }
                 }
             }
             
@@ -361,7 +364,10 @@ public class EJStatementExecutor implements Serializable
         ArrayList<EJStatementParameter> queryValues = new ArrayList<EJStatementParameter>();
         for (EJRestriction<?> restriction : queryCriteria.getAllRestrictions())
         {
-            stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, queryValues)));
+            if (restriction.isServiceItemRestriction())
+            {
+                stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, queryValues)));
+            }
         }
         
         logger.info("Added the QueryCriteria expressions {}", stmt.toString());
@@ -396,7 +402,7 @@ public class EJStatementExecutor implements Serializable
             Connection connection = (Connection) conObj;
             
             // I can only add paging to a select if it has been set within the
-            // query criteria. If not query criteria has been set, then no pagin
+            // query criteria. If not query criteria has been set, then no paging
             // is possible
             if (queryCriteria != null)
             {
@@ -525,7 +531,10 @@ public class EJStatementExecutor implements Serializable
                 
                 for (EJRestriction<?> restriction : queryCriteria.getAllRestrictions())
                 {
-                    stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, allParameters)));
+                    if (restriction.isServiceItemRestriction())
+                    {
+                        stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, allParameters)));
+                    }
                 }
                 
                 logger.info("Added the QueryCriteria expressions {}", stmt.toString());

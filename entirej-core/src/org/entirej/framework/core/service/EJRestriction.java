@@ -25,6 +25,17 @@ import java.util.Map.Entry;
 public interface EJRestriction<E> extends Serializable
 {
     /**
+     * Indicates if this restriction is for a service item
+     * <p>
+     * Restrictions can be set on service and control items. Service item restrictions can be assigned directly to the query of the block service however
+     * non service item restrictions are to be retrieved by the service creator to make a programitical change to the service query depending on what has been
+     * set for the non service restrictions
+     *  
+     * @return <code>true</code> if the restriction is for a service item, otherwise <code>false</code>
+     */
+    public boolean isServiceItemRestriction();
+    
+    /**
      * This indicates the name of the item within the block, to which this
      * restriction applies
      * 
