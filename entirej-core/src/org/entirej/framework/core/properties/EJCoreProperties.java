@@ -130,7 +130,9 @@ public class EJCoreProperties implements EJEntireJProperties
     {
         for (EJApplicationLevelParameter param : _applicationLevelParameters.values())
         {
-            frameworkManager.addApplicationLevelParameter(new EJApplicationLevelParameter(param.getName(), param.getDataType()));
+            EJApplicationLevelParameter parameter = new EJApplicationLevelParameter(param.getName(), param.getDataType());
+            parameter.setValue(param.getValue());
+            frameworkManager.addApplicationLevelParameter(parameter);
         }
     }
     
