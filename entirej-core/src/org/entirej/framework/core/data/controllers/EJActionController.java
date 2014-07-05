@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.entirej.framework.core.EJActionProcessorException;
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJBlock;
 import org.entirej.framework.core.EJForm;
@@ -215,6 +216,30 @@ public class EJActionController implements Serializable
         logger.trace("END preFormOpened");
     }
     
+    public void postFormSave(EJForm form) throws EJActionProcessorException
+    {
+        logger.trace("START postFormSave. Form: {}", form.getName());
+        
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+            _formLevelActionProcessor.postFormSave(form);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        logger.trace("END postFormSave");
+    }
+
     public void preFormClosed(EJForm form)
     {
         logger.trace("START preFormClosed. Form: {}", form.getName());

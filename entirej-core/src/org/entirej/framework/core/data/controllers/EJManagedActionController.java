@@ -20,6 +20,7 @@ package org.entirej.framework.core.data.controllers;
 
 import java.io.Serializable;
 
+import org.entirej.framework.core.EJActionProcessorException;
 import org.entirej.framework.core.EJBlock;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessage;
@@ -49,6 +50,18 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
     public EJActionController getUnmanagedController()
     {
         return _unmanagedController;
+    }
+    
+    public void postFormSave(EJForm form) throws EJActionProcessorException
+    {
+        try
+        {
+            _unmanagedController.postFormSave(form);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
     }
     
     public void questionAnswered(EJQuestion question)

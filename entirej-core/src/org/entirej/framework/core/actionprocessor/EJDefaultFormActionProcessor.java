@@ -35,6 +35,12 @@ import org.entirej.framework.core.service.EJQueryCriteria;
 
 public class EJDefaultFormActionProcessor implements EJFormActionProcessor
 {
+   
+    public void postFormSave(EJForm form) throws EJActionProcessorException
+    {
+        
+    }
+    
     public void lovActivated(EJForm form, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException
     {
     }

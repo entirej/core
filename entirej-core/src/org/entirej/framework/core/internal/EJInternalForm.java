@@ -31,6 +31,7 @@ import org.entirej.framework.core.EJManagedFrameworkConnection;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.EJParameterList;
+import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJCanvasController;
@@ -659,6 +660,9 @@ public class EJInternalForm implements Serializable
         try
         {
             _formController.saveChanges();
+            
+            // Tell the application developer that a form save has been made.
+            getFormController().getUnmanagedActionController().postFormSave(_formController.getEJForm());
         }
         catch (Exception e)
         {
