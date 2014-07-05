@@ -140,7 +140,7 @@ public class EJRendererFactory implements Serializable
      */
     public EJEditableBlockRenderer getBlockRenderer(EJEditableBlockController blockController)
     {
-        if (blockController == null || (!blockController.getProperties().isDisplayed()))
+        if (blockController == null || (blockController.getProperties().getBlockRendererName() == null))
         {
             return null;
         }
