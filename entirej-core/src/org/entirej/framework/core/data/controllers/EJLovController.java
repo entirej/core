@@ -389,7 +389,8 @@ public class EJLovController extends EJBlockController implements Serializable
                     
                     if (getBlockRecordCount() == 1)
                     {
-                        lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRendererController().getFirstRecord());
+                        
+                        lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
                     }
                     else if (getBlockRecordCount() > 1)
                     {
