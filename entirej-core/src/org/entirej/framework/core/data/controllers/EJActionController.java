@@ -526,6 +526,37 @@ public class EJActionController implements Serializable
         logger.trace("END popupFormClosed");
     }
     
+    public void embeddedFormClosed(EJParameterList parameterList)
+    {
+        logger.trace("START embeddedFormClosed");
+        
+        EJManagedFrameworkConnection connection = null;
+        if (_formController != null)
+        {
+            connection = _formController.getFrameworkManager().getConnection();
+        }
+        try
+        {
+            _formLevelActionProcessor.embeddedFormClosed(parameterList);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            new EJApplicationException(e);
+        }
+        finally
+        {
+            if (connection != null)
+            {
+                connection.close();
+            }
+        }
+        logger.trace("END embeddedFormClosed");
+    }
+    
     public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType)
     {
         logger.trace("START executeActionCommand. Form: {}, Command: {}, Screen: {}", form.getName(), command, screenType);

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
+import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormControllerFactory;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
@@ -419,6 +420,48 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         getApplicationManager().openPopupForm(popupFormController);
     }
 
+    /**
+     * Informs the application manager to open an embedded form
+     * <p>
+     * An embedded form is a normal form that will be opened within another form
+     * on a form canvas. The embedded form runs as a stand alone form, but using
+     * another form as its container
+     * 
+     * @param embeddedFormController
+     *            The controller holding all required values to open the embedded
+     *            form
+     */
+    public void openEmbeddedForm(EJEmbeddedFormController embeddedFormController)
+    {
+        // First call the preFormOpened action controller method. This will
+        // allow users to stop the opening of the form if they so wish
+        embeddedFormController.getEmbeddedForm().getActionController().preFormOpened(new EJForm(embeddedFormController.getEmbeddedForm()));
+
+        getApplicationManager().openEmbeddedForm(embeddedFormController);
+    }
+
+
+    /**
+     * Informs the application manager to close an embedded form
+     * <p>
+     * An embedded form is a normal form that will be opened within another form
+     * on a form canvas. The embedded form runs as a stand alone form, but using
+     * another form as its container
+     * 
+     * @param embeddedFormController
+     *            The controller holding all required values to close the embedded
+     *            form
+     */
+    public void closeEmbeddedForm(EJEmbeddedFormController embeddedFormController)
+    {
+        EJParameterList paramList = embeddedFormController.getEmbeddedForm().getParameterList();
+        
+        getApplicationManager().closeEmbeddedForm(embeddedFormController);
+        
+        embeddedFormController.getEmbeddedForm().getActionController().embeddedFormClosed(paramList);
+    }
+
+    
     /**
      * Used to open the form with the given name
      * <p>

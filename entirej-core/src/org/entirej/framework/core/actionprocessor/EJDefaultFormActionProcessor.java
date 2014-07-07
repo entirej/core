@@ -111,6 +111,10 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
+    public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException
+    {
+    }
+    
     public void popupFormClosed(EJParameterList parameterList) throws EJActionProcessorException
     {
     }

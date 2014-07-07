@@ -215,6 +215,14 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
     public void popupFormClosed(EJParameterList parameterList) throws EJActionProcessorException;
 
     /**
+     * Called when an embedded form opened by the forms FormManager is closed
+     * 
+     * @param parameterList
+     *            The parameter list from the embedded form
+     */
+    public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException;
+    
+    /**
      * This is called whenever the user will navigate to this form
      * 
      * @param form

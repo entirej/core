@@ -166,6 +166,23 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
+     * This method is called when an embedded form should be closed
+     * <p>
+     * It is important to pass both the form name and the form canvas which
+     * contains the embedded form because it is possible to open the same form
+     * on different canvases multiple times
+     * 
+     * @param formName
+     *            The name of the form to close
+     * @param canvasName
+     *            The canvas that contains the form
+     */
+    public void closeEmbeddedForm(String formName, String canvasName)
+    {
+        _form.closeEmbeddedForm(formName, canvasName);
+    }
+
+    /**
      * Instructs EntireJ to clear the form
      * <p>
      * If <code>disregardChanges</code> is <code>true</code> then all changes
@@ -711,7 +728,7 @@ public class EJForm implements EJFrameworkHelper
      * 
      * @param formName
      *            The name of the form to be opened
-     * @param canvasName
+     * @param formCanvasName
      *            The name of the form canvas within which the form will be
      *            opened
      * @param parameterList
@@ -720,9 +737,9 @@ public class EJForm implements EJFrameworkHelper
      * @throws EJApplicationException
      *             if the canvas specified is not a Form Canvas
      */
-    public void openFormInCanvas(String formName, String canvasName, EJParameterList parameterList) throws EJApplicationException
+    public void openEmbeddedForm(String formName, String formCanvasName, EJParameterList parameterList) throws EJApplicationException
     {
-        _form.openFormInCanvas(canvasName, formName, parameterList);
+        _form.openEmbeddedForm(formName, formCanvasName, parameterList);
     }
 
     /**

@@ -18,11 +18,12 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
+import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.internal.EJInternalForm;
 
 public interface EJFormRenderer extends EJRenderer
 {
-    
+
     /**
      * This indicates to the form renderer that one of its properties has been
      * modified
@@ -31,7 +32,7 @@ public interface EJFormRenderer extends EJRenderer
      *            The name of the modified property
      */
     public void refreshFormRendererProperty(String propertyName);
-    
+
     /**
      * Used to initialize the renderer with the given form controller
      * 
@@ -39,29 +40,29 @@ public interface EJFormRenderer extends EJRenderer
      *            This renderer will be the visual representation for this form
      */
     public void initialiseForm(EJInternalForm form);
-    
+
     /**
      * Returns the controller represented by this renderer
      * 
      * @return This renderers form
      */
     public EJInternalForm getForm();
-    
+
     /**
      * Informs the form renderer that a save operation has been performed
      */
     public void savePerformed();
-    
+
     /**
      * Informs the form renderer that the form has been cleared of any data
      */
     public void formCleared();
-    
+
     /**
      * Informs the form renderer that the form is being closed
      */
     public void formClosed();
-    
+
     /**
      * Instructs the form renderer to show a stacked page
      * <p>
@@ -72,7 +73,7 @@ public interface EJFormRenderer extends EJRenderer
      *            The name of the page to be shown
      */
     public void showStackedPage(String stackedCanvasName, String stackedPageName);
-    
+
     /**
      * Returns the current stacked page name of the given stacked canvas
      * <p>
@@ -85,7 +86,7 @@ public interface EJFormRenderer extends EJRenderer
      *         <code>null</code> will be returned
      */
     public String getDisplayedStackedPage(String stackedCanvasName);
-    
+
     /**
      * Instructs the form renderer to show a tab page
      * <p>
@@ -96,7 +97,7 @@ public interface EJFormRenderer extends EJRenderer
      *            The name of the page to be shown
      */
     public void showTabPage(String tabCanvasName, String tabPageName);
-    
+
     /**
      * Returns the current tab page name of the given tab canvas
      * <p>
@@ -109,7 +110,7 @@ public interface EJFormRenderer extends EJRenderer
      *         <code>null</code> will be returned
      */
     public String getDisplayedTabPage(String tabCanvasName);
-    
+
     /**
      * Instructs the form renderer to show a popup canvas
      * <p>
@@ -118,18 +119,23 @@ public interface EJFormRenderer extends EJRenderer
      *            The name of the popup canvas to be shown
      */
     public void showPopupCanvas(String popupCanvasName);
-    
+
     /**
-     * Instructs the form renderer to show external form inside canvas
-     * <p>
+     * Instructs the form renderer to open an embedded form
      * 
-     * @param canvasName
-     *            The name of the  canvas to be open from in
-     * @param form
-     *            The external form need to be open inside canvas
+     * @param controller
+     *            The embedded form controller that should be opened
      */
-    public void openFormInCanvas(String canvasName,EJInternalForm form);
-    
+    public void openEmbeddedForm(EJEmbeddedFormController controller);
+
+    /**
+     * Used to close an embedded form
+     * 
+     * @param controller
+     *            The controller of the embedded form
+     */
+    public void closeEmbeddedForm(EJEmbeddedFormController controller);
+
     /**
      * Instructs the form renderer to close a popup canvas
      * <p>
@@ -138,7 +144,7 @@ public interface EJFormRenderer extends EJRenderer
      *            The name of the popup canvas to be closed
      */
     public void closePopupCanvas(String popupCanvasName);
-    
+
     /**
      * Forces the form to gain initial focus
      * <p>

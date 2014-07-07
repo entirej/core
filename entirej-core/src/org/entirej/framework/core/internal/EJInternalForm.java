@@ -22,7 +22,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJForm;
@@ -31,12 +33,12 @@ import org.entirej.framework.core.EJManagedFrameworkConnection;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.EJParameterList;
-import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJCanvasController;
 import org.entirej.framework.core.data.controllers.EJDateHelper;
 import org.entirej.framework.core.data.controllers.EJEditableBlockController;
+import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
@@ -66,8 +68,10 @@ import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 
 public class EJInternalForm implements Serializable
 {
-    private EJFormController     _formController;
-    private EJQuestionController _questionController;
+    private EJFormController                      _formController;
+    private EJQuestionController                  _questionController;
+
+    private Map<String, EJEmbeddedFormController> _embeddedForms = new HashMap<String, EJEmbeddedFormController>();
 
     public EJInternalForm(EJFormController formController)
     {
@@ -662,7 +666,7 @@ public class EJInternalForm implements Serializable
         try
         {
             _formController.saveChanges();
-            
+
             // Tell the application developer that a form save has been made.
             getFormController().getUnmanagedActionController().postFormSave(_formController.getEJForm());
         }
@@ -974,47 +978,85 @@ public class EJInternalForm implements Serializable
             }
         }
     }
-    
-    public void openFormInCanvas( String formName, String canvasName, EJParameterList parameterList)
+
+    public void openEmbeddedForm(String formName, String formCanvasName, EJParameterList parameterList)
     {
         if (formName == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_FORM_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.openFormInCanvas"));
+                    "EJInternalForm.openEmbeddedForm"));
         }
-        if (canvasName == null)
+        if (formCanvasName == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.openFormInCanvas"));
+                    "EJInternalForm.openEmbeddedForm"));
         }
-        
-        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(canvasName);
+
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(formCanvasName);
         if (canvasProperties == null || EJCanvasType.FORM != canvasProperties.getType())
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_CANVAS_TYPE,
-                    "EJInternalForm.openFormInCanvas", EJCanvasType.FORM.toString()));
+                    "EJInternalForm.openEmbeddedForm", EJCanvasType.FORM.toString()));
         }
-        
-        
-        
+
         try
         {
-            EJInternalForm form = _formController.getFrameworkManager().createInternalForm(formName, parameterList);
-            _formController.getRenderer().openFormInCanvas(canvasName, form);
+            EJEmbeddedFormController embeddedFormController = new EJEmbeddedFormController(_formController.getFrameworkManager(), _formController, formName,
+                    formCanvasName, parameterList);
+
+            _embeddedForms.put(formName + ":" + formCanvasName, embeddedFormController);
+
+            _formController.getFrameworkManager().openEmbeddedForm(embeddedFormController);
+        }
+        catch (Exception e)
+        {
+            _formController.getFrameworkManager().handleException(e);
+        }
+
+    }
+
+    /**
+     * Called when an embedded form, opened by the forms EJInternalForm, is closed
+     * 
+     * @param formName
+     *            The form to close
+     * @param canvasName
+     *            On which canvas the form was displayed. The same form can be
+     *            displayed multiple times
+     */
+    public void closeEmbeddedForm(String formName, String canvasName)
+    {
+        try
+        {
+            EJEmbeddedFormController controller = _embeddedForms.get(formName+":"+canvasName);
+            if (controller == null)
+            {
+                throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_FORM_OR_CANVAS_NAME, formName, canvasName));
+            }
+
+            try
+            {
+                _formController.getFrameworkManager().closeEmbeddedForm(controller);
+
+            }
+            catch (Exception e)
+            {
+                _formController.getFrameworkManager().handleException(e);
+            }
             
         }
         catch (Exception e)
         {
             _formController.getFrameworkManager().handleException(e);
         }
-        
     }
 
     /**
-     * Called when a popup form, opened by the forms EJInternalForm, is closed
+     * Called when an embedded form, opened by the forms EJInternalForm, is
+     * closed
      * 
      * @param parameterList
-     *            The parameter list from the popup form
+     *            The parameter list from the embedded form
      */
     public void popupFormClosed(EJParameterList parameterList)
     {

@@ -23,10 +23,11 @@ import java.io.Serializable;
 import org.entirej.framework.core.EJFrameworkHelper;
 import org.entirej.framework.core.EJFrameworkInitialiser;
 import org.entirej.framework.core.EJFrameworkManager;
+import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.data.controllers.EJPopupFormController;
 import org.entirej.framework.core.internal.EJInternalForm;
 
-public interface EJApplicationManager extends EJFrameworkHelper,Serializable
+public interface EJApplicationManager extends EJFrameworkHelper, Serializable
 {
     /**
      * Sets the framework manger
@@ -37,7 +38,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *            The framework manager
      */
     public void setFrameworkManager(EJFrameworkManager frameworkManager);
-    
+
     /**
      * Returns the <code>{@link EJFrameworkManager}</code> for this application
      * <p>
@@ -47,7 +48,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      * @return the applications <code>{@link EJFrameworkManager}
      */
     public EJFrameworkManager getFrameworkManager();
-    
+
     /**
      * Returns the applications messenger
      * <p>
@@ -56,7 +57,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      * @return The applications messenger
      */
     public EJMessenger getApplicationMessenger();
-    
+
     /**
      * Adds a given form to the FormContainer
      * <p>
@@ -71,7 +72,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *            blocking mode
      */
     public void addFormToContainer(EJInternalForm form, boolean blocking);
-    
+
     /**
      * Removes a given form from the container
      * 
@@ -79,7 +80,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *            The form to be removed from the container
      */
     public void removeFormFromContainer(EJInternalForm form);
-    
+
     /**
      * Informs the form renderer to open a popup form
      * <p>
@@ -92,7 +93,20 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *            form
      */
     public void openPopupForm(EJPopupFormController popupFormController);
-    
+
+    /**
+     * Informs the application manager to open an embedded form
+     * <p>
+     * An embedded form is a normal form that will be opened within another form
+     * on a form canvas. The embedded form runs as a stand alone form, but using
+     * another form as its container
+     * 
+     * @param embeddedFormController
+     *            The controller holding all required values to open the
+     *            embedded form
+     */
+    public void openEmbeddedForm(EJEmbeddedFormController embeddedFormController);
+
     /**
      * Called after the form controller of the popup form has closed.
      * <p>
@@ -107,17 +121,26 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      * holding the popup form can now be deleted
      */
     public void popupFormClosed();
-    
+
+    /**
+     * Used to close an embedded form
+     * 
+     * @param embeddedFormController
+     *            The controller of the embedded form to be closed
+     */
+    public void closeEmbeddedForm(EJEmbeddedFormController embeddedFormController);
+
     /**
      * Checks to see if a form with the given name is already open
      * <p>
      * This can be used if only one form of each name is allowed to be opened
      * 
      * @param formName
-     * @return <code>true</code> if the form is opened otherwise <code>false</code>
+     * @return <code>true</code> if the form is opened otherwise
+     *         <code>false</code>
      */
     public boolean isFormOpened(String formName);
-    
+
     /**
      * Instructs the application manager to switch for the given form name
      * <p>
@@ -130,7 +153,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      * @return The {@link EJInternalForm} of the newly focused form
      */
     public EJInternalForm switchToForm(String formName);
-    
+
     /**
      * Returns the current active form within the application
      * 
@@ -138,7 +161,7 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *         active
      */
     public EJInternalForm getActiveForm();
-    
+
     /**
      * Returns the {@link EJInternalForm} with the given name or
      * <code>null</code> if the given form is not opened
@@ -149,12 +172,12 @@ public interface EJApplicationManager extends EJFrameworkHelper,Serializable
      *         not yet opened
      */
     public EJInternalForm getForm(String formName);
-    
+
     /**
      * Indicates how many forms are currently opened
      * 
      * @return The amount of forms currently opened
      */
     public int getOpenedFormCount();
-    
+
 }

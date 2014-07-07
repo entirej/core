@@ -328,6 +328,18 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
             _appManager.handleException(e);
         }
     }
+
+    public void embeddedFormClosed(EJParameterList parameterList)
+    {
+        try
+        {
+            _unmanagedController.embeddedFormClosed(parameterList);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+    }
     
     public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType)
     {
