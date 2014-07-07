@@ -215,6 +215,8 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("The class defined by the renderer name $1 is not an $2", replacementStrings);
             case INVALID_ITEM_NAME_PASSED_TO_METHOD:
                 return new EJMessage("The item name passed to $1 is invalid", replacementStrings);
+            case INVALID_CANVAS_TYPE:
+                return new EJMessage("The canvas type passed to $1 is not of the type: $2", replacementStrings);
                 
             case SETTING_BLOCK_NAME_TO_NULL:
                 return new EJMessage("Trying to reset a block name to null. Block: $1.$2", replacementStrings);

@@ -45,6 +45,7 @@ import org.entirej.framework.core.data.controllers.EJManagedActionController;
 import org.entirej.framework.core.data.controllers.EJPopupFormController;
 import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.data.controllers.EJQuestionController;
+import org.entirej.framework.core.enumerations.EJCanvasType;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.interfaces.EJMessenger;
@@ -54,6 +55,7 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 import org.entirej.framework.core.properties.definitions.interfaces.EJDisplayProperties;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
+import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
 import org.entirej.framework.core.renderers.EJManagedFormRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJBlockFocusedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJFormEventListener;
@@ -973,7 +975,7 @@ public class EJInternalForm implements Serializable
         }
     }
     
-    public void openFormInCanvas(String canvasName, String formName, EJParameterList parameterList)
+    public void openFormInCanvas( String formName, String canvasName, EJParameterList parameterList)
     {
         if (formName == null)
         {
@@ -985,6 +987,14 @@ public class EJInternalForm implements Serializable
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
                     "EJInternalForm.openFormInCanvas"));
         }
+        
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(canvasName);
+        if (canvasProperties == null || EJCanvasType.FORM != canvasProperties.getType())
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_CANVAS_TYPE,
+                    "EJInternalForm.openFormInCanvas", EJCanvasType.FORM.toString()));
+        }
+        
         
         
         try

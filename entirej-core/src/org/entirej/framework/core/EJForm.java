@@ -41,12 +41,12 @@ import org.entirej.framework.core.properties.interfaces.EJFormProperties;
 public class EJForm implements EJFrameworkHelper
 {
     private EJInternalForm _form;
-    
+
     public EJForm(EJInternalForm form)
     {
         _form = form;
     }
-    
+
     /**
      * Returns the properties for of this form
      * 
@@ -56,7 +56,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getProperties();
     }
-    
+
     /**
      * Returns the action controller for this form
      * 
@@ -66,7 +66,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getActionController();
     }
-    
+
     /**
      * Returns the name of this form
      * 
@@ -76,7 +76,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getProperties().getName();
     }
-    
+
     /**
      * Returns the application messenger
      * 
@@ -86,7 +86,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getMessenger();
     }
-    
+
     /**
      * This method should be called when to handle an exception in a
      * standardized manner
@@ -102,7 +102,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.handleException(exception);
     }
-    
+
     /**
      * Checks to see if a form with the given name is already open
      * <p>
@@ -116,7 +116,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getApplicationManager().isFormOpened(formName);
     }
-    
+
     /**
      * Instructs the application manager to switch for the given form name
      * <p>
@@ -134,11 +134,11 @@ public class EJForm implements EJFrameworkHelper
         {
             throw new EJApplicationException("There is no opened form with the name: " + formName);
         }
-        
+
         EJInternalForm form = _form.getFrameworkManager().getApplicationManager().switchToForm(formName);
         return new EJForm(form);
     }
-    
+
     /**
      * Indicates if this form is dirty
      * <p>
@@ -152,7 +152,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.isDirty();
     }
-    
+
     /**
      * This method is called when a form should be closed
      * <p>
@@ -164,7 +164,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.close();
     }
-    
+
     /**
      * Instructs EntireJ to clear the form
      * <p>
@@ -179,7 +179,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.clear(disregardChanges);
     }
-    
+
     /**
      * Used to set the current locale of the application
      * <p>
@@ -195,7 +195,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.getFrameworkManager().changeLocale(locale);
     }
-    
+
     /**
      * Returns the {@link Locale} that is currently set for this application
      * <p>
@@ -209,7 +209,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getCurrentLocale();
     }
-    
+
     /**
      * Retrieves an instance of the forms current connection
      * 
@@ -219,7 +219,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getConnection();
     }
-    
+
     /**
      * Instructs EntireJ to open a given popup canvas
      * <p>
@@ -247,7 +247,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showPopupCanvas(canvasName);
     }
-    
+
     /**
      * Instructs EntireJ to close a given popup canvas
      * <P>
@@ -261,7 +261,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.closePopupCanvas(canvasName);
     }
-    
+
     /**
      * Instructs EntireJ to display the given tab canvas page
      * <p>
@@ -282,7 +282,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showTabCanvasPage(canvasName, pageName);
     }
-    
+
     /**
      * Returns the name of the tab page which is currently displayed/active on a
      * given tab canvas
@@ -298,7 +298,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getCanvasController().getDisplayedTabPage(tabCanvasName);
     }
-    
+
     /**
      * Instructs EntireJ to display the given stacked canvas page
      * <p>
@@ -319,7 +319,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showStackedCanvasPage(canvasName, pageName);
     }
-    
+
     /**
      * Returns the name of the stacked page which is currently displayed/active
      * on a given stacked canvas
@@ -335,7 +335,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getCanvasController().getDisplayedStackedPage(stackedCanvasName);
     }
-    
+
     /**
      * Returns an immutable collection of all blocks available within this form
      * 
@@ -344,15 +344,15 @@ public class EJForm implements EJFrameworkHelper
     public Collection<EJBlock> getAllBlocks()
     {
         ArrayList<EJBlock> blocks = new ArrayList<EJBlock>();
-        
+
         for (EJInternalEditableBlock block : _form.getAllBlocks())
         {
             blocks.add(new EJBlock(block));
         }
-        
+
         return blocks;
     }
-    
+
     /**
      * Retrieves the required block
      * <p>
@@ -374,9 +374,9 @@ public class EJForm implements EJFrameworkHelper
         {
             return new EJBlock(block);
         }
-        
+
     }
-    
+
     /**
      * Returns the current active form within the application
      * 
@@ -395,7 +395,7 @@ public class EJForm implements EJFrameworkHelper
             return new EJForm(form);
         }
     }
-    
+
     /**
      * Returns the amount of forms that are currently opened within the Form
      * Container
@@ -407,7 +407,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getApplicationManager().getOpenedFormCount();
     }
-    
+
     /**
      * Returns the {@link EJForm} with the given name or <code>null</code> if
      * there is no opened form with this name
@@ -423,7 +423,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getForm(name);
     }
-    
+
     /**
      * Returns the currently focused block or <code>null</code> if there is no
      * block focused
@@ -443,7 +443,7 @@ public class EJForm implements EJFrameworkHelper
             return new EJBlock(block);
         }
     }
-    
+
     /**
      * Returns the <code>VisualAttributeProperties</code> with the given name or
      * <code>null</code> if there is no visual attribute with the given name
@@ -459,7 +459,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getVisualAttribute(vaName);
     }
-    
+
     /**
      * Adds the given <code>VisualAttributeProperties</code> to the frameworks
      * list of Visual Attributes
@@ -474,7 +474,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.addVisualAttribute(vaProperties);
     }
-    
+
     /**
      * Indicates to the form manager that a question should be asked.
      * <p>
@@ -483,9 +483,9 @@ public class EJForm implements EJFrameworkHelper
      * presented to the user, i.e. before the user has a chance to answer the
      * question.
      * <p>
-     * For this reason, the <code>EJFormManager</code> will call the
-     * actions processors, question answered method of the calling action processor. The <code>EJQuestion</code>
-     * contains the users answer to the question
+     * For this reason, the <code>EJFormManager</code> will call the actions
+     * processors, question answered method of the calling action processor. The
+     * <code>EJQuestion</code> contains the users answer to the question
      * <p>
      * 
      * @param question
@@ -495,7 +495,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.askQuestion(question);
     }
-    
+
     /**
      * Instructs the form manager to display a message to the users
      * <p>
@@ -509,7 +509,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showMessage(message);
     }
-    
+
     /**
      * Indicates to this controller that all open changes within the form should
      * be saved
@@ -520,7 +520,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.saveChanges();
     }
-    
+
     /**
      * Used to set the value of an application level parameter
      * 
@@ -533,7 +533,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setApplicationLevelParameter(valueName, value);
     }
-    
+
     /**
      * Retrieves an application level parameter value with the given name
      * <p>
@@ -548,7 +548,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getApplicationLevelParameter(paramName);
     }
-    
+
     /**
      * Sets the given form parameter to the given value
      * 
@@ -565,7 +565,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setFormParameter(name, value);
     }
-    
+
     /**
      * Returns the From Level Parameter with the given name
      * 
@@ -579,7 +579,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFormParameter(name);
     }
-    
+
     /**
      * Set the display properties for this form
      * <p>
@@ -598,7 +598,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setDisplayProperty(propertyName, propertyValue);
     }
-    
+
     /**
      * Returns the display properties defined for this form
      * 
@@ -608,7 +608,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getDisplayProperties();
     }
-    
+
     /**
      * This must be called after <b>EntireJ</b> has asked a question using
      * {@link EJMessenger#askInternalQuestion(EJQuestion)}
@@ -620,7 +620,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.internalQuestionAnswered(question);
     }
-    
+
     /**
      * Translates a given text to the current application <code>{@link Locale}
      * </code> using the applications <code>{@link EJTranslator}</code>
@@ -636,7 +636,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.translateText(textKey);
     }
-    
+
     /**
      * Translates a given text to the given <code>{@link Locale}
      * </code> using the applications <code>{@link EJTranslator}</code>
@@ -652,7 +652,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.translateText(textKey, locale);
     }
-    
+
     /**
      * Translates a given message text to the current application
      * <code>{@link Locale}
@@ -669,7 +669,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.translateMessageText(textKey, null);
     }
-    
+
     /**
      * Translates a given message text to the given <code>{@link Locale}
      * </code> using the applications <code>{@link EJTranslator}</code>
@@ -690,30 +690,48 @@ public class EJForm implements EJFrameworkHelper
     {
         openForm(formName, null, false);
     }
-    
+
     public void openForm(String formName, EJParameterList parameterList)
     {
         openForm(formName, parameterList, false);
     }
-    
+
     public void openForm(String formName, EJParameterList parameterList, boolean blocking)
     {
         _form.openForm(formName, parameterList, blocking);
     }
-    
-    
-    public void openFormInCanvas(String canvasName, String formName, EJParameterList parameterList)
+
+    /**
+     * Informs EntireJ to open the given form within one of this forms canvases
+     * <p>
+     * This is a way to embed forms within other forms. The form will run self
+     * sufficiently and totally separately from the form it is opened within.
+     * The form will also have its own Action Processor and any events fired
+     * within it are handled by the called form and not from within this form
+     * 
+     * @param formName
+     *            The name of the form to be opened
+     * @param canvasName
+     *            The name of the form canvas within which the form will be
+     *            opened
+     * @param parameterList
+     *            A list of parameters to be passed to and from the called form
+     * 
+     * @throws EJApplicationException
+     *             if the canvas specified is not a Form Canvas
+     */
+    public void openFormInCanvas(String formName, String canvasName, EJParameterList parameterList) throws EJApplicationException
     {
-        _form.openFormInCanvas( canvasName, formName, parameterList);
+        _form.openFormInCanvas(canvasName, formName, parameterList);
     }
-    
+
     /**
      * Returns this forms parameter list
      * <p>
      * the parameter list is a list of properties that were declared for the
      * form within the EntireJ Form Plugin. These parameters are used when
-     * either calling another form or when another form calls this form. They are
-     * used to pass values to and from the calling forms
+     * either calling another form or when another form calls this form. They
+     * are used to pass values to and from the calling forms
      * 
      * @return This forms parameter list
      */
@@ -721,34 +739,34 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getParameterList();
     }
-    
+
     public EJDateHelper createDateHelper()
     {
         return _form.createDateHelper();
     }
-    
+
     @Override
     public EJTranslatorHelper getTranslatorHelper()
     {
         return _form.getFrameworkManager().getTranslatorHelper();
     }
-    
+
     @Override
     public void handleMessage(EJMessage message)
     {
         _form.getFrameworkManager().handleMessage(message);
     }
-    
+
     @Override
     public void handleException(Exception exception, boolean showUserMessage)
     {
         _form.getFrameworkManager().handleException(exception, showUserMessage);
     }
-    
+
     @Override
     public void askInternalQuestion(EJInternalQuestion question)
     {
         _form.getFrameworkManager().askInternalQuestion(question);
     }
-    
+
 }
