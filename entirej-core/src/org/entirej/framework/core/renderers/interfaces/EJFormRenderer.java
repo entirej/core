@@ -120,6 +120,17 @@ public interface EJFormRenderer extends EJRenderer
     public void showPopupCanvas(String popupCanvasName);
     
     /**
+     * Instructs the form renderer to show external form inside canvas
+     * <p>
+     * 
+     * @param canvasName
+     *            The name of the  canvas to be open from in
+     * @param form
+     *            The external form need to be open inside canvas
+     */
+    public void openFormInCanvas(String canvasName,EJInternalForm form);
+    
+    /**
      * Instructs the form renderer to close a popup canvas
      * <p>
      * 
