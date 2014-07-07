@@ -20,7 +20,7 @@ package org.entirej.framework.core.enumerations;
 
 public enum EJCanvasType
 {
-    BLOCK, GROUP,SPLIT, TAB, POPUP, STACKED;
+    BLOCK, GROUP,SPLIT, TAB, POPUP, STACKED,FORM;
     
     public String toString()
     {
@@ -38,6 +38,8 @@ public enum EJCanvasType
                 return "Stacked";
             case TAB:
                 return "Tab";
+            case FORM:
+                return "Form";
             default:
                 return super.toString();
         }

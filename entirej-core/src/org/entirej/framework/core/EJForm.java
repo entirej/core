@@ -701,6 +701,12 @@ public class EJForm implements EJFrameworkHelper
         _form.openForm(formName, parameterList, blocking);
     }
     
+    
+    public void openFormInCanvas(String canvasName, String formName, EJParameterList parameterList)
+    {
+        _form.openFormInCanvas( canvasName, formName, parameterList);
+    }
+    
     /**
      * Returns this forms parameter list
      * <p>

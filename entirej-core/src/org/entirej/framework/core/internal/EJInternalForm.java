@@ -972,6 +972,33 @@ public class EJInternalForm implements Serializable
             }
         }
     }
+    
+    public void openFormInCanvas(String canvasName, String formName, EJParameterList parameterList)
+    {
+        if (formName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_FORM_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.openFormInCanvas"));
+        }
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.openFormInCanvas"));
+        }
+        
+        
+        try
+        {
+            EJInternalForm form = _formController.getFrameworkManager().createInternalForm(formName, parameterList);
+            _formController.getRenderer().openFormInCanvas(canvasName, form);
+            
+        }
+        catch (Exception e)
+        {
+            _formController.getFrameworkManager().handleException(e);
+        }
+        
+    }
 
     /**
      * Called when a popup form, opened by the forms EJInternalForm, is closed
