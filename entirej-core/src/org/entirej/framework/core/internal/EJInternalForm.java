@@ -1031,7 +1031,7 @@ public class EJInternalForm implements Serializable
             EJEmbeddedFormController controller = _embeddedForms.get(formName+":"+canvasName);
             if (controller == null)
             {
-                throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_FORM_OR_CANVAS_NAME, formName, canvasName));
+               return;
             }
 
             try
