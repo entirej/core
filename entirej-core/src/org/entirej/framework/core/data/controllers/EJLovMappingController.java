@@ -113,6 +113,7 @@ public class EJLovMappingController implements Serializable
         queryCriteria.setPageNumber(1);
         queryCriteria.setPageSize(10);
         queryCriteria.setQueryAllRows(true);
+        queryCriteria.getAllRestrictions().clear();//make sure to clear all default LOV query values
         
         for (EJCoreLovItemMappingProperties mapProps : _mappingProperties.getAllItemMappingProperties())
         {
@@ -158,7 +159,7 @@ public class EJLovMappingController implements Serializable
         if (itemValueSet)
         {
             StringBuilder builder = new StringBuilder();
-            builder.append(_dataService.getClass()).append("|");
+            builder.append(_dataService.getClass().getName()).append("|");
             builder.append(queryCriteria.getCacheKey());
             
             List<?> entities = null;
@@ -175,15 +176,13 @@ public class EJLovMappingController implements Serializable
             }
             else
             {
-                if (entities == null)
-                {
-                    entities = _dataService.executeQuery(new EJForm(formController.getInternalForm()), queryCriteria);
-                    cache.putEntry(builder.toString(), entities);
-                }
+                entities = _dataService.executeQuery(new EJForm(formController.getInternalForm()), queryCriteria);
+               
                 
                 // Now the query record is constructed, make the query
                 if (entities != null)
                 {
+                    cache.putEntry(builder.toString(), entities);
                     for (Object entity : entities)
                     {
                         queryCompleted(new EJDataRecord(formController, lovController.getBlock(), entity, false), blockRecord);

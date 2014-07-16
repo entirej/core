@@ -180,22 +180,51 @@ public abstract class EJAbstractRestriction<E> implements EJRestriction<E>
         builder.append(getType()).append("|");
         builder.append(getFieldName()).append("|");
         builder.append(getAlias()).append("|");
-        builder.append(getValue()).append("|");
-        builder.append(getBetweenHigherValue()).append("|");
-        builder.append(getBetweenLowerValue()).append("|");
-        builder.append("[IN(");
-        if (_valueList != null && _valueList.size() > 0)
+        
+        
+        switch (getType())
         {
-            for (int i = 0; i < _valueList.size(); i++)
-            {
-                if (i != 0)
+            case EQUAL:
+            case NOT_EQUAL:
+            case EQUAL_IGNORE_CASE:
+            case FREE_TEXT:
+            case GREATER_THAN:
+            case GREATER_THAN_EQUAL_TO:
+            case LESS_THAN:
+            case LESS_THAN_EQUAL_TO:
+            case LIKE:
+            case LIKE_IGNORE_CASE:
+            case NOT_LIKE:
+            case NOT_LIKE_IGNORE_CASE:
+                builder.append(getValue()).append("|");
+                break;
+            case BETWEEN:    
+                builder.append(getBetweenHigherValue()).append("|");
+                builder.append(getBetweenLowerValue()).append("|");
+                break;
+            case IN:
+            case NOT_IN:
+                builder.append("[(");
+                if (_valueList != null && _valueList.size() > 0)
                 {
-                    builder.append(",");
+                    for (int i = 0; i < _valueList.size(); i++)
+                    {
+                        if (i != 0)
+                        {
+                            builder.append(",");
+                        }
+                        builder.append(_valueList.get(i) == null ? "null" : _valueList.get(i));
+                    }
                 }
-                builder.append(_valueList.get(i) == null ? "null" : _valueList.get(i));
-            }
+                builder.append(")]");
+                break;
+
+            default:
+                break;
         }
-        builder.append(")]");
+        
+       
+       
         
         return builder.toString();
     }
