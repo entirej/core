@@ -50,11 +50,7 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
         
     }
     
-    @Deprecated
-    public EJQueryCriteria(EJInternalBlock block)
-    {
-        this(new EJLovBlock(block));
-    }
+  
     
     /**
      * Creates a <code>QueryCriteria</code> object for the given block
@@ -75,6 +71,17 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
         }
     }
     
+    public EJQueryCriteria(EJQueryBlock block,EJItemLovController itemLovController)
+    {
+        super(block);
+        
+        logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
+        if (block != null)
+        {
+            addDefaultQueryValues(itemLovController);
+        }
+    }
+    
     private void addDefaultQueryValues(EJItemLovController itemLovController)
     {
         if (getBlock() == null)
@@ -84,7 +91,7 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
         
         for (EJBlockItem item : getBlock().getBlockItems())
         {
-            Object defaultValue = EJDataHelper.getDefaultQueryValue(getBlock().getForm(), item);
+            Object defaultValue = EJDataHelper.getDefaultQueryValue(getBlock().getForm(), item,itemLovController);
             if (defaultValue != null)
             {
                 add(EJRestrictions.equals(item.getName(), defaultValue));

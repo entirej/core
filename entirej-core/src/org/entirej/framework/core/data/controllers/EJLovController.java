@@ -172,6 +172,22 @@ public class EJLovController extends EJBlockController implements Serializable
         executeQuery(queryCriteria);
     }
     
+    
+    /**
+     * Instructs EntireJ to perform a query on this lov using no query criteria
+     * 
+     * @param queryCriteria
+     *            The criteria for the query
+     * @see #executeQuery(IQueryCriteria, EJFrameworkConnection)
+     * 
+     */
+    public void executeQuery(EJItemLovController itemLovController)
+    {
+        EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(_lovBlock),itemLovController);
+        executeQuery(queryCriteria);
+    }
+    
+    
     /**
      * Executes a query on this controllers underlying block. If this record is
      * a detail in a master-detail relationship then the relation items will be
@@ -329,7 +345,7 @@ public class EJLovController extends EJBlockController implements Serializable
             {
                 try
                 {
-                    executeQuery(new EJQueryCriteria(new EJLovBlock(getBlock())));
+                    executeQuery(new EJQueryCriteria(new EJLovBlock(getBlock()),itemLovController));
                 }
                 catch (EJApplicationException e)
                 {
@@ -383,7 +399,7 @@ public class EJLovController extends EJBlockController implements Serializable
                 }
                 else
                 {
-                    queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()));
+                    queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()),itemToValidate.getItemLovController());
                     queryCriteria.add(EJRestrictions.like(lovDefItemName, value));
                     executeQuery(queryCriteria);
                     

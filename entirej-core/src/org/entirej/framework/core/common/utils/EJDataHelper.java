@@ -27,6 +27,7 @@ import org.entirej.framework.core.EJBlockItem;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJRecord;
+import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJItemLovController;
@@ -94,21 +95,25 @@ public class EJDataHelper
             if (itemLovController != null)
             {
                 logger.trace("Getting parameter for screen: {}", itemLovController.getItemToValidate().getScreenType());
-                
+                EJDataRecord dataRecord = null; 
                 switch (itemLovController.getItemToValidate().getScreenType())
                 {
                     case INSERT:
-                        record = new EJRecord(itemLovController.getItemToValidate().getBlock().getInsertScreenRenderer().getInsertRecord());
+                        dataRecord =itemLovController.getItemToValidate().getBlock().getInsertScreenRenderer().getInsertRecord();
                         break;
                     case QUERY:
-                        record = new EJRecord(itemLovController.getItemToValidate().getBlock().getQueryScreenRenderer().getQueryRecord());
+                        dataRecord = itemLovController.getItemToValidate().getBlock().getQueryScreenRenderer().getQueryRecord();
                         break;
                     case UPDATE:
-                        record = new EJRecord(itemLovController.getItemToValidate().getBlock().getUpdateScreenRenderer().getUpdateRecord());
+                        dataRecord = itemLovController.getItemToValidate().getBlock().getUpdateScreenRenderer().getUpdateRecord();
                         break;
                     case MAIN:
-                        record = new EJRecord(itemLovController.getItemToValidate().getBlock().getFocusedRecord());
+                        dataRecord = itemLovController.getItemToValidate().getBlock().getFocusedRecord();
                         break;
+                }
+                if(dataRecord!=null)
+                {
+                    record = new EJRecord(dataRecord);
                 }
             }
             else
@@ -125,9 +130,9 @@ public class EJDataHelper
                 record = form.getBlock(blockName).getFocusedRecord();
             }
             
-            if (record != null)
+            if (record != null )
             {
-                Object val = form.getBlock(blockName).getFocusedRecord().getValue(itemName);
+                Object val = record.getValue(itemName);
                 logger.trace("BlockItem value: {}", val);
                 return val;
             }
