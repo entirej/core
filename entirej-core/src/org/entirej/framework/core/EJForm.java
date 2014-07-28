@@ -743,6 +743,21 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
+     * Used to retrieve an embedded form that was opened within this form
+     * 
+     * @param formName
+     *            The name of the embedded form
+     * @param canvasName
+     *            The name of the canvas that holds the form
+     * @return The embedded <code>EJForm</code> or <code>null</code> if there is
+     *         no embedded form with the given name on the given canvas
+     */
+    public EJForm getEmbeddedForm(String formName, String canvasName)
+    {
+        return _form.getEmbeddedForm(formName, canvasName);
+    }
+    
+    /**
      * Returns this forms parameter list
      * <p>
      * the parameter list is a list of properties that were declared for the

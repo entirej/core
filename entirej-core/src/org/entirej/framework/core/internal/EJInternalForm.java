@@ -1016,7 +1016,8 @@ public class EJInternalForm implements Serializable
     }
 
     /**
-     * Called when an embedded form, opened by the forms EJInternalForm, is closed
+     * Called when an embedded form, opened by the forms EJInternalForm, is
+     * closed
      * 
      * @param formName
      *            The form to close
@@ -1028,10 +1029,10 @@ public class EJInternalForm implements Serializable
     {
         try
         {
-            EJEmbeddedFormController controller = _embeddedForms.get(formName+":"+canvasName);
+            EJEmbeddedFormController controller = _embeddedForms.get(formName + ":" + canvasName);
             if (controller == null)
             {
-               return;
+                return;
             }
 
             try
@@ -1043,12 +1044,33 @@ public class EJInternalForm implements Serializable
             {
                 _formController.getFrameworkManager().handleException(e);
             }
-            
+
         }
         catch (Exception e)
         {
             _formController.getFrameworkManager().handleException(e);
         }
+    }
+
+    /**
+     * Used to retrieve an embedded form that was opened within this form
+     * 
+     * @param formName
+     *            The name of the embedded form
+     * @param canvasName
+     *            The name of the canvas that holds the form
+     * @return The embedded <code>EJForm</code> or <code>null</code> if there is
+     *         no embedded form with the given name on the given canvas
+     */
+    public EJForm getEmbeddedForm(String formName, String canvasName)
+    {
+        EJEmbeddedFormController controller = _embeddedForms.get(formName + ":" + canvasName);
+        if (controller == null)
+        {
+            return null;
+        }
+
+        return new EJForm(controller.getEmbeddedForm());
     }
 
     /**
