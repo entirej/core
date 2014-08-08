@@ -20,56 +20,77 @@ package org.entirej.framework.core;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.entirej.framework.core.interfaces.EJFrameworkConnection;
 
 public class EJDefaultFrameworkConnection implements EJFrameworkConnection
 {
     private Connection _connection;
+    private EJDefaultConnectionFactory _factory;
+    
+    private AtomicBoolean init = new AtomicBoolean(false); 
 
-    public EJDefaultFrameworkConnection(Connection connection)
+    public EJDefaultFrameworkConnection(EJDefaultConnectionFactory factory)
     {
-        _connection = connection;
+        _factory = factory;
     }
-
+    Connection getInternalConnection()
+    {
+        if(!init.get()){
+            _connection = _factory.createInternalConnection();
+            init.set(true);
+        }
+        return _connection;
+    }
+ 
     @Override
     public void close()
     {
         try
         {
-            _connection.close();
+            if(init.get())
+            {
+                _connection.close();
+            }
         }
         catch (SQLException e)
         {
             throw new EJApplicationException(e);
         }
     }
-
+ 
     @Override
     public void commit()
     {
         try
         {
-            _connection.commit();
+            if(init.get())
+            {
+                _connection.commit();
+            }
         }
         catch (SQLException e)
         {
             throw new EJApplicationException(e);
         }
     }
-
+ 
     @Override
     public Object getConnectionObject()
     {
-        return _connection;
+        return getInternalConnection();
     }
-
+ 
     @Override
     public void rollback()
     {
         try
         {
-            _connection.rollback();
+            if(init.get())
+            {
+                _connection.rollback();
+            }
         }
         catch (SQLException e)
         {

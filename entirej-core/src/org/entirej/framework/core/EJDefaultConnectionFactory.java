@@ -50,35 +50,46 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
     private String       _username;
     private String       _password;
 
+    public EJDefaultConnectionFactory()
+    {
+        config();
+    }
+    
     @Override
     public EJFrameworkConnection createConnection(EJFrameworkManager frameworkManager)
     {
+       return new EJDefaultFrameworkConnection(this);
+        
+    }
+    
+    Connection createInternalConnection()
+    {
+       
+        Properties userProps = new Properties();
+        if (_username != null)
+        {
+            userProps.put("user", _username);
+        }
+        if (_password != null)
+        {
+            userProps.put("password", _password);
+        }
+        Connection con = null;
         try
         {
-            config();
-            Properties userProps = new Properties();
-            if (_username != null)
-            {
-                userProps.put("user", _username);
-            }
-            if (_password != null)
-            {
-                userProps.put("password", _password);
-            }
-            Connection con = DriverManager.getConnection(_connectionUrl, userProps);
+            con = DriverManager.getConnection(_connectionUrl, userProps);
 
             // Need to set autocommit false to allow EntireJ to handle
             // transactions
             con.setAutoCommit(false);
-
-            return new EJDefaultFrameworkConnection(con);
         }
         catch (SQLException e)
         {
             throw new EJApplicationException(new EJMessage(e.getMessage()), e);
         }
+        return con;
     }
-
+    
     private void config()
     {
         /*
