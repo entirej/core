@@ -62,7 +62,7 @@ public class EJQuestionController
     public EJInternalQuestion makeAskToSaveChangesQuestion(EJInternalEditableBlock block, EJAskToSaveChangesOperation operation, EJDataRecord record)
     {
         EJInternalQuestion question = makeQuestion(block, operation);
-        question.setRecord(record);
+        question.setDataRecord(record);
         return question;
     }
     
@@ -135,7 +135,7 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_NEW_RECORD_INSTANCE:
                     question.getBlock().getForm().saveChanges();
-                    question.getBlock().newRecordInstance(question.getRecord());
+                    question.getBlock().newRecordInstance(question.getDataRecord());
                     break;
                 case QUESTION_ACTION_CLEAR_BLOCK:
                     question.getBlock().getForm().saveChanges();
@@ -143,7 +143,7 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_INSERT_RECORD:
                     question.getBlock().getForm().saveChanges();
-                    question.getBlock().insertRecord(question.getRecord());
+                    question.getBlock().insertRecord(question.getDataRecord());
                     break;
                 case QUESTION_ACTION_CLOSE_FORM:
                     question.getForm().saveChanges();
@@ -174,14 +174,14 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_NEW_RECORD_INSTANCE:
                     question.getBlock().clearAllDetailRelations(true);
-                    question.getBlock().newRecordInstance(question.getRecord());
+                    question.getBlock().newRecordInstance(question.getDataRecord());
                     break;
                 case QUESTION_ACTION_CLEAR_BLOCK:
                     question.getBlock().clear(true);
                     break;
                 case QUESTION_ACTION_INSERT_RECORD:
                     question.getBlock().clearAllDetailRelations(true);
-                    question.getBlock().insertRecord(question.getRecord());
+                    question.getBlock().insertRecord(question.getDataRecord());
                     break;
                 case QUESTION_ACTION_CLOSE_FORM:
                     question.getForm().clear(true);

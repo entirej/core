@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessage;
+import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.actionprocessor.EJDefaultFormActionProcessor;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.enumerations.EJQuestionButton;
@@ -50,84 +51,95 @@ public class EJQuestion implements Serializable
     private String                  _buttonOneText;
     private String                  _buttonTwoText;
     private String                  _buttonThreeText;
-    private EJDataRecord            _record;
+    private EJRecord                _record;
     private EJQueryCriteria         _queryCriteria;
     private EJInternalEditableBlock _block;
-    
+    private EJDataRecord            _dataRecord;
+
     public EJQuestion(EJForm form, String name)
     {
         _form = form;
         _name = name;
     }
-    
+
     public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText)
     {
         this(form, name, title, message, buttonOneText, null, null, null);
     }
-    
-    public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, EJDataRecord record)
+
+    public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, EJRecord record)
     {
         this(form, name, title, message, buttonOneText, null, null, record);
     }
-    
+
     public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, String buttonTwoText)
     {
         this(form, name, title, message, buttonOneText, buttonTwoText, null, null);
     }
-    
-    public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, String buttonTwoText, EJDataRecord record)
+
+    public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, String buttonTwoText, EJRecord record)
     {
         this(form, name, title, message, buttonOneText, buttonTwoText, null, record);
     }
-    
+
     public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, String buttonTwoText, String buttonThreeText)
     {
         this(form, name, title, message, buttonOneText, buttonTwoText, buttonThreeText, null);
     }
-    
+
     public EJQuestion(EJForm form, String name, String title, EJMessage message, String buttonOneText, String buttonTwoText, String buttonThreeText,
-            EJDataRecord record)
+            EJRecord record)
     {
         _form = form;
         _name = name;
         _message = message;
         _record = record;
-        
+
         // Use the set methods to the texts get translated
         setButtonText(EJQuestionButton.ONE, buttonOneText);
         setButtonText(EJQuestionButton.TWO, buttonTwoText);
         setButtonText(EJQuestionButton.THREE, buttonThreeText);
         setTitle(title);
     }
-    
+
     void setBlock(EJInternalEditableBlock block)
     {
         _block = block;
     }
-    
+
     EJInternalEditableBlock getBlock()
     {
         return _block;
     }
-    
+
     public void setQueryCriteria(EJQueryCriteria queryCriteria)
     {
         _queryCriteria = queryCriteria;
     }
-    
+
     public EJQueryCriteria getQueryCriteria()
     {
         return _queryCriteria;
     }
-    
-    public void setRecord(EJDataRecord record)
+
+    public void setRecord(EJRecord record)
     {
         _record = record;
     }
-    
-    public EJDataRecord getRecord()
+
+    public EJRecord getRecord()
     {
         return _record;
+    }
+
+    public void setDataRecord(EJDataRecord record)
+    {
+        _dataRecord = record;
+    }
+
+    public EJDataRecord getDataRecord()
+    {
+        return _dataRecord;
     }
     
     /**
@@ -146,7 +158,7 @@ public class EJQuestion implements Serializable
     {
         return _name;
     }
-    
+
     /**
      * Returns the form that the
      * <code>{@link EJDefaultFormActionProcessor}</code> will need
@@ -157,7 +169,7 @@ public class EJQuestion implements Serializable
     {
         return _form;
     }
-    
+
     /**
      * Sets the title of the question
      * 
@@ -175,7 +187,7 @@ public class EJQuestion implements Serializable
             _title = title;
         }
     }
-    
+
     /**
      * Returns the title of this question
      * 
@@ -185,7 +197,7 @@ public class EJQuestion implements Serializable
     {
         return _title;
     }
-    
+
     /**
      * Sets this questions message
      * 
@@ -196,7 +208,7 @@ public class EJQuestion implements Serializable
     {
         _message = message;
     }
-    
+
     /**
      * Returns this questions message
      * 
@@ -206,7 +218,7 @@ public class EJQuestion implements Serializable
     {
         return _message.getMessage();
     }
-    
+
     /**
      * Sets the number of the answer answered by the user
      * 
@@ -217,7 +229,7 @@ public class EJQuestion implements Serializable
     {
         _answerButton = answerButton;
     }
-    
+
     /**
      * Return the button number that was set after the user made a choice
      * <p>
@@ -231,7 +243,7 @@ public class EJQuestion implements Serializable
     {
         return _answerButton;
     }
-    
+
     /**
      * Sets a button text to the given text
      * 
@@ -246,12 +258,12 @@ public class EJQuestion implements Serializable
     public void setButtonText(EJQuestionButton buttonNumber, String buttonText)
     {
         String text = buttonText;
-        
+
         if (text != null)
         {
             text = _form.translateText(buttonText);
         }
-        
+
         switch (buttonNumber)
         {
             case ONE:
@@ -265,7 +277,7 @@ public class EJQuestion implements Serializable
                 break;
         }
     }
-    
+
     /**
      * Returns the text defined for the given button
      * <p>
@@ -288,10 +300,10 @@ public class EJQuestion implements Serializable
             case THREE:
                 return _buttonThreeText;
         }
-        
+
         return null;
     }
-    
+
     /**
      * The action controller that must be called after the question has been
      * answered
