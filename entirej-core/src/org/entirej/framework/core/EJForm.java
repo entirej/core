@@ -299,6 +299,23 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showTabCanvasPage(canvasName, pageName);
     }
+    
+    
+    /**
+     * Used to set a specific tab canvas page to be visible
+     * 
+     * @param tabCanvasName
+     *            The tab canvas
+     * @param tabPageName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     */
+    
+    public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
+    {
+        _form.setTabPageVisible(tabCanvasName, tabPageName,visible);
+    }
 
     /**
      * Returns the name of the tab page which is currently displayed/active on a
