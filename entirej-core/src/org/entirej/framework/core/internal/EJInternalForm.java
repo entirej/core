@@ -383,6 +383,21 @@ public class EJInternalForm implements Serializable
             handleException(e);
         }
     }
+    
+    /**
+     * Used to set a specific tab canvas page to be visible
+     * 
+     * @param tabCanvasName
+     *            The tab canvas
+     * @param tabPageName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     */
+    public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
+    {
+        _formController.getCanvasController().setTabPageVisible(tabCanvasName, tabPageName, visible);
+    }
 
     /**
      * Returns an immutable collection of all blocks available within this form

@@ -99,6 +99,18 @@ public interface EJFormRenderer extends EJRenderer
     public void showTabPage(String tabCanvasName, String tabPageName);
 
     /**
+     * Used to set a specific tab canvas page to be visible
+     * 
+     * @param tabCanvasName
+     *            The tab canvas
+     * @param tabPageName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     */
+    public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible);
+    
+    /**
      * Returns the current tab page name of the given tab canvas
      * <p>
      * If the name given is not a tab page or no page is displayed,
