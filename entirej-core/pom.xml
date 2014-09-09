@@ -98,7 +98,7 @@
 					<branch>refs/heads/gh-pages</branch>
 					<path>maven/${MAVEN.REPO.PATH}</path>
 					<oauth2Token>${GITHUB.OAUTH}</oauth2Token>
-
+					<userName>${GITHUB.USER}</userName>
 					<includes>
 						<include>**/*</include>
 					</includes>
