@@ -1475,7 +1475,16 @@ public class EJActionController implements Serializable
             // The developer made some changes to the record so copy them to
             // the registered record and synchronize the changes with the
             // register
-            record.copyValuesToRecord(baseRecord);
+            
+            if(baseRecord==null)
+            {
+                baseRecord = record;
+            }
+            else
+            {
+                record.copyValuesToRecord(baseRecord);
+            }
+           
             
             // Now get the screen renderer to copy any modified
             // values back to the record and any displayed fields
