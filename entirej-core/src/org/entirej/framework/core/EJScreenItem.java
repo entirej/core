@@ -549,7 +549,7 @@ public class EJScreenItem
      */
     public void setItemRendererProperty(String propertyName, String propertyValue)
     {
-        if (hasValue(propertyName) && hasValue(propertyValue))
+        if (hasValue(propertyName) )
         {
             refreshItemRendererProperty(propertyName, propertyValue);
         }
