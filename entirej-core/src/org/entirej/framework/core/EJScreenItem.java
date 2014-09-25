@@ -44,14 +44,14 @@ public class EJScreenItem
     private EJScreenType           _screenType;
     private EJScreenItemController _item;
     private EJInternalBlock        _block;
-
+    
     public EJScreenItem(EJInternalBlock block, EJScreenType screenType, EJScreenItemController item)
     {
         _block = block;
         _screenType = screenType;
         _item = item;
     }
-
+    
     /**
      * Returns the properties of this screen items
      * 
@@ -61,7 +61,7 @@ public class EJScreenItem
     {
         return _item.getProperties();
     }
-
+    
     /**
      * Returns the name of the block to which this item belongs
      * 
@@ -71,12 +71,12 @@ public class EJScreenItem
     {
         return _item.getBlock().getProperties().getName();
     }
-
+    
     public void refreshItemRenderer()
     {
         _item.getManagedItemRenderer().refreshItemRenderer();
     }
-
+    
     /**
      * Indicates if this item is used within an LOV Definition
      * 
@@ -87,7 +87,7 @@ public class EJScreenItem
     {
         return _item.getBlock().getProperties().isUsedInLovDefinition();
     }
-
+    
     /**
      * If this item is used within a lov definition, then this method will
      * return the name of the lov definition
@@ -99,7 +99,7 @@ public class EJScreenItem
     {
         return _item.getBlock().getProperties().getLovDefinition().getName();
     }
-
+    
     /**
      * Returns the name of this item
      * 
@@ -109,7 +109,7 @@ public class EJScreenItem
     {
         return _item.getReferencedItemProperties().getName();
     }
-
+    
     /**
      * Indicates if this item is visible
      * 
@@ -122,10 +122,10 @@ public class EJScreenItem
         {
             return _item.getManagedItemRenderer().isVisible();
         }
-
+        
         return false;
     }
-
+    
     /**
      * Indicates if lov notification has been enabled
      * <p>
@@ -144,7 +144,7 @@ public class EJScreenItem
     {
         return _item.getProperties().isLovNotificationEnabled();
     }
-
+    
     /**
      * Indicates if this screen item is a spacer item
      * 
@@ -155,7 +155,7 @@ public class EJScreenItem
     {
         return _item.isSpacerItem();
     }
-
+    
     /**
      * Indicates if this item is mandatory
      * 
@@ -168,10 +168,12 @@ public class EJScreenItem
         {
             return _item.getManagedItemRenderer().isMandatory();
         }
-
+        
         return false;
     }
+    
 
+    
     /**
      * Indicates if this item can be modified by the user
      * 
@@ -184,10 +186,10 @@ public class EJScreenItem
         {
             return _item.getManagedItemRenderer().isEditAllowed();
         }
-
+        
         return false;
     }
-
+    
     /**
      * Indicates if this item is valid
      * <p>
@@ -203,10 +205,10 @@ public class EJScreenItem
         {
             return _item.getManagedItemRenderer().isValid();
         }
-
+        
         return false;
     }
-
+    
     /**
      * Returns the hint that has been set for this item
      * 
@@ -216,7 +218,7 @@ public class EJScreenItem
     {
         return _item.getProperties().getHint();
     }
-
+    
     /**
      * Return the label that has been set on this item
      * 
@@ -226,7 +228,7 @@ public class EJScreenItem
     {
         return _item.getProperties().getLabel();
     }
-
+    
     /**
      * Returns the screen type of this item
      * 
@@ -236,7 +238,7 @@ public class EJScreenItem
     {
         return _screenType;
     }
-
+    
     /**
      * Sets this items value
      * 
@@ -250,7 +252,7 @@ public class EJScreenItem
         if (value != null)
         {
             EJItemProperties itemProperties = _block.getProperties().getItemProperties(getName());
-
+            
             // Check if the value is of the correct data type
             if (!itemProperties.getDataTypeClass().isAssignableFrom(value.getClass()))
             {
@@ -260,7 +262,7 @@ public class EJScreenItem
         }
         _item.getManagedItemRenderer().setValue(value);
     }
-
+    
     /**
      * If this item has a renderer, then this method will return the value held
      * within the items renderer
@@ -278,7 +280,7 @@ public class EJScreenItem
             return null;
         }
     }
-
+    
     /**
      * Indicates that this item should gain focus
      */
@@ -286,7 +288,7 @@ public class EJScreenItem
     {
         _item.gainFocus();
     }
-
+    
     /**
      * Indicates to this item that it should execute its action command if it
      * has one enabled
@@ -302,7 +304,7 @@ public class EJScreenItem
     {
         _item.executeActionCommand();
     }
-
+    
     /**
      * Sets the hint of this item
      * <p>
@@ -316,7 +318,7 @@ public class EJScreenItem
     {
         setHint(hint, false);
     }
-
+    
     /**
      * Sets the hint of this screen item
      * <p>
@@ -339,7 +341,7 @@ public class EJScreenItem
             setPropertyAndRefresh(EJManagedScreenProperty.HINT, hint);
         }
     }
-
+    
     /**
      * Sets the label of this item
      * <p>
@@ -353,7 +355,7 @@ public class EJScreenItem
     {
         setLabel(label, false);
     }
-
+    
     /**
      * Sets the label of this screen item
      * <p>
@@ -376,7 +378,9 @@ public class EJScreenItem
             setPropertyAndRefresh(EJManagedScreenProperty.LABEL, label);
         }
     }
+    
 
+    
     /**
      * Sets this item to be editable or not
      * <p>
@@ -391,7 +395,7 @@ public class EJScreenItem
     {
         setPropertyAndRefresh(EJManagedScreenProperty.EDIT_ALLOWED, editable);
     }
-
+    
     /**
      * Sets the visual attribute of this screen item
      * <p>
@@ -417,7 +421,7 @@ public class EJScreenItem
     {
         setPropertyAndRefresh(EJManagedScreenProperty.SCREEN_ITEM_VISUAL_ATTRIBUTE, null, visualAttributeName);
     }
-
+    
     /**
      * Sets this item to be visible
      * 
@@ -429,7 +433,7 @@ public class EJScreenItem
     {
         setPropertyAndRefresh(EJManagedScreenProperty.VISIBLE, visible);
     }
-
+    
     /**
      * Sets this item to be mandatory
      * <p>
@@ -444,7 +448,9 @@ public class EJScreenItem
     {
         setPropertyAndRefresh(EJManagedScreenProperty.MANDATORY, mandatory);
     }
-
+    
+    
+    
     /**
      * Sets this item to be valid
      * 
@@ -454,9 +460,9 @@ public class EJScreenItem
      */
     public void setValid(boolean valid)
     {
-        _item.getManagedItemRenderer().validationErrorOccurred(!valid);
+       _item.getManagedItemRenderer().validationErrorOccurred(!valid);
     }
-
+    
     /**
      * Returns the display properties of this item
      * 
@@ -478,9 +484,9 @@ public class EJScreenItem
                 return ((EJCoreMainScreenItemProperties) _item.getProperties()).getBlockRendererRequiredProperties();
         }
     }
-
+    
     /**
-     * Set the Screen Renderer Settings for this item
+     * Set the display properties for this item
      * <p>
      * If the property is part of a <code>propertyGroup</code> then use a dot
      * (.) Separator between the group name and the property name. e.g. If the
@@ -500,7 +506,7 @@ public class EJScreenItem
      *             if either the block or item name are invalid and if the there
      *             is no display property with the given name
      */
-    public void setScreenRendererProperty(String propertyName, String propertyValue)
+    public void setDisplayProperty(String propertyName, String propertyValue)
     {
         if (hasValue(propertyName) && hasValue(propertyValue))
         {
@@ -509,67 +515,38 @@ public class EJScreenItem
                 case MAIN:
                     refreshMainScreenItemRenderer(propertyName, propertyValue);
                     break;
-
+                
                 case QUERY:
                     refreshQueryScreenItemRenderer(propertyName, propertyValue);
                     break;
-
+                
                 case INSERT:
                     refreshInsertScreenItemRenderer(propertyName, propertyValue);
                     break;
-
+                
                 case UPDATE:
                     refreshUpdateScreenItemRenderer(propertyName, propertyValue);
                     break;
-
+            
             }
         }
     }
-
-    /**
-     * Set the Item Renderer Settings for this item
-     * <p>
-     * If the property is part of a <code>propertyGroup</code> then use a dot
-     * (.) Separator between the group name and the property name. e.g. If the
-     * <code>xpos</code> property is in the group
-     * <code>displayCoordinates</code> then the property name would be:
-     * <code>displayCoordinates.xpos</code>
-     * <p>
-     * The name of the properties and their functionality are dependent on the
-     * item renderer being used. Please see the corresponding item renderer
-     * documentation for more details
-     * 
-     * @param propertyName
-     *            The name of the property
-     * @param propertyValue
-     *            The new property value
-     * @throws EJApplicationException
-     *             if either the block or item name are invalid and if the there
-     *             is no display property with the given name
-     */
-    public void setItemRendererProperty(String propertyName, String propertyValue)
-    {
-        if (hasValue(propertyName) && hasValue(propertyValue))
-        {
-            refreshItemRendererProperty(propertyName, propertyValue);
-        }
-    }
-
+    
     private void setPropertyAndRefresh(EJManagedScreenProperty property, EJDataRecord record, String visualAttributeName)
     {
         setPropertyAndRefresh(property, false, null, record, visualAttributeName);
     }
-
+    
     private void setPropertyAndRefresh(EJManagedScreenProperty property, boolean allowed)
     {
         setPropertyAndRefresh(property, allowed, null, null, null);
     }
-
+    
     private void setPropertyAndRefresh(EJManagedScreenProperty property, String label)
     {
         setPropertyAndRefresh(property, false, label, null, null);
     }
-
+    
     private void setPropertyAndRefresh(EJManagedScreenProperty property, boolean allowed, String label, EJDataRecord record, String vaName)
     {
         switch (_screenType)
@@ -600,7 +577,7 @@ public class EJScreenItem
                             break;
                     }
                 }
-
+                
                 EJBlockRendererController blockRendererController = _block.getRendererController();
                 if (blockRendererController != null)
                 {
@@ -614,7 +591,7 @@ public class EJScreenItem
                     }
                 }
                 break;
-
+            
             case QUERY:
                 EJCoreQueryScreenItemProperties queryScreenItemProps = (EJCoreQueryScreenItemProperties) _item.getProperties();
                 if (queryScreenItemProps != null)
@@ -641,14 +618,14 @@ public class EJScreenItem
                             break;
                     }
                 }
-
+                
                 EJManagedQueryScreenRendererWrapper queryScreenRenderer = _block.getQueryScreenRenderer();
                 if (queryScreenRenderer != null)
                 {
                     queryScreenRenderer.refreshItemProperty(queryScreenItemProps, property);
                 }
                 break;
-
+            
             case INSERT:
                 EJCoreInsertScreenItemProperties insertScreenItemProps = (EJCoreInsertScreenItemProperties) _item.getProperties();
                 if (insertScreenItemProps != null)
@@ -675,14 +652,14 @@ public class EJScreenItem
                             break;
                     }
                 }
-
+                
                 EJManagedInsertScreenRendererWrapper insertScreenRenderer = _block.getInsertScreenRenderer();
                 if (insertScreenRenderer != null)
                 {
                     insertScreenRenderer.refreshItemProperty(insertScreenItemProps, property);
                 }
                 break;
-
+            
             case UPDATE:
                 EJCoreUpdateScreenItemProperties updateScreenItemProps = (EJCoreUpdateScreenItemProperties) _item.getProperties();
                 if (updateScreenItemProps != null)
@@ -709,7 +686,7 @@ public class EJScreenItem
                             break;
                     }
                 }
-
+                
                 EJManagedUpdateScreenRendererWrapper updateScreenRenderer = _block.getUpdateScreenRenderer();
                 if (updateScreenRenderer != null)
                 {
@@ -718,7 +695,7 @@ public class EJScreenItem
                 break;
         }
     }
-
+    
     private void refreshMainScreenItemRenderer(String propertyName, String propertyValue)
     {
         EJFrameworkExtensionProperties blockRendererRequiredProperties = ((EJCoreMainScreenItemProperties) _item.getProperties())
@@ -726,7 +703,7 @@ public class EJScreenItem
         blockRendererRequiredProperties.setPropertyValue(propertyName, propertyValue);
         _block.getRendererController().refreshItemRendererProperty(_item.getReferencedItemProperties().getName(), propertyName);
     }
-
+    
     private void refreshQueryScreenItemRenderer(String propertyName, String propertyValue)
     {
         EJFrameworkExtensionProperties qsRendererProperties = ((EJCoreQueryScreenItemProperties) _item.getProperties()).getQueryScreenRendererProperties();
@@ -736,7 +713,7 @@ public class EJScreenItem
             _block.getQueryScreenRenderer().refreshQueryScreenRendererProperty(propertyName);
         }
     }
-
+    
     private void refreshInsertScreenItemRenderer(String propertyName, String propertyValue)
     {
         EJFrameworkExtensionProperties isRendererProperties = ((EJCoreInsertScreenItemProperties) _item.getProperties()).getInsertScreenRendererProperties();
@@ -746,38 +723,28 @@ public class EJScreenItem
             _block.getInsertScreenRenderer().refreshInsertScreenRendererProperty(propertyName);
         }
     }
-
-    private void refreshItemRendererProperty(String propertyName, String propertyValue)
-    {
-        EJFrameworkExtensionProperties itemRendererProperties = _item.getReferencedItemProperties().getItemRendererProperties();
-        itemRendererProperties.setPropertyValue(propertyName, propertyValue);
-        if (_item.getItemRenderer() != null)
-        {
-            _item.getItemRenderer().refreshItemRendererProperty(propertyName);
-        }
-    }
-
+    
     private void refreshUpdateScreenItemRenderer(String propertyName, String propertyValue)
     {
         EJFrameworkExtensionProperties isRendererProperties = ((EJCoreUpdateScreenItemProperties) _item.getProperties()).getUpdateScreenRendererProperties();
         isRendererProperties.setPropertyValue(propertyName, propertyValue);
-
+        
         if (_block.getUpdateScreenRenderer() != null)
         {
             _block.getUpdateScreenRenderer().refreshUpdateScreenRendererProperty(propertyName);
         }
     }
-
+    
     private boolean hasValue(String value)
     {
         if (value == null || value.trim().length() == 0)
         {
             return false;
         }
-
+        
         return true;
     }
-
+    
     /**
      * Adds am <code>ItemFocusedListener</code> to this renderer
      * <p>
@@ -792,7 +759,7 @@ public class EJScreenItem
     {
         _item.addItemFocusListener(listener);
     }
-
+    
     /**
      * Adds an <code>ItemChangedListener</code> to this renderer
      * <p>
