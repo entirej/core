@@ -234,7 +234,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             if (_registeredRecord.containsItem(itemName))
             {
                 renderer = _itemRendererMap.get(itemName);
-                renderer.setInitialValue(_registeredRecord.getValue(itemName));
+                renderer.setInitialValue(record.getValue(itemName));
             }
         }
         _itemChanged = true;
