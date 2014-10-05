@@ -223,7 +223,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         
         // I only need to change item renderers if the record changed is the
         // same as the registered record
-        if (record != _registeredRecord)
+        if (!(record == _registeredRecord || record.getBaseRecord() == _registeredRecord) )
         {
             return;
             
