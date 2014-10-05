@@ -201,7 +201,7 @@ public class EJRecord implements Serializable
      */
     public void synchronize()
     {
-        if (_dataRecord.getBlock().containsRecord(_dataRecord))
+        if ((_dataRecord.getBlock().containsRecord(_dataRecord.getBaseRecord()==null ? _dataRecord : _dataRecord.getBaseRecord())))
         {
             // Inform the block renderer that an item has been changed
             if (_dataRecord.getBlock() != null)
