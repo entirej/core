@@ -29,6 +29,7 @@ public class EJTableColumn implements Serializable
     private final Properties _properties = new Properties();
     
     private boolean          _array;
+    private boolean          _struct;
     
     public String getName()
     {
@@ -58,6 +59,16 @@ public class EJTableColumn implements Serializable
     public void setArray(boolean array)
     {
         this._array = array;
+    }
+    
+    public boolean isStruct()
+    {
+        return _struct;
+    }
+    
+    public void setStruct(boolean struct)
+    {
+        _struct = struct;
     }
     
     public void setParameterType(EJParameterType type)
