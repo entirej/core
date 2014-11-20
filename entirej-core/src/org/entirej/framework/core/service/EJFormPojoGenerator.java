@@ -30,7 +30,7 @@ import org.entirej.framework.core.service.EJPojoGeneratorType;
 import org.entirej.framework.core.service.EJPojoProperty;
 import org.entirej.framework.core.service.EJTableColumn;
 
-public class DefaultPojoGenerator implements EJPojoContentGenerator
+public class EJFormPojoGenerator implements EJPojoContentGenerator
 {
     
     protected static final String EJ_FIELD_ANNOTATION = "@EJFieldName";

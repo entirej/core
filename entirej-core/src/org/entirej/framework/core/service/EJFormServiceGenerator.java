@@ -29,7 +29,7 @@ import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJPojoHelper;
 
-public class DefaultServiceGenerator implements EJServiceContentGenerator
+public class EJFormServiceGenerator implements EJServiceContentGenerator
 {
     
     protected final static String PACKAGE     = "package ";
