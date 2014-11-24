@@ -399,6 +399,15 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
 
         getApplicationManager().addFormToContainer(form, blocking);
     }
+    
+    
+    public void runReport(String reportName, EJParameterList parameterList){
+        getApplicationManager().runReport(reportName, parameterList);
+    }
+
+    public void runReport(String reportName){
+        getApplicationManager().runReport(reportName);
+    }
 
     /**
      * Informs the application manager to open a popup form

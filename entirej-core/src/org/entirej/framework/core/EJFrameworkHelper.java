@@ -24,11 +24,10 @@ import java.util.Locale;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.interfaces.EJMessenger;
 
-public interface EJFrameworkHelper extends EJMessenger , Serializable
+public interface EJFrameworkHelper extends EJMessenger, Serializable
 {
     public EJManagedFrameworkConnection getConnection();
-    
-    
+
     /**
      * Retrieves a global value with the given name
      * <p>
@@ -43,7 +42,7 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      *             name
      */
     public EJApplicationLevelParameter getApplicationLevelParameter(String valueName);
-    
+
     /**
      * Used to set an application level parameter
      * <p>
@@ -59,7 +58,7 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      *            The value
      */
     public void setApplicationLevelParameter(String valueName, Object value);
-    
+
     /**
      * Returns the {@link Locale} that is currently set for this application
      * <p>
@@ -70,7 +69,7 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      * @return The {@link Locale} specified for this application
      */
     public Locale getCurrentLocale();
-    
+
     /**
      * Used to set the current locale of the application
      * <p>
@@ -83,7 +82,7 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      *            The locale to use for this application
      */
     public void changeLocale(Locale locale);
-    
+
     /**
      * Used to open the form with the given name
      * <p>
@@ -105,7 +104,7 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      *            blocking mode
      */
     public void openForm(String formName, EJParameterList parameterList, boolean blocking);
-    
+
     /**
      * Used to open the form with the given name
      * <p>
@@ -140,6 +139,10 @@ public interface EJFrameworkHelper extends EJMessenger , Serializable
      *            The name of the form to be opened
      */
     public void openForm(String formName);
-    
+
+    public void runReport(String reportName, EJParameterList parameterList);
+
+    public void runReport(String reportName);
+
     public EJTranslatorHelper getTranslatorHelper();
 }

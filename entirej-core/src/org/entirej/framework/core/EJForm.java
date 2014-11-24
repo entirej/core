@@ -774,6 +774,17 @@ public class EJForm implements EJFrameworkHelper
         return _form.getEmbeddedForm(formName, canvasName);
     }
     
+    
+    
+    public void runReport(String reportName, EJParameterList parameterList){
+        _form.getFrameworkManager().runReport(reportName,parameterList);
+    }
+
+    public void runReport(String reportName){
+        _form.getFrameworkManager().runReport(reportName);
+    }
+
+    
     /**
      * Returns this forms parameter list
      * <p>
