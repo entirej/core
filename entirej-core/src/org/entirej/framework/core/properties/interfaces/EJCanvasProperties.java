@@ -332,4 +332,7 @@ public interface EJCanvasProperties extends Serializable
      */
     public boolean canExpandVertically();
     
+    
+    public String getReferredFormId();
+    
 }
