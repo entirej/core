@@ -33,7 +33,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     // If this is a BlockCanvas then this variable will hold the properties of
     // the block which will be displayed upon it
     private EJCoreBlockProperties                _blockProperties;
-    
+
     private EJCanvasType                         _type                         = EJCanvasType.BLOCK;
     // Can be either a Tab Canvas or a CONTENT type canvas
     private String                               _contentCanvasName            = "";
@@ -69,13 +69,15 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private EJCoreCanvasPropertiesContainer      _groupCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _splitCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _parentCanvasContainer;
-    
+
+    private String                               _referredFormId;
+
     //
     // If the Canvas type is TAB, then the following properties are also
     // available
     private EJCanvasTabPosition                  _tabPosition                  = EJCanvasTabPosition.TOP;
     private EJCanvasSplitOrientation             _splitOrientation             = EJCanvasSplitOrientation.HORIZONTAL;
-    
+
     public EJCoreCanvasProperties(String name)
     {
         _name = name;
@@ -85,7 +87,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         _groupCanvasContainer = new EJCoreCanvasPropertiesContainer();
         _splitCanvasContainer = new EJCoreCanvasPropertiesContainer();
     }
-    
+
     /**
      * If this canvas is a {@link EJCanvasType#BLOCK} then this method will
      * return the block properties of the assigned block or <code>null</code> if
@@ -103,7 +105,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _blockProperties;
     }
-    
+
     /**
      * Sets the block properties if this canvas is a {@link EJCanvasType#BLOCK}
      * 
@@ -114,7 +116,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _blockProperties = blockProperties;
     }
-    
+
     /**
      * Indicates how many display columns this page will have
      * <p>
@@ -130,7 +132,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _numCols;
     }
-    
+
     /**
      * Sets the number of columns that this page will have
      * <p>
@@ -145,7 +147,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _numCols = numCols;
     }
-    
+
     /**
      * Returns the name of this canvases content canvas i.e. the name of the
      * canvas upon which this canvas will be displayed, or null if no content
@@ -160,7 +162,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _contentCanvasName;
     }
-    
+
     /**
      * Sets the name of the content canvas upon which this canvas will be
      * displayed
@@ -176,7 +178,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _contentCanvasName = contentCanvasName;
     }
-    
+
     /**
      * If the content canvas is a tab canvas then a tab page must be chosen
      * <p>
@@ -189,7 +191,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _contentCanvasTabPageName;
     }
-    
+
     /**
      * If the content canvas is a tab canvas then a tab page must be chosen
      * <p>
@@ -203,7 +205,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _contentCanvasTabPageName = contentTabPageName;
     }
-    
+
     /**
      * If the content canvas is a stacked canvas then a stacked page must be
      * chosen
@@ -217,7 +219,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _contentCanvasStackedPageName;
     }
-    
+
     /**
      * If the content canvas is a stacked canvas then a stacked page must be
      * chosen
@@ -232,7 +234,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _contentCanvasStackedPageName = contentStackedPageName;
     }
-    
+
     /**
      * Sets the name of the initially displayed stacked page
      * 
@@ -243,7 +245,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _initiallyStackedPageName = pageName;
     }
-    
+
     /**
      * Sets the name of the initially displayed page of a stacked canvas
      * 
@@ -253,7 +255,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _initiallyStackedPageName;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -267,7 +269,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _buttonOneText;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -289,10 +291,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             _baseButtonOneText = buttonText;
         }
-        
+
         _buttonOneText = _baseButtonOneText;
     }
-    
+
     /**
      * Returns the untranslated button one text
      * <p>
@@ -304,7 +306,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _baseButtonOneText;
     }
-    
+
     /**
      * Used to set the translated button one text
      * <p>
@@ -319,7 +321,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _buttonOneText = translatedButtonOneText;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -333,7 +335,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _buttonTwoText;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -355,10 +357,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             _baseButtonTwoText = buttonText;
         }
-        
+
         _buttonTwoText = _baseButtonTwoText;
     }
-    
+
     /**
      * Returns the untranslated button two text
      * <p>
@@ -370,7 +372,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _baseButtonTwoText;
     }
-    
+
     /**
      * Used to set the translated button two text
      * <p>
@@ -385,7 +387,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _buttonTwoText = translatedButtonTwoText;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -399,7 +401,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _buttonThreeText;
     }
-    
+
     /**
      * The popup canvas can have a minimum of one button and a maximum of three
      * buttons. Button one is always the default and will always be displayed.
@@ -423,7 +425,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         }
         _buttonThreeText = _baseButtonThreeText;
     }
-    
+
     /**
      * Returns the untranslated button three text
      * <p>
@@ -435,7 +437,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _baseButtonThreeText;
     }
-    
+
     /**
      * Used to set the translated button three text
      * <p>
@@ -450,7 +452,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _buttonThreeText = translatedButtonThreeText;
     }
-    
+
     /**
      * @return Returns the tab page container
      */
@@ -458,7 +460,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _tabPages;
     }
-    
+
     /**
      * If this canvas is a Tab then the canvas will have various tab pages, this
      * method will return a specific tab page properties for the name specified
@@ -475,10 +477,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             return null;
         }
-        
+
         return _tabPages.getTabPageProperties(name);
     }
-    
+
     /**
      * Ads a tab page to this canvas
      * 
@@ -494,7 +496,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _tabPages.addTabPageProperties(tab);
         }
     }
-    
+
     /**
      * Returns the stacked page container used to store this canvases stacked
      * pages
@@ -505,7 +507,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _stackedPages;
     }
-    
+
     /**
      * If this canvas is a Stacked canvas then the canvas will have various
      * stacked pages, this method will return a specific stacked page properties
@@ -524,10 +526,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             return null;
         }
-        
+
         return _stackedPages.getStackedPageProperties(name);
     }
-    
+
     /**
      * Ads a stacked page to this canvas
      * 
@@ -541,7 +543,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _stackedPages.addStackedPageProperties(stackedPage);
         }
     }
-    
+
     /**
      * Returns the canvas container that stores the canvases belonging to the
      * popup canvas
@@ -552,7 +554,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _popupCanvasContainer;
     }
-    
+
     /**
      * If this canvas is a Popup canvas then it will contain one or more
      * canvases. this method will return a specific stacked page properties for
@@ -570,10 +572,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             return null;
         }
-        
+
         return _popupCanvasContainer.getCanvasProperties(name);
     }
-    
+
     /**
      * Adds a canvas to this popup
      * 
@@ -587,7 +589,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _popupCanvasContainer.addCanvasProperties(canvas);
         }
     }
-    
+
     /**
      * Returns the canvas container that stores the canvases belonging to the
      * canvas group
@@ -598,7 +600,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _groupCanvasContainer;
     }
-    
+
     /**
      * Returns the canvas container that stores the canvases belonging to the
      * canvas split
@@ -609,7 +611,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _splitCanvasContainer;
     }
-    
+
     /**
      * If this canvas is a Group Canvas then it will contain one or more
      * canvases. this method will return a specific canvas properties for the
@@ -628,10 +630,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             return null;
         }
-        
+
         return _groupCanvasContainer.getCanvasProperties(canvasName);
     }
-    
+
     /**
      * If this canvas is a Split Canvas then it will contain one or more
      * canvases. this method will return a specific canvas properties for the
@@ -650,10 +652,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             return null;
         }
-        
+
         return _splitCanvasContainer.getCanvasProperties(canvasName);
     }
-    
+
     /**
      * Adds a canvas to this canvas group
      * 
@@ -667,7 +669,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _groupCanvasContainer.addCanvasProperties(canvasProperties);
         }
     }
-    
+
     /**
      * Adds a canvas to this canvas split
      * 
@@ -681,7 +683,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _splitCanvasContainer.addCanvasProperties(canvasProperties);
         }
     }
-    
+
     /**
      * If the canvas has been set as Horizontally Expandable, then the canvas
      * must be expanded if the user stretches the form. This is however
@@ -693,7 +695,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _expandHorizontally;
     }
-    
+
     /**
      * @param expand
      *            Sets the horizontally expandable flag for this canvas
@@ -702,7 +704,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _expandHorizontally = expand;
     }
-    
+
     /**
      * If the canvas has been set as Vertically Expandable, then the canvas must
      * be expanded if the user stretches the form. This is however dependent
@@ -712,7 +714,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _expandVertically;
     }
-    
+
     /**
      * @param expand
      *            The vertically expandable flag for this canvas
@@ -721,7 +723,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _expandVertically = expand;
     }
-    
+
     /**
      * @return Returns the display Frame flag of this canvas
      */
@@ -729,7 +731,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _displayGroupFrame;
     }
-    
+
     /**
      * Sets the display frame flag of this canvas
      * 
@@ -740,7 +742,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _displayGroupFrame = display;
     }
-    
+
     /**
      * @return Returns the height of this canvas
      */
@@ -748,7 +750,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _height;
     }
-    
+
     /**
      * @param height
      *            The height of this canvas
@@ -757,7 +759,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _height = height;
     }
-    
+
     /**
      * The horizontal span of this canvas
      * <p>
@@ -771,7 +773,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _horizontalSpan;
     }
-    
+
     /**
      * @param horizontalSpan
      *            The horizontalSpan of this block
@@ -782,7 +784,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _horizontalSpan = horizontalSpan;
     }
-    
+
     /**
      * The vertical span of this canvas
      * <p>
@@ -796,7 +798,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _verticalSpan;
     }
-    
+
     /**
      * @param verticalSpan
      *            The verticalSpan of this canvas
@@ -805,7 +807,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _verticalSpan = verticalSpan;
     }
-    
+
     /**
      * @return Returns the type of this canvas.
      */
@@ -813,7 +815,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _type;
     }
-    
+
     /**
      * Sets the type of this canvas
      * 
@@ -824,7 +826,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _type = type;
     }
-    
+
     /**
      * Sets the tab position for this canvas
      * <p>
@@ -843,7 +845,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _tabPosition = position;
     }
-    
+
     /**
      * Returns the position of the tab
      * 
@@ -854,7 +856,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _tabPosition;
     }
-    
+
     /**
      * Sets the split orientation for this canvas
      * <p>
@@ -869,7 +871,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _splitOrientation = position;
     }
-    
+
     /**
      * Returns the orientation of the split
      * 
@@ -880,7 +882,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _splitOrientation;
     }
-    
+
     /**
      * @return Returns the width of this canvas
      */
@@ -888,7 +890,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _width;
     }
-    
+
     /**
      * @param width
      *            The width of this canvas
@@ -897,7 +899,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _width = width;
     }
-    
+
     /**
      * The title that will be displayed on a popup canvas's window
      * 
@@ -907,7 +909,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _popupPageTitle;
     }
-    
+
     /**
      * Sets this cnavas's window title if this canvas is a popup canvas
      * <p>
@@ -929,10 +931,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             _basePopupPageTitle = name;
         }
-        
+
         _popupPageTitle = _basePopupPageTitle;
     }
-    
+
     /**
      * Returns the untranslated popup page title
      * <p>
@@ -944,7 +946,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _basePopupPageTitle;
     }
-    
+
     /**
      * Used to set the translated popup page title
      * <p>
@@ -959,7 +961,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _popupPageTitle = translatedPopupPageTitle;
     }
-    
+
     /**
      * The title that will be displayed on the canvas's frame if a frame is
      * displayed
@@ -970,7 +972,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _groupFrameTitle;
     }
-    
+
     /**
      * Sets this canvas's base frame title name
      * <p>
@@ -992,10 +994,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         {
             _baseGroupFrameTitle = name;
         }
-        
+
         _groupFrameTitle = _baseGroupFrameTitle;
     }
-    
+
     /**
      * Returns the untranslated group frame title
      * <p>
@@ -1007,7 +1009,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _baseGroupFrameTitle;
     }
-    
+
     /**
      * Used to set the translated group frame title
      * <p>
@@ -1022,7 +1024,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _groupFrameTitle = translatedGroupFrameTitle;
     }
-    
+
     /**
      * @return Returns the name of this canvas
      */
@@ -1030,18 +1032,17 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _name;
     }
-    
-    
+
     public void setParentCanvasContainer(EJCoreCanvasPropertiesContainer parentCanvasContainer)
     {
         this._parentCanvasContainer = parentCanvasContainer;
     }
-    
+
     public EJCoreCanvasPropertiesContainer getParentCanvasContainer()
     {
         return _parentCanvasContainer;
     }
-    
+
     @Override
     public int hashCode()
     {
@@ -1051,24 +1052,38 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         result = prime * result + ((_type == null) ? 0 : _type.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         EJCoreCanvasProperties other = (EJCoreCanvasProperties) obj;
         if (_name == null)
         {
-            if (other._name != null) return false;
+            if (other._name != null)
+                return false;
         }
-        else if (!_name.equals(other._name)) return false;
-        if (_type != other._type) return false;
+        else if (!_name.equals(other._name))
+            return false;
+        if (_type != other._type)
+            return false;
         return true;
     }
-    
-    
-    
-    
+
+    @Override
+    public String getReferredFormId()
+    {
+        return _referredFormId;
+    }
+
+    public void setReferredFormId(String referredFormId)
+    {
+        this._referredFormId = referredFormId;
+    }
+
 }

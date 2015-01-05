@@ -118,6 +118,7 @@ public class EJCoreObjectGroupDefinitionPropertiesHandler extends EJCoreProperti
                             EJCoreCanvasProperties coreCanvasProperties = (EJCoreCanvasProperties) canvas;
                             coreCanvasProperties.setWidth(canvasProperties.getWidth());
                             coreCanvasProperties.setHeight(canvasProperties.getHeight());
+                            coreCanvasProperties.setReferredFormId(canvasProperties.getReferredFormId());
                             coreCanvasProperties.setExpandHorizontally(canvasProperties.canExpandHorizontally());
                             coreCanvasProperties.setExpandVertically(canvasProperties.canExpandVertically());
                             coreCanvasProperties.setVerticalSpan(canvasProperties.getVerticalSpan());

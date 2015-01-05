@@ -29,7 +29,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
 {
     private EJCoreCanvasProperties         _canvasProperties;
     private EJCorePropertiesHandlerFactory _handlerFactory;
-    
+
     private static final String            ELEMENT_CANVAS               = "canvas";
     private static final String            ELEMENT_WIDTH                = "width";
     private static final String            ELEMENT_HEIGHT               = "height";
@@ -49,19 +49,20 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_TAB_PAGE             = "tabPage";
     private static final String            ELEMENT_STACKED_PAGE         = "stackedPage";
     private static final String            ELEMENT_INITIAL_STACKED_PAGE = "initialStackedPageName";
-    
+    private static final String            ELEMENT_REFERRED_FORM_ID     = "referredFormId";
+
     private boolean                        _canvasCreated               = false;
-    
+
     public EJCoreCanvasPropertiesHandler(EJCorePropertiesHandlerFactory handlerFactory)
     {
         _handlerFactory = handlerFactory;
     }
-    
+
     public EJCoreCanvasProperties getCanvasProperties()
     {
         return _canvasProperties;
     }
-    
+
     public void startLocalElement(String name, Attributes attributes) throws SAXException
     {
         if (name.equals(ELEMENT_TAB_PAGE))
@@ -78,10 +79,10 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             {
                 String canvasName = attributes.getValue("name");
                 String type = attributes.getValue("type");
-                
+
                 _canvasProperties = new EJCoreCanvasProperties(canvasName);
                 _canvasProperties.setType(EJCanvasType.valueOf(type));
-                
+
                 _canvasCreated = true;
             }
             else
@@ -90,7 +91,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             }
         }
     }
-    
+
     public void endLocalElement(String name, String value, String untrimmedValue)
     {
         if (name.equals(ELEMENT_WIDTH))
@@ -105,6 +106,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             if (value.length() > 0)
             {
                 _canvasProperties.setHeight(Integer.parseInt(value));
+            }
+        }
+        else if (name.equals(ELEMENT_REFERRED_FORM_ID))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.setReferredFormId(value);
             }
         }
         else if (name.equals(ELEMENT_NUM_COLS))
@@ -157,7 +165,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             _canvasProperties.setBaseGroupFrameTitle(value);
         }
-        
+
         else if (name.equals(ELEMENT_TAB_POSITION))
         {
             if (value != null && value.length() > 0)
@@ -191,14 +199,14 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             _canvasProperties.setBaseButtonThreeText(value);
         }
-        
+
         // If the element is CANVAS then, return to the parent handler
         if (name.equals(ELEMENT_CANVAS))
         {
             quitAsDelegate();
         }
     }
-    
+
     public void cleanUpAfterDelegate(String name, EJCorePropertiesTagHandler currentDelegate)
     {
         if (name.equals(ELEMENT_TAB_PAGE))
@@ -215,7 +223,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             EJCoreCanvasProperties canvas = ((EJCoreCanvasPropertiesHandler) currentDelegate).getCanvasProperties();
             canvas.setContentCanvasName(_canvasProperties.getName());
-            
+
             if (_canvasProperties.getType() == EJCanvasType.POPUP)
             {
                 _canvasProperties.addPopupCanvasProperties(canvas);
