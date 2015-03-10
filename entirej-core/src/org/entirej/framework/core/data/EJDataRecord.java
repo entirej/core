@@ -582,6 +582,21 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         return record;
     }
     
+    public EJDataRecord copyItemVAsToRecord(EJDataRecord record)
+    {
+        Iterator<EJDataItem> dataItems = getAllItems().iterator();
+        while (dataItems.hasNext())
+        {
+            EJDataItem item = dataItems.next();
+            if (record.containsItem(item.getName()))
+            {
+                EJDataItem dataItem = record.getItem(item.getName());
+                dataItem.setVisualAttribute(item.getVisualAttribute());
+            }
+        }
+        return record;
+    }
+    
     /**
      * Returns a copy of this record
      * 

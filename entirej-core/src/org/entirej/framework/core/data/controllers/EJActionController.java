@@ -1467,6 +1467,8 @@ public class EJActionController implements Serializable
     
     public void postChange(EJBlockController blockController, EJDataRecord record, EJScreenType screenType)
     {
+        
+        
         if (record.isChanged())
         {
             logger.trace("   -> record changed in action controller, making changes");
@@ -1483,6 +1485,7 @@ public class EJActionController implements Serializable
             else
             {
                 record.copyValuesToRecord(baseRecord);
+                record.copyItemVAsToRecord(baseRecord);
             }
            
             
@@ -1511,6 +1514,13 @@ public class EJActionController implements Serializable
         }
         else
         {
+            EJDataRecord baseRecord = record.getBaseRecord();
+            if(baseRecord!=null)
+            {
+                record.copyItemVAsToRecord(baseRecord);
+                
+            }
+            
             logger.trace("   -> record not changed in action controller, no changes to make");
         }
     }

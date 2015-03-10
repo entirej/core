@@ -135,6 +135,11 @@ public class EJDataItem implements Serializable
         
         _vaProperties = vaProperties;
     }
+    public void setVisualAttribute(EJCoreVisualAttributeProperties vaProperties)
+    {
+       
+        _vaProperties = vaProperties;
+    }
     
     public EJCoreVisualAttributeProperties getVisualAttribute()
     {
