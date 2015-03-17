@@ -134,6 +134,7 @@ public class EJFormController implements Serializable
         for (EJInternalFormParameter parameter : _dataForm.getProperties().getAllFormParameters())
         {
             EJFormParameter listParameter = new EJFormParameter(parameter.getName(), parameter.getDataType());
+            listParameter.setValue(parameter.getValue());
             list.addParameter(listParameter);
         }
         _parameterList = list;
