@@ -92,10 +92,19 @@ public class EJDataHelper
             // to retrieve the block_item value from the displayed screen if the
             // block displayed is the same as the block from which I should
             // retrieve the default value
-            if (itemLovController != null)
+            if (itemLovController != null && blockName.equals(itemLovController.getItemToValidate().getBlock()))
             {
                 logger.trace("Getting parameter for screen: {}", itemLovController.getItemToValidate().getScreenType());
                 EJDataRecord dataRecord = null; 
+                logger.trace("Getting parameter for LOV: Block: "+blockName);
+                
+                EJBlock block = form.getBlock(blockName);
+                if (block == null)
+                {
+                    throw new EJApplicationException(new EJMessage(form,
+                            "Trying to retrieve a default value from a Block.Item value: " + blockName + "." + itemName
+                                    + ", but there is not a block with the given name within this form: "+form.getProperties().getName()));
+                }
                 switch (itemLovController.getItemToValidate().getScreenType())
                 {
                     case INSERT:
