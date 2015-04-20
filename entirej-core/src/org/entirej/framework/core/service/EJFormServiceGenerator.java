@@ -200,12 +200,13 @@ public class EJFormServiceGenerator implements EJServiceContentGenerator
                 fileBuilder.append("recordsProcessed += _statementExecutor.executeInsert(form, \"").append(type.getTableName()).append("\", parameters.toArray(paramArray));\n");
                 fileBuilder.append("record.clearInitialValues();\n");
                 fileBuilder.append("}\n");
+                fileBuilder.append("if (recordsProcessed != newRecords.size()) {");
+                fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in insert. Expected: \"+newRecords.size()+\". Inserted: \"+recordsProcessed);");
+                
+                fileBuilder.append("}");
             }
-            
-            fileBuilder.append("if (recordsProcessed != newRecords.size()) {");
-            fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in insert. Expected: \"+newRecords.size()+\". Inserted: \"+recordsProcessed);");
-            
-            fileBuilder.append("} }\n\n");
+            fileBuilder.append("}\n\n");
+           
             
             fileBuilder.append("@Override\n");
             fileBuilder.append("public void executeUpdate(EJForm form, List<").append(pojoName).append("> updateRecords)\n");
@@ -257,12 +258,13 @@ public class EJFormServiceGenerator implements EJServiceContentGenerator
                         .append("\", criteria, parameters.toArray(paramArray));\n");
                 fileBuilder.append("record.clearInitialValues();\n");
                 fileBuilder.append("}\n");
+                fileBuilder.append("if (recordsProcessed != updateRecords.size()) {");
+                fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in update. Expected: \"+updateRecords.size()+\". Updated: \"+recordsProcessed);");
+                
+                fileBuilder.append("}");
             }
-            fileBuilder.append("if (recordsProcessed != updateRecords.size()) {");
-            fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in update. Expected: \"+updateRecords.size()+\". Updated: \"+recordsProcessed);");
             
-            fileBuilder.append("} }\n\n");
-            
+            fileBuilder.append(" }\n\n");
             
             fileBuilder.append("@Override\n");
             fileBuilder.append("public void executeDelete(EJForm form, List<").append(pojoName).append("> recordsToDelete)\n");
@@ -299,11 +301,13 @@ public class EJFormServiceGenerator implements EJServiceContentGenerator
                         .append("\", criteria, parameters.toArray(paramArray));\n");
                 fileBuilder.append("record.clearInitialValues();\n");
                 fileBuilder.append("}\n");
+                fileBuilder.append("if (recordsProcessed != recordsToDelete.size()) {");
+                fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in delete. Expected: \"+recordsToDelete.size()+\". Deleted: \"+recordsProcessed);");
+                
+                fileBuilder.append("}");
             }
-            fileBuilder.append("if (recordsProcessed != recordsToDelete.size()) {");
-            fileBuilder.append("throw new EJApplicationException(\"Unexpected amount of records processed in delete. Expected: \"+recordsToDelete.size()+\". Deleted: \"+recordsProcessed);");
             
-            fileBuilder.append("} }\n\n");
+            fileBuilder.append("}\n\n");
             
             fileBuilder.append("\n}");
             
