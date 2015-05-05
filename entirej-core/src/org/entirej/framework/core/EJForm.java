@@ -783,6 +783,13 @@ public class EJForm implements EJFrameworkHelper
     public void runReport(String reportName){
         _form.getFrameworkManager().runReport(reportName);
     }
+    public String generateReport(String reportName, EJParameterList parameterList){
+        return _form.getFrameworkManager().generateReport(reportName,parameterList);
+    }
+    
+    public String generateReport(String reportName){
+        return _form.getFrameworkManager().generateReport(reportName);
+    }
 
     
     /**

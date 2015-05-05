@@ -408,6 +408,13 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     public void runReport(String reportName){
         getApplicationManager().runReport(reportName);
     }
+    public String generateReport(String reportName, EJParameterList parameterList){
+        return getApplicationManager().generateReport(reportName, parameterList);
+    }
+    
+    public String generateReport(String reportName){
+       return getApplicationManager().generateReport(reportName);
+    }
 
     /**
      * Informs the application manager to open a popup form
