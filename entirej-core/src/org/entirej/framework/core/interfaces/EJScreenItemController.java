@@ -30,6 +30,7 @@ import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
+import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 
 public interface EJScreenItemController extends Serializable
 {
@@ -69,6 +70,15 @@ public interface EJScreenItemController extends Serializable
      *         no lov defined
      */
     public EJItemLovController getItemLovController();
+    
+    
+    /**
+     * update current items lov controller
+     * 
+     * 
+     */
+    public void setItemLovController(String lovMapping);
+    
     
     /**
      * Returns the properties of the block item that is referenced by this
@@ -212,4 +222,9 @@ public interface EJScreenItemController extends Serializable
      *         otherwise <code>false</code>
      */
     public boolean isSpacerItem();
+    
+    
+    public void initialise(EJBlockItemRendererRegister blockItemRegister);
+    
+    public EJBlockItemRendererRegister getItemRendererRegister();
 }

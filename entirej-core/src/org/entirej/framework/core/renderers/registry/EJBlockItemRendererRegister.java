@@ -317,7 +317,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         
         if (item.getItemLovController() != null)
         {
-            item.getItemLovController().initialise(this);
+            item.initialise(this);
         }
     }
     
@@ -348,7 +348,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             renderer.setVisible(true);
             renderer.setEditAllowed(editAllowed);
             
-            if (item.getItemLovController() != null && itemProps.isLovNotificationEnabled())
+            if (item.getItemLovController() != null)
             {
                 renderer.enableLovActivation(true);
             }
@@ -468,7 +468,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             
             EJManagedItemRendererWrapper renderer = _itemRendererMap.get(item.getProperties().getReferencedItemName());
             
-            if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
+            if (renderer != null && item.getItemLovController() != null )
             {
                 fireLovValidate(item, changedRenderer.getValue());
             }

@@ -340,6 +340,10 @@ public class EJCoreItemProperties implements EJItemProperties
     {
         return _lovMappingPropertiesOnInsert;
     }
+    public EJCoreLovMappingProperties getLovMappingPropertiesByName(String lovMapping)
+    {
+        return _blockProperties.getLovMappingContainer().getLovMappingProperties(lovMapping);
+    }
     
     public void setLovMappingNameOnInsert(String lovMappingName)
     {

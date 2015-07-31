@@ -36,12 +36,8 @@ public class EJItemLovController implements Serializable
     private EJCoreLovMappingProperties  _mappingProperties;
     private EJScreenItemController      _item;
     private EJLovController             _lovController;
-    private EJBlockItemRendererRegister _blockItemRegister;
     
-    public EJItemLovController(EJFormController formController, EJScreenItemController item)
-    {
-        this(formController, item, null);
-    }
+   
     
     public EJItemLovController(EJFormController formController, EJScreenItemController item, EJCoreLovMappingProperties mappingProperties)
     {
@@ -56,7 +52,7 @@ public class EJItemLovController implements Serializable
     
     EJBlockItemRendererRegister getItemRendererRegister()
     {
-        return _blockItemRegister;
+        return _item.getItemRendererRegister();
     }
     
     public EJScreenItemController getItemToValidate()
@@ -69,10 +65,7 @@ public class EJItemLovController implements Serializable
         return _lovController.getManagedRendererController();
     }
     
-    public void initialise(EJBlockItemRendererRegister blockItemRegister)
-    {
-        _blockItemRegister = blockItemRegister;
-    }
+   
     
     public EJCoreLovDefinitionProperties getLovDefinitionProperties()
     {
@@ -115,21 +108,14 @@ public class EJItemLovController implements Serializable
      */
     public void displayLov(EJLovDisplayReason displayReason)
     {
-        // An item can have lov notification enabled but not actually have an
-        // lov behind it. If this is the case, call the action processor to
-        // inform the developer that the lov has been activated but don't
-        // execute any lov.
-        if (getScreenProperties().isLovNotificationEnabled())
+        if(_mappingProperties != null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, displayReason);
         }
         
-        if (!isLovActivationEnabled())
-        {
-            return;
-        }
+       
         
         if (_lovController != null)
         {
@@ -137,15 +123,7 @@ public class EJItemLovController implements Serializable
         }
     }
     
-    public boolean isLovActivationEnabled()
-    {
-        EJScreenItemProperties props = getScreenProperties();
-        if (props != null && props.getLovMappingName() != null)
-        {
-            return true;
-        }
-        return false;
-    }
+   
     
     private EJScreenItemProperties getScreenProperties()
     {
@@ -154,21 +132,21 @@ public class EJItemLovController implements Serializable
     
     public void validateItem(Object value)
     {
-        if (getScreenProperties().isLovNotificationEnabled())
+        if (_mappingProperties!=null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, EJLovDisplayReason.VALIDATE);
         }
         
-        if (!isLovActivationEnabled() || _mappingProperties == null)
+        if ( _mappingProperties == null)
         {
             return;
         }
         
         if (value == null)
         {
-            _lovController.clearAllValues(_blockItemRegister, _mappingProperties, _item);
+            _lovController.clearAllValues(getItemRendererRegister(), _mappingProperties, _item);
             notifyLovCompleted(false);
             return;
         }
@@ -179,12 +157,12 @@ public class EJItemLovController implements Serializable
         }
         
         String lovDefItemName = _mappingProperties.getLovDefinitionItemForBlockItem(_item.getReferencedItemProperties().getName());
-        _lovController.validateItem(_blockItemRegister, _mappingProperties, _item, value, lovDefItemName);
+        _lovController.validateItem(getItemRendererRegister(), _mappingProperties, _item, value, lovDefItemName);
     }
     
     private void notifyLovCompleted(boolean valueChosen)
     {
-        if (getScreenProperties().isLovNotificationEnabled())
+        if (_mappingProperties!=null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));

@@ -27,12 +27,14 @@ import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.internal.EJInternalBlock;
 import org.entirej.framework.core.internal.EJInternalForm;
 import org.entirej.framework.core.properties.EJCoreItemProperties;
+import org.entirej.framework.core.properties.EJCoreLovMappingProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
+import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
 
 public class EJUpdateScreenItemController implements EJScreenItemController, Comparable<EJUpdateScreenItemController>
@@ -46,6 +48,7 @@ public class EJUpdateScreenItemController implements EJScreenItemController, Com
     private ArrayList<EJItemFocusListener>        _updateScreenItemFocusedListeners;
     
     private EJItemLovController                   _itemLovController;
+    private EJBlockItemRendererRegister           _blockItemRegister;
     
     public EJUpdateScreenItemController(EJBlockController blockController, EJCoreItemProperties itemProperties)
     {
@@ -62,6 +65,40 @@ public class EJUpdateScreenItemController implements EJScreenItemController, Com
         {
             _itemLovController = new EJItemLovController(_blockController.getFormController(), this, _itemProperties.getLovMappingPropertiesOnUpdate());
         }
+    }
+    
+    public void initialise(EJBlockItemRendererRegister blockItemRegister)
+    {
+        _blockItemRegister = blockItemRegister;
+    }
+    
+    @Override
+    public EJBlockItemRendererRegister getItemRendererRegister()
+    {
+        return _blockItemRegister;
+    }
+    
+    
+    @Override
+    public void setItemLovController(String lovMapping)
+    {
+        if (lovMapping == null)
+        {
+            _itemLovController = null;
+        }
+        else
+        {
+            EJCoreLovMappingProperties mappingPropertiesByName = _itemProperties.getLovMappingPropertiesByName(lovMapping);
+            if (mappingPropertiesByName == null)
+            {
+                _itemLovController = null;
+            }
+            else
+            {
+                _itemLovController = new EJItemLovController(_blockController.getFormController(), this, mappingPropertiesByName);
+            }
+        }
+
     }
     
     @Override

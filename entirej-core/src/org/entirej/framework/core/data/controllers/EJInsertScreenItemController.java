@@ -28,15 +28,17 @@ import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.internal.EJInternalBlock;
 import org.entirej.framework.core.internal.EJInternalForm;
 import org.entirej.framework.core.properties.EJCoreItemProperties;
+import org.entirej.framework.core.properties.EJCoreLovMappingProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
+import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
 
-public class EJInsertScreenItemController implements EJScreenItemController, Comparable<EJInsertScreenItemController> , Serializable
+public class EJInsertScreenItemController implements EJScreenItemController, Comparable<EJInsertScreenItemController>, Serializable
 {
     private EJBlockController                     _blockController;
     private EJFrameworkManager                    _frameworkManager;
@@ -45,9 +47,9 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     private EJManagedItemRendererWrapper          _insertScreenItemRenderer;
     private ArrayList<EJItemValueChangedListener> _insertScreenItemValueChangedListeners;
     private ArrayList<EJItemFocusListener>        _insertScreenItemFocusedListeners;
-    
+
     private EJItemLovController                   _itemLovController;
-    
+    EJBlockItemRendererRegister                   _blockItemRegister; 
     public EJInsertScreenItemController(EJBlockController blockController, EJCoreItemProperties itemProperties)
     {
         _blockController = blockController;
@@ -55,44 +57,77 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
         _itemProperties = itemProperties;
         _insertScreenItemProps = _blockController.getProperties().getScreenItemGroupContainer(EJScreenType.INSERT)
                 .getScreenItemProperties(_itemProperties.getName());
-        
+
         _insertScreenItemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
         _insertScreenItemFocusedListeners = new ArrayList<EJItemFocusListener>();
-        
+
         if (_insertScreenItemProps.isLovNotificationEnabled())
         {
             _itemLovController = new EJItemLovController(_blockController.getFormController(), this, _itemProperties.getLovMappingPropertiesOnInsert());
         }
     }
+
+    public void initialise(EJBlockItemRendererRegister blockItemRegister)
+    {
+        _blockItemRegister = blockItemRegister;
+    }
     
+    @Override
+    public EJBlockItemRendererRegister getItemRendererRegister()
+    {
+        return _blockItemRegister;
+    }
+    
+    @Override
+    public void setItemLovController(String lovMapping)
+    {
+        if (lovMapping == null)
+        {
+            _itemLovController = null;
+        }
+        else
+        {
+            EJCoreLovMappingProperties mappingPropertiesByName = _itemProperties.getLovMappingPropertiesByName(lovMapping);
+            if (mappingPropertiesByName == null)
+            {
+                _itemLovController = null;
+            }
+            else
+            {
+                _itemLovController = new EJItemLovController(_blockController.getFormController(), this, mappingPropertiesByName);
+            }
+        }
+
+    }
+
     @Override
     public String getName()
     {
         return getReferencedItemProperties().getName();
     }
-    
+
     @Override
     public EJScreenType getScreenType()
     {
         return EJScreenType.INSERT;
     }
-    
+
     @Override
     public void gainFocus()
     {
         _insertScreenItemRenderer.gainFocus();
     }
-    
+
     public EJInternalForm getForm()
     {
         return _blockController.getBlock().getForm();
     }
-    
+
     public EJInternalBlock getBlock()
     {
         return _blockController.getBlock();
     }
-    
+
     /**
      * Returns the controller responsible for the form
      * 
@@ -102,32 +137,32 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         return _blockController.getFormController();
     }
-    
+
     public EJBlockController getBlockController()
     {
         return _blockController;
     }
-    
+
     public EJFrameworkManager getFrameworkManager()
     {
         return _frameworkManager;
     }
-    
+
     public EJItemLovController getItemLovController()
     {
         return _itemLovController;
     }
-    
+
     public EJCoreItemProperties getReferencedItemProperties()
     {
         return _itemProperties;
     }
-    
+
     public EJScreenItemProperties getProperties()
     {
         return _insertScreenItemProps;
     }
-    
+
     /**
      * Initialises the renderer for this item
      */
@@ -142,7 +177,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             }
         }
     }
-    
+
     /**
      * Returns the managed insert screen item renderer for this item
      * 
@@ -159,7 +194,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             return null;
         }
     }
-    
+
     /**
      * Returns the insert screen item renderer for this item
      * 
@@ -176,7 +211,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             return null;
         }
     }
-    
+
     public void executeActionCommand()
     {
         try
@@ -194,7 +229,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
                     {
                         return;
                     }
-                    
+
                     _blockController.executeActionCommand(actionCommand, EJScreenType.INSERT);
                 }
             }
@@ -204,7 +239,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     /**
      * Adds an <code>EJItemFocusListener</code> to this renderer
      * <p>
@@ -219,7 +254,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         _insertScreenItemFocusedListeners.add(listener);
     }
-    
+
     /**
      * Removes an <code>EJItemFocusListener</code> from this renderer
      * 
@@ -230,7 +265,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         _insertScreenItemFocusedListeners.remove(listener);
     }
-    
+
     /**
      * Adds a Insert Screen <code>ItemChangedListener</code> to this renderer
      * <p>
@@ -244,7 +279,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         _insertScreenItemValueChangedListeners.add(listener);
     }
-    
+
     /**
      * Removes an <code>EJItemValueChangedListener</code> from this renderer
      * 
@@ -255,7 +290,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         _insertScreenItemValueChangedListeners.remove(listener);
     }
-    
+
     public void itemValueChaged()
     {
         try
@@ -274,7 +309,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     public void itemFocusGained()
     {
         try
@@ -292,7 +327,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     public void itemFocusLost()
     {
         try
@@ -310,7 +345,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     /**
      * Indicates if this item is to be made visible
      * <p>
@@ -322,7 +357,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         return _insertScreenItemProps.isVisible();
     }
-    
+
     /**
      * Indicates of the screen item controlled by this controller is a spacer
      * item
@@ -334,7 +369,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         return _insertScreenItemProps.isSpacerItem();
     }
-    
+
     /**
      * Indicates if this screen item should be validated agains the lov values
      * 
@@ -345,7 +380,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         return _insertScreenItemProps.validateFromLov();
     }
-    
+
     @Override
     public int hashCode()
     {
@@ -354,31 +389,36 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
         result = prime * result + ((_itemProperties == null) ? 0 : _itemProperties.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
-        if (this == obj) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         EJInsertScreenItemController other = (EJInsertScreenItemController) obj;
         if (_itemProperties == null)
         {
-            if (other._itemProperties != null) return false;
+            if (other._itemProperties != null)
+                return false;
         }
-        else if (!_itemProperties.equals(other._itemProperties)) return false;
+        else if (!_itemProperties.equals(other._itemProperties))
+            return false;
         return true;
     }
-    
+
     public int compareTo(EJInsertScreenItemController controller)
     {
         if (controller == null)
         {
             return -1;
         }
-        
+
         return _itemProperties.getName().toUpperCase().compareTo(controller.getReferencedItemProperties().getName().toUpperCase());
-        
+
     }
-    
+
 }

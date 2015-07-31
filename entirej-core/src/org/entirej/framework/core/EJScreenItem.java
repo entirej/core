@@ -142,7 +142,7 @@ public class EJScreenItem
      */
     public boolean isLovNotificationEnabled()
     {
-        return _item.getProperties().isLovNotificationEnabled();
+        return _item.getItemLovController()!=null;
     }
 
     /**
