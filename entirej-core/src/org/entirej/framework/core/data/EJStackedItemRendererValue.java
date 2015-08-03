@@ -4,25 +4,9 @@ import org.entirej.framework.core.enumerations.EJStackedItemRendererType;
 
 public class EJStackedItemRendererValue
 {
-    private EJStackedItemRendererType type        = EJStackedItemRendererType.SPACER;
-    private Object                    value;
-    private String                    label;
-    private String                    tooltip;
-    private String                    lovMapping;
-    private String                    actionCommand;
-    private boolean                   validateLov = true;
 
-    private String                    format;
-
-    public void setType(EJStackedItemRendererType type)
-    {
-        this.type = type;
-    }
-
-    public EJStackedItemRendererType getType()
-    {
-        return type;
-    }
+    private EJStackedItemRendererConfig config = new EJStackedItemRendererConfig.Spacer();
+    private Object                      value;
 
     public Object getValue()
     {
@@ -34,64 +18,14 @@ public class EJStackedItemRendererValue
         this.value = value;
     }
 
-    public String getLabel()
+    public EJStackedItemRendererConfig getConfig()
     {
-        return label;
+        return config;
     }
 
-    public void setLabel(String label)
+    public void setConfig(EJStackedItemRendererConfig config)
     {
-        this.label = label;
-    }
-
-    public String getTooltip()
-    {
-        return tooltip;
-    }
-
-    public void setTooltip(String tooltip)
-    {
-        this.tooltip = tooltip;
-    }
-
-    public String getLovMapping()
-    {
-        return lovMapping;
-    }
-
-    public void setLovMapping(String lovMapping)
-    {
-        this.lovMapping = lovMapping;
-    }
-
-    public String getActionCommand()
-    {
-        return actionCommand;
-    }
-
-    public void setActionCommand(String actionCommand)
-    {
-        this.actionCommand = actionCommand;
-    }
-
-    public boolean isValidateLov()
-    {
-        return validateLov;
-    }
-
-    public void setValidateLov(boolean validateLov)
-    {
-        this.validateLov = validateLov;
-    }
-
-    public String getFormat()
-    {
-        return format;
-    }
-
-    public void setFormat(String format)
-    {
-        this.format = format;
+        this.config = config;
     }
 
     @Override
@@ -99,7 +33,7 @@ public class EJStackedItemRendererValue
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
@@ -114,8 +48,7 @@ public class EJStackedItemRendererValue
         if (getClass() != obj.getClass())
             return false;
         EJStackedItemRendererValue other = (EJStackedItemRendererValue) obj;
-        if (type != other.type)
-            return false;
+
         if (value == null)
         {
             if (other.value != null)
@@ -125,7 +58,5 @@ public class EJStackedItemRendererValue
             return false;
         return true;
     }
-    
-    
 
 }
