@@ -20,5 +20,5 @@ package org.entirej.framework.core.enumerations;
 
 public enum EJCanvasSplitOrientation
 {
-    HORIZONTAL,VERTICAL
+    HORIZONTAL,VERTICAL;
 }

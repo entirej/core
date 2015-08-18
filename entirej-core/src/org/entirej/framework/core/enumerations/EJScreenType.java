@@ -20,5 +20,5 @@ package org.entirej.framework.core.enumerations;
 
 public enum EJScreenType
 {
-    MAIN ,QUERY ,INSERT ,UPDATE
+    MAIN ,QUERY ,INSERT ,UPDATE;
 }

@@ -20,5 +20,10 @@ package org.entirej.framework.core.enumerations;
 
 public enum EJFontStyle
 {
-    Unspecified, Plain, Italic, Underline
+    Unspecified, Plain, Italic, Underline;
+    
+    public String toString()
+    {
+        return super.toString();
+    }
 }
