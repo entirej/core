@@ -34,35 +34,35 @@ import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister
 
 public interface EJScreenItemController extends Serializable
 {
-    
+
     /**
      * Returns the name of this item
      * 
      * @return The name of this item
      */
     public String getName();
-    
+
     /**
      * Returns the {@link EJScreenType} on which this item is displayed
      * 
      * @return The type of screen upon which this item is displayed
      */
     public EJScreenType getScreenType();
-    
+
     /**
      * Return the form on which this item is placed
      * 
      * @return This items form
      */
     public EJInternalForm getForm();
-    
+
     /**
      * Returns the block to which this item belongs
      * 
      * @return The block to which this item belongs
      */
     public EJInternalBlock getBlock();
-    
+
     /**
      * Return this items lov controller
      * 
@@ -70,16 +70,16 @@ public interface EJScreenItemController extends Serializable
      *         no lov defined
      */
     public EJItemLovController getItemLovController();
-    
-    
+
     /**
-     * update current items lov controller
+     * update current items lov mapping
      * 
+     * @param lovMapping
+     *            The name of the mapping to set
      * 
      */
-    public void setItemLovController(String lovMapping);
-    
-    
+    public void setItemLovMapping(String lovMapping);
+
     /**
      * Returns the properties of the block item that is referenced by this
      * screen item
@@ -87,40 +87,40 @@ public interface EJScreenItemController extends Serializable
      * @return The properties of the block item that is referenced by this item
      */
     public EJItemProperties getReferencedItemProperties();
-    
+
     /**
      * Returns the screen item properties of this item
      * 
      * @return The properties of this screen item
      */
     public EJScreenItemProperties getProperties();
-    
+
     /**
      * Initializes the renderer for this item
      * 
      * @throws EJItemRendererException
      */
     public void initialiseRenderer();
-    
+
     /**
      * Returns the managed item renderer for this item
      * 
      * @return The managed item renderer
      */
     public EJManagedItemRendererWrapper getManagedItemRenderer();
-    
+
     /**
      * Indicates that this item should gain focus
      */
     public void gainFocus();
-    
+
     /**
      * Returns the item renderer for this item
      * 
      * @return The item renderer
      */
     public EJItemRenderer getItemRenderer();
-    
+
     /**
      * Indicates to this item that it should execute its action command if it
      * has one enabled
@@ -133,7 +133,7 @@ public interface EJScreenItemController extends Serializable
      * has been pressed
      */
     public void executeActionCommand();
-    
+
     /**
      * Adds am <code>ItemFocusedListener</code> to this renderer
      * <p>
@@ -145,7 +145,7 @@ public interface EJScreenItemController extends Serializable
      *            The focus listener
      */
     public void addItemFocusListener(EJItemFocusListener listener);
-    
+
     /**
      * Removes an <code>EJItemFocusListener</code> from this renderer
      * 
@@ -153,7 +153,7 @@ public interface EJScreenItemController extends Serializable
      *            The focus listener
      */
     public void removeItemFocusListener(EJItemFocusListener listener);
-    
+
     /**
      * Adds an <code>ItemChangedListener</code> to this renderer
      * <p>
@@ -164,7 +164,7 @@ public interface EJScreenItemController extends Serializable
      *            The value changed listener
      */
     public void addItemValueChangedListener(EJItemValueChangedListener listener);
-    
+
     /**
      * Removes an <code>EJItemValueChangedListener</code> from this renderer
      * 
@@ -172,7 +172,7 @@ public interface EJScreenItemController extends Serializable
      *            The value changed listener
      */
     public void removeItemValueChangedListener(EJItemValueChangedListener listener);
-    
+
     /**
      * Indicates that this items value has been modified
      * <p>
@@ -180,7 +180,7 @@ public interface EJScreenItemController extends Serializable
      * EntireJ can then inform any registered action processors of the change
      */
     public void itemValueChaged();
-    
+
     /**
      * Indicates that this item has gained focus
      * <p>
@@ -188,7 +188,7 @@ public interface EJScreenItemController extends Serializable
      * can then inform all focus listeners of the event
      */
     public void itemFocusGained();
-    
+
     /**
      * Indicates that this item has lost focus
      * <p>
@@ -196,7 +196,7 @@ public interface EJScreenItemController extends Serializable
      * can then inform all focus listeners of the event
      */
     public void itemFocusLost();
-    
+
     /**
      * Indicates if this item is to be made visible
      * <p>
@@ -205,7 +205,7 @@ public interface EJScreenItemController extends Serializable
      *         <code>false</code>
      */
     public abstract boolean isVisible();
-    
+
     /**
      * Indicates if this screen item should be validated against the lov values
      * 
@@ -213,7 +213,7 @@ public interface EJScreenItemController extends Serializable
      *         values otherwise <code>false</code>
      */
     public boolean validateFromLov();
-    
+
     /**
      * Indicates of the screen item controlled by this controller is a spacer
      * item
@@ -222,9 +222,8 @@ public interface EJScreenItemController extends Serializable
      *         otherwise <code>false</code>
      */
     public boolean isSpacerItem();
-    
-    
+
     public void initialise(EJBlockItemRendererRegister blockItemRegister);
-    
+
     public EJBlockItemRendererRegister getItemRendererRegister();
 }

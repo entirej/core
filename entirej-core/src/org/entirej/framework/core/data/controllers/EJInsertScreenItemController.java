@@ -49,7 +49,8 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     private ArrayList<EJItemFocusListener>        _insertScreenItemFocusedListeners;
 
     private EJItemLovController                   _itemLovController;
-    EJBlockItemRendererRegister                   _blockItemRegister; 
+    private EJBlockItemRendererRegister           _blockItemRegister; 
+    
     public EJInsertScreenItemController(EJBlockController blockController, EJCoreItemProperties itemProperties)
     {
         _blockController = blockController;
@@ -79,7 +80,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     }
     
     @Override
-    public void setItemLovController(String lovMapping)
+    public void setItemLovMapping(String lovMapping)
     {
         if (lovMapping == null)
         {

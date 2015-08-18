@@ -44,11 +44,11 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
     private EJFrameworkManager                            _frameworkManager;
     private HashMap<String, EJManagedItemRendererWrapper> _itemRendererMap;
     private EJDataRecord                                  _registeredRecord;
-    
+
     private EJBlockController                             _blockController;
     private boolean                                       _itemChanged = false;
     private boolean                                       _validate    = true;
-    
+
     public EJBlockItemRendererRegister(EJBlockController blockController)
     {
         _blockController = blockController;
@@ -62,7 +62,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             register(currentRecord);
         }
     }
-    
+
     /**
      * Used to clear and reset the register
      * <p>
@@ -76,7 +76,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         _itemChanged = false;
         _validate = true;
     }
-    
+
     public void register(EJDataRecord record)
     {
         try
@@ -92,9 +92,9 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             _itemChanged = false;
         }
-        
+
     }
-    
+
     public void addItemValueChangedListener(EJItemValueChangedListener listener)
     {
         if (listener != null)
@@ -102,7 +102,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             _valueChangedListeners.add(listener);
         }
     }
-    
+
     public void removeItemValueChangedListener(EJItemValueChangedListener listener)
     {
         if (listener != null)
@@ -110,7 +110,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             _valueChangedListeners.remove(listener);
         }
     }
-    
+
     protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
         for (EJItemValueChangedListener listener : _valueChangedListeners)
@@ -118,12 +118,12 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             listener.valueChanged(item, changedRenderer);
         }
     }
-    
+
     protected EJBlockController getBlockController()
     {
         return _blockController;
     }
-    
+
     public EJDataRecord getRegisteredRecord()
     {
         // Ensure all screen items are in the registered record before returning
@@ -145,7 +145,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
         return _registeredRecord;
     }
-    
+
     /**
      * Returns the registered item renderer for a given item properties
      * 
@@ -161,7 +161,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
     {
         return _itemRendererMap.get(itemName);
     }
-    
+
     /**
      * Returns the registered item renderer for a given item properties
      * 
@@ -180,10 +180,10 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             return wrapper.getUnmanagedRenderer();
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns a <code>Collection</code> of all registered renderers
      * 
@@ -193,7 +193,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
     {
         return _itemRendererMap.values();
     }
-    
+
     /**
      * Indicates if any one of the items have changed.
      * 
@@ -203,7 +203,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
     {
         return _itemChanged;
     }
-    
+
     /**
      * Copies all values from the given record to the enabled record
      * <p>
@@ -220,13 +220,13 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             return;
         }
-        
+
         // I only need to change item renderers if the record changed is the
         // same as the registered record
-        if (!(record == _registeredRecord || record.getBaseRecord() == _registeredRecord) )
+        if (!(record == _registeredRecord || record.getBaseRecord() == _registeredRecord))
         {
             return;
-            
+
         }
         EJManagedItemRendererWrapper renderer;
         for (String itemName : _itemRendererMap.keySet())
@@ -239,13 +239,13 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
         _itemChanged = true;
     }
-    
+
     /**
      * Sets each registered item renderers display properties according to its
      * item properties
      */
     public abstract void initialiseRegisteredRenderers();
-    
+
     /**
      * Clears all registered renderers of their current values and removes the
      * registered record
@@ -262,7 +262,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             _registeredRecord = null;
         }
-        
+
         try
         {
             for (EJManagedItemRendererWrapper renderer : _itemRendererMap.values())
@@ -275,7 +275,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             _itemChanged = false;
         }
     }
-    
+
     /**
      * Registers a given renderer for the specified item
      * <p>
@@ -304,20 +304,23 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             throw new NullPointerException("The renderer passed to registerRendererForItem is null. Item: " + item.getName());
         }
-        
+
         // Create a wrapper around the renderer which will catch and handle any
         // exceptions
         EJManagedItemRendererWrapper wrapper = new EJManagedItemRendererWrapper(_frameworkManager, renderer);
         wrapper.setRegisteredItemName(item.getName());
-        
+
         if (!item.isSpacerItem())
         {
             _itemRendererMap.put(item.getName(), wrapper);
         }
-        
-        item.initialise(this);
+
+        if (item.getItemLovController() != null)
+        {
+            item.initialise(this);
+        }
     }
-    
+
     /**
      * Enables an item according to its properties
      * 
@@ -333,19 +336,19 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             return;
         }
-        
+
         boolean editAllowed = itemProps.isEditAllowed();
-        
+
         EJScreenItemController item = getBlockController().getScreenItem(screenType, itemProps.getReferencedItemName());
-        
+
         EJManagedItemRendererWrapper renderer = getManagedItemRendererForItem(itemProps.getReferencedItemName());
-        
+
         if (item != null && renderer != null)
         {
             renderer.setVisible(true);
             renderer.setEditAllowed(editAllowed);
-            
-            if (item.getItemLovController() != null)
+
+            if (item.getItemLovController() != null && itemProps.isLovNotificationEnabled())
             {
                 renderer.enableLovActivation(true);
             }
@@ -355,7 +358,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             throw new IllegalArgumentException("There is no renderer registered for the item: " + itemProps.getReferencedItemName());
         }
     }
-    
+
     /**
      * Sets the enabled record and the correct item renderer to the given value
      * 
@@ -386,9 +389,9 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             throw new IllegalArgumentException("There is no item within the record with the specified name: " + itemName);
         }
-        
+
         _registeredRecord.getItem(itemName).setValue(value);
-        
+
         // If the item being set is also displayed, then set the display
         // items value
         EJScreenItemController item = _blockController.getScreenItem(screenType, itemName);
@@ -401,7 +404,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
         _itemChanged = true;
     }
-    
+
     /**
      * Sets the enabled record and the correct item renderer to the given value
      * without performing item validation if the item has an lov
@@ -432,9 +435,9 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         {
             throw new IllegalArgumentException("There is no item within the record with the specified name: " + itemName);
         }
-        
+
         _registeredRecord.getItem(itemName).setValue(value);
-        
+
         try
         {
             _validate = false;
@@ -455,33 +458,33 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
         _itemChanged = true;
     }
-    
+
     public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
         if (_validate)
         {
             _itemChanged = true;
             _blockController.itemValueChanged(item, changedRenderer);
-            
+
             EJManagedItemRendererWrapper renderer = _itemRendererMap.get(item.getProperties().getReferencedItemName());
-            
-            if (renderer != null && item.getItemLovController() != null )
+
+            if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
             {
                 fireLovValidate(item, changedRenderer.getValue());
             }
         }
     }
-    
+
     public void validateItem(EJItemRenderer item, EJScreenType screenType)
     {
         try
         {
             EJDataRecord dataRecordForUpdate = _blockController.getFormController().getUnmanagedActionController().preChange(_blockController, screenType);
             EJRecord recordForUpdate = new EJRecord(dataRecordForUpdate);
-            
+
             getBlockController().getFormController().getManagedActionController().getUnmanagedController()
                     .validateItem(getBlockController().getFormController().getEJForm(), recordForUpdate, item.getRegisteredItemName(), screenType);
-            
+
             _blockController.getFormController().getUnmanagedActionController().postChange(_blockController, dataRecordForUpdate, screenType);
             item.validationErrorOccurred(false);
         }
@@ -491,18 +494,18 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             getBlockController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     public abstract void fireLovValidate(EJScreenItemController item, Object value);
-    
+
     public void focusGained(EJItemFocusedEvent focusedEvent)
     {
         _blockController.setRendererFocus(true);
-        
+
     }
-    
+
     public void focusLost(EJItemFocusedEvent focusedEvent)
     {
         _blockController.setRendererFocus(false);
     }
-    
+
 }

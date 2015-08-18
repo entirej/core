@@ -81,7 +81,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
     
     
     @Override
-    public void setItemLovController(String lovMapping)
+    public void setItemLovMapping(String lovMapping)
     {
         if (lovMapping == null)
         {

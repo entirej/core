@@ -80,7 +80,7 @@ public class EJUpdateScreenItemController implements EJScreenItemController, Com
     
     
     @Override
-    public void setItemLovController(String lovMapping)
+    public void setItemLovMapping(String lovMapping)
     {
         if (lovMapping == null)
         {

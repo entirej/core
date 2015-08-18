@@ -84,7 +84,7 @@ public class EJDataItem implements Serializable
     {
         if (value != null)
         {
-            if (!_itemProperties.getDataTypeClass().equals(EJStackedItemRendererValue.class) && !_itemProperties.getDataTypeClass().isAssignableFrom(value.getClass()))
+            if (!_itemProperties.getDataTypeClass().isAssignableFrom(value.getClass()))
             {
                 throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_DATA_TYPE_FOR_ITEM,
                         _itemProperties.getName(), _itemProperties.getDataTypeClassName(), value.getClass().getName()));

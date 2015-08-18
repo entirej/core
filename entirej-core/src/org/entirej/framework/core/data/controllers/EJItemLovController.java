@@ -36,9 +36,7 @@ public class EJItemLovController implements Serializable
     private EJCoreLovMappingProperties  _mappingProperties;
     private EJScreenItemController      _item;
     private EJLovController             _lovController;
-    
-   
-    
+
     public EJItemLovController(EJFormController formController, EJScreenItemController item, EJCoreLovMappingProperties mappingProperties)
     {
         _item = item;
@@ -64,8 +62,6 @@ public class EJItemLovController implements Serializable
     {
         return _lovController.getManagedRendererController();
     }
-    
-   
     
     public EJCoreLovDefinitionProperties getLovDefinitionProperties()
     {
@@ -108,14 +104,21 @@ public class EJItemLovController implements Serializable
      */
     public void displayLov(EJLovDisplayReason displayReason)
     {
-        if(_mappingProperties != null)
+        // An item can have lov notification enabled but not actually have an
+        // lov behind it. If this is the case, call the action processor to
+        // inform the developer that the lov has been activated but don't
+        // execute any lov.
+        if (getScreenProperties().isLovNotificationEnabled()|| _mappingProperties!=null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, displayReason);
         }
         
-       
+        if (!isLovActivationEnabled())
+        {
+            return;
+        }
         
         if (_lovController != null)
         {
@@ -123,7 +126,20 @@ public class EJItemLovController implements Serializable
         }
     }
     
-   
+    public boolean isLovActivationEnabled()
+    {
+        EJScreenItemProperties props = getScreenProperties();
+        if (props != null && props.getLovMappingName() != null)
+        {
+            return true;
+        }
+        
+        if (_mappingProperties != null)
+        {
+            return true;
+        }
+        return false;
+    }
     
     private EJScreenItemProperties getScreenProperties()
     {
@@ -132,14 +148,14 @@ public class EJItemLovController implements Serializable
     
     public void validateItem(Object value)
     {
-        if (_mappingProperties!=null)
+        if (getScreenProperties().isLovNotificationEnabled() || _mappingProperties!=null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, EJLovDisplayReason.VALIDATE);
         }
         
-        if ( _mappingProperties == null)
+        if (!isLovActivationEnabled())
         {
             return;
         }
@@ -162,7 +178,7 @@ public class EJItemLovController implements Serializable
     
     private void notifyLovCompleted(boolean valueChosen)
     {
-        if (_mappingProperties!=null)
+        if (getScreenProperties().isLovNotificationEnabled() || _mappingProperties!=null)
         {
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));

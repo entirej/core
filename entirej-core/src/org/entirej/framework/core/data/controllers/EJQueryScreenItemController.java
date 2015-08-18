@@ -46,10 +46,10 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     private EJManagedItemRendererWrapper          _queryScreenItemRenderer;
     private ArrayList<EJItemValueChangedListener> _queryScreenItemValueChangedListeners;
     private ArrayList<EJItemFocusListener>        _queryScreenItemFocusedListeners;
-    
+
     private EJItemLovController                   _itemLovController;
-    private EJBlockItemRendererRegister            _blockItemRegister;
-    
+    private EJBlockItemRendererRegister           _blockItemRegister;
+
     public EJQueryScreenItemController(EJBlockController blockController, EJCoreItemProperties itemProperties)
     {
         _blockController = blockController;
@@ -57,30 +57,29 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         _itemProperties = itemProperties;
         _queryScreenItemProps = _blockController.getProperties().getScreenItemGroupContainer(EJScreenType.QUERY)
                 .getScreenItemProperties(_itemProperties.getName());
-        
+
         _queryScreenItemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
         _queryScreenItemFocusedListeners = new ArrayList<EJItemFocusListener>();
-        
+
         if (_queryScreenItemProps.isLovNotificationEnabled())
         {
             _itemLovController = new EJItemLovController(_blockController.getFormController(), this, _itemProperties.getLovMappingPropertiesOnQuery());
         }
     }
-    
-    
+
     public void initialise(EJBlockItemRendererRegister blockItemRegister)
     {
         _blockItemRegister = blockItemRegister;
     }
-    
+
     @Override
     public EJBlockItemRendererRegister getItemRendererRegister()
     {
         return _blockItemRegister;
     }
-    
+
     @Override
-    public void setItemLovController(String lovMapping)
+    public void setItemLovMapping(String lovMapping)
     {
         if (lovMapping == null)
         {
@@ -100,35 +99,35 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         }
 
     }
-    
+
     @Override
     public String getName()
     {
         return getReferencedItemProperties().getName();
     }
-    
+
     @Override
     public void gainFocus()
     {
         _queryScreenItemRenderer.gainFocus();
     }
-    
+
     @Override
     public EJScreenType getScreenType()
     {
         return EJScreenType.QUERY;
     }
-    
+
     public EJInternalForm getForm()
     {
         return _blockController.getBlock().getForm();
     }
-    
+
     public EJInternalBlock getBlock()
     {
         return _blockController.getBlock();
     }
-    
+
     /**
      * Returns the controller responsible for the form
      * 
@@ -138,32 +137,32 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         return _blockController.getFormController();
     }
-    
+
     public EJBlockController getBlockController()
     {
         return _blockController;
     }
-    
+
     public EJFrameworkManager getFrameworkManager()
     {
         return _frameworkManager;
     }
-    
+
     public EJItemLovController getItemLovController()
     {
         return _itemLovController;
     }
-    
+
     public EJCoreItemProperties getReferencedItemProperties()
     {
         return _itemProperties;
     }
-    
+
     public EJScreenItemProperties getProperties()
     {
         return _queryScreenItemProps;
     }
-    
+
     /**
      * Initialises the renderer for this item
      */
@@ -178,7 +177,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             }
         }
     }
-    
+
     /**
      * Returns the managed query screen item renderer for this item
      * 
@@ -195,7 +194,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             return null;
         }
     }
-    
+
     /**
      * Returns the query screen item renderer for this item
      * 
@@ -212,7 +211,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             return null;
         }
     }
-    
+
     public void executeActionCommand()
     {
         try
@@ -236,7 +235,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     /**
      * Adds a Query Screen <code>ItemFocusedListener</code> to this renderer
      * <p>
@@ -251,7 +250,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         _queryScreenItemFocusedListeners.add(listener);
     }
-    
+
     /**
      * Adds a Query Screen <code>ItemChangedListener</code> to this renderer
      * <p>
@@ -265,7 +264,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         _queryScreenItemValueChangedListeners.add(listener);
     }
-    
+
     /**
      * Removes an <code>EJItemFocusListener</code> from this renderer
      * 
@@ -276,7 +275,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         _queryScreenItemValueChangedListeners.remove(listener);
     }
-    
+
     /**
      * Removes an <code>EJItemValueChangedListener</code> from this renderer
      * 
@@ -287,7 +286,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         _queryScreenItemValueChangedListeners.remove(listener);
     }
-    
+
     public void itemValueChaged()
     {
         try
@@ -306,7 +305,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     public void itemFocusGained()
     {
         try
@@ -324,7 +323,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     public void itemFocusLost()
     {
         try
@@ -342,7 +341,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             _blockController.getFormController().getFrameworkManager().handleException(e);
         }
     }
-    
+
     /**
      * Indicates if this item is to be made visible
      * <p>
@@ -354,7 +353,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         return _queryScreenItemProps.isVisible();
     }
-    
+
     /**
      * Indicates of the screen item controlled by this controller is a spacer
      * item
@@ -366,7 +365,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         return _queryScreenItemProps.isSpacerItem();
     }
-    
+
     /**
      * Indicates if this screen item should be validated against the lov values
      * 
@@ -377,16 +376,16 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     {
         return _queryScreenItemProps.validateFromLov();
     }
-    
+
     public int compareTo(EJQueryScreenItemController controller)
     {
         if (controller == null)
         {
             return -1;
         }
-        
+
         return _itemProperties.getName().toUpperCase().compareTo(controller.getReferencedItemProperties().getName().toUpperCase());
-        
+
     }
-    
+
 }
