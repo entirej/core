@@ -315,10 +315,9 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             _itemRendererMap.put(item.getName(), wrapper);
         }
 
-        if (item.getItemLovController() != null)
-        {
+       
             item.initialise(this);
-        }
+        
     }
 
     /**
