@@ -37,6 +37,7 @@ public class EJCoreLovDefinitionPropertiesHandler extends EJCorePropertiesTagHan
     
     private static final String                       ELEMENT_LOV_DEF             = "lovDefinition";
     private static final String                       ELEMENT_HEIGHT              = "height";
+    private static final String                       ELEMENT_AUTOMATIC_REFRESH   = "automaticRefresh";
     private static final String                       ELEMENT_WIDTH               = "width";
     private static final String                       ELEMENT_RENDERER_PROPERTIES = "lovRendererProperties";
     private static final String                       ELEMENT_BLOCK               = "block";
@@ -144,6 +145,13 @@ public class EJCoreLovDefinitionPropertiesHandler extends EJCorePropertiesTagHan
             if (value != null && value.length() > 0)
             {
                 _lovDefinitionProperties.setHeight(Integer.parseInt(value.trim()));
+            }
+        }
+        if (!_isReferenced && name.equals(ELEMENT_AUTOMATIC_REFRESH))
+        {
+            if (value != null && value.length() > 0)
+            {
+                _lovDefinitionProperties.setAutomaticRefresh(Boolean.valueOf(value.trim()));
             }
         }
         
