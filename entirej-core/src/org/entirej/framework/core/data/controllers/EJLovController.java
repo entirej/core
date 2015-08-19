@@ -53,31 +53,31 @@ public class EJLovController extends EJBlockController implements Serializable
     private final EJFormController               _formController;
     private final EJCoreLovDefinitionProperties  _definitionProperties;
     private final EJManagedLovRendererController _lovRendererController;
-    
+
     public EJLovController(EJFormController formController, EJCoreLovDefinitionProperties lovDefinitionProperties)
     {
         super(formController, lovDefinitionProperties.getBlockProperties(), new EJDataBlock(lovDefinitionProperties.getBlockProperties()));
-        
+
         _definitionProperties = lovDefinitionProperties;
         _formController = formController;
         _lovBlock = new EJInternalBlock(this);
-        
+
         _lovRendererController = new EJManagedLovRendererController(this);
         _lovRendererController.setRenderer(EJRendererFactory.getInstance().getLovRenderer(this));
-        
+
         initialiseItems();
         initialiseScreenRenderers();
-        
+
         _lovRendererController.initialiseRenderer(this);
         _lovBlock.initialiseServicePojoHelper();
     }
-    
+
     @Override
     public EJInternalBlock getBlock()
     {
         return _lovBlock;
     }
-    
+
     public void initialiseScreenRenderers()
     {
         EJManagedQueryScreenRendererWrapper queryScreenRenderer = _lovRendererController.getQueryScreenRenderer();
@@ -87,13 +87,13 @@ public class EJLovController extends EJBlockController implements Serializable
             setQueryScreenRenderer(queryScreenRenderer.getUnmanagedRenderer());
         }
     }
-    
+
     @Override
     public void setRendererFocus(boolean focus)
     {
-        
+
     }
-    
+
     /**
      * Indicates if operations on this controller should be ignored until its
      * master block has values
@@ -109,7 +109,7 @@ public class EJLovController extends EJBlockController implements Serializable
     {
         return false;
     }
-    
+
     /**
      * This ensures that all changes made within the renderers are propagated to
      * the blocks data
@@ -118,7 +118,7 @@ public class EJLovController extends EJBlockController implements Serializable
     public void synchronizeFocusedRecord()
     {
     }
-    
+
     @Override
     public void refreshAfterChange(EJDataRecord record)
     {
@@ -127,7 +127,7 @@ public class EJLovController extends EJBlockController implements Serializable
             _lovRendererController.refreshAfterChange(record);
         }
     }
-    
+
     /**
      * Informs the blocks renderer that the user wishes to enter a query on this
      * block
@@ -151,13 +151,13 @@ public class EJLovController extends EJBlockController implements Serializable
         getFormController().getUnmanagedActionController().preOpenLovQueryScreen(_lovBlock);
         _lovRendererController.enterQuery(record);
     }
-    
+
     @Override
     void executeQueryOnAllDetailRelations(boolean clearChanges)
     {
         // No detail relations for an LOV
     }
-    
+
     /**
      * Instructs EntireJ to perform a query on this lov using no query criteria
      * 
@@ -171,8 +171,7 @@ public class EJLovController extends EJBlockController implements Serializable
         EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(_lovBlock));
         executeQuery(queryCriteria);
     }
-    
-    
+
     /**
      * Instructs EntireJ to perform a query on this lov using no query criteria
      * 
@@ -183,11 +182,10 @@ public class EJLovController extends EJBlockController implements Serializable
      */
     public void executeQuery(EJItemLovController itemLovController)
     {
-        EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(_lovBlock),itemLovController);
+        EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(_lovBlock), itemLovController);
         executeQuery(queryCriteria);
     }
-    
-    
+
     /**
      * Executes a query on this controllers underlying block. If this record is
      * a detail in a master-detail relationship then the relation items will be
@@ -224,15 +222,15 @@ public class EJLovController extends EJBlockController implements Serializable
                             + getProperties().getName()));
             return;
         }
-        
+
         if (queryCriteria == null)
         {
             throw new EJApplicationException(new EJMessage("The query criteria passed to performQueryOperation is null."));
         }
-        
+
         // Sets the query criteria for use within paging etc
         setQueryCriteria(queryCriteria);
-        
+
         EJManagedFrameworkConnection connection = getFrameworkManager().getConnection();
         // Clear the block so that it is ready for the newly queried records
         try
@@ -240,29 +238,29 @@ public class EJLovController extends EJBlockController implements Serializable
             getFormController().getUnmanagedActionController().validateQueryCriteria(getFormController().getEJForm(), getQueryCriteria());
             getFormController().getUnmanagedActionController().preQuery(getFormController().getEJForm(), getQueryCriteria());
             setHasMorePages(true);
-            
+
             // After the validation is ok, we can inform the renderer that a
             // query will now be executed
             if (_lovRendererController != null)
             {
                 _lovRendererController.executingQuery();
             }
-            
+
             // By setting the focused block controller to null, forces a
             // newRecordInstance method to be called after the query
             // operation has completed and focus returns to the block
             getFormController().setFocusedBlockController(null);
-            
+
             // Clear the block so that it is ready for the newly queried
             // records
             clearBlock(true);
-            
+
             if (canQueryInPages() && (!getProperties().queryAllRows()))
             {
                 setQueryAllRows(false);
                 setPageNumber(0);
                 setPageSize(getProperties().getPageSize());
-                
+
                 // pass false so that the Renderer is not informed about the
                 // nextPage operation. They will be informed using the
                 // queryExecuted method
@@ -281,7 +279,7 @@ public class EJLovController extends EJBlockController implements Serializable
                 // queryExecuted method
                 getPage(false);
             }
-            
+
             // now inform the renderer that the query is finished. The renderer
             // will need to refresh itself to display the new records
             if (_lovRendererController != null)
@@ -294,7 +292,7 @@ public class EJLovController extends EJBlockController implements Serializable
             connection.close();
         }
     }
-    
+
     /**
      * Indicates that the user want to navigate to the next record
      */
@@ -308,7 +306,7 @@ public class EJLovController extends EJBlockController implements Serializable
             newRecordInstance(record);
         }
     }
-    
+
     /**
      * Indicates that the user want to navigate to the previous record
      */
@@ -322,7 +320,7 @@ public class EJLovController extends EJBlockController implements Serializable
             newRecordInstance(record);
         }
     }
-    
+
     /**
      * Displays the lov that is has been defined for the given item
      * <p>
@@ -340,12 +338,20 @@ public class EJLovController extends EJBlockController implements Serializable
         EJManagedFrameworkConnection connection = getFormController().getFrameworkManager().getConnection();
         try
         {
-            _lovBlock.clear(true);
+            if (getDefinitionProperties().refreshAutomatically())
+            {
+                _lovBlock.clear(true);
+            }
+
             if (getDefinitionProperties().executeAutomaticQuery())
             {
                 try
                 {
-                    executeQuery(new EJQueryCriteria(new EJLovBlock(getBlock()),itemLovController));
+                    if (getDefinitionProperties().refreshAutomatically() || _lovBlock.getBlockRecordCount() <= 0)
+                    {
+                        _lovBlock.clear(true);
+                        _lovBlock.executeQuery(new EJQueryCriteria(new EJLovBlock(getBlock()), itemLovController));
+                    }
                 }
                 catch (EJApplicationException e)
                 {
@@ -366,12 +372,12 @@ public class EJLovController extends EJBlockController implements Serializable
             }
         }
     }
-    
+
     public void validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
             EJScreenItemController itemToValidate, Object value, String lovDefItemName)
     {
         EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()));
-        
+
         if (!_definitionProperties.getBlockProperties().getItemPropertiesContainer().containsItemProperty(lovDefItemName))
         {
             getFormController().getMessenger().handleMessage(
@@ -379,14 +385,14 @@ public class EJLovController extends EJBlockController implements Serializable
                             + _definitionProperties.getName()));
             return;
         }
-        
+
         queryCriteria.add(EJRestrictions.equals(lovDefItemName, value));
-        
+
         EJManagedFrameworkConnection connection = getFormController().getFrameworkManager().getConnection();
         try
         {
             executeQuery(queryCriteria);
-            
+
             if (getBlockRecordCount() == 1)
             {
                 lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
@@ -399,13 +405,13 @@ public class EJLovController extends EJBlockController implements Serializable
                 }
                 else
                 {
-                    queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()),itemToValidate.getItemLovController());
+                    queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()), itemToValidate.getItemLovController());
                     queryCriteria.add(EJRestrictions.like(lovDefItemName, value));
                     executeQuery(queryCriteria);
-                    
+
                     if (getBlockRecordCount() == 1)
                     {
-                        
+
                         lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
                     }
                     else if (getBlockRecordCount() > 1)
@@ -427,9 +433,9 @@ public class EJLovController extends EJBlockController implements Serializable
         {
             connection.close();
         }
-        
+
     }
-    
+
     void clearAllValues(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties, EJScreenItemController itemToValidate)
     {
         Iterator<EJCoreLovItemMappingProperties> props = mappingProperties.getAllItemMappingProperties().iterator();
@@ -437,7 +443,7 @@ public class EJLovController extends EJBlockController implements Serializable
         {
             EJCoreLovItemMappingProperties mapProps = props.next();
             String blockItemName = mapProps.getBlockItemName();
-            
+
             // By setting the items value again, the item will be
             // marked as changed and validation will be performed
             // as soon as the user tries to navigate out of the item
@@ -447,7 +453,7 @@ public class EJLovController extends EJBlockController implements Serializable
             }
         }
     }
-    
+
     /**
      * This method must be called by the lov renderer when the user has finished
      * with the lov
@@ -467,7 +473,7 @@ public class EJLovController extends EJBlockController implements Serializable
     {
         lovCompleted(itemLovController.getItemRendererRegister(), itemLovController.getLovMappingProperties(), itemLovController.getItemToValidate(), record);
     }
-    
+
     /**
      * This method must be called by the lov renderer when the user has finished
      * with the lov
@@ -483,10 +489,10 @@ public class EJLovController extends EJBlockController implements Serializable
      */
     void lovCompleted(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties, EJScreenItemController itemToValidate,
             EJDataRecord record)
-    { 
+    {
         if (record != null)
         {
-            
+
             for (EJCoreLovItemMappingProperties mapProps : mappingProperties.getAllItemMappingProperties())
             {
                 String blockItemName = mapProps.getBlockItemName();
@@ -494,25 +500,25 @@ public class EJLovController extends EJBlockController implements Serializable
                 {
                     continue;
                 }
-                
+
                 String lovDefItemName = mapProps.getLovDefinitionItemName();
-                
+
                 if (record.containsItem(lovDefItemName) && blockItemName != null && blockItemName.trim().length() > 0)
                 {
                     blockItemRegister.setItemValueNoValidate(itemToValidate.getScreenType(), blockItemName, record.getValue(lovDefItemName));
-                    
+
                     EJManagedItemRendererWrapper item = blockItemRegister.getManagedItemRendererForItem(blockItemName);
-                    if(item!=null)
+                    if (item != null)
                     {
-                        blockItemRegister.validateItem(item,itemToValidate.getScreenType());
+                        blockItemRegister.validateItem(item, itemToValidate.getScreenType());
                     }
                 }
             }
-            
+
             EJScreenItem screenItem = new EJScreenItem(itemToValidate.getBlock(), itemToValidate.getScreenType(), itemToValidate.getBlock().getScreenItem(
                     itemToValidate.getScreenType(), itemToValidate.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovCompleted(_formController.getEJForm(), screenItem, true);
-            
+
         }
         else
         {
@@ -520,7 +526,7 @@ public class EJLovController extends EJBlockController implements Serializable
             {
                 itemToValidate.getManagedItemRenderer().gainFocus();
                 clearAllValues(blockItemRegister, mappingProperties, itemToValidate);
-                
+
                 EJScreenItem screenItem = new EJScreenItem(itemToValidate.getBlock(), itemToValidate.getScreenType(), itemToValidate.getBlock().getScreenItem(
                         itemToValidate.getScreenType(), itemToValidate.getProperties().getReferencedItemName()));
                 _formController.getManagedActionController().lovCompleted(_formController.getEJForm(), screenItem, false);
@@ -528,24 +534,24 @@ public class EJLovController extends EJBlockController implements Serializable
             }
         }
     }
-    
+
     @Override
     public EJLovRendererController getRendererController()
     {
         return _lovRendererController.getUnmanagedController();
     }
-    
+
     public EJManagedLovRendererController getManagedRendererController()
     {
         return _lovRendererController;
     }
-    
+
     @Override
     public EJFrameworkManager getFrameworkManager()
     {
         return _formController.getFrameworkManager();
     }
-    
+
     /**
      * Returns the properties the lov definition that is controlled by this
      * controller
@@ -556,7 +562,7 @@ public class EJLovController extends EJBlockController implements Serializable
     {
         return _definitionProperties;
     }
-    
+
     /**
      * Returns the properties of the lov definitions underlying block
      * 
@@ -566,7 +572,7 @@ public class EJLovController extends EJBlockController implements Serializable
     {
         return _definitionProperties.getBlockProperties();
     }
-    
+
     /**
      * Returns the <code>Block</code> used within this
      * <code>LovControllre</code>
@@ -577,5 +583,5 @@ public class EJLovController extends EJBlockController implements Serializable
     {
         return _lovBlock;
     }
-    
+
 }

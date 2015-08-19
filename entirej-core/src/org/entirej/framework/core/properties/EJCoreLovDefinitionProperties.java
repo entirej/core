@@ -29,19 +29,20 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     private boolean                        _isReferenced                = false;
     private boolean                        _queryAllowed                = true;
     private boolean                        _automaticQuery              = false;
+    private boolean                        _automaticRefresh            = true;
     private int                            _width;
     private int                            _height;
-    
+
     private String                         _lovRendererName             = "";
     private EJFrameworkExtensionProperties _lovRendererProperties;
-    
+
     private EJCoreBlockProperties          _blockProperties;
-    
+
     public EJCoreLovDefinitionProperties(String name)
     {
         _name = name;
     }
-    
+
     /**
      * Sets the name of this Lov Definition
      * <p>
@@ -55,7 +56,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _name = name;
     }
-    
+
     /**
      * Returns the name of this LovDefinition
      * 
@@ -65,7 +66,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _name;
     }
-    
+
     /**
      * Sets the name of the referenced lov definition name
      * 
@@ -76,7 +77,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _referencedLovDefinitionName = referencedName;
     }
-    
+
     /**
      * Returns the name of the lov definition upon which this definition is
      * based
@@ -87,7 +88,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _referencedLovDefinitionName;
     }
-    
+
     /**
      * The Action Processor is responsible for actions within this lov
      * <p>
@@ -100,7 +101,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _actionProcessorClassName;
     }
-    
+
     /**
      * Sets the action processor name for this lov
      * <p>
@@ -114,7 +115,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _actionProcessorClassName = processorName;
     }
-    
+
     /**
      * Indicates if this LovDefinition references a re-usable definition
      * 
@@ -124,7 +125,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _isReferenced;
     }
-    
+
     /**
      * If set to <code>true</code> then the lov definition can use the blocks
      * defined query option
@@ -139,7 +140,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _queryAllowed;
     }
-    
+
     /**
      * Sets the query flag for this LovDefinition
      * 
@@ -152,7 +153,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _queryAllowed = queryAllowed;
     }
-    
+
     /**
      * If automatic query is set to true, then the LovDefinition will
      * automatically make a query before the values are shown to the user. If
@@ -166,7 +167,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _automaticQuery;
     }
-    
+
     /**
      * Sets the automatic query flag for this LovDefinition
      * 
@@ -179,7 +180,32 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _automaticQuery = automaticQuery;
     }
-    
+
+    /**
+     * If automatic refresh has been set, then the LOV Values will be cleared
+     * and re-queried each time the LOV is opened, if set to false, then the
+     * values will be kept once an initial query has been made
+     * 
+     * @return true if an automatic refresh has been set, otherwise false
+     */
+    public boolean refreshAutomatically()
+    {
+        return _automaticRefresh;
+    }
+
+    /**
+     * Sets the automatic refresh flag for this LovDefinition
+     * 
+     * @param automaticRefresh
+     *            <code>true</code> if the lov data will be cleared each time the lov is used
+     *            <code>false</code> if it should not
+     * @see #refreshAutomatically()
+     */
+    public void setAutomaticRefresh(boolean automaticRefresh)
+    {
+        _automaticRefresh = automaticRefresh;
+    }
+
     /**
      * Sets the height of the renderer used to display this LovDefinition
      * 
@@ -190,7 +216,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _height = height;
     }
-    
+
     /**
      * Returns the height of renderer used to display this LovDefinition
      * 
@@ -201,7 +227,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _height;
     }
-    
+
     /**
      * Sets the width of the renderer used to display this LovDefinition
      * 
@@ -212,7 +238,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _width = width;
     }
-    
+
     /**
      * Returns the width of renderer used to display this LovDefinition
      * 
@@ -223,7 +249,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _width;
     }
-    
+
     /**
      * The name of the renderer used for the display of this lov
      * <p>
@@ -235,7 +261,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _lovRendererName;
     }
-    
+
     /**
      * Sets the rendering properties for this lov definition
      * <p>
@@ -251,7 +277,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _lovRendererProperties = renderingProperties;
     }
-    
+
     /**
      * Returns the rendering properties for this lov definition
      * <p>
@@ -266,7 +292,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _lovRendererProperties;
     }
-    
+
     /**
      * Sets the name of the lov renderer that is responsible for displaying this
      * lov
@@ -278,7 +304,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         _lovRendererName = lovRendererName;
     }
-    
+
     /**
      * Sets the BlockProperties of the block that will contain the data for this
      * lov definition
@@ -294,7 +320,7 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
             _blockProperties.setName(getName());
         }
     }
-    
+
     /**
      * Returns the <code>BlockProperties</code> for this lov definition
      * 
@@ -304,16 +330,16 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
     {
         return _blockProperties;
     }
-    
+
     public int compareTo(EJCoreLovDefinitionProperties def)
     {
         return this.getName().compareTo(def.getName());
     }
-    
+
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
-        
+
         buffer.append("LovDefinitionProperties: ");
         buffer.append(_name);
         buffer.append("\n  ReferencedLovDefinitionName: ");
@@ -324,13 +350,15 @@ public class EJCoreLovDefinitionProperties implements Comparable<EJCoreLovDefini
         buffer.append(_queryAllowed);
         buffer.append("\n  automaticQuery: ");
         buffer.append(_automaticQuery);
+        buffer.append("\n  automaticRefresh: ");
+        buffer.append(_automaticRefresh);
         buffer.append("\n  lovRendererName: ");
         buffer.append(_lovRendererName);
         buffer.append("\n  rendererProperties:\n");
         buffer.append(_lovRendererProperties);
         buffer.append("\n  blockProperties:\n");
         buffer.append(_blockProperties);
-        
+
         return buffer.toString();
     }
 }
