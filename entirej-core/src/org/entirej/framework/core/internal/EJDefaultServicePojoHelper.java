@@ -32,16 +32,53 @@ import org.entirej.framework.core.data.EJDataItem;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.interfaces.EJItemProperties;
+import org.entirej.framework.core.service.EJBlockService;
 
 public class EJDefaultServicePojoHelper implements Serializable
 {
     private EJCoreBlockProperties _blockProperties;
-    
+
     EJDefaultServicePojoHelper(EJCoreBlockProperties blockProperties)
     {
         _blockProperties = blockProperties;
     }
-    
+
+    public static Class<?> getPojoFromService(Class<?> service)
+    {
+
+        Type[] types = service.getGenericInterfaces();
+        
+        while (types.length==0 && !Object.class.equals(service.getSuperclass()))
+        {
+            service = service.getSuperclass();
+            types = service.getGenericInterfaces();
+            
+        }
+        if(types.length>0)
+        {
+            for (Type type : types)
+            {
+                if(type instanceof ParameterizedType && ((ParameterizedType)type).getRawType().equals(EJBlockService.class))
+                {
+                 
+                    
+                    Type[] sub =  ((ParameterizedType)type).getActualTypeArguments();
+
+                    if(sub.length>0)
+                    {
+                       return  (Class<?>) sub[0];
+                    }
+                   
+                }
+            }
+            
+        }
+            
+       
+        throw new EJApplicationException("Pojo Is not correclty defind on impl of  Interface EJBlockService<>");
+
+    }
+
     /**
      * Creates a new service pojo object based on the generic interface of the
      * EJBlockService
@@ -55,17 +92,14 @@ public class EJDefaultServicePojoHelper implements Serializable
         {
             return null;
         }
-        
+
         Class<?> pojoClass = null;
         try
         {
-            Type[] types = _blockProperties.getBlockService().getClass().getGenericInterfaces();
-            ParameterizedType type = (ParameterizedType) types[0];
-            
-            Type typeArgument = type.getActualTypeArguments()[0];
-            
-            pojoClass = (Class<?>) typeArgument;
-            
+           
+
+            pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
+
             return pojoClass.newInstance();
         }
         catch (InstantiationException e)
@@ -77,7 +111,7 @@ public class EJDefaultServicePojoHelper implements Serializable
             throw new EJApplicationException(new EJMessage("Unable to access pojo from service: " + pojoClass), e);
         }
     }
-    
+
     /**
      * Sets the data entities value to the value specified
      * 
@@ -95,16 +129,15 @@ public class EJDefaultServicePojoHelper implements Serializable
         {
             return;
         }
-        
+
         // Capitalize the first letter
         String firstLetter = itemName.substring(0, 1).toUpperCase();
         StringBuilder builder = new StringBuilder();
         String methodName = builder.append("set").append(firstLetter).append(itemName.substring(1)).toString();
         invokePojoMethod(dataEntity, methodName, itemProperties.getDataTypeClass(), value);
-        
+
     }
-    
-    
+
     /**
      * Copy all values from the source pojo to the data items specified
      * 
@@ -121,29 +154,29 @@ public class EJDefaultServicePojoHelper implements Serializable
             {
                 continue;
             }
-            
+
             // Now initialise the data items with the values from the entity if
             // one exists
-            
+
             // Capitalise the first letter
             String firstLetter = item.getName().substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             StringBuilder builder = new StringBuilder();
             String methodName = builder.append("get").append(firstLetter).append(item.getName().substring(1)).toString();
-            
+
             // Get the items value from the method and set the data item
             Object value = invokePojoMethod(servicePojo, methodName, null);
             item.setValue(value);
         }
     }
-    
-    private Object invokePojoMethod(Object dataEntity, String methodName, Class<?> parameterType, Object ...parameterValue)
+
+    private Object invokePojoMethod(Object dataEntity, String methodName, Class<?> parameterType, Object... parameterValue)
     {
         if (dataEntity == null)
         {
             return null;
         }
-        
+
         try
         {
             if (parameterType == null)
@@ -178,10 +211,8 @@ public class EJDefaultServicePojoHelper implements Serializable
     {
         try
         {
-            Type[] types = baseEntityObject.getClass().getGenericInterfaces();
-            ParameterizedType type = (ParameterizedType) types[0];
-            Type typeArgument = type.getActualTypeArguments()[0];
-            Class<?> pojoClass = (Class<?>) typeArgument;
+           
+            Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
             return pojoClass.newInstance();
         }
         catch (InstantiationException e)
@@ -193,41 +224,37 @@ public class EJDefaultServicePojoHelper implements Serializable
             throw new EJApplicationException(new EJMessage("Unable to access service pojo: " + baseEntityObject), e);
         }
     }
-    
+
     public void addFieldNamesToItems()
     {
         if (_blockProperties.getBlockService() == null)
         {
             return;
         }
-        
-        Type[] types = _blockProperties.getBlockService().getClass().getGenericInterfaces();
-        ParameterizedType type = (ParameterizedType) types[0];
-        
-        Type typeArgument = type.getActualTypeArguments()[0];
-        
-        Class<?> pojoClass = (Class<?>) typeArgument;
-        
+
+      
+        Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
+
         for (EJItemProperties item : _blockProperties.getAllItemProperties())
         {
             if (!item.isBlockServiceItem())
             {
                 continue;
             }
-            
+
             // Now set the field name within the properties if an annotation
             // exists for this item
-            
+
             // Capitalize the first letter
             String firstLetter = item.getName().substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             StringBuilder builder = new StringBuilder();
             String methodName = builder.append("get").append(firstLetter).append(item.getName().substring(1)).toString();
-            
+
             // Get the items value from the method and set the data item
             String annotation = EJPojoHelper.getFieldName(pojoClass, methodName);
             _blockProperties.getItemProperties(item.getName()).setFieldName(annotation);
         }
     }
-    
+
 }
