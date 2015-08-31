@@ -133,7 +133,7 @@ public class EJLovMappingController implements Serializable
             EJCoreItemProperties itemProps = _block.getProperties().getItemProperties(blockItemName);
             
             // I am only interested in entity items
-            if (itemProps == null || itemProps.isBlockServiceItem() == false)
+            if (itemProps == null /*|| itemProps.isBlockServiceItem() == false*/)
             {
                 continue;
             }
