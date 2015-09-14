@@ -18,6 +18,9 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
+import java.util.Collection;
+
+import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.internal.EJInternalForm;
 
@@ -167,4 +170,8 @@ public interface EJFormRenderer extends EJRenderer
      * 
      */
     public void gainInitialFocus();
+
+    public void clearCanvasMessages(String canvasName);
+
+    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
 }

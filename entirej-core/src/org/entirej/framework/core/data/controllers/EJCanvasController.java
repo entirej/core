@@ -19,8 +19,10 @@
 package org.entirej.framework.core.data.controllers;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import org.entirej.framework.core.EJApplicationException;
+import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
@@ -228,5 +230,17 @@ public class EJCanvasController implements Serializable
         {
             _formController.getFrameworkManager().handleException(e);
         }
+    }
+
+    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
+    {
+        _formController.getRenderer().setCanvasMessages(canvasName,messages);
+        
+    }
+
+    public void clearCanvasMessages(String canvasName)
+    {
+        _formController.getRenderer().clearCanvasMessages(canvasName);
+        
     }
 }

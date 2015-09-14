@@ -1127,4 +1127,42 @@ public class EJInternalForm implements Serializable
     {
         return _formController.getFrameworkManager().getTranslationController().createDateHelper();
     }
+
+    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
+    {
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.openPopupCanvas"));
+        }
+
+        try
+        {
+            _formController.getCanvasController().setCanvasMessages(canvasName, messages);
+        }
+        catch (Exception e)
+        {
+            _formController.getFrameworkManager().handleException(e);
+        }
+        
+    }
+
+    public void clearCanvasMessages(String canvasName)
+    {
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.openPopupCanvas"));
+        }
+
+        try
+        {
+            _formController.getCanvasController().clearCanvasMessages(canvasName);
+        }
+        catch (Exception e)
+        {
+            _formController.getFrameworkManager().handleException(e);
+        }
+        
+    }
 }

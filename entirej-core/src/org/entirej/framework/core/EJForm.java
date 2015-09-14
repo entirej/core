@@ -835,5 +835,18 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.getFrameworkManager().askInternalQuestion(question);
     }
+    
+    
+    
+    public void setCanvasMessages(String canvasName,Collection<EJMessage> messages)
+    {
+        _form.setCanvasMessages(canvasName,messages);
+    }
+
+  
+    public void clearCanvasMessages(String canvasName)
+    {
+        _form.clearCanvasMessages(canvasName);
+    }
 
 }
