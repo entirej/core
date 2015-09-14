@@ -383,7 +383,7 @@ public class EJInternalForm implements Serializable
             handleException(e);
         }
     }
-    
+
     /**
      * Used to set a specific tab canvas page to be visible
      * 
@@ -392,7 +392,8 @@ public class EJInternalForm implements Serializable
      * @param tabPageName
      *            The page to be shown
      * @param visbile
-     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     *            If set to <code>true</code> then the tab page will be made
+     *            visible otherwise it will be hidden
      */
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
     {
@@ -1128,12 +1129,26 @@ public class EJInternalForm implements Serializable
         return _formController.getFrameworkManager().getTranslationController().createDateHelper();
     }
 
+    /**
+     * Sets the canvas messages to a specific canvas
+     * <p>
+     * Canvas Messages are displayed either to the right, left, top or bottom of
+     * a canvas and displays a list of messages for the user. This is especially
+     * helpful on popup canvases which are being used as insert/update screens
+     * 
+     * @param canvasName
+     *            The name of the canvas that will be displaying the messages
+     * @param messages
+     *            The messages to be displayed
+     * 
+     * @see #clearCanvasMessages(String)
+     */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
     {
         if (canvasName == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.openPopupCanvas"));
+                    "EJInternalForm.setCanvasMessages"));
         }
 
         try
@@ -1144,15 +1159,23 @@ public class EJInternalForm implements Serializable
         {
             _formController.getFrameworkManager().handleException(e);
         }
-        
+
     }
 
+    /**
+     * Clears the messages that have been set on the given canvas
+     * 
+     * @param canvasName
+     *            The name of the canvas that should be cleared of messages
+     * 
+     * @see #setCanvasMessages(String, Collection)
+     */
     public void clearCanvasMessages(String canvasName)
     {
         if (canvasName == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.openPopupCanvas"));
+                    "EJInternalForm.clearCanvasMessages"));
         }
 
         try
@@ -1163,6 +1186,6 @@ public class EJInternalForm implements Serializable
         {
             _formController.getFrameworkManager().handleException(e);
         }
-        
+
     }
 }

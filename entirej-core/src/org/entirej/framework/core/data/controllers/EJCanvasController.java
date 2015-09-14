@@ -33,12 +33,12 @@ import org.entirej.framework.core.properties.interfaces.EJTabPageProperties;
 public class EJCanvasController implements Serializable
 {
     private EJFormController _formController;
-    
+
     EJCanvasController(EJFormController formController)
     {
         _formController = formController;
     }
-    
+
     /**
      * Used to set a specific tab canvas page to be visible
      * 
@@ -47,13 +47,14 @@ public class EJCanvasController implements Serializable
      * @param tabPageName
      *            The page to be shown
      * @param visbile
-     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     *            If set to <code>true</code> then the tab page will be made
+     *            visible otherwise it will be hidden
      */
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
     {
         _formController.getRenderer().setTabPageVisible(tabCanvasName, tabPageName, visible);
     }
-    
+
     /**
      * Used to show a specific tab canvas page
      * 
@@ -70,7 +71,7 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().showTabPage(tabCanvasName, tabPageName);
         // Inform the action processor that a tab page has been changed
         _formController.getManagedActionController().tabPageChanged(_formController.getEJForm(), tabCanvasName, tabPageName);
-        
+
         EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(tabCanvasName);
         if (canvasProperties != null)
         {
@@ -79,12 +80,12 @@ public class EJCanvasController implements Serializable
             {
                 String block = tabPage.getFirstNavigationalBlock();
                 String item = tabPage.getFirstNavigationalItem();
-                
+
                 navigateToItem(block, item);
             }
         }
     }
-    
+
     /**
      * Returns the current tab page name of the given tab canvas
      * <p>
@@ -100,7 +101,7 @@ public class EJCanvasController implements Serializable
     {
         return _formController.getRenderer().getDisplayedTabPage(tabCanvasName);
     }
-    
+
     /**
      * Used to show a specific stacked canvas page
      * 
@@ -118,7 +119,7 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().showStackedPage(stackedCanvasName, stackedPageName);
         // Inform the action processor that a stacked page has been changed
         _formController.getManagedActionController().stackedPageChanged(_formController.getEJForm(), stackedCanvasName, stackedPageName);
-        
+
         EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(stackedCanvasName);
         if (canvasProperties != null)
         {
@@ -127,12 +128,12 @@ public class EJCanvasController implements Serializable
             {
                 String block = stackedPage.getFirstNavigationalBlock();
                 String item = stackedPage.getFirstNavigationalItem();
-                
+
                 navigateToItem(block, item);
             }
         }
     }
-    
+
     /**
      * Returns the current stacked page name of the given stacked canvas
      * <p>
@@ -148,7 +149,7 @@ public class EJCanvasController implements Serializable
     {
         return _formController.getRenderer().getDisplayedStackedPage(stackedCanvasName);
     }
-    
+
     /**
      * Used to show a specific stacked canvas page
      * 
@@ -164,7 +165,7 @@ public class EJCanvasController implements Serializable
         // Inform the action processor that the popup has been opened
         _formController.getManagedActionController().popupCanvasOpened(_formController.getEJForm(), popupCanvasName);
     }
-    
+
     public void tabPageChanged(String tabCanvasName, String tabPageName)
     {
         // If the tab page has a first navigational block and item, then ensure
@@ -177,15 +178,15 @@ public class EJCanvasController implements Serializable
             {
                 String block = tabPage.getFirstNavigationalBlock();
                 String item = tabPage.getFirstNavigationalItem();
-                
+
                 navigateToItem(block, item);
             }
         }
-        
+
         _formController.getManagedActionController().tabPageChanged(_formController.getEJForm(), tabCanvasName, tabPageName);
-        
+
     }
-    
+
     private void navigateToItem(String block, String itemName)
     {
         if (block != null && block.trim().length() > 0)
@@ -211,18 +212,17 @@ public class EJCanvasController implements Serializable
             }
         }
     }
-    
-    
-    
+
     public void closePopupCanvas(String popupCanvasName, EJPopupButton button)
     {
         try
         {
-            // us the unmanaged action controller so that the developer has the possibiltiy to stop the closing operation
+            // us the unmanaged action controller so that the developer has the
+            // possibiltiy to stop the closing operation
             _formController.getUnmanagedActionController().popupCanvasClosing(_formController.getEJForm(), popupCanvasName, button);
-        
+
             _formController.getRenderer().closePopupCanvas(popupCanvasName);
-            
+
             // Now let the developer know that the canvas is being closed
             _formController.getManagedActionController().popupCanvasClosed(_formController.getEJForm(), popupCanvasName, button);
         }
@@ -232,15 +232,37 @@ public class EJCanvasController implements Serializable
         }
     }
 
+    /**
+     * Sets the canvas messages to a specific canvas
+     * <p>
+     * Canvas Messages are displayed either to the right, left, top or bottom of
+     * a canvas and displays a list of messages for the user. This is especially
+     * helpful on popup canvases which are being used as insert/update screens
+     * 
+     * @param canvasName
+     *            The name of the canvas that will be displaying the messages
+     * @param messages
+     *            The messages to be displayed
+     * 
+     * @see #clearCanvasMessages(String)
+     */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
     {
-        _formController.getRenderer().setCanvasMessages(canvasName,messages);
-        
+        _formController.getRenderer().setCanvasMessages(canvasName, messages);
+
     }
 
+    /**
+     * Clears the messages that have been set on the given canvas
+     * 
+     * @param canvasName
+     *            The name of the canvas that should be cleared of messages
+     * 
+     * @see #setCanvasMessages(String, Collection)
+     */
     public void clearCanvasMessages(String canvasName)
     {
         _formController.getRenderer().clearCanvasMessages(canvasName);
-        
+
     }
 }

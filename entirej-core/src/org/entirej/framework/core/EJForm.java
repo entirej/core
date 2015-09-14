@@ -29,6 +29,7 @@ import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJManagedActionController;
 import org.entirej.framework.core.data.controllers.EJQuestion;
+import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.interfaces.EJMessenger;
 import org.entirej.framework.core.interfaces.EJTranslator;
@@ -299,8 +300,7 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.showTabCanvasPage(canvasName, pageName);
     }
-    
-    
+
     /**
      * Used to set a specific tab canvas page to be visible
      * 
@@ -309,12 +309,13 @@ public class EJForm implements EJFrameworkHelper
      * @param tabPageName
      *            The page to be shown
      * @param visbile
-     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     *            If set to <code>true</code> then the tab page will be made
+     *            visible otherwise it will be hidden
      */
-    
+
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
     {
-        _form.setTabPageVisible(tabCanvasName, tabPageName,visible);
+        _form.setTabPageVisible(tabCanvasName, tabPageName, visible);
     }
 
     /**
@@ -773,25 +774,27 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getEmbeddedForm(formName, canvasName);
     }
-    
-    
-    
-    public void runReport(String reportName, EJParameterList parameterList){
-        _form.getFrameworkManager().runReport(reportName,parameterList);
+
+    public void runReport(String reportName, EJParameterList parameterList)
+    {
+        _form.getFrameworkManager().runReport(reportName, parameterList);
     }
 
-    public void runReport(String reportName){
+    public void runReport(String reportName)
+    {
         _form.getFrameworkManager().runReport(reportName);
     }
-    public String generateReport(String reportName, EJParameterList parameterList){
-        return _form.getFrameworkManager().generateReport(reportName,parameterList);
+
+    public String generateReport(String reportName, EJParameterList parameterList)
+    {
+        return _form.getFrameworkManager().generateReport(reportName, parameterList);
     }
-    
-    public String generateReport(String reportName){
+
+    public String generateReport(String reportName)
+    {
         return _form.getFrameworkManager().generateReport(reportName);
     }
 
-    
     /**
      * Returns this forms parameter list
      * <p>
@@ -835,15 +838,44 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.getFrameworkManager().askInternalQuestion(question);
     }
-    
-    
-    
-    public void setCanvasMessages(String canvasName,Collection<EJMessage> messages)
+
+    /**
+     * Sets the canvas messages to a specific canvas
+     * <p>
+     * Canvas Messages are displayed either to the right, left, top or bottom of
+     * a canvas and displays a list of messages for the user. This is especially
+     * helpful on popup canvases which are being used as insert/update screens
+     * <p>
+     * If an empty collection or <code>null</code> is passed, the message pane
+     * for the given canvas will be cleared of messages
+     * 
+     * @param canvasName
+     *            The name of the canvas that will be displaying the messages
+     * @param messages
+     *            The messages to be displayed
+     * 
+     * @see #clearCanvasMessages(String)
+     */
+    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
     {
-        _form.setCanvasMessages(canvasName,messages);
+        if (messages == null || messages.size() == 0)
+        {
+            _form.clearCanvasMessages(canvasName);
+        }
+        else
+        {
+            _form.setCanvasMessages(canvasName, messages);
+        }
     }
 
-  
+    /**
+     * Clears the messages that have been set on the given canvas
+     * 
+     * @param canvasName
+     *            The name of the canvas that should be cleared of messages
+     * 
+     * @see #setCanvasMessages(String, Collection)
+     */
     public void clearCanvasMessages(String canvasName)
     {
         _form.clearCanvasMessages(canvasName);

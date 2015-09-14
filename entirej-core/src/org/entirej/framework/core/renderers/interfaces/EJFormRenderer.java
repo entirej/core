@@ -109,10 +109,11 @@ public interface EJFormRenderer extends EJRenderer
      * @param tabPageName
      *            The page to be shown
      * @param visbile
-     *            If set to <code>true</code> then the tab page will be made visible otherwise it will be hidden
+     *            If set to <code>true</code> then the tab page will be made
+     *            visible otherwise it will be hidden
      */
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible);
-    
+
     /**
      * Returns the current tab page name of the given tab canvas
      * <p>
@@ -171,7 +172,29 @@ public interface EJFormRenderer extends EJRenderer
      */
     public void gainInitialFocus();
 
+    /**
+     * Sets the canvas messages to a specific canvas
+     * <p>
+     * Canvas Messages are displayed either to the right, left, top or bottom of
+     * a canvas and displays a list of messages for the user. This is especially
+     * helpful on popup canvases which are being used as insert/update screens
+     * 
+     * @param canvasName
+     *            The name of the canvas that will be displaying the messages
+     * @param messages
+     *            The messages to be displayed
+     * 
+     * @see #clearCanvasMessages(String)
+     */
     public void clearCanvasMessages(String canvasName);
 
+    /**
+     * Clears the messages that have been set on the given canvas
+     * 
+     * @param canvasName
+     *            The name of the canvas that should be cleared of messages
+     * 
+     * @see #setCanvasMessages(String, Collection)
+     */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
 }
