@@ -29,7 +29,6 @@ import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJManagedActionController;
 import org.entirej.framework.core.data.controllers.EJQuestion;
-import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.interfaces.EJMessenger;
 import org.entirej.framework.core.interfaces.EJTranslator;
@@ -480,6 +479,42 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
+     * Used to retrieve an {@link EJCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the canvas
+     * @return The canvas
+     */
+    public EJCanvas getCanvas(String name)
+    {
+        return new EJCanvas(_form.getCanvasController(), name);
+    }
+
+    /**
+     * Used to retrieve an {@link EJTabCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the tab canvas
+     * @return The tab canvas
+     */
+    public EJTabCanvas getTabCanvas(String name)
+    {
+        return new EJTabCanvas(_form.getCanvasController(), name);
+    }
+
+    /**
+     * Used to retrieve an {@link EJPopupCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the popup canvas
+     * @return The poup canvas
+     */
+    public EJPopupCanvas getPopupCanvas(String name)
+    {
+        return new EJPopupCanvas(_form.getCanvasController(), name);
+    }
+
+    /**
      * Returns the <code>VisualAttributeProperties</code> with the given name or
      * <code>null</code> if there is no visual attribute with the given name
      * 
@@ -838,47 +873,4 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.getFrameworkManager().askInternalQuestion(question);
     }
-
-    /**
-     * Sets the canvas messages to a specific canvas
-     * <p>
-     * Canvas Messages are displayed either to the right, left, top or bottom of
-     * a canvas and displays a list of messages for the user. This is especially
-     * helpful on popup canvases which are being used as insert/update screens
-     * <p>
-     * If an empty collection or <code>null</code> is passed, the message pane
-     * for the given canvas will be cleared of messages
-     * 
-     * @param canvasName
-     *            The name of the canvas that will be displaying the messages
-     * @param messages
-     *            The messages to be displayed
-     * 
-     * @see #clearCanvasMessages(String)
-     */
-    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
-    {
-        if (messages == null || messages.size() == 0)
-        {
-            _form.clearCanvasMessages(canvasName);
-        }
-        else
-        {
-            _form.setCanvasMessages(canvasName, messages);
-        }
-    }
-
-    /**
-     * Clears the messages that have been set on the given canvas
-     * 
-     * @param canvasName
-     *            The name of the canvas that should be cleared of messages
-     * 
-     * @see #setCanvasMessages(String, Collection)
-     */
-    public void clearCanvasMessages(String canvasName)
-    {
-        _form.clearCanvasMessages(canvasName);
-    }
-
 }
