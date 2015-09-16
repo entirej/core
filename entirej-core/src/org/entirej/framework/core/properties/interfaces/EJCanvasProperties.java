@@ -236,6 +236,11 @@ public interface EJCanvasProperties extends Serializable
      */
     public Boolean getDisplayGroupFrame();
     
+    
+    
+    public Boolean getCloseableMessagePane();
+    
+    
     /**
      * @return Returns the height of this canvas
      */

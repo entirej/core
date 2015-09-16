@@ -30,28 +30,29 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private EJCoreCanvasProperties         _canvasProperties;
     private EJCorePropertiesHandlerFactory _handlerFactory;
 
-    private static final String            ELEMENT_CANVAS               = "canvas";
-    private static final String            ELEMENT_WIDTH                = "width";
-    private static final String            ELEMENT_HEIGHT               = "height";
-    private static final String            ELEMENT_NUM_COLS             = "numCols";
-    private static final String            ELEMENT_HORIZONTAL_SPAN      = "horizontalSpan";
-    private static final String            ELEMENT_VERTICAL_SPAN        = "verticalSpan";
-    private static final String            ELEMENT_EXPAND_HORIZONTALLY  = "expandHorizontally";
-    private static final String            ELEMENT_EXPAND_VERTICALLY    = "expandVertically";
-    private static final String            ELEMENT_DISPLAY_GROUP_FRAME  = "displayGroupFrame";
-    private static final String            ELEMENT_FRAME_TITLE          = "groupFrameTitle";
-    private static final String            ELEMENT_POPUP_PAGE_TITLE     = "popupPageTitle";
-    private static final String            ELEMENT_TAB_POSITION         = "tabPosition";
-    private static final String            ELEMENT_SPLIT_ORIENTATION    = "splitOrientation";
-    private static final String            ELEMENT_BUTTON_ONE_TEXT      = "buttonOneText";
-    private static final String            ELEMENT_BUTTON_TWO_TEXT      = "buttonTwoText";
-    private static final String            ELEMENT_BUTTON_THREE_TEXT    = "buttonThreeText";
-    private static final String            ELEMENT_TAB_PAGE             = "tabPage";
-    private static final String            ELEMENT_STACKED_PAGE         = "stackedPage";
-    private static final String            ELEMENT_INITIAL_STACKED_PAGE = "initialStackedPageName";
-    private static final String            ELEMENT_REFERRED_FORM_ID     = "referredFormId";
+    private static final String            ELEMENT_CANVAS                 = "canvas";
+    private static final String            ELEMENT_WIDTH                  = "width";
+    private static final String            ELEMENT_HEIGHT                 = "height";
+    private static final String            ELEMENT_NUM_COLS               = "numCols";
+    private static final String            ELEMENT_HORIZONTAL_SPAN        = "horizontalSpan";
+    private static final String            ELEMENT_VERTICAL_SPAN          = "verticalSpan";
+    private static final String            ELEMENT_EXPAND_HORIZONTALLY    = "expandHorizontally";
+    private static final String            ELEMENT_EXPAND_VERTICALLY      = "expandVertically";
+    private static final String            ELEMENT_DISPLAY_GROUP_FRAME    = "displayGroupFrame";
+    private static final String            ELEMENT_CLOSEABLE_MESSAGE_PANE = "closeableMessagePane";
+    private static final String            ELEMENT_FRAME_TITLE            = "groupFrameTitle";
+    private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
+    private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
+    private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
+    private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
+    private static final String            ELEMENT_BUTTON_TWO_TEXT        = "buttonTwoText";
+    private static final String            ELEMENT_BUTTON_THREE_TEXT      = "buttonThreeText";
+    private static final String            ELEMENT_TAB_PAGE               = "tabPage";
+    private static final String            ELEMENT_STACKED_PAGE           = "stackedPage";
+    private static final String            ELEMENT_INITIAL_STACKED_PAGE   = "initialStackedPageName";
+    private static final String            ELEMENT_REFERRED_FORM_ID       = "referredFormId";
 
-    private boolean                        _canvasCreated               = false;
+    private boolean                        _canvasCreated                 = false;
 
     public EJCoreCanvasPropertiesHandler(EJCorePropertiesHandlerFactory handlerFactory)
     {
@@ -155,6 +156,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             if (value.length() > 0)
             {
                 _canvasProperties.setDisplayGroupFrame(Boolean.parseBoolean(value));
+            }
+        }
+        else if (name.equals(ELEMENT_CLOSEABLE_MESSAGE_PANE))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.setCloseableMessagePane(Boolean.parseBoolean(value));
             }
         }
         else if (name.equals(ELEMENT_POPUP_PAGE_TITLE))

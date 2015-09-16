@@ -51,6 +51,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private boolean                              _expandHorizontally           = true;
     private boolean                              _expandVertically             = true;
     private boolean                              _displayGroupFrame            = false;
+    private boolean                              _closeableMessagePane         = true;
     private String                               _name                         = "";
     private String                               _popupPageTitle               = "";
     private String                               _basePopupPageTitle           = "";
@@ -63,6 +64,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private String                               _buttonThreeText              = "";
     private String                               _baseButtonThreeText          = "";
     private String                               _initiallyStackedPageName     = "";
+    
     private EJCoreTabPagePropertiesContainer     _tabPages;
     private EJCoreStackedPagePropertiesContainer _stackedPages;
     private EJCoreCanvasPropertiesContainer      _popupCanvasContainer;
@@ -743,6 +745,16 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         _displayGroupFrame = display;
     }
 
+    
+    public void setCloseableMessagePane(boolean closeableMessagePane)
+    {
+        this._closeableMessagePane = closeableMessagePane;
+    }
+    
+    public Boolean getCloseableMessagePane()
+    {
+        return _closeableMessagePane;
+    }
     /**
      * @return Returns the height of this canvas
      */
