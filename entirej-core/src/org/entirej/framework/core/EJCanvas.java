@@ -42,15 +42,15 @@ public class EJCanvas
      * 
      * @see #clearCanvasMessages(String)
      */
-    public void setCanvasMessages(String canvasName, Collection<EJMessage> messages)
+    public void setCanvasMessages( Collection<EJMessage> messages)
     {
         if (messages == null || messages.size() == 0)
         {
-            _canvasController.clearCanvasMessages(canvasName);
+            _canvasController.clearCanvasMessages(_name);
         }
         else
         {
-            _canvasController.setCanvasMessages(canvasName, messages);
+            _canvasController.setCanvasMessages(_name, messages);
         }
     }
 
@@ -62,8 +62,8 @@ public class EJCanvas
      * 
      * @see #setCanvasMessages(String, Collection)
      */
-    public void clearCanvasMessages(String canvasName)
+    public void clearCanvasMessages()
     {
-        _canvasController.clearCanvasMessages(canvasName);
+        _canvasController.clearCanvasMessages(_name);
     }
 }
