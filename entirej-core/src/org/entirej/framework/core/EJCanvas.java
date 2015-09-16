@@ -3,16 +3,17 @@ package org.entirej.framework.core;
 import java.util.Collection;
 
 import org.entirej.framework.core.data.controllers.EJCanvasController;
+import org.entirej.framework.core.internal.EJInternalForm;
 
 public class EJCanvas
 {
-    private EJCanvasController _canvasController;
-    private String             _name;
+    private EJInternalForm _form;
+    private String         _name;
 
-    public EJCanvas(EJCanvasController canvasController, String canvasName)
+    protected EJCanvas(EJInternalForm form, String canvasName)
     {
-        _canvasController = canvasController;
         _name = canvasName;
+        _form = form;
     }
 
     /**
@@ -23,6 +24,16 @@ public class EJCanvas
     public String getName()
     {
         return _name;
+    }
+
+    protected EJInternalForm getForm()
+    {
+        return _form;
+    }
+    
+    protected EJCanvasController getCanvasController()
+    {
+        return _form.getCanvasController();
     }
 
     /**
@@ -42,15 +53,15 @@ public class EJCanvas
      * 
      * @see #clearCanvasMessages(String)
      */
-    public void setCanvasMessages( Collection<EJMessage> messages)
+    public void setCanvasMessages(Collection<EJMessage> messages)
     {
         if (messages == null || messages.size() == 0)
         {
-            _canvasController.clearCanvasMessages(_name);
+            getCanvasController().clearCanvasMessages(_name);
         }
         else
         {
-            _canvasController.setCanvasMessages(_name, messages);
+            getCanvasController().setCanvasMessages(_name, messages);
         }
     }
 
@@ -64,6 +75,6 @@ public class EJCanvas
      */
     public void clearCanvasMessages()
     {
-        _canvasController.clearCanvasMessages(_name);
+        getCanvasController().clearCanvasMessages(_name);
     }
 }

@@ -29,6 +29,7 @@ import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJManagedActionController;
 import org.entirej.framework.core.data.controllers.EJQuestion;
+import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.interfaces.EJMessenger;
 import org.entirej.framework.core.interfaces.EJTranslator;
@@ -259,10 +260,17 @@ public class EJForm implements EJFrameworkHelper
      * 
      * @param canvasName
      *            The name of the popup canvas that should be displayed
+     * @deprecated use {@link #getPopupCanvas(String)}
      */
     public void showPopupCanvas(String canvasName)
     {
-        _form.showPopupCanvas(canvasName);
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.openPopupCanvas"));
+        }
+
+        getPopupCanvas(canvasName).open();
     }
 
     /**
@@ -273,10 +281,17 @@ public class EJForm implements EJFrameworkHelper
      * 
      * @param canvasName
      *            The name of the popup canvas that should be closed
+     * @deprecated use {@link #getPopupCanvas(String)}
      */
     public void closePopupCanvas(String canvasName)
     {
-        _form.closePopupCanvas(canvasName);
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.closePopupCanvas"));
+        }
+
+        getPopupCanvas(canvasName).close();
     }
 
     /**
@@ -294,10 +309,17 @@ public class EJForm implements EJFrameworkHelper
      *            The name of the tab canvas
      * @param pageName
      *            The name of the tab page
+     * @deprecated user {@link #getTabCanvas(String tabCanvasName)}
      */
     public void showTabCanvasPage(String canvasName, String pageName)
     {
-        _form.showTabCanvasPage(canvasName, pageName);
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "Form.showTabCanvasPage"));
+        }
+
+        getTabCanvas(canvasName).showPage(pageName);
     }
 
     /**
@@ -310,11 +332,13 @@ public class EJForm implements EJFrameworkHelper
      * @param visbile
      *            If set to <code>true</code> then the tab page will be made
      *            visible otherwise it will be hidden
+     * @deprecated use {@link #getTabCanvas(String)}
      */
 
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible)
     {
-        _form.setTabPageVisible(tabCanvasName, tabPageName, visible);
+        getTabCanvas(tabCanvasName).setPageVisible(tabPageName, visible);
+
     }
 
     /**
@@ -327,10 +351,11 @@ public class EJForm implements EJFrameworkHelper
      * @param tabCanvasName
      *            The name of the tab canvas to check
      * @return The currently displayed tab page on the given tab canvas
+     * @deprecated use {@link #getTabCanvas(String)}
      */
     public String getDisplayedTabCanvasPage(String tabCanvasName)
     {
-        return _form.getCanvasController().getDisplayedTabPage(tabCanvasName);
+        return getTabCanvas(tabCanvasName).getDisplayedPageName();
     }
 
     /**
@@ -348,10 +373,17 @@ public class EJForm implements EJFrameworkHelper
      *            The name of the stacked canvas
      * @param pageName
      *            The name of the stacked page
+     * @deprecated use {@link #getStackedCanvas(String canvasName)}
      */
     public void showStackedCanvasPage(String canvasName, String pageName)
     {
-        _form.showStackedCanvasPage(canvasName, pageName);
+        if (canvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.showStackedCanvasPage"));
+        }
+
+        getStackedCanvas(canvasName).showPage(pageName);
     }
 
     /**
@@ -364,10 +396,11 @@ public class EJForm implements EJFrameworkHelper
      * @param stackedCanvasName
      *            The name of the stacked canvas to check
      * @return The currently displayed stacked page on the given stacked canvas
+     * @deprecated user {@link #getStackedCanvas(String)}
      */
     public String getDisplayedStackedCanvasPage(String stackedCanvasName)
     {
-        return _form.getCanvasController().getDisplayedStackedPage(stackedCanvasName);
+        return getStackedCanvas(stackedCanvasName).getDisplayedPageName();
     }
 
     /**
@@ -487,7 +520,7 @@ public class EJForm implements EJFrameworkHelper
      */
     public EJCanvas getCanvas(String name)
     {
-        return new EJCanvas(_form.getCanvasController(), name);
+        return new EJCanvas(_form, name);
     }
 
     /**
@@ -499,7 +532,7 @@ public class EJForm implements EJFrameworkHelper
      */
     public EJTabCanvas getTabCanvas(String name)
     {
-        return new EJTabCanvas(_form.getCanvasController(), name);
+        return new EJTabCanvas(_form, name);
     }
 
     /**
@@ -511,7 +544,19 @@ public class EJForm implements EJFrameworkHelper
      */
     public EJPopupCanvas getPopupCanvas(String name)
     {
-        return new EJPopupCanvas(_form.getCanvasController(), name);
+        return new EJPopupCanvas(_form, name);
+    }
+
+    /**
+     * Used to retrieve an {@link EJStackedCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the stacked canvas
+     * @return The stacked canvas
+     */
+    public EJStackedCanvas getStackedCanvas(String name)
+    {
+        return new EJStackedCanvas(_form, name);
     }
 
     /**
