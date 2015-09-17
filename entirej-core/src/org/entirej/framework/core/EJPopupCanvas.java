@@ -65,11 +65,11 @@ public class EJPopupCanvas extends EJCanvas
     }
     
     
-    public void setPopupButtonState(EJPopupButton button,boolean state)
+    public void enableButton(EJPopupButton button,boolean state)
     {
         try
         {
-            getForm().getRenderer().setPopupButtonState(getName(),button,state);
+            getForm().getRenderer().enableButton(getName(),button,state);
         }
         catch (Exception e)
         {
@@ -78,11 +78,11 @@ public class EJPopupCanvas extends EJCanvas
     }
     
     
-    public boolean getPopupButtonState(EJPopupButton button)
+    public boolean isButtonEnabled(EJPopupButton button)
     {
         try
         {
-           return  getForm().getRenderer().getPopupButtonState(getName(),button);
+           return  getForm().getRenderer().isButtonEnabled(getName(),button);
         }
         catch (Exception e)
         {
