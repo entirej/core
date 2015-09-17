@@ -63,5 +63,34 @@ public class EJPopupCanvas extends EJCanvas
             getForm().handleException(e);
         }
     }
+    
+    
+    public void setPopupButtonState(EJPopupButton button,boolean state)
+    {
+        try
+        {
+            getForm().getRenderer().setPopupButtonState(getName(),button,state);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
+    
+    
+    public boolean getPopupButtonState(EJPopupButton button)
+    {
+        try
+        {
+           return  getForm().getRenderer().getPopupButtonState(getName(),button);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        
+        return false;
+    }
+    
 
 }

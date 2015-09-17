@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.internal.EJInternalForm;
 
 public interface EJFormRenderer extends EJRenderer
@@ -197,4 +198,8 @@ public interface EJFormRenderer extends EJRenderer
      * @see #setCanvasMessages(String, Collection)
      */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
+
+    public void setPopupButtonState(String canvasName, EJPopupButton button, boolean state);
+
+    public boolean getPopupButtonState(String canvasName, EJPopupButton button);
 }
