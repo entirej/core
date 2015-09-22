@@ -271,7 +271,7 @@ public class EJUpdateScreenItemController implements EJScreenItemController, Com
      */
     public void removeItemValueChangedListener(EJItemValueChangedListener listener)
     {
-        _updateScreenItemFocusedListeners.remove(listener);
+        _updateScreenItemValueChangedListeners.remove(listener);
     }
     
     /**
