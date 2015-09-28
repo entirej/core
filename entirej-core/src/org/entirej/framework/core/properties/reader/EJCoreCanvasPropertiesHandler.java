@@ -22,6 +22,7 @@ import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -48,6 +49,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
     private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
     private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
+    private static final String            ELEMENT_DEFAULT_BUTTON_ID      = "defaultButton";
     private static final String            ELEMENT_BUTTON_TWO_TEXT        = "buttonTwoText";
     private static final String            ELEMENT_BUTTON_THREE_TEXT      = "buttonThreeText";
     private static final String            ELEMENT_TAB_PAGE               = "tabPage";
@@ -215,6 +217,10 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(ELEMENT_BUTTON_ONE_TEXT))
         {
             _canvasProperties.setBaseButtonOneText(value);
+        }
+        else if (name.equals(ELEMENT_DEFAULT_BUTTON_ID))
+        {
+            _canvasProperties.setDefaultPopupButton(EJPopupButton.valueOf(value));
         }
         else if (name.equals(ELEMENT_BUTTON_TWO_TEXT))
         {

@@ -22,6 +22,7 @@ import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.containers.EJCoreCanvasPropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreStackedPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreTabPagePropertiesContainer;
@@ -68,6 +69,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private String                               _initiallyStackedPageName     = "";
 
     private EJCanvasMessagePosition              _messagePosition              = EJCanvasMessagePosition.RIGHT;
+    private EJPopupButton                        _button                       = EJPopupButton.ONE;
 
     private EJCoreTabPagePropertiesContainer     _tabPages;
     private EJCoreStackedPagePropertiesContainer _stackedPages;
@@ -1120,6 +1122,17 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     public void setReferredFormId(String referredFormId)
     {
         this._referredFormId = referredFormId;
+    }
+
+    public void setDefaultPopupButton(EJPopupButton button)
+    {
+        _button =button;
+
+    }
+    
+    public EJPopupButton getDefaultPopupButton()
+    {
+        return _button;
     }
 
 }
