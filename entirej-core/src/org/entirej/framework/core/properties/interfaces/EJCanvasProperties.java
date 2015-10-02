@@ -20,9 +20,11 @@ package org.entirej.framework.core.properties.interfaces;
 
 import java.io.Serializable;
 
+import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.entirej.framework.core.properties.EJCoreStackedPageProperties;
@@ -339,5 +341,13 @@ public interface EJCanvasProperties extends Serializable
     
     
     public String getReferredFormId();
+    
+    
+    public EJCanvasMessagePosition getMessagePosition();
+
+    public int getMessagePaneSize();
+    
+    
+    public EJPopupButton getDefaultPopupButton();
     
 }

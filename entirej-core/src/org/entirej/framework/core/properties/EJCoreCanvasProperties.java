@@ -18,9 +18,11 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties;
 
+import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.containers.EJCoreCanvasPropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreStackedPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreTabPagePropertiesContainer;
@@ -48,6 +50,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private int                                  _numCols                      = 1;
     private int                                  _verticalSpan                 = 1;
     private int                                  _horizontalSpan               = 1;
+    private int                                  _messagePaneSize              = 200;
     private boolean                              _expandHorizontally           = true;
     private boolean                              _expandVertically             = true;
     private boolean                              _displayGroupFrame            = false;
@@ -64,7 +67,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private String                               _buttonThreeText              = "";
     private String                               _baseButtonThreeText          = "";
     private String                               _initiallyStackedPageName     = "";
-    
+
+    private EJCanvasMessagePosition              _messagePosition              = EJCanvasMessagePosition.RIGHT;
+    private EJPopupButton                        _button                       = EJPopupButton.ONE;
+
     private EJCoreTabPagePropertiesContainer     _tabPages;
     private EJCoreStackedPagePropertiesContainer _stackedPages;
     private EJCoreCanvasPropertiesContainer      _popupCanvasContainer;
@@ -745,16 +751,16 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         _displayGroupFrame = display;
     }
 
-    
     public void setCloseableMessagePane(boolean closeableMessagePane)
     {
         this._closeableMessagePane = closeableMessagePane;
     }
-    
+
     public Boolean getCloseableMessagePane()
     {
         return _closeableMessagePane;
     }
+
     /**
      * @return Returns the height of this canvas
      */
@@ -1055,6 +1061,26 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         return _parentCanvasContainer;
     }
 
+    public void setMessagePosition(EJCanvasMessagePosition messagePosition)
+    {
+        this._messagePosition = messagePosition;
+    }
+
+    public EJCanvasMessagePosition getMessagePosition()
+    {
+        return _messagePosition;
+    }
+
+    public int getMessagePaneSize()
+    {
+        return _messagePaneSize;
+    }
+
+    public void setMessagePaneSize(int messagePaneSize)
+    {
+        this._messagePaneSize = messagePaneSize;
+    }
+
     @Override
     public int hashCode()
     {
@@ -1096,6 +1122,17 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     public void setReferredFormId(String referredFormId)
     {
         this._referredFormId = referredFormId;
+    }
+
+    public void setDefaultPopupButton(EJPopupButton button)
+    {
+        _button =button;
+
+    }
+    
+    public EJPopupButton getDefaultPopupButton()
+    {
+        return _button;
     }
 
 }

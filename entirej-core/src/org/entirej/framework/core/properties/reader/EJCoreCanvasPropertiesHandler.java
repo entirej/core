@@ -18,9 +18,11 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
+import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -40,11 +42,14 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_EXPAND_VERTICALLY      = "expandVertically";
     private static final String            ELEMENT_DISPLAY_GROUP_FRAME    = "displayGroupFrame";
     private static final String            ELEMENT_CLOSEABLE_MESSAGE_PANE = "closeableMessagePane";
+    private static final String            ELEMENT_MESSAGE_POSITION       = "messagePosition";
+    private static final String            ELEMENT_MESSAGE_PANE_SIZE      = "messagePaneSize";
     private static final String            ELEMENT_FRAME_TITLE            = "groupFrameTitle";
     private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
     private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
     private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
+    private static final String            ELEMENT_DEFAULT_BUTTON_ID      = "defaultButton";
     private static final String            ELEMENT_BUTTON_TWO_TEXT        = "buttonTwoText";
     private static final String            ELEMENT_BUTTON_THREE_TEXT      = "buttonThreeText";
     private static final String            ELEMENT_TAB_PAGE               = "tabPage";
@@ -137,6 +142,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
                 _canvasProperties.setVerticalSpan(Integer.parseInt(value));
             }
         }
+        else if (name.equals(ELEMENT_MESSAGE_PANE_SIZE))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.setMessagePaneSize(Integer.parseInt(value));
+            }
+        }
         else if (name.equals(ELEMENT_EXPAND_HORIZONTALLY))
         {
             if (value.length() > 0)
@@ -160,9 +172,16 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         }
         else if (name.equals(ELEMENT_CLOSEABLE_MESSAGE_PANE))
         {
-            if (value.length() > 0)
+            if (value != null && value.length() > 0)
             {
                 _canvasProperties.setCloseableMessagePane(Boolean.parseBoolean(value));
+            }
+        }
+        else if (name.equals(ELEMENT_MESSAGE_POSITION))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.setMessagePosition(EJCanvasMessagePosition.valueOf(value));
             }
         }
         else if (name.equals(ELEMENT_POPUP_PAGE_TITLE))
@@ -198,6 +217,10 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(ELEMENT_BUTTON_ONE_TEXT))
         {
             _canvasProperties.setBaseButtonOneText(value);
+        }
+        else if (name.equals(ELEMENT_DEFAULT_BUTTON_ID))
+        {
+            _canvasProperties.setDefaultPopupButton(EJPopupButton.valueOf(value));
         }
         else if (name.equals(ELEMENT_BUTTON_TWO_TEXT))
         {

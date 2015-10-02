@@ -277,7 +277,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
      */
     public void removeItemValueChangedListener(EJItemValueChangedListener listener)
     {
-        _mainScreenItemFocusedListeners.remove(listener);
+        _mainScreenItemValueChangedListeners.remove(listener);
     }
     
     /**
