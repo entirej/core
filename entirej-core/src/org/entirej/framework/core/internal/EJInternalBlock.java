@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 public class EJInternalBlock implements Serializable
 {
-    final Logger                       logger = LoggerFactory.getLogger(EJInternalBlock.class);
+    final Logger logger = LoggerFactory.getLogger(EJInternalBlock.class);
 
     private EJDefaultServicePojoHelper _servicePojoHelper;
     private EJBlockController          _blockController;
@@ -80,14 +80,14 @@ public class EJInternalBlock implements Serializable
             _servicePojoHelper.addFieldNamesToItems();
         }
     }
-    
+
     public EJDefaultServicePojoHelper getServicePojoHelper()
     {
         if (_servicePojoHelper == null)
         {
             initialiseServicePojoHelper();
         }
-        
+
         return _servicePojoHelper;
     }
 
@@ -479,6 +479,18 @@ public class EJInternalBlock implements Serializable
             }
         }
         logger.trace("END executeLastQuery");
+    }
+
+    /**
+     * Returns the last query criteria that was used for the query of the block
+     * 
+     * @return The last used QueryCriteria or <code>null</code> if no query has
+     *         yet been made
+     */
+    public EJQueryCriteria getLastQueryCriteria()
+    {
+        return _blockController.getQueryCriteria();
+
     }
 
     /**

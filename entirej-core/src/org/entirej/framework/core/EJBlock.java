@@ -352,6 +352,17 @@ public class EJBlock implements EJQueryBlock, Serializable
     }
     
     /**
+     * Returns the last query criteria that was used for the query of the block
+     * 
+     * @return The last used QueryCriteria or <code>null</code> if no query has
+     *         yet been made
+     */
+    public EJQueryCriteria getLastQueryCriteria()
+    {
+        return _block.getLastQueryCriteria();
+
+    }
+    /**
      * Instructs EntireJ to re-query this block using the query criteria
      * previously entered
      */
