@@ -20,6 +20,7 @@ package org.entirej.framework.core.service;
 
 public interface EJPojoContentGenerator
 {
-    public String generateContent(EJPojoGeneratorType type);
+
+    public String getTemplate();
     
 }

@@ -20,5 +20,6 @@ package org.entirej.framework.core.service;
 
 public interface EJServiceContentGenerator
 {
-    public String generateContent(EJServiceGeneratorType generatorType);
+
+    public String getTemplate();
 }

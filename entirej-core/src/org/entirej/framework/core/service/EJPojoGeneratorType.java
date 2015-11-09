@@ -19,57 +19,67 @@
 package org.entirej.framework.core.service;
 
 import java.util.Collection;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EJPojoGeneratorType
 {
     private Collection<EJTableColumn> _columnNames;
     private String                    _className;
     private String                    _packageName;
-    private final Properties          _properties = new Properties();
-    
+    private final Map<String, String> _properties = new HashMap<>();
+
     public String getClassName()
     {
         return _className;
     }
-    
+
     public void setClassName(String className)
     {
         _className = className;
     }
-    
+
     public String getPackageName()
     {
         return _packageName;
     }
-    
+
     public void setPackageName(String packageName)
     {
         _packageName = packageName;
     }
-    
+
     public Collection<EJTableColumn> getColumns()
     {
         return _columnNames;
     }
-    
+
     public void setColumnNames(Collection<EJTableColumn> columns)
     {
         _columnNames = columns;
     }
-    
+
     public String getProperty(String key, String defaultVlaue)
     {
-        return _properties.getProperty(key, defaultVlaue);
+        if(!_properties.containsKey(key))
+        {
+            return defaultVlaue;
+        }
+        return _properties.get(key);
     }
-    
+
+    public Collection<String> getPropertyKeys()
+    {
+        return (Collection<String>) _properties.keySet();
+    }
+
     public String getProperty(String key)
     {
-        return _properties.getProperty(key);
+        return _properties.get(key);
     }
-    
+
     public Object setProperty(String key, String vlaue)
     {
-        return _properties.setProperty(key, vlaue);
+        return _properties.put(key, vlaue);
     }
 }

@@ -18,8 +18,13 @@
  ******************************************************************************/
 package org.entirej.framework.core.service;
 
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 public class EJServiceGeneratorType
 {
@@ -40,8 +45,8 @@ public class EJServiceGeneratorType
     private List<EJTableColumn> _insertProcedureParameters;
     private List<EJTableColumn> _updateProcedureParameters;
     private List<EJTableColumn> _deleteProcedureParameters;
-    private final Properties    _properties = new Properties();
-    
+    private final Map<String, String> _properties = new HashMap<>();
+
     public Class<?> getPojo()
     {
         return _pojo;
@@ -214,16 +219,25 @@ public class EJServiceGeneratorType
     
     public String getProperty(String key, String defaultVlaue)
     {
-        return _properties.getProperty(key, defaultVlaue);
+        if(!_properties.containsKey(key))
+        {
+            return defaultVlaue;
+        }
+        return _properties.get(key);
     }
-    
+
+    public Collection<String> getPropertyKeys()
+    {
+        return (Collection<String>) _properties.keySet();
+    }
+
     public String getProperty(String key)
     {
-        return _properties.getProperty(key);
+        return _properties.get(key);
     }
-    
+
     public Object setProperty(String key, String vlaue)
     {
-        return _properties.setProperty(key, vlaue);
+        return _properties.put(key, vlaue);
     }
 }

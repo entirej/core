@@ -19,14 +19,16 @@
 package org.entirej.framework.core.service;
 
 import java.io.Serializable;
-import java.util.Properties;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EJTableColumn implements Serializable
 {
     private String           _name;
     private String           _datatypeName;
     private EJParameterType  _parameterType;
-    private final Properties _properties = new Properties();
+    private final Map<String, String> _properties = new HashMap<>();
     
     private boolean          _array;
     private boolean          _struct;
@@ -92,17 +94,26 @@ public class EJTableColumn implements Serializable
     
     public String getProperty(String key, String defaultVlaue)
     {
-        return _properties.getProperty(key, defaultVlaue);
+        if(!_properties.containsKey(key))
+        {
+            return defaultVlaue;
+        }
+        return _properties.get(key);
     }
-    
+
+    public Collection<String> getPropertyKeys()
+    {
+        return (Collection<String>) _properties.keySet();
+    }
+
     public String getProperty(String key)
     {
-        return _properties.getProperty(key);
+        return _properties.get(key);
     }
-    
+
     public Object setProperty(String key, String vlaue)
     {
-        return _properties.setProperty(key, vlaue);
+        return _properties.put(key, vlaue);
     }
     
 }
