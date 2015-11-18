@@ -28,7 +28,7 @@ public class EJTableColumn implements Serializable
     private String           _name;
     private String           _datatypeName;
     private EJParameterType  _parameterType;
-    private final Map<String, String> _properties = new HashMap<>();
+    private final Map<String, String> _properties = new HashMap<String, String>();
     
     private boolean          _array;
     private boolean          _struct;
