@@ -214,6 +214,31 @@ public class EJDateHelper implements Serializable
     }
     
     /**
+     * Converts a <code>Timestamp</code> to a string of a specified format
+     * 
+     * @param inputDate
+     *            The original date to convert to a string.
+     * @param dateFormat
+     *            The format to convert the date to. See the official Javadoc
+     *            for the Java class <code>{@link SimpleDateFormat}</code> for a
+     *            description of format syntax
+     * 
+     * @return A string representing the original date in the specified format
+     */
+    public String convertDateToString(Timestamp inputDate, String dateFormat)
+    {
+        final SimpleDateFormat realDateFormat = new SimpleDateFormat(dateFormat);
+        
+        String outputDate = null;
+        if (inputDate != null && realDateFormat != null)
+        {
+            outputDate = realDateFormat.format(inputDate);
+        }
+        
+        return outputDate;
+    }
+    
+    /**
      * Converts a string to a <code>Timestamp</code>
      * 
      * @param inputDate
