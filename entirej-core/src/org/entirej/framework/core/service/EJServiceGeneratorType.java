@@ -19,12 +19,9 @@
 package org.entirej.framework.core.service;
 
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 public class EJServiceGeneratorType
 {
@@ -45,7 +42,7 @@ public class EJServiceGeneratorType
     private List<EJTableColumn> _insertProcedureParameters;
     private List<EJTableColumn> _updateProcedureParameters;
     private List<EJTableColumn> _deleteProcedureParameters;
-    private final Map<String, String> _properties = new HashMap<>();
+    private final Map<String, String> _properties = new HashMap<String, String>();
 
     public Class<?> getPojo()
     {

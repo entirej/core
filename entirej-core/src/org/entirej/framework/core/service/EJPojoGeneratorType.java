@@ -27,7 +27,7 @@ public class EJPojoGeneratorType
     private Collection<EJTableColumn> _columnNames;
     private String                    _className;
     private String                    _packageName;
-    private final Map<String, String> _properties = new HashMap<>();
+    private final Map<String, String> _properties = new HashMap<String, String>();
 
     public String getClassName()
     {
