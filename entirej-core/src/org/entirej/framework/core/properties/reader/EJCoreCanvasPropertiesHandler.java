@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
+import org.entirej.framework.core.enumerations.EJCanvasLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
@@ -48,6 +49,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
     private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
+    private static final String            ELEMENT_LINE_STYLE             = "lineStyle";
     private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
     private static final String            ELEMENT_DEFAULT_BUTTON_ID      = "defaultButton";
     private static final String            ELEMENT_BUTTON_TWO_TEXT        = "buttonTwoText";
@@ -205,6 +207,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             if (value != null && value.length() > 0)
             {
                 _canvasProperties.setSplitOrientation(EJCanvasSplitOrientation.valueOf(value));
+            }
+        }
+        else if (name.equals(ELEMENT_LINE_STYLE))
+        {
+            if (value != null && value.length() > 0)
+            {
+                _canvasProperties.setLineStyle(EJCanvasLineStyle.valueOf(value));
             }
         }
         else if (name.equals(ELEMENT_INITIAL_STACKED_PAGE))

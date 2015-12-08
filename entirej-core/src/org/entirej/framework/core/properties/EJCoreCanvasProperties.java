@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties;
 
+import org.entirej.framework.core.enumerations.EJCanvasLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
@@ -85,6 +86,8 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     // available
     private EJCanvasTabPosition                  _tabPosition                  = EJCanvasTabPosition.TOP;
     private EJCanvasSplitOrientation             _splitOrientation             = EJCanvasSplitOrientation.HORIZONTAL;
+    
+    private EJCanvasLineStyle                    _lineStyle                    = EJCanvasLineStyle.SOLID;
 
     public EJCoreCanvasProperties(String name)
     {
@@ -899,6 +902,18 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     public EJCanvasSplitOrientation getSplitOrientation()
     {
         return _splitOrientation;
+    }
+    
+    
+    @Override
+    public EJCanvasLineStyle getLineStyle()
+    {
+        return _lineStyle;
+    }
+    
+    public void setLineStyle(EJCanvasLineStyle lineStyle)
+    {
+        this._lineStyle = lineStyle;
     }
 
     /**

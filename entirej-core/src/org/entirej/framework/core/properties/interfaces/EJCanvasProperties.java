@@ -20,6 +20,7 @@ package org.entirej.framework.core.properties.interfaces;
 
 import java.io.Serializable;
 
+import org.entirej.framework.core.enumerations.EJCanvasLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
@@ -290,6 +291,14 @@ public interface EJCanvasProperties extends Serializable
      * @see EJCoreCanvasProperties#setTabPosition(EJCanvasTabPosition)
      */
     public EJCanvasSplitOrientation getSplitOrientation();
+    
+    /**
+     * Returns the style of the line
+     * 
+     * @return The line style
+     * 
+     */
+    public EJCanvasLineStyle getLineStyle();
     
     /**
      * Returns the name of the initially displayed stacked page
