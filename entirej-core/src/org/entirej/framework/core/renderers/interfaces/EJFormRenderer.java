@@ -199,7 +199,16 @@ public interface EJFormRenderer extends EJRenderer
      */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
 
-    public void enableButton(String canvasName, EJPopupButton button, boolean state);
+    public void setButtonEnabled(String canvasName, EJPopupButton button, boolean state);
 
     public boolean isButtonEnabled(String canvasName, EJPopupButton button);
+    
+    public boolean isButtonVisible(String canvasName, EJPopupButton button);
+    public String getButtonLabel(String canvasName, EJPopupButton button);
+    
+    
+    public void setButtonVisible(String canvasName, EJPopupButton button, boolean state);
+    public void setButtonLabel(String canvasName, EJPopupButton button, String label);
+   
+    
 }

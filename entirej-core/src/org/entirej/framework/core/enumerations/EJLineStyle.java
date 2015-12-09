@@ -1,6 +1,6 @@
 package org.entirej.framework.core.enumerations;
 
-public enum EJCanvasLineStyle
+public enum EJLineStyle
 {
     SOLID, DASHED, DOTTED, DOUBLE;
 

@@ -21,6 +21,8 @@ package org.entirej.framework.core.properties;
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 
@@ -30,42 +32,45 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
  */
 public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
 {
-    private EJCoreBlockProperties           _blockProperties;
-    private String                          _referencedItemName              = "";
-    private EJCoreItemProperties            _referencedItemProperties;
-    private EJFrameworkExtensionProperties  _blockRendererRequiredProperties = null;
-    private EJFrameworkExtensionProperties  _lovRendererRequiredProperties   = null;
-    
+    private EJCoreBlockProperties          _blockProperties;
+    private String                         _referencedItemName              = "";
+    private EJCoreItemProperties           _referencedItemProperties;
+    private EJFrameworkExtensionProperties _blockRendererRequiredProperties = null;
+    private EJFrameworkExtensionProperties _lovRendererRequiredProperties   = null;
+
     private String                          _itemLabel;
     private String                          _baseItemLabel;
     private String                          _itemHint;
     private String                          _baseItemHint;
-    private boolean                         _visible                         = true;
-    private boolean                         _editAllowed                     = false;
-    private boolean                         _mandatory                       = false;
-    private boolean                         _enableLovNotification           = false;
+    private boolean                         _visible               = true;
+    private boolean                         _editAllowed           = false;
+    private boolean                         _mandatory             = false;
+    private boolean                         _enableLovNotification = false;
     private String                          _lovMappingName;
-    private boolean                         _validateFromLov                 = true;
-    private String                          _actionCommand                   = "";
-    private boolean                         _isSpacerItem                    = false;
-    private EJCoreVisualAttributeProperties _visualAttribute                 = null;
-    
+    private boolean                         _validateFromLov       = true;
+    private String                          _actionCommand         = "";
+    private boolean                         _isSpacerItem          = false;
+    private boolean                         _isSeparator           = false;
+    private EJLineStyle                     _separatorLineStyle    = EJLineStyle.SOLID;
+    private EJSeparatorOrientation          _separatorOrientation  = EJSeparatorOrientation.HORIZONTAL;
+    private EJCoreVisualAttributeProperties _visualAttribute       = null;
+
     public EJCoreMainScreenItemProperties(EJCoreBlockProperties blockProperties, boolean spacerItem)
     {
         _blockProperties = blockProperties;
         _isSpacerItem = spacerItem;
     }
-    
+
     public void setIsSpacerItem(boolean isSpacerItem)
     {
         _isSpacerItem = isSpacerItem;
     }
-    
+
     public boolean isSpacerItem()
     {
         return _isSpacerItem;
     }
-    
+
     /**
      * Returns the name of the data block item to which this item references
      * <p>
@@ -76,7 +81,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _referencedItemName;
     }
-    
+
     /**
      * Returns the label defined for this block item
      * <p>
@@ -90,7 +95,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _itemLabel;
     }
-    
+
     /**
      * Returns the untranslated label for this item
      * 
@@ -101,7 +106,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _baseItemLabel;
     }
-    
+
     /**
      * Sets this items base label
      * <p>
@@ -122,10 +127,10 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
         {
             _baseItemLabel = label;
         }
-        
+
         _itemLabel = _baseItemLabel;
     }
-    
+
     /**
      * Used to set the translated label
      * <p>
@@ -140,7 +145,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _itemLabel = translatedLabel;
     }
-    
+
     /**
      * Returns the hint defined for this block item
      * <p>
@@ -153,7 +158,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _itemHint;
     }
-    
+
     /**
      * Returns the untranslated hint for this item
      * 
@@ -164,7 +169,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _baseItemHint;
     }
-    
+
     /**
      * Sets this items base hint
      * <p>
@@ -185,10 +190,10 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
         {
             _baseItemHint = hint;
         }
-        
+
         _itemHint = _baseItemHint;
     }
-    
+
     /**
      * Used to set the translated hint
      * <p>
@@ -203,7 +208,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _itemHint = translatedHint;
     }
-    
+
     /**
      * Sets the name of the block item to which this item references
      * <p>
@@ -230,7 +235,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
             }
         }
     }
-    
+
     /**
      * Returns the <code>ItemProperties</code> to which this main screen item
      * references
@@ -241,7 +246,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _referencedItemProperties;
     }
-    
+
     /**
      * Indicates if this item is to be visible
      * <p>
@@ -253,7 +258,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _visible;
     }
-    
+
     /**
      * If set to <code>true</code>, this item will be visible
      * 
@@ -263,7 +268,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _visible = visible;
     }
-    
+
     /**
      * If set to <code>true</code>, users will be able to modify this items
      * value
@@ -274,7 +279,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _editAllowed = editAllowed;
     }
-    
+
     /**
      * Indicates if this item can be modified
      * <p>
@@ -286,7 +291,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _editAllowed;
     }
-    
+
     /**
      * If the block renderer requires no insert or update screen. Then it
      * probably means that users edit the data directly within the main screen.
@@ -299,7 +304,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _mandatory = mandatory;
     }
-    
+
     /**
      * If the block renderer requires no insert or update screen. Then it
      * probably means that users edit the data directly within the main screen.
@@ -313,7 +318,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _mandatory;
     }
-    
+
     /**
      * Sets the name of the lov mapping assigned to this item
      * <p>
@@ -328,7 +333,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _lovMappingName = lovMappingName;
     }
-    
+
     /**
      * Returns the name of the lov mapping assigned to this item
      * 
@@ -339,7 +344,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _lovMappingName;
     }
-    
+
     /**
      * Sets the enabled flag of Lov Notification
      * <p>
@@ -358,7 +363,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _enableLovNotification = enable;
     }
-    
+
     /**
      * Indicates if lov notification has been enabled
      * <p>
@@ -377,32 +382,32 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _enableLovNotification;
     }
-    
+
     public void setValidateFromLov(boolean validateFromLov)
     {
         _validateFromLov = validateFromLov;
     }
-    
+
     public boolean validateFromLov()
     {
         return _validateFromLov;
     }
-    
+
     public String getActionCommand()
     {
         return _actionCommand;
     }
-    
+
     public void setActionCommand(String actionCommand)
     {
         _actionCommand = actionCommand;
     }
-    
+
     public EJCoreVisualAttributeProperties getVisualAttributeProperties()
     {
         return _visualAttribute;
     }
-    
+
     /**
      * Sets the name of the visual attribute that should be used for this item
      * <p>
@@ -423,10 +428,10 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
         {
             throw new IllegalArgumentException("There is no visual attribute with the name " + name + " defined within this application.");
         }
-        
+
         _visualAttribute = EJCoreProperties.getInstance().getVisualAttributesContainer().getVisualAttributeProperties(name);
     }
-    
+
     /**
      * Returns the <code>RenderingProperties</code> that are required by the
      * block renderer
@@ -437,7 +442,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _blockRendererRequiredProperties;
     }
-    
+
     /**
      * Sets the <code>RenderingProperties</code> that are required by the block
      * renderer
@@ -449,7 +454,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _blockRendererRequiredProperties = properties;
     }
-    
+
     /**
      * Returns the <code>RenderingProperties</code> that are required by the lov
      * renderer
@@ -460,7 +465,7 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         return _lovRendererRequiredProperties;
     }
-    
+
     /**
      * Sets the <code>RenderingProperties</code> that are required by the lov
      * renderer
@@ -472,11 +477,44 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
     {
         _lovRendererRequiredProperties = properties;
     }
-    
+
+    @Override
+    public EJLineStyle getSeparatorLineStyle()
+    {
+        return _separatorLineStyle;
+    }
+
+    @Override
+    public EJSeparatorOrientation getSeparatorOrientation()
+    {
+        return _separatorOrientation;
+    }
+
+    @Override
+    public boolean isSeparator()
+    {
+        return _isSeparator;
+    }
+
+    public void setSeparatorLineStyle(EJLineStyle separatorLineStyle)
+    {
+        _separatorLineStyle = separatorLineStyle;
+    }
+
+    public void setSeparatorOrientation(EJSeparatorOrientation separatorOrientation)
+    {
+        _separatorOrientation = separatorOrientation;
+    }
+
+    public void setSeparator(boolean isSeparator)
+    {
+        _isSeparator = isSeparator;
+    }
+
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
-        
+
         buffer.append("\nItem: ");
         buffer.append("\n    ReferencedBlockItemName: ");
         buffer.append(_referencedItemName);
@@ -484,8 +522,8 @@ public class EJCoreMainScreenItemProperties implements EJScreenItemProperties
         buffer.append(_mandatory);
         buffer.append("      EditAllowed:             ");
         buffer.append(_editAllowed);
-        
+
         return buffer.toString();
     }
-    
+
 }

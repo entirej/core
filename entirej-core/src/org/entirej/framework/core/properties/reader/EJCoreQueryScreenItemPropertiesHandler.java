@@ -18,6 +18,8 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreFormProperties;
 import org.entirej.framework.core.properties.EJCoreQueryScreenItemProperties;
@@ -67,6 +69,22 @@ public class EJCoreQueryScreenItemPropertiesHandler extends EJCorePropertiesTagH
                 if (isSpacerItem != null && Boolean.parseBoolean(isSpacerItem))
                 {
                     _itemProperties.setIsSpacerItem(true);
+                    String isSeparator = attributes.getValue("isSeparator");
+                    if (isSeparator != null && Boolean.parseBoolean(isSeparator))
+                    {
+                        _itemProperties.setSeparator(true);
+                    }
+                    
+                    String linestyle = attributes.getValue("separatorLineStyle");
+                    if (linestyle != null )
+                    {
+                        _itemProperties.setSeparatorLineStyle(EJLineStyle.valueOf(linestyle));
+                    }
+                    String separatorOrientation = attributes.getValue("separatorOrientation");
+                    if (separatorOrientation != null )
+                    {
+                        _itemProperties.setSeparatorOrientation(EJSeparatorOrientation.valueOf(separatorOrientation));
+                    }
                 }
                 _itemProperties.setReferencedItemName(attributes.getValue("referencedItemName"));
             }

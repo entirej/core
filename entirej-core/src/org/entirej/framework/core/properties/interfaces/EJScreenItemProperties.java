@@ -20,6 +20,11 @@ package org.entirej.framework.core.properties.interfaces;
 
 import java.io.Serializable;
 
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
+import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
+import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 
 public interface EJScreenItemProperties extends Serializable
@@ -39,6 +44,13 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isSpacerItem();
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * Returns the label defined for this block item
@@ -160,5 +172,31 @@ public interface EJScreenItemProperties extends Serializable
      *         values otherwise <code>false</code>
      */
     public boolean validateFromLov();
+    
+    
+    
+    
+    /**
+     * Returns the orientation of the Separator
+     * 
+     * @return The separator orientation
+     */
+    public EJSeparatorOrientation getSeparatorOrientation();
+    
+    /**
+     * Returns the style of the line
+     * 
+     * @return The line style
+     * 
+     */
+    public EJLineStyle getSeparatorLineStyle();
+    
+    /**
+     * Indicates if this spacer screen item renderer as separator
+     * 
+     * @return <code>true</code> if this spacer item is a separator, otherwise
+     *         <code>false</code>
+     */
+    public boolean isSeparator();
     
 }

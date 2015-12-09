@@ -18,7 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
-import org.entirej.framework.core.enumerations.EJCanvasLineStyle;
+import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
@@ -213,7 +213,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             if (value != null && value.length() > 0)
             {
-                _canvasProperties.setLineStyle(EJCanvasLineStyle.valueOf(value));
+                _canvasProperties.setLineStyle(EJLineStyle.valueOf(value));
             }
         }
         else if (name.equals(ELEMENT_INITIAL_STACKED_PAGE))

@@ -21,6 +21,8 @@ package org.entirej.framework.core.properties;
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.interfaces.EJQueryScreenItemProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
@@ -34,10 +36,10 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
  */
 public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, EJQueryScreenItemProperties
 {
-    private EJCoreBlockProperties           _blockProperties;
-    private EJCoreItemProperties            _referencedItemProperties;
-    private EJFrameworkExtensionProperties  _queryScreenRendererProperties;
-    
+    private EJCoreBlockProperties          _blockProperties;
+    private EJCoreItemProperties           _referencedItemProperties;
+    private EJFrameworkExtensionProperties _queryScreenRendererProperties;
+
     private String                          _itemLabel;
     private String                          _baseItemLabel;
     private String                          _itemHint;
@@ -51,24 +53,27 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     private boolean                         _validateFromLov       = true;
     private String                          _actionCommand         = "";
     private boolean                         _isSpacerItem          = false;
+    private boolean                         _isSeparator           = false;
+    private EJLineStyle                     _separatorLineStyle    = EJLineStyle.SOLID;
+    private EJSeparatorOrientation          _separatorOrientation  = EJSeparatorOrientation.HORIZONTAL;
     private EJCoreVisualAttributeProperties _visualAttribute;
-    
+
     public EJCoreQueryScreenItemProperties(EJCoreBlockProperties blockProperties, boolean isSpacer)
     {
         _blockProperties = blockProperties;
         _isSpacerItem = isSpacer;
     }
-    
+
     public void setIsSpacerItem(boolean isSpacerItem)
     {
         _isSpacerItem = isSpacerItem;
     }
-    
+
     public boolean isSpacerItem()
     {
         return _isSpacerItem;
     }
-    
+
     /**
      * Returns the name of the data block item to which this item references
      * <p>
@@ -83,7 +88,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _referencedItemName;
     }
-    
+
     /**
      * Returns the label defined for this block item
      * <p>
@@ -97,7 +102,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _itemLabel;
     }
-    
+
     /**
      * Returns the untranslated label for this item
      * 
@@ -108,7 +113,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _baseItemLabel;
     }
-    
+
     /**
      * Sets this items base label
      * <p>
@@ -129,10 +134,10 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
         {
             _baseItemLabel = label;
         }
-        
+
         _itemLabel = _baseItemLabel;
     }
-    
+
     /**
      * Used to set the translated label
      * <p>
@@ -147,7 +152,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _itemLabel = translatedLabel;
     }
-    
+
     /**
      * Returns the hint defined for this block item
      * <p>
@@ -160,7 +165,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _itemHint;
     }
-    
+
     /**
      * Returns the untranslated hint for this item
      * 
@@ -171,7 +176,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _baseItemHint;
     }
-    
+
     /**
      * Sets this items base hint
      * <p>
@@ -194,7 +199,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
         }
         _itemHint = _baseItemHint;
     }
-    
+
     /**
      * Used to set the translated hint
      * <p>
@@ -209,7 +214,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _itemHint = translatedHint;
     }
-    
+
     /**
      * Sets the name of the block item to which this item references
      * <p>
@@ -236,7 +241,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
             }
         }
     }
-    
+
     /**
      * Returns the <code>ItemProperties</code> to which this query screen item
      * references
@@ -247,7 +252,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _referencedItemProperties;
     }
-    
+
     /**
      * Returns the <code>RenderingProperties</code> that are required by the
      * blocks query screen renderer
@@ -258,7 +263,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _queryScreenRendererProperties;
     }
-    
+
     /**
      * Sets the <code>RenderingProperties</code> that are required by the blocks
      * query screen renderer
@@ -270,12 +275,12 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _queryScreenRendererProperties = properties;
     }
-    
+
     public EJCoreVisualAttributeProperties getVisualAttributeProperties()
     {
         return _visualAttribute;
     }
-    
+
     /**
      * Sets the name of the visual attribute that should be used for this item
      * <p>
@@ -296,10 +301,10 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
         {
             throw new IllegalArgumentException("There is no visual attribute with the name " + name + " defined within this application.");
         }
-        
+
         _visualAttribute = EJCoreProperties.getInstance().getVisualAttributesContainer().getVisualAttributeProperties(name);
     }
-    
+
     /**
      * Indicates if this item is to be visible
      * <p>
@@ -311,7 +316,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _visible;
     }
-    
+
     /**
      * If set to <code>true</code>, this item will be visible
      * 
@@ -321,7 +326,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _visible = visible;
     }
-    
+
     /**
      * If set to <code>true</code>, users will be able to modify this items
      * value
@@ -332,7 +337,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _editAllowed = editAllowed;
     }
-    
+
     /**
      * Indicates if this item can be modified
      * <p>
@@ -344,7 +349,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _editAllowed;
     }
-    
+
     /**
      * Indicates that a value is required by this item during query operations
      * <p>
@@ -358,7 +363,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _mandatory = mandatory;
     }
-    
+
     /**
      * Indicates that a value is required during query operations
      * <p>
@@ -371,7 +376,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _mandatory;
     }
-    
+
     /**
      * Sets the name of the lov mapping assigned to this item
      * <p>
@@ -386,7 +391,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _lovMappingName = lovMappingName;
     }
-    
+
     /**
      * Returns the name of the lov mapping assigned to this item
      * 
@@ -397,7 +402,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _lovMappingName;
     }
-    
+
     /**
      * Sets the enabled flag of Lov Notification
      * <p>
@@ -416,7 +421,7 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         _enableLovNotification = enable;
     }
-    
+
     /**
      * Indicates if lov notification has been enabled
      * <p>
@@ -435,31 +440,64 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
     {
         return _enableLovNotification;
     }
-    
+
     public void setValidateFromLov(boolean validateFromLov)
     {
         _validateFromLov = validateFromLov;
     }
-    
+
     public boolean validateFromLov()
     {
         return _validateFromLov;
     }
-    
+
     public String getActionCommand()
     {
         return _actionCommand;
     }
-    
+
     public void setActionCommand(String actionCommand)
     {
         _actionCommand = actionCommand;
     }
-    
+
+    @Override
+    public EJLineStyle getSeparatorLineStyle()
+    {
+        return _separatorLineStyle;
+    }
+
+    @Override
+    public EJSeparatorOrientation getSeparatorOrientation()
+    {
+        return _separatorOrientation;
+    }
+
+    @Override
+    public boolean isSeparator()
+    {
+        return _isSeparator;
+    }
+
+    public void setSeparatorLineStyle(EJLineStyle separatorLineStyle)
+    {
+        _separatorLineStyle = separatorLineStyle;
+    }
+
+    public void setSeparatorOrientation(EJSeparatorOrientation separatorOrientation)
+    {
+        _separatorOrientation = separatorOrientation;
+    }
+
+    public void setSeparator(boolean isSeparator)
+    {
+        _isSeparator = isSeparator;
+    }
+
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
-        
+
         buffer.append("\nItem: ");
         buffer.append("\n    ReferencedBlockItemName: ");
         buffer.append(_referencedItemName);
@@ -467,8 +505,8 @@ public class EJCoreQueryScreenItemProperties implements EJScreenItemProperties, 
         buffer.append(_mandatory);
         buffer.append("      EditAllowed:             ");
         buffer.append(_editAllowed);
-        
+
         return buffer.toString();
     }
-    
+
 }
