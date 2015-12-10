@@ -186,12 +186,12 @@ public abstract class EJBlockController implements Serializable
 
             EJScreenItemProperties mainScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.MAIN)
                     .getScreenItemProperties(props.getName());
-            EJScreenItemProperties insertScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.INSERT).getScreenItemProperties(
-                    props.getName());
-            EJScreenItemProperties updateScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.UPDATE).getScreenItemProperties(
-                    props.getName());
-            EJScreenItemProperties queryScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.QUERY).getScreenItemProperties(
-                    props.getName());
+            EJScreenItemProperties insertScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.INSERT)
+                    .getScreenItemProperties(props.getName());
+            EJScreenItemProperties updateScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.UPDATE)
+                    .getScreenItemProperties(props.getName());
+            EJScreenItemProperties queryScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.QUERY)
+                    .getScreenItemProperties(props.getName());
 
             if (mainScreenItemProps != null)
             {
@@ -520,23 +520,7 @@ public abstract class EJBlockController implements Serializable
         logger.trace("END navigateToLastRecord");
     }
 
-    public void navigateToRecord(EJDataRecord record)
-    {
-        logger.trace("START navigateToRecord {}", record);
-        if (getDataBlock().containsRecord(record))
-        {
-            if (getRendererController() != null)
-            {
-                getRendererController().recordSelected(record);
-            }
-
-            if (getMirrorBlockSynchronizer() != null)
-            {
-                getMirrorBlockSynchronizer().newRecordSelected(this, record);
-            }
-        }
-        logger.trace("END navigateToRecord");
-    }
+    public abstract void navigateToRecord(EJDataRecord record);
 
     /**
      * Returns the current focused record

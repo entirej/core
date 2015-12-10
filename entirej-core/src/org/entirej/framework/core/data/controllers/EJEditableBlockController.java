@@ -345,6 +345,22 @@ public class EJEditableBlockController extends EJBlockController implements Seri
         }
     }
     
+
+    public void navigateToRecord(EJDataRecord record)
+    {
+        logger.trace("START navigateToRecord {}", record);
+        if (getDataBlock().containsRecord(record))
+        {
+            if (getRendererController() != null)
+            {
+                getRendererController().recordSelected(record);
+                newRecordInstance(record);
+            }
+        }
+        logger.trace("END navigateToRecord");
+    }
+    
+    
     /**
      * Informs the blocks renderer that the user wishes to perform an insert
      * operation

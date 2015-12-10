@@ -320,6 +320,21 @@ public class EJLovController extends EJBlockController implements Serializable
             newRecordInstance(record);
         }
     }
+    
+
+    public void navigateToRecord(EJDataRecord record)
+    {
+        logger.trace("START navigateToRecord {}", record);
+        if (getDataBlock().containsRecord(record))
+        {
+            if (getRendererController() != null)
+            {
+                getRendererController().recordSelected(record);
+                newRecordInstance(record);
+            }
+        }
+        logger.trace("END navigateToRecord");
+    }
 
     /**
      * Displays the lov that is has been defined for the given item
