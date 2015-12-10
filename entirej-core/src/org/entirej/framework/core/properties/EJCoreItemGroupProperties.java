@@ -24,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.entirej.framework.core.enumerations.EJItemGroupAlignment;
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
 import org.entirej.framework.core.properties.containers.EJCoreItemGroupPropertiesContainer;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.interfaces.EJItemGroupProperties;
@@ -54,6 +56,11 @@ public class EJCoreItemGroupProperties implements EJItemGroupProperties
     private EJCoreItemGroupPropertiesContainer _parentItemGroupContainer;
     private EJCoreItemGroupPropertiesContainer _childItemGroupContainer;
     private List<EJScreenItemProperties>       _itemProperties;
+    
+
+    private boolean                         _isSeparator           = false;
+    private EJLineStyle                     _separatorLineStyle    = EJLineStyle.SOLID;
+    private EJSeparatorOrientation          _separatorOrientation  = EJSeparatorOrientation.HORIZONTAL;
     
     public EJCoreItemGroupProperties(String name, EJCoreItemGroupPropertiesContainer parentItemGroupContainer)
     {
@@ -409,6 +416,40 @@ public class EJCoreItemGroupProperties implements EJItemGroupProperties
     public void setRendererProperties(EJFrameworkExtensionProperties properties)
     {
         _rendererProperties = properties;
+    }
+    
+    
+    @Override
+    public EJLineStyle getSeparatorLineStyle()
+    {
+        return _separatorLineStyle;
+    }
+
+    @Override
+    public EJSeparatorOrientation getSeparatorOrientation()
+    {
+        return _separatorOrientation;
+    }
+
+    @Override
+    public boolean isSeparator()
+    {
+        return _isSeparator;
+    }
+
+    public void setSeparatorLineStyle(EJLineStyle separatorLineStyle)
+    {
+        _separatorLineStyle = separatorLineStyle;
+    }
+
+    public void setSeparatorOrientation(EJSeparatorOrientation separatorOrientation)
+    {
+        _separatorOrientation = separatorOrientation;
+    }
+
+    public void setSeparator(boolean isSeparator)
+    {
+        _isSeparator = isSeparator;
     }
     
 }

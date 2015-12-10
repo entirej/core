@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.entirej.framework.core.enumerations.EJItemGroupAlignment;
+import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJSeparatorOrientation;
 import org.entirej.framework.core.properties.containers.interfaces.EJItemGroupPropertiesContainer;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 
@@ -103,5 +105,30 @@ public interface EJItemGroupProperties extends Serializable
     public Collection<EJScreenItemProperties> getAllItemProperties();
     
     public EJFrameworkExtensionProperties getRendererProperties();
+    
+    
+    
+    /**
+     * Returns the orientation of the Separator
+     * 
+     * @return The separator orientation
+     */
+    public EJSeparatorOrientation getSeparatorOrientation();
+    
+    /**
+     * Returns the style of the line
+     * 
+     * @return The line style
+     * 
+     */
+    public EJLineStyle getSeparatorLineStyle();
+    
+    /**
+     * Indicates if this spacer screen item group renderer as separator
+     * 
+     * @return <code>true</code> if this spacer item is a separator, otherwise
+     *         <code>false</code>
+     */
+    public boolean isSeparator();
     
 }

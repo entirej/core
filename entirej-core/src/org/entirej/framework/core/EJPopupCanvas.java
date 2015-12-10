@@ -65,11 +65,11 @@ public class EJPopupCanvas extends EJCanvas
     }
     
     
-    public void enableButton(EJPopupButton button,boolean state)
+    public void setButtonEnabled(EJPopupButton button,boolean state)
     {
         try
         {
-            getForm().getRenderer().enableButton(getName(),button,state);
+            getForm().getRenderer().setButtonEnabled(getName(),button,state);
         }
         catch (Exception e)
         {
@@ -90,6 +90,58 @@ public class EJPopupCanvas extends EJCanvas
         }
         
         return false;
+    }
+    public void setButtonVisible(EJPopupButton button,boolean state)
+    {
+        try
+        {
+            getForm().getRenderer().setButtonVisible(getName(),button,state);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
+    
+    
+    public boolean isButtonVisible(EJPopupButton button)
+    {
+        try
+        {
+            return  getForm().getRenderer().isButtonVisible(getName(),button);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        
+        return false;
+    }
+    public void setButtonLabel(EJPopupButton button,String label)
+    {
+        try
+        {
+            getForm().getRenderer().setButtonLabel(getName(),button,label);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
+    
+    
+    public String getButtonLabel(EJPopupButton button)
+    {
+        try
+        {
+            return  getForm().getRenderer().getButtonLabel(getName(),button);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        
+        return null;
     }
     
 

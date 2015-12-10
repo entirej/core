@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties;
 
+import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
@@ -34,42 +35,42 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
 {
     // If this is a BlockCanvas then this variable will hold the properties of
     // the block which will be displayed upon it
-    private EJCoreBlockProperties                _blockProperties;
+    private EJCoreBlockProperties _blockProperties;
 
-    private EJCanvasType                         _type                         = EJCanvasType.BLOCK;
+    private EJCanvasType _type                         = EJCanvasType.BLOCK;
     // Can be either a Tab Canvas or a CONTENT type canvas
-    private String                               _contentCanvasName            = "";
+    private String       _contentCanvasName            = "";
     // The name of the tab page if the content canvas is a tab
-    private String                               _contentCanvasTabPageName     = "";
+    private String       _contentCanvasTabPageName     = "";
     // The name of the stacked page if the content canvas is a stacked canvas
-    private String                               _contentCanvasStackedPageName = "";
+    private String       _contentCanvasStackedPageName = "";
     // The x position on the main form or the content canvas if one has been
     // defined
-    private int                                  _width                        = 0;
-    private int                                  _height                       = 0;
-    private int                                  _numCols                      = 1;
-    private int                                  _verticalSpan                 = 1;
-    private int                                  _horizontalSpan               = 1;
-    private int                                  _messagePaneSize              = 200;
-    private boolean                              _expandHorizontally           = true;
-    private boolean                              _expandVertically             = true;
-    private boolean                              _displayGroupFrame            = false;
-    private boolean                              _closeableMessagePane         = true;
-    private String                               _name                         = "";
-    private String                               _popupPageTitle               = "";
-    private String                               _basePopupPageTitle           = "";
-    private String                               _groupFrameTitle              = "";
-    private String                               _baseGroupFrameTitle          = "";
-    private String                               _buttonOneText                = "";
-    private String                               _baseButtonOneText            = "";
-    private String                               _buttonTwoText                = "";
-    private String                               _baseButtonTwoText            = "";
-    private String                               _buttonThreeText              = "";
-    private String                               _baseButtonThreeText          = "";
-    private String                               _initiallyStackedPageName     = "";
+    private int          _width                        = 0;
+    private int          _height                       = 0;
+    private int          _numCols                      = 1;
+    private int          _verticalSpan                 = 1;
+    private int          _horizontalSpan               = 1;
+    private int          _messagePaneSize              = 200;
+    private boolean      _expandHorizontally           = true;
+    private boolean      _expandVertically             = true;
+    private boolean      _displayGroupFrame            = false;
+    private boolean      _closeableMessagePane         = true;
+    private String       _name                         = "";
+    private String       _popupPageTitle               = "";
+    private String       _basePopupPageTitle           = "";
+    private String       _groupFrameTitle              = "";
+    private String       _baseGroupFrameTitle          = "";
+    private String       _buttonOneText                = "";
+    private String       _baseButtonOneText            = "";
+    private String       _buttonTwoText                = "";
+    private String       _baseButtonTwoText            = "";
+    private String       _buttonThreeText              = "";
+    private String       _baseButtonThreeText          = "";
+    private String       _initiallyStackedPageName     = "";
 
-    private EJCanvasMessagePosition              _messagePosition              = EJCanvasMessagePosition.RIGHT;
-    private EJPopupButton                        _button                       = EJPopupButton.ONE;
+    private EJCanvasMessagePosition _messagePosition = EJCanvasMessagePosition.RIGHT;
+    private EJPopupButton           _button          = EJPopupButton.ONE;
 
     private EJCoreTabPagePropertiesContainer     _tabPages;
     private EJCoreStackedPagePropertiesContainer _stackedPages;
@@ -78,13 +79,15 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     private EJCoreCanvasPropertiesContainer      _splitCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _parentCanvasContainer;
 
-    private String                               _referredFormId;
+    private String _referredFormId;
 
     //
     // If the Canvas type is TAB, then the following properties are also
     // available
-    private EJCanvasTabPosition                  _tabPosition                  = EJCanvasTabPosition.TOP;
-    private EJCanvasSplitOrientation             _splitOrientation             = EJCanvasSplitOrientation.HORIZONTAL;
+    private EJCanvasTabPosition      _tabPosition      = EJCanvasTabPosition.TOP;
+    private EJCanvasSplitOrientation _splitOrientation = EJCanvasSplitOrientation.HORIZONTAL;
+
+    private EJLineStyle _lineStyle = EJLineStyle.SOLID;
 
     public EJCoreCanvasProperties(String name)
     {
@@ -901,6 +904,17 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         return _splitOrientation;
     }
 
+    @Override
+    public EJLineStyle getLineStyle()
+    {
+        return _lineStyle;
+    }
+
+    public void setLineStyle(EJLineStyle lineStyle)
+    {
+        this._lineStyle = lineStyle;
+    }
+
     /**
      * @return Returns the width of this canvas
      */
@@ -1126,10 +1140,10 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
 
     public void setDefaultPopupButton(EJPopupButton button)
     {
-        _button =button;
+        _button = button;
 
     }
-    
+
     public EJPopupButton getDefaultPopupButton()
     {
         return _button;

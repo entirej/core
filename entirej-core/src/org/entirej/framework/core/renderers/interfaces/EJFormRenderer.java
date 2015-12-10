@@ -199,28 +199,16 @@ public interface EJFormRenderer extends EJRenderer
      */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
 
-    /**
-     * Used to enable or disable a button on the Popup Canvas
-     * 
-     * @param canvasName
-     *            The canvas that contains the button
-     * @param button
-     *            The button to be enabled / disabled
-     * @param state
-     *            <code>true</code> to enable, <code>false</code> to disable
-     */
-    public void enableButton(String canvasName, EJPopupButton button, boolean state);
+    public void setButtonEnabled(String canvasName, EJPopupButton button, boolean state);
 
-    /**
-     * Used to check if a given popup canvas button is enabled
-     * 
-     * @param canvasName
-     *            The name of the popup canvas that contains the required button
-     * @param button
-     *            The button to check
-     * @return <code>true</code> if the button is enabled, <code>false</code> if
-     *         it is disabled
-     */
     public boolean isButtonEnabled(String canvasName, EJPopupButton button);
+    
+    public boolean isButtonVisible(String canvasName, EJPopupButton button);
+    public String getButtonLabel(String canvasName, EJPopupButton button);
+    
+    
+    public void setButtonVisible(String canvasName, EJPopupButton button, boolean state);
+    public void setButtonLabel(String canvasName, EJPopupButton button, String label);
+   
     
 }
