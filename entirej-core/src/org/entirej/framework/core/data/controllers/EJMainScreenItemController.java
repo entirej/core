@@ -33,7 +33,7 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
@@ -45,7 +45,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
     private EJCoreItemProperties                  _itemProperties;
     private EJScreenItemProperties                _mainScreenItemProps;
     private EJManagedItemRendererWrapper          _mainScreenItemRenderer;
-    private ArrayList<EJItemValueChangedListener> _mainScreenItemValueChangedListeners;
+    private ArrayList<EJScreenItemValueChangedListener> _mainScreenItemValueChangedListeners;
     private ArrayList<EJItemFocusListener>        _mainScreenItemFocusedListeners;
     
     private EJItemLovController                   _itemLovController;
@@ -58,7 +58,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
         _itemProperties = itemProperties;
         _mainScreenItemProps = _blockController.getProperties().getScreenItemGroupContainer(EJScreenType.MAIN)
                 .getScreenItemProperties(_itemProperties.getName());
-        _mainScreenItemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+        _mainScreenItemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
         _mainScreenItemFocusedListeners = new ArrayList<EJItemFocusListener>();
         
         if (_mainScreenItemProps.isLovNotificationEnabled())
@@ -275,7 +275,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
      * @param listener
      *            The value changed listener
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _mainScreenItemValueChangedListeners.remove(listener);
     }
@@ -289,7 +289,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
      * @param listener
      *            The value changed listener
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _mainScreenItemValueChangedListeners.add(listener);
     }
@@ -301,10 +301,10 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
             if (_mainScreenItemRenderer != null)
             {
                 
-                Iterator<EJItemValueChangedListener> valueChangedListeners = _mainScreenItemValueChangedListeners.iterator();
+                Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _mainScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().valueChanged(this, _mainScreenItemRenderer.getUnmanagedRenderer());
+                    valueChangedListeners.next().screenItemValueChanged(this, _mainScreenItemRenderer.getUnmanagedRenderer());
                 }
             }
         }

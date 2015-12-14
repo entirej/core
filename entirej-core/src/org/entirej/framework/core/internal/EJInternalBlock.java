@@ -31,6 +31,7 @@ import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.data.EJDataBlock;
 import org.entirej.framework.core.data.EJDataItem;
 import org.entirej.framework.core.data.EJDataRecord;
+import org.entirej.framework.core.data.EJValueChangedListener;
 import org.entirej.framework.core.data.controllers.EJBlockController;
 import org.entirej.framework.core.data.controllers.EJBlockRendererController;
 import org.entirej.framework.core.data.controllers.EJItemController;
@@ -814,5 +815,25 @@ public class EJInternalBlock implements Serializable
     public boolean isUpdateMode()
     {
         return false;
+    }
+    
+    public void addItemValueChangedListener(String itemName, EJValueChangedListener listener)
+    {
+        if (itemName == null || listener == null)
+        {
+            return;
+        }
+
+        getServicePojoHelper().addItemValueChangedListener(itemName, listener);
+    }
+
+    public void removeItemChangedListener(String itemName, EJValueChangedListener listener)
+    {
+        if (listener == null)
+        {
+            return;
+        }
+
+        getServicePojoHelper().removeItemValueChangedListener(itemName, listener);
     }
 }

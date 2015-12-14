@@ -33,7 +33,7 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
@@ -45,7 +45,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     private EJCoreItemProperties                  _itemProperties;
     private EJScreenItemProperties                _insertScreenItemProps;
     private EJManagedItemRendererWrapper          _insertScreenItemRenderer;
-    private ArrayList<EJItemValueChangedListener> _insertScreenItemValueChangedListeners;
+    private ArrayList<EJScreenItemValueChangedListener> _insertScreenItemValueChangedListeners;
     private ArrayList<EJItemFocusListener>        _insertScreenItemFocusedListeners;
 
     private EJItemLovController                   _itemLovController;
@@ -59,7 +59,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
         _insertScreenItemProps = _blockController.getProperties().getScreenItemGroupContainer(EJScreenType.INSERT)
                 .getScreenItemProperties(_itemProperties.getName());
 
-        _insertScreenItemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+        _insertScreenItemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
         _insertScreenItemFocusedListeners = new ArrayList<EJItemFocusListener>();
 
         if (_insertScreenItemProps.isLovNotificationEnabled())
@@ -276,7 +276,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
      * @param listener
      *            The value changed listener
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _insertScreenItemValueChangedListeners.add(listener);
     }
@@ -287,7 +287,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
      * @param listener
      *            The value changed listener
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _insertScreenItemValueChangedListeners.remove(listener);
     }
@@ -298,10 +298,10 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
         {
             if (_insertScreenItemRenderer != null)
             {
-                Iterator<EJItemValueChangedListener> valueChangedListeners = _insertScreenItemValueChangedListeners.iterator();
+                Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _insertScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().valueChanged(this, _insertScreenItemRenderer.getUnmanagedRenderer());
+                    valueChangedListeners.next().screenItemValueChanged(this, _insertScreenItemRenderer.getUnmanagedRenderer());
                 }
             }
         }

@@ -37,7 +37,7 @@ import org.entirej.framework.core.renderers.EJManagedInsertScreenRendererWrapper
 import org.entirej.framework.core.renderers.EJManagedQueryScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedUpdateScreenRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 
 public class EJScreenItem
 {
@@ -802,7 +802,7 @@ public class EJScreenItem
      * @param listener
      *            The value changed listener
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _item.addItemValueChangedListener(listener);
     }

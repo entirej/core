@@ -52,9 +52,9 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super.resetRegister();
     }
     
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        super.valueChanged(item, changedRenderer);
+        super.screenItemValueChanged(item, changedRenderer);
         
         try
         {

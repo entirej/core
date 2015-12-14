@@ -35,12 +35,12 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 
-public abstract class EJBlockItemRendererRegister implements EJItemValueChangedListener, EJItemFocusListener, Serializable
+public abstract class EJBlockItemRendererRegister implements EJScreenItemValueChangedListener, EJItemFocusListener, Serializable
 {
-    private ArrayList<EJItemValueChangedListener>         _valueChangedListeners;
+    private ArrayList<EJScreenItemValueChangedListener>         _valueChangedListeners;
     private EJFrameworkManager                            _frameworkManager;
     private HashMap<String, EJManagedItemRendererWrapper> _itemRendererMap;
     private EJDataRecord                                  _registeredRecord;
@@ -54,7 +54,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         _blockController = blockController;
         _frameworkManager = blockController.getFrameworkManager();
         _itemRendererMap = new HashMap<String, EJManagedItemRendererWrapper>();
-        _valueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+        _valueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
         if (blockController.getProperties().isControlBlock() && blockController.getProperties().addControlBlockDefaultRecord())
         {
             EJDataRecord currentRecord = blockController.createRecord(EJRecordType.INSERT);
@@ -95,7 +95,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
 
     }
 
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         if (listener != null)
         {
@@ -103,7 +103,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
     }
 
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         if (listener != null)
         {
@@ -113,9 +113,9 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
 
     protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        for (EJItemValueChangedListener listener : _valueChangedListeners)
+        for (EJScreenItemValueChangedListener listener : _valueChangedListeners)
         {
-            listener.valueChanged(item, changedRenderer);
+            listener.screenItemValueChanged(item, changedRenderer);
         }
     }
 
@@ -458,7 +458,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         _itemChanged = true;
     }
 
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
         if (_validate)
         {

@@ -32,7 +32,7 @@ import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
@@ -44,7 +44,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
     private EJCoreItemProperties                  _itemProperties;
     private EJScreenItemProperties                _queryScreenItemProps;
     private EJManagedItemRendererWrapper          _queryScreenItemRenderer;
-    private ArrayList<EJItemValueChangedListener> _queryScreenItemValueChangedListeners;
+    private ArrayList<EJScreenItemValueChangedListener> _queryScreenItemValueChangedListeners;
     private ArrayList<EJItemFocusListener>        _queryScreenItemFocusedListeners;
 
     private EJItemLovController                   _itemLovController;
@@ -58,7 +58,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         _queryScreenItemProps = _blockController.getProperties().getScreenItemGroupContainer(EJScreenType.QUERY)
                 .getScreenItemProperties(_itemProperties.getName());
 
-        _queryScreenItemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+        _queryScreenItemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
         _queryScreenItemFocusedListeners = new ArrayList<EJItemFocusListener>();
 
         if (_queryScreenItemProps.isLovNotificationEnabled())
@@ -260,7 +260,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
      * @param listener
      *            The value changed listener
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _queryScreenItemValueChangedListeners.add(listener);
     }
@@ -282,7 +282,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
      * @param listener
      *            The value changed listener
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _queryScreenItemValueChangedListeners.remove(listener);
     }
@@ -293,10 +293,10 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         {
             if (_queryScreenItemRenderer != null)
             {
-                Iterator<EJItemValueChangedListener> valueChangedListeners = _queryScreenItemValueChangedListeners.iterator();
+                Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _queryScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().valueChanged(this, _queryScreenItemRenderer.getUnmanagedRenderer());
+                    valueChangedListeners.next().screenItemValueChanged(this, _queryScreenItemRenderer.getUnmanagedRenderer());
                 }
             }
         }

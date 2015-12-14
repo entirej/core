@@ -22,13 +22,17 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.EJPojoHelper;
 import org.entirej.framework.core.data.EJDataItem;
+import org.entirej.framework.core.data.EJValueChangedListener;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.interfaces.EJItemProperties;
@@ -36,7 +40,8 @@ import org.entirej.framework.core.service.EJBlockService;
 
 public class EJDefaultServicePojoHelper implements Serializable
 {
-    private EJCoreBlockProperties _blockProperties;
+    private EJCoreBlockProperties                         _blockProperties;
+    private HashMap<EJValueChangedListener, ArrayList<String>> _valueChangedListeners = new HashMap<EJValueChangedListener, ArrayList<String>>();
 
     EJDefaultServicePojoHelper(EJCoreBlockProperties blockProperties)
     {
@@ -47,34 +52,32 @@ public class EJDefaultServicePojoHelper implements Serializable
     {
 
         Type[] types = service.getGenericInterfaces();
-        
-        while (types.length==0 && !Object.class.equals(service.getSuperclass()))
+
+        while (types.length == 0 && !Object.class.equals(service.getSuperclass()))
         {
             service = service.getSuperclass();
             types = service.getGenericInterfaces();
-            
+
         }
-        if(types.length>0)
+        if (types.length > 0)
         {
             for (Type type : types)
             {
-                if(type instanceof ParameterizedType && ((ParameterizedType)type).getRawType().equals(EJBlockService.class))
+                if (type instanceof ParameterizedType && ((ParameterizedType) type).getRawType().equals(EJBlockService.class))
                 {
-                 
-                    
-                    Type[] sub =  ((ParameterizedType)type).getActualTypeArguments();
 
-                    if(sub.length>0)
+                    Type[] sub = ((ParameterizedType) type).getActualTypeArguments();
+
+                    if (sub.length > 0)
                     {
-                       return  (Class<?>) sub[0];
+                        return (Class<?>) sub[0];
                     }
-                   
+
                 }
             }
-            
+
         }
-            
-       
+
         throw new EJApplicationException("Pojo Is not correclty defind on impl of  Interface EJBlockService<>");
 
     }
@@ -96,7 +99,6 @@ public class EJDefaultServicePojoHelper implements Serializable
         Class<?> pojoClass = null;
         try
         {
-           
 
             pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
 
@@ -124,18 +126,24 @@ public class EJDefaultServicePojoHelper implements Serializable
      */
     public void setValue(String itemName, Object dataEntity, Object value)
     {
-        EJItemProperties itemProperties = _blockProperties.getItemProperties(itemName);
-        if (itemProperties == null || (!itemProperties.isBlockServiceItem()))
+        try
         {
-            return;
+            EJItemProperties itemProperties = _blockProperties.getItemProperties(itemName);
+            if (itemProperties == null || (!itemProperties.isBlockServiceItem()))
+            {
+                return;
+            }
+
+            // Capitalize the first letter
+            String firstLetter = itemName.substring(0, 1).toUpperCase();
+            StringBuilder builder = new StringBuilder();
+            String methodName = builder.append("set").append(firstLetter).append(itemName.substring(1)).toString();
+            invokePojoMethod(dataEntity, methodName, itemProperties.getDataTypeClass(), value);
         }
-
-        // Capitalize the first letter
-        String firstLetter = itemName.substring(0, 1).toUpperCase();
-        StringBuilder builder = new StringBuilder();
-        String methodName = builder.append("set").append(firstLetter).append(itemName.substring(1)).toString();
-        invokePojoMethod(dataEntity, methodName, itemProperties.getDataTypeClass(), value);
-
+        finally
+        {
+            fireItemValueChanged(itemName, value);
+        }
     }
 
     /**
@@ -211,7 +219,7 @@ public class EJDefaultServicePojoHelper implements Serializable
     {
         try
         {
-           
+
             Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
             return pojoClass.newInstance();
         }
@@ -232,7 +240,6 @@ public class EJDefaultServicePojoHelper implements Serializable
             return;
         }
 
-      
         Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
 
         for (EJItemProperties item : _blockProperties.getAllItemProperties())
@@ -254,6 +261,63 @@ public class EJDefaultServicePojoHelper implements Serializable
             // Get the items value from the method and set the data item
             String annotation = EJPojoHelper.getFieldName(pojoClass, methodName);
             _blockProperties.getItemProperties(item.getName()).setFieldName(annotation);
+        }
+    }
+
+    public void addItemValueChangedListener(String itemName, EJValueChangedListener listener)
+    {
+        if (listener == null)
+        {
+            return;
+        }
+
+        if (!_valueChangedListeners.containsKey(listener))
+        {
+            _valueChangedListeners.put(listener, new ArrayList<String>());
+            _valueChangedListeners.get(listener).add(itemName);
+        }
+        else
+        {
+            if (!_valueChangedListeners.get(listener).contains(itemName))
+            {
+                _valueChangedListeners.get(listener).add(itemName);
+            }
+        }
+    }
+
+    public void removeItemValueChangedListener(String itemName, EJValueChangedListener listener)
+    {
+        if (listener == null)
+        {
+            return;
+        }
+
+        if (_valueChangedListeners.containsKey(listener))
+        {
+            if (_valueChangedListeners.get(listener).contains(itemName))
+            {
+                _valueChangedListeners.get(listener).remove(itemName);
+                if (_valueChangedListeners.get(listener).size() == 0)
+                {
+                    _valueChangedListeners.remove(listener);
+                }
+            }
+        }
+    }
+
+    private void fireItemValueChanged(String itemName, Object value)
+    {
+        if (itemName == null)
+        {
+            return;
+        }
+        
+        for (EJValueChangedListener listener : _valueChangedListeners.keySet())
+        {
+            if (itemName.equals(_valueChangedListeners.get(listener)))
+            {
+                listener.valueChanged(itemName, value);
+            }
         }
     }
 
