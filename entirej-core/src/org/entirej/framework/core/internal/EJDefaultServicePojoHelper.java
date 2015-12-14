@@ -314,7 +314,7 @@ public class EJDefaultServicePojoHelper implements Serializable
         
         for (EJValueChangedListener listener : _valueChangedListeners.keySet())
         {
-            if (itemName.equals(_valueChangedListeners.get(listener)))
+            if (_valueChangedListeners.get(listener).contains(itemName))
             {
                 listener.valueChanged(itemName, value);
             }
