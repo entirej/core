@@ -32,8 +32,14 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
 {
     public EJQueryScreenItemRendererRegister(EJBlockController block)
     {
-        super(block); // , block.createRecordNoAction());
+        super(block);
     }
+    
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.QUERY;
+    }
+    
     
     /**
      * Used to clear and reset the register

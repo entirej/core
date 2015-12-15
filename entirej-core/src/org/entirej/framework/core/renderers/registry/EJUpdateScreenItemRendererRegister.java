@@ -33,8 +33,14 @@ public class EJUpdateScreenItemRendererRegister extends EJBlockItemRendererRegis
     
     public EJUpdateScreenItemRendererRegister(EJBlockController block)
     {
-        super(block); // , block.createRecordNoAction());
+        super(block);
     }
+    
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.UPDATE;
+    }
+    
     
     /**
      * Used to clear and reset the register

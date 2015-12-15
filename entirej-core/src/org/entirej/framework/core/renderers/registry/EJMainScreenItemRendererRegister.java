@@ -33,6 +33,12 @@ public class EJMainScreenItemRendererRegister extends EJBlockItemRendererRegiste
         super(block);
     }
     
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.MAIN;
+    }
+    
+    
     /**
      * Used to clear and reset the register
      * <p>

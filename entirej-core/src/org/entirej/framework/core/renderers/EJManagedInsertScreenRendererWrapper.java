@@ -28,6 +28,7 @@ import org.entirej.framework.core.enumerations.EJManagedScreenProperty;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreInsertScreenItemProperties;
 import org.entirej.framework.core.renderers.interfaces.EJInsertScreenRenderer;
+import org.entirej.framework.core.renderers.registry.EJInsertScreenItemRendererRegister;
 
 public class EJManagedInsertScreenRendererWrapper implements Serializable
 {
@@ -43,6 +44,19 @@ public class EJManagedInsertScreenRendererWrapper implements Serializable
     public EJInsertScreenRenderer getUnmanagedRenderer()
     {
         return _renderer;
+    }
+    
+    public EJInsertScreenItemRendererRegister getItemRegister()
+    {
+        try
+        {
+            return _renderer.getItemRegister();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
     }
     
     public EJDataRecord getInsertRecord()

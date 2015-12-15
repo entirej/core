@@ -26,13 +26,13 @@ import org.entirej.framework.core.properties.EJCoreBlockProperties;
 
 public class EJDataBlock implements Serializable
 {
-    private String                  _name;
-    private boolean                 _dirty;
-    private ArrayList<EJDataRecord> _blockRecords;
-    private ArrayList<EJDataRecord> _updateRecords;
-    private ArrayList<EJDataRecord> _deleteRecords;
-    private ArrayList<EJDataRecord> _insertRecords;
-    
+    private String                         _name;
+    private boolean                        _dirty;
+    private ArrayList<EJDataRecord>        _blockRecords;
+    private ArrayList<EJDataRecord>        _updateRecords;
+    private ArrayList<EJDataRecord>        _deleteRecords;
+    private ArrayList<EJDataRecord>        _insertRecords;
+
     public EJDataBlock(EJCoreBlockProperties blockProperties)
     {
         _blockRecords = new ArrayList<EJDataRecord>();
@@ -41,12 +41,12 @@ public class EJDataBlock implements Serializable
         _insertRecords = new ArrayList<EJDataRecord>();
         _name = blockProperties.getName();
     }
-    
+
     public String getName()
     {
         return _name;
     }
-    
+
     /**
      * Indicates if the given record is part of this blocks records
      * 
@@ -59,7 +59,7 @@ public class EJDataBlock implements Serializable
     {
         return _blockRecords.contains(record);
     }
-    
+
     /**
      * Return the number of records within this block
      * 
@@ -69,7 +69,7 @@ public class EJDataBlock implements Serializable
     {
         return _blockRecords.size();
     }
-    
+
     /**
      * Adds a a given record to this block. The record must be the correct type
      * for this block otherwise things will not work correctly. No check is made
@@ -84,7 +84,7 @@ public class EJDataBlock implements Serializable
         queriedRecord.markAsQueried(true);
         _blockRecords.add(queriedRecord);
     }
-    
+
     /**
      * Clears all the blocks records and returns its dirty state, if it was
      * changed, to not dirty.
@@ -96,7 +96,7 @@ public class EJDataBlock implements Serializable
     public void clearBlock(boolean clearChanges)
     {
         _blockRecords.clear();
-        
+
         if (clearChanges)
         {
             _deleteRecords.clear();
@@ -105,7 +105,7 @@ public class EJDataBlock implements Serializable
             _dirty = false;
         }
     }
-    
+
     /**
      * This method must be called after changes have been saved. This ensures
      * that the framework is now consistent with regards to block changes.
@@ -117,7 +117,7 @@ public class EJDataBlock implements Serializable
         _updateRecords.clear();
         _dirty = false;
     }
-    
+
     /**
      * Adds a new record to this blocks list of records. All records added by
      * this method should be new records.
@@ -135,7 +135,7 @@ public class EJDataBlock implements Serializable
     public void recordCreated(EJDataRecord newRecord, EJDataRecord currRecord)
     {
         newRecord.markForInsert(true);
-        
+
         if (currRecord == null || _blockRecords.indexOf(currRecord) == -1)
         {
             _blockRecords.add(0, newRecord);
@@ -147,7 +147,7 @@ public class EJDataBlock implements Serializable
         _insertRecords.add(newRecord);
         _dirty = true;
     }
-    
+
     /**
      * Causes the record to be removed from the blocks list and added to the
      * dirty record list
@@ -165,7 +165,7 @@ public class EJDataBlock implements Serializable
             // list of records
             _blockRecords.remove(deletedRecord);
             _insertRecords.remove(deletedRecord);
-            
+
             if (!hasDirtyRecords())
             {
                 _dirty = false;
@@ -177,7 +177,7 @@ public class EJDataBlock implements Serializable
             deletedRecord.markForDelete(true);
             _deleteRecords.add(deletedRecord);
             _blockRecords.remove(deletedRecord);
-            _updateRecords.remove(deletedRecord);   
+            _updateRecords.remove(deletedRecord);
         }
         else
         {
@@ -187,7 +187,7 @@ public class EJDataBlock implements Serializable
             _blockRecords.remove(deletedRecord);
         }
     }
-    
+
     /**
      * As the record passed is already part of the data block, all changes have
      * already been made within the data block. This method informs the block
@@ -205,7 +205,7 @@ public class EJDataBlock implements Serializable
             _updateRecords.add(updatedRecord);
         }
     }
-    
+
     /**
      * Indicates if any of the records within this blocks list of records has
      * been modified
@@ -217,7 +217,7 @@ public class EJDataBlock implements Serializable
     {
         return _dirty;
     }
-    
+
     private boolean hasDirtyRecords()
     {
         if (_deleteRecords.size() > 0 || _updateRecords.size() > 0 || _insertRecords.size() > 0)
@@ -229,7 +229,7 @@ public class EJDataBlock implements Serializable
             return false;
         }
     }
-    
+
     /**
      * Returns all records that have been marked for delete
      * 
@@ -241,7 +241,7 @@ public class EJDataBlock implements Serializable
     {
         return _deleteRecords;
     }
-    
+
     /**
      * Returns all newly created records
      * 
@@ -252,7 +252,7 @@ public class EJDataBlock implements Serializable
     {
         return _insertRecords;
     }
-    
+
     /**
      * Returns all updated records
      * 
@@ -263,7 +263,7 @@ public class EJDataBlock implements Serializable
     {
         return _updateRecords;
     }
-    
+
     /**
      * This method will return the records of this data block
      * <p>
@@ -273,15 +273,15 @@ public class EJDataBlock implements Serializable
     public Collection<EJDataRecord> getRecords()
     {
         Collection<EJDataRecord> blockRecords = new ArrayList<EJDataRecord>();
-        
+
         for (EJDataRecord record : _blockRecords)
         {
             blockRecords.add(record);
         }
-        
+
         return blockRecords;
     }
-    
+
     /**
      * Returns the record number of the given record or <code>-1</code> if the
      * given record does not exist within the block
@@ -297,10 +297,10 @@ public class EJDataBlock implements Serializable
         {
             return -1;
         }
-        
+
         return _blockRecords.indexOf(record);
     }
-    
+
     /**
      * Returns the <code>DataRecord</code> for the record number given
      * <p>
@@ -318,7 +318,7 @@ public class EJDataBlock implements Serializable
         {
             return null;
         }
-        
+
         if (recordNumber < 0)
         {
             throw new ArrayIndexOutOfBoundsException("Trying to obtain a record with a record number less than 0");
@@ -329,10 +329,10 @@ public class EJDataBlock implements Serializable
                     "Trying to obtain a record using a record number greater than the amount of records stored within the block. RecordNumber: " + recordNumber
                             + ", BlockSize: " + _blockRecords.size());
         }
-        
+
         return (EJDataRecord) _blockRecords.get(recordNumber);
     }
-    
+
     /**
      * Returns the record after the given record in this blocks list of records
      * <p>
@@ -360,7 +360,7 @@ public class EJDataBlock implements Serializable
             throw new IllegalArgumentException("The record passed to getRecordAfter does not exists in this blocks list of records.");
         }
         int recordIndex = _blockRecords.indexOf(record);
-        
+
         if (recordIndex + 1 >= _blockRecords.size())
         {
             return null;
@@ -371,7 +371,7 @@ public class EJDataBlock implements Serializable
             return (EJDataRecord) _blockRecords.get(recordIndex + 1);
         }
     }
-    
+
     /**
      * Returns the record brefore the given record in this blocks list of
      * records
@@ -401,7 +401,7 @@ public class EJDataBlock implements Serializable
             throw new IllegalArgumentException("The record passed to getRecordBefore does not exists in this blocks list of records.");
         }
         int recordIndex = _blockRecords.indexOf(record);
-        
+
         if (recordIndex - 1 < 0)
         {
             return null;
@@ -411,5 +411,5 @@ public class EJDataBlock implements Serializable
             return (EJDataRecord) _blockRecords.get(recordIndex - 1);
         }
     }
-    
+
 }

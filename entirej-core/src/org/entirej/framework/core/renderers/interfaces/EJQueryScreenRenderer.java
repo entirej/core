@@ -18,12 +18,14 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
+import org.entirej.framework.core.EJBlock;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockController;
 import org.entirej.framework.core.data.controllers.EJLovController;
 import org.entirej.framework.core.enumerations.EJManagedScreenProperty;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreQueryScreenItemProperties;
+import org.entirej.framework.core.renderers.registry.EJQueryScreenItemRendererRegister;
 
 public interface EJQueryScreenRenderer extends EJRenderer
 {
@@ -35,6 +37,13 @@ public interface EJQueryScreenRenderer extends EJRenderer
      * @param managedItemProperty
      */
     public void refreshItemProperty(EJCoreQueryScreenItemProperties itemProperties, EJManagedScreenProperty managedItemProperty);
+    
+    /**
+     * Used to return the item register used for this query screen renderer
+     * 
+     * @return The query screens Item Register
+     */
+    public EJQueryScreenItemRendererRegister getItemRegister();
     
     /**
      * This indicates to the query screen renderer that one of its properties

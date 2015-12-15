@@ -35,6 +35,11 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super(block);
     }
     
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.INSERT;
+    }
+    
     /**
      * Used to clear and reset the register
      * <p>
