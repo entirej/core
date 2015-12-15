@@ -74,7 +74,9 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
     public void resetRegister()
     {
         if(_registeredRecord!=null)
+        {
             _registeredRecord.setDataItemValueChangedListener(null);
+        }
         _registeredRecord = null;
         _itemRendererMap.clear();
         _screenItemValueChangedListeners.clear();
