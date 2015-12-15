@@ -584,7 +584,18 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
             EJDataItem item = dataItems.next();
             if (record.containsItem(item.getName()))
             {
-                record.getItem(item.getName()).setValue(item.getValue());
+                
+                EJDataItem dataItem = record.getItem(item.getName());
+                
+                Object newValue = item.getValue();
+                Object oldValue = dataItem.getValue();
+                if((newValue==null && oldValue!=null) 
+                        || (newValue!=null && oldValue==null) 
+                        || (oldValue!=null && !oldValue.equals(newValue)))
+                {
+                    dataItem.setValue(newValue);
+                }
+                
             }
         }
         return record;

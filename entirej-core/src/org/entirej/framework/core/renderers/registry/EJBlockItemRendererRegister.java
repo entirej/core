@@ -73,7 +73,8 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
      */
     public void resetRegister()
     {
-        _registeredRecord.setDataItemValueChangedListener(null);
+        if(_registeredRecord!=null)
+            _registeredRecord.setDataItemValueChangedListener(null);
         _registeredRecord = null;
         _itemRendererMap.clear();
         _screenItemValueChangedListeners.clear();
@@ -86,7 +87,11 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         try
         {
             _registeredRecord = record;
-            _registeredRecord.setDataItemValueChangedListener(this);
+            if(record!=null)
+            {
+                _registeredRecord.setDataItemValueChangedListener(null);
+            }
+            
             for (EJManagedItemRendererWrapper renderer : _itemRendererMap.values())
             {
                 renderer.clearValue();
@@ -96,6 +101,10 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         finally
         {
             _itemChanged = false;
+            if(record!=null)
+            {
+                _registeredRecord.setDataItemValueChangedListener(this);
+            }
         }
 
     }
@@ -135,18 +144,38 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         // it
         if (_registeredRecord != null)
         {
-            EJManagedItemRendererWrapper renderer;
-            for (String itemName : _itemRendererMap.keySet())
-            {
-                if (_registeredRecord.containsItem(itemName))
+           try
+           {
+               _registeredRecord.setDataItemValueChangedListener(null);
+           
+            
+                EJManagedItemRendererWrapper renderer;
+                for (String itemName : _itemRendererMap.keySet())
                 {
-                    renderer = _itemRendererMap.get(itemName);
-                    if (!renderer.isReadOnly())
+                    if (_registeredRecord.containsItem(itemName))
                     {
-                        _registeredRecord.setValue(itemName, renderer.getValue());
+                        renderer = _itemRendererMap.get(itemName);
+                        if (!renderer.isReadOnly())
+                        {
+                            Object newValue = renderer.getValue();
+                            Object oldValue = _registeredRecord.getValue(itemName);
+                            if((newValue==null && oldValue!=null) 
+                                    || (newValue!=null && oldValue==null) 
+                                    || (oldValue!=null && !oldValue.equals(newValue)))
+                            {
+                                _registeredRecord.setValue(itemName, newValue);
+                            }
+                        }
                     }
                 }
-            }
+           }
+           finally
+           
+           {
+               _registeredRecord.setDataItemValueChangedListener(this);
+           }
+                   
+            
         }
         return _registeredRecord;
     }
@@ -265,7 +294,8 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
         else
         {
-            _registeredRecord.setDataItemValueChangedListener(null);
+            if(_registeredRecord!=null)
+                _registeredRecord.setDataItemValueChangedListener(null);
             _registeredRecord = null;
         }
 

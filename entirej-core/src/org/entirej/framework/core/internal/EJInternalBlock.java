@@ -890,7 +890,7 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
                 {
                     listener.dataItemValueChanged(itemName, changedRecord, screenType);
                 }
-                else if (EJScreenType.MAIN.equals(screenType) && getFocusedRecord().equals(changedRecord))
+                else if (EJScreenType.MAIN.equals(screenType) && changedRecord.equals(getFocusedRecord()))
                 {
                     listener.dataItemValueChanged(itemName, changedRecord, screenType);
                 }
