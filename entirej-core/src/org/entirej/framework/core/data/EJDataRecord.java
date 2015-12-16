@@ -27,24 +27,27 @@ import java.util.Iterator;
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.data.controllers.EJFormController;
+import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.internal.EJInternalBlock;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreItemProperties;
+import org.entirej.framework.core.renderers.eventhandlers.EJDataItemValueChangedListener;
 
-public class EJDataRecord implements Serializable , EJValueChangedListener
+public class EJDataRecord implements Serializable, EJValueChangedListener
 {
-    private EJFormController             _formController;
-    private EJDataRecord                 _baseRecord;
-    private Object                       _servicePojo;
-    private EJInternalBlock              _block;
-    
-    private HashMap<String, EJDataItem> _itemList;
-    private boolean                      _queriedRecord   = false;
-    private boolean                      _markedForUpdate = false;
-    private boolean                      _markedForDelete = false;
-    private boolean                      _markedForInsert = false;
-    private boolean                      _changed         = false;
-  
+    private EJDataItemValueChangedListener _dataItemChangedListener;
+    private EJFormController               _formController;
+    private EJDataRecord                   _baseRecord;
+    private Object                         _servicePojo;
+    private EJInternalBlock                _block;
+
+    private HashMap<String, EJDataItem>    _itemList;
+    private boolean                        _queriedRecord   = false;
+    private boolean                        _markedForUpdate = false;
+    private boolean                        _markedForDelete = false;
+    private boolean                        _markedForInsert = false;
+    private boolean                        _changed         = false;
+
     /**
      * Returns the properties of the block that contains this record
      * 
@@ -58,7 +61,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         _itemList = new HashMap<String, EJDataItem>();
         initialiseRecord(formController, addDefaultInsertValues, null);
     }
-    
+
     /**
      * Returns the properties of the block that contains this record
      * 
@@ -72,7 +75,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         _itemList = new HashMap<String, EJDataItem>();
         initialiseRecord(formController, addDefaultInsertValues, servicePojo);
     }
-    
+
     /**
      * Creates a data record with all values copied from the given source entity
      * object
@@ -90,7 +93,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         _itemList = new HashMap<String, EJDataItem>();
         initialiseRecord(formController, false, sourceEntityObject);
     }
-    
+
     /**
      * If the user wishes to update the current record, EntireJ will wrap the
      * current record within another record and then ask the block renderer to
@@ -106,7 +109,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         _baseRecord = dataRecord;
     }
-    
+
     /**
      * Returns the block record that is being updated
      * <p>
@@ -123,7 +126,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _baseRecord;
     }
-    
+
     /**
      * Returns the underlying pojo for this record
      * 
@@ -133,7 +136,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _servicePojo;
     }
-    
+
     private void initialiseRecord(EJFormController formController, boolean addDefaultInsertValues, Object sourceEntityObject)
     {
         for (EJCoreItemProperties itemProps : _block.getProperties().getItemPropertiesContainer().getAllItemProperties())
@@ -141,12 +144,12 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             EJDataItem item = new EJDataItem(formController, itemProps, addDefaultInsertValues);
             addItem(item);
         }
-        
+
         if (sourceEntityObject != null)
         {
             copyValuesFromEntityObject(sourceEntityObject);
         }
-        
+
         // Setup this record to listen to item value changes
         // This must be done after initial values have been copied otherwise
         // change notifications will fire when not expected
@@ -159,7 +162,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             item.setValueChangedListener(this);
         }
     }
-    
+
     public void copyValuesFromEntityObject(Object servicePojo)
     {
         // Check that both the data entity passed is compatible with the one
@@ -176,10 +179,10 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         {
             return;
         }
-        
+
         _block.getServicePojoHelper().copyValuesFromServicePojo(_itemList.values(), servicePojo);
     }
-    
+
     /**
      * This method must be called after the record has been saved. This will
      * ensure that the statuses are reset and that the original values are
@@ -196,12 +199,12 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         _queriedRecord = true;
         _changed = false;
     }
-    
+
     public EJInternalBlock getBlock()
     {
         return _block;
     }
-    
+
     /**
      * Returns the properties of the block to which this record belongs
      * 
@@ -211,7 +214,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _block.getProperties();
     }
-    
+
     /**
      * This is a convenience method that returns the name of the block to which
      * this record belongs
@@ -222,7 +225,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _block.getProperties().getName();
     }
-    
+
     /**
      * Indicates if this record has been changed
      * <p>
@@ -246,7 +249,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             return false;
         }
     }
-    
+
     /**
      * Adds a new dataItem to this record. Only items added to the record can be
      * modified. Trying to change an item that has not been added to the record
@@ -262,13 +265,12 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         {
             if (_itemList.containsKey(item.getName().toLowerCase()))
             {
-                throw new IllegalArgumentException("This record already contains an item. Item name: "
-                        + item.getName());
+                throw new IllegalArgumentException("This record already contains an item. Item name: " + item.getName());
             }
             _itemList.put(item.getName().toLowerCase(), item);
         }
     }
-    
+
     /**
      * Checks if a specific item name exists within the record. This can be used
      * before setting an items value so that no
@@ -284,11 +286,10 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         {
             return false;
         }
-        
-        
+
         return _itemList.containsKey(itemName.toLowerCase());
     }
-    
+
     /**
      * Returns the <code>DataItem</code> from this record with the name
      * specified
@@ -305,18 +306,17 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         {
             throw new IllegalArgumentException("The item name passd to getItem is either a zero lenght string or null");
         }
-        
+
         EJDataItem item = _itemList.get(itemName.toLowerCase());
-        
-        if(item!=null)
+
+        if (item != null)
         {
             return item;
         }
-        
+
         throw new IllegalArgumentException("No such item called " + itemName + " within block " + getBlockName());
     }
-  
-    
+
     /**
      * Sets the item with the given name to the given value
      * <p>
@@ -337,7 +337,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         getItem(itemName).setValue(value);
     }
-    
+
     /**
      * Returns the value of the data item with the given name
      * 
@@ -350,16 +350,14 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     public Object getValue(String itemName)
     {
         EJDataItem item = getItem(itemName);
-        
+
         if (item == null)
         {
             return null;
         }
         return item.getValue();
     }
-    
-    
-    
+
     /**
      * Returns a <code>Collection</code> of the column names as
      * <code>String</code> objects
@@ -371,7 +369,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _itemList.keySet();
     }
-    
+
     /**
      * Returns a <code>Collection</code> of <code>DataItems</code> contained
      * within this record
@@ -382,7 +380,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _itemList.values();
     }
-    
+
     /**
      * Returns the properties for a given item
      * 
@@ -398,11 +396,11 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         {
             throw new EJApplicationException(new EJMessage("The name passed to getItemProperties is either null or of zero length."));
         }
-        
+
         EJDataItem item = getItem(name);
         return item.getProperties();
     }
-    
+
     /**
      * Returns a <code>Collection</code> containing all
      * <code>ItemProperties</code> contained within this <code>DataRecord</code>
@@ -413,18 +411,18 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     public Collection<EJCoreItemProperties> getAllItemProperties()
     {
         ArrayList<EJCoreItemProperties> properties = new ArrayList<EJCoreItemProperties>();
-        
+
         Iterator<EJDataItem> values = _itemList.values().iterator();
-        
+
         while (values.hasNext())
         {
             EJDataItem item = values.next();
-            
+
             properties.add(item.getProperties());
         }
         return properties;
     }
-    
+
     /**
      * Indicates how many columns the record has
      * 
@@ -434,7 +432,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return getColumnNames().size();
     }
-    
+
     /**
      * Indicates if this record has been passed to the blocks
      * {@link EJDataBlock#recordUpdated(EJDataRecord)}
@@ -446,7 +444,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _markedForUpdate;
     }
-    
+
     /**
      * Indicates if this record has been changed
      * 
@@ -457,7 +455,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _changed;
     }
-    
+
     /**
      * Marks this record as being updated
      * 
@@ -472,7 +470,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             _markedForUpdate = mark;
         }
     }
-    
+
     /**
      * Indicates if this record has been passed to the blocks
      * {@link EJDataBlock#recordCreated(EJDataRecord, int)}
@@ -484,7 +482,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _markedForInsert;
     }
-    
+
     /**
      * Marks the record as being marked for insert
      * 
@@ -495,7 +493,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         _markedForInsert = mark;
     }
-    
+
     /**
      * Mark this record for deletion
      * 
@@ -506,7 +504,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         _markedForDelete = mark;
     }
-    
+
     /**
      * Indicates if this record has been passed to the blocks
      * {@link EJDataBlock#recordDeleted(EJDataRecord)}
@@ -518,7 +516,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _markedForDelete;
     }
-    
+
     /**
      * Marking the record as queried indicates that the record has been
      * retrieved from a data source
@@ -529,7 +527,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         _queriedRecord = queriedIndicator;
     }
-    
+
     /**
      * Indicates if the record has been retrieved from a datasource
      * 
@@ -540,7 +538,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         return _queriedRecord;
     }
-    
+
     /**
      * Clears all values of the record
      * 
@@ -552,7 +550,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             item.setValue(null);
         }
     }
-    
+
     /**
      * This will set the service pojo with the value given value
      * <p>
@@ -563,11 +561,21 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
     {
         // Set the data entity to the value specified
         _block.getServicePojoHelper().setValue(itemName, _servicePojo, value);
-        
+
         // Now record that the record has been changed
         _changed = true;
+
+        // Now inform the block that this record has changed
+        // Use the ScreenType.MAIN for all calls except those from the
+        // insert/update and query screens as these will be handled differently
+        // within the block controller
+        _block.dataItemValueChanged(itemName, this, EJScreenType.MAIN);
+        if (_dataItemChangedListener != null)
+        {
+            _dataItemChangedListener.dataItemValueChanged(itemName, this, EJScreenType.MAIN);
+        }
     }
-    
+
     public EJDataRecord copyValuesToRecord(EJDataRecord record)
     {
         Iterator<EJDataItem> dataItems = getAllItems().iterator();
@@ -576,12 +584,23 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             EJDataItem item = dataItems.next();
             if (record.containsItem(item.getName()))
             {
-                record.getItem(item.getName()).setValue(item.getValue());
+                
+                EJDataItem dataItem = record.getItem(item.getName());
+                
+                Object newValue = item.getValue();
+                Object oldValue = dataItem.getValue();
+                if((newValue==null && oldValue!=null) 
+                        || (newValue!=null && oldValue==null) 
+                        || (oldValue!=null && !oldValue.equals(newValue)))
+                {
+                    dataItem.setValue(newValue);
+                }
+                
             }
         }
         return record;
     }
-    
+
     public EJDataRecord copyItemVAsToRecord(EJDataRecord record)
     {
         Iterator<EJDataItem> dataItems = getAllItems().iterator();
@@ -596,7 +615,7 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         }
         return record;
     }
-    
+
     /**
      * Returns a copy of this record
      * 
@@ -609,12 +628,12 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
         copyValuesToRecord(newRec);
         return newRec;
     }
-    
+
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();
         buffer.append("Record:\n");
-        
+
         Iterator<EJDataItem> items = _itemList.values().iterator();
         while (items.hasNext())
         {
@@ -623,5 +642,10 @@ public class EJDataRecord implements Serializable , EJValueChangedListener
             buffer.append("\n");
         }
         return buffer.toString();
+    }
+    
+    public void setDataItemValueChangedListener(EJDataItemValueChangedListener listener)
+    {
+        _dataItemChangedListener = listener;
     }
 }

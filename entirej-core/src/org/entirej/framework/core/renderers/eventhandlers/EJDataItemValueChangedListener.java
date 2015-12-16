@@ -20,10 +20,11 @@ package org.entirej.framework.core.renderers.eventhandlers;
 
 import java.io.Serializable;
 
-import org.entirej.framework.core.interfaces.EJScreenItemController;
-import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
+import org.entirej.framework.core.data.EJDataRecord;
+import org.entirej.framework.core.enumerations.EJScreenType;
 
-public interface EJItemValueChangedListener extends Serializable
+public interface EJDataItemValueChangedListener extends Serializable
 {
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer);
+    public void dataItemValueChanged(String itemName, EJDataRecord changedRecord, EJScreenType screenType);
+    
 }

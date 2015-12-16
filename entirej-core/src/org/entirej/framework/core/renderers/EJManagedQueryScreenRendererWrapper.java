@@ -29,6 +29,7 @@ import org.entirej.framework.core.enumerations.EJManagedScreenProperty;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreQueryScreenItemProperties;
 import org.entirej.framework.core.renderers.interfaces.EJQueryScreenRenderer;
+import org.entirej.framework.core.renderers.registry.EJQueryScreenItemRendererRegister;
 
 public class EJManagedQueryScreenRendererWrapper implements Serializable
 {
@@ -44,6 +45,19 @@ public class EJManagedQueryScreenRendererWrapper implements Serializable
     public EJQueryScreenRenderer getUnmanagedRenderer()
     {
         return _renderer;
+    }
+    
+    public EJQueryScreenItemRendererRegister getItemRegister()
+    {
+        try
+        {
+            return _renderer.getItemRegister();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
     }
     
     public EJDataRecord getQueryRecord()

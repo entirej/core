@@ -47,34 +47,32 @@ public class EJDefaultServicePojoHelper implements Serializable
     {
 
         Type[] types = service.getGenericInterfaces();
-        
-        while (types.length==0 && !Object.class.equals(service.getSuperclass()))
+
+        while (types.length == 0 && !Object.class.equals(service.getSuperclass()))
         {
             service = service.getSuperclass();
             types = service.getGenericInterfaces();
-            
+
         }
-        if(types.length>0)
+        if (types.length > 0)
         {
             for (Type type : types)
             {
-                if(type instanceof ParameterizedType && ((ParameterizedType)type).getRawType().equals(EJBlockService.class))
+                if (type instanceof ParameterizedType && ((ParameterizedType) type).getRawType().equals(EJBlockService.class))
                 {
-                 
-                    
-                    Type[] sub =  ((ParameterizedType)type).getActualTypeArguments();
 
-                    if(sub.length>0)
+                    Type[] sub = ((ParameterizedType) type).getActualTypeArguments();
+
+                    if (sub.length > 0)
                     {
-                       return  (Class<?>) sub[0];
+                        return (Class<?>) sub[0];
                     }
-                   
+
                 }
             }
-            
+
         }
-            
-       
+
         throw new EJApplicationException("Pojo Is not correclty defind on impl of  Interface EJBlockService<>");
 
     }
@@ -96,7 +94,6 @@ public class EJDefaultServicePojoHelper implements Serializable
         Class<?> pojoClass = null;
         try
         {
-           
 
             pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
 
@@ -135,7 +132,6 @@ public class EJDefaultServicePojoHelper implements Serializable
         StringBuilder builder = new StringBuilder();
         String methodName = builder.append("set").append(firstLetter).append(itemName.substring(1)).toString();
         invokePojoMethod(dataEntity, methodName, itemProperties.getDataTypeClass(), value);
-
     }
 
     /**
@@ -211,7 +207,7 @@ public class EJDefaultServicePojoHelper implements Serializable
     {
         try
         {
-           
+
             Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
             return pojoClass.newInstance();
         }
@@ -232,7 +228,6 @@ public class EJDefaultServicePojoHelper implements Serializable
             return;
         }
 
-      
         Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
 
         for (EJItemProperties item : _blockProperties.getAllItemProperties())
@@ -256,5 +251,4 @@ public class EJDefaultServicePojoHelper implements Serializable
             _blockProperties.getItemProperties(item.getName()).setFieldName(annotation);
         }
     }
-
 }

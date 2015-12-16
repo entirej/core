@@ -21,6 +21,7 @@ package org.entirej.framework.core.internal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
@@ -44,16 +45,22 @@ import org.entirej.framework.core.properties.definitions.interfaces.EJDisplayPro
 import org.entirej.framework.core.renderers.EJManagedInsertScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedQueryScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedUpdateScreenRendererWrapper;
+import org.entirej.framework.core.renderers.eventhandlers.EJDataItemValueChangedListener;
+import org.entirej.framework.core.renderers.registry.EJInsertScreenItemRendererRegister;
+import org.entirej.framework.core.renderers.registry.EJQueryScreenItemRendererRegister;
+import org.entirej.framework.core.renderers.registry.EJUpdateScreenItemRendererRegister;
 import org.entirej.framework.core.service.EJQueryCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EJInternalBlock implements Serializable
+public class EJInternalBlock implements Serializable, EJDataItemValueChangedListener
 {
-    final Logger logger = LoggerFactory.getLogger(EJInternalBlock.class);
+    final Logger                                                       logger                 = LoggerFactory.getLogger(EJInternalBlock.class);
 
-    private EJDefaultServicePojoHelper _servicePojoHelper;
-    private EJBlockController          _blockController;
+    private HashMap<EJDataItemValueChangedListener, ArrayList<String>> _valueChangedListeners = new HashMap<EJDataItemValueChangedListener, ArrayList<String>>();
+
+    private EJDefaultServicePojoHelper                                 _servicePojoHelper;
+    private EJBlockController                                          _blockController;
 
     public EJInternalBlock(EJBlockController blockController)
     {
@@ -815,4 +822,80 @@ public class EJInternalBlock implements Serializable
     {
         return false;
     }
+
+    public void addDataItemValueChangedListener(String itemName, EJDataItemValueChangedListener listener)
+    {
+        if (listener == null)
+        {
+            return;
+        }
+
+        if (!_valueChangedListeners.containsKey(listener))
+        {
+            _valueChangedListeners.put(listener, new ArrayList<String>());
+            _valueChangedListeners.get(listener).add(itemName);
+        }
+        else
+        {
+            if (!_valueChangedListeners.get(listener).contains(itemName))
+            {
+                _valueChangedListeners.get(listener).add(itemName);
+            }
+        }        
+    }
+
+    public void removeItemValueChangedListener(String itemName, EJDataItemValueChangedListener listener)
+    {
+        if (listener == null)
+        {
+            return;
+        }
+
+        if (_valueChangedListeners.containsKey(listener))
+        {
+            if (_valueChangedListeners.get(listener).contains(itemName))
+            {
+                _valueChangedListeners.get(listener).remove(itemName);
+                if (_valueChangedListeners.get(listener).size() == 0)
+                {
+                    _valueChangedListeners.remove(listener);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void dataItemValueChanged(String itemName, EJDataRecord changedRecord, EJScreenType screenType)
+    {
+        if (itemName == null)
+        {
+            return;
+        }
+
+        for (EJDataItemValueChangedListener listener : _valueChangedListeners.keySet())
+        {
+            if (_valueChangedListeners.get(listener).contains(itemName))
+            {
+                // Now at this stage, check the record to ensure that it is the
+                // blocks focused record. I don't want to fire on non focused records
+                if (EJScreenType.INSERT.equals(screenType))
+                {
+                    listener.dataItemValueChanged(itemName, changedRecord, screenType);
+                }
+                else if (EJScreenType.UPDATE.equals(screenType))
+                {
+                    listener.dataItemValueChanged(itemName, changedRecord, screenType);
+                }
+                else if (EJScreenType.QUERY.equals(screenType))
+                {
+                    listener.dataItemValueChanged(itemName, changedRecord, screenType);
+                }
+                else if (EJScreenType.MAIN.equals(screenType) && changedRecord.equals(getFocusedRecord()))
+                {
+                    listener.dataItemValueChanged(itemName, changedRecord, screenType);
+                }
+            }
+        }
+    }
+
 }

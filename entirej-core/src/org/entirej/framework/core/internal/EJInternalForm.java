@@ -62,7 +62,7 @@ import org.entirej.framework.core.renderers.EJManagedFormRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJBlockFocusedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJFormEventListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJNewRecordFocusedListener;
 import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 
@@ -372,7 +372,7 @@ public class EJInternalForm implements Serializable
      * @param listener
      *            The item value changed listener to add
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _formController.addItemValueChangedListener(listener);
     }
@@ -446,9 +446,9 @@ public class EJInternalForm implements Serializable
      * 
      * @param The
      *            listener to remove
-     * @see #addListener(EJItemValueChangedListener)
+     * @see #addListener(EJScreenItemValueChangedListener)
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _formController.removeItemValueChangedListener(listener);
     }

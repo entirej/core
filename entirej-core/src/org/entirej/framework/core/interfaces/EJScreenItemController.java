@@ -28,7 +28,7 @@ import org.entirej.framework.core.properties.interfaces.EJItemProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 import org.entirej.framework.core.renderers.registry.EJBlockItemRendererRegister;
 
@@ -163,7 +163,7 @@ public interface EJScreenItemController extends Serializable
      * @param listener
      *            The value changed listener
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener);
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener);
 
     /**
      * Removes an <code>EJItemValueChangedListener</code> from this renderer
@@ -171,7 +171,7 @@ public interface EJScreenItemController extends Serializable
      * @param listener
      *            The value changed listener
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener);
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener);
 
     /**
      * Indicates that this items value has been modified

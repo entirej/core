@@ -35,6 +35,11 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super(block);
     }
     
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.INSERT;
+    }
+    
     /**
      * Used to clear and reset the register
      * <p>
@@ -52,9 +57,9 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super.resetRegister();
     }
     
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        super.valueChanged(item, changedRenderer);
+        super.screenItemValueChanged(item, changedRenderer);
         
         try
         {

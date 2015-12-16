@@ -33,14 +33,15 @@ import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.renderers.EJManagedItemRendererWrapper;
+import org.entirej.framework.core.renderers.eventhandlers.EJDataItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 
-public abstract class EJBlockItemRendererRegister implements EJItemValueChangedListener, EJItemFocusListener, Serializable
+public abstract class EJBlockItemRendererRegister implements EJScreenItemValueChangedListener, EJItemFocusListener, EJDataItemValueChangedListener, Serializable
 {
-    private ArrayList<EJItemValueChangedListener>         _valueChangedListeners;
+    private ArrayList<EJScreenItemValueChangedListener>   _screenItemValueChangedListeners;
     private EJFrameworkManager                            _frameworkManager;
     private HashMap<String, EJManagedItemRendererWrapper> _itemRendererMap;
     private EJDataRecord                                  _registeredRecord;
@@ -49,12 +50,14 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
     private boolean                                       _itemChanged = false;
     private boolean                                       _validate    = true;
 
+    public abstract EJScreenType getScreenType();
+    
     public EJBlockItemRendererRegister(EJBlockController blockController)
     {
         _blockController = blockController;
         _frameworkManager = blockController.getFrameworkManager();
         _itemRendererMap = new HashMap<String, EJManagedItemRendererWrapper>();
-        _valueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+        _screenItemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
         if (blockController.getProperties().isControlBlock() && blockController.getProperties().addControlBlockDefaultRecord())
         {
             EJDataRecord currentRecord = blockController.createRecord(EJRecordType.INSERT);
@@ -70,9 +73,13 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
      */
     public void resetRegister()
     {
+        if(_registeredRecord!=null)
+        {
+            _registeredRecord.setDataItemValueChangedListener(null);
+        }
         _registeredRecord = null;
         _itemRendererMap.clear();
-        _valueChangedListeners.clear();
+        _screenItemValueChangedListeners.clear();
         _itemChanged = false;
         _validate = true;
     }
@@ -82,6 +89,11 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         try
         {
             _registeredRecord = record;
+            if(record!=null)
+            {
+                _registeredRecord.setDataItemValueChangedListener(null);
+            }
+            
             for (EJManagedItemRendererWrapper renderer : _itemRendererMap.values())
             {
                 renderer.clearValue();
@@ -91,31 +103,35 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         finally
         {
             _itemChanged = false;
+            if(record!=null)
+            {
+                _registeredRecord.setDataItemValueChangedListener(this);
+            }
         }
 
     }
 
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         if (listener != null)
         {
-            _valueChangedListeners.add(listener);
+            _screenItemValueChangedListeners.add(listener);
         }
     }
 
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         if (listener != null)
         {
-            _valueChangedListeners.remove(listener);
+            _screenItemValueChangedListeners.remove(listener);
         }
     }
 
     protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        for (EJItemValueChangedListener listener : _valueChangedListeners)
+        for (EJScreenItemValueChangedListener listener : _screenItemValueChangedListeners)
         {
-            listener.valueChanged(item, changedRenderer);
+            listener.screenItemValueChanged(item, changedRenderer);
         }
     }
 
@@ -130,18 +146,38 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         // it
         if (_registeredRecord != null)
         {
-            EJManagedItemRendererWrapper renderer;
-            for (String itemName : _itemRendererMap.keySet())
-            {
-                if (_registeredRecord.containsItem(itemName))
+           try
+           {
+               _registeredRecord.setDataItemValueChangedListener(null);
+           
+            
+                EJManagedItemRendererWrapper renderer;
+                for (String itemName : _itemRendererMap.keySet())
                 {
-                    renderer = _itemRendererMap.get(itemName);
-                    if (!renderer.isReadOnly())
+                    if (_registeredRecord.containsItem(itemName))
                     {
-                        _registeredRecord.setValue(itemName, renderer.getValue());
+                        renderer = _itemRendererMap.get(itemName);
+                        if (!renderer.isReadOnly())
+                        {
+                            Object newValue = renderer.getValue();
+                            Object oldValue = _registeredRecord.getValue(itemName);
+                            if((newValue==null && oldValue!=null) 
+                                    || (newValue!=null && oldValue==null) 
+                                    || (oldValue!=null && !oldValue.equals(newValue)))
+                            {
+                                _registeredRecord.setValue(itemName, newValue);
+                            }
+                        }
                     }
                 }
-            }
+           }
+           finally
+           
+           {
+               _registeredRecord.setDataItemValueChangedListener(this);
+           }
+                   
+            
         }
         return _registeredRecord;
     }
@@ -260,6 +296,8 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         }
         else
         {
+            if(_registeredRecord!=null)
+                _registeredRecord.setDataItemValueChangedListener(null);
             _registeredRecord = null;
         }
 
@@ -315,9 +353,8 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
             _itemRendererMap.put(item.getName(), wrapper);
         }
 
-       
-            item.initialise(this);
-        
+        item.initialise(this);
+
     }
 
     /**
@@ -458,7 +495,7 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         _itemChanged = true;
     }
 
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
         if (_validate)
         {
@@ -507,4 +544,8 @@ public abstract class EJBlockItemRendererRegister implements EJItemValueChangedL
         _blockController.setRendererFocus(false);
     }
 
+    public void dataItemValueChanged(String itemName, EJDataRecord changedRecord, EJScreenType screenType)
+    {
+        _blockController.getBlock().dataItemValueChanged(itemName, changedRecord, getScreenType());
+    }
 }

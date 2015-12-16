@@ -32,8 +32,14 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
 {
     public EJQueryScreenItemRendererRegister(EJBlockController block)
     {
-        super(block); // , block.createRecordNoAction());
+        super(block);
     }
+    
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.QUERY;
+    }
+    
     
     /**
      * Used to clear and reset the register
@@ -52,9 +58,9 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
         super.resetRegister();
     }
     
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        super.valueChanged(item, changedRenderer);
+        super.screenItemValueChanged(item, changedRenderer);
         
         try
         {

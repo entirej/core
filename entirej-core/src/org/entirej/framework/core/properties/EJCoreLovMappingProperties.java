@@ -270,12 +270,11 @@ public class EJCoreLovMappingProperties  implements Serializable
             return;
         }
         
-        if (!containsItemMappingForLovDefinitionItem(lovDefinitionItemName))
-        {
-            EJCoreLovItemMappingProperties props = new EJCoreLovItemMappingProperties( lovDefinitionItemName, (blockItemName == null ? ""
-                    : blockItemName));
-            _lovItemMappings.add(props);
-        }
+       
+        EJCoreLovItemMappingProperties props = new EJCoreLovItemMappingProperties( lovDefinitionItemName, (blockItemName == null ? ""
+                : blockItemName));
+        _lovItemMappings.add(props);
+        
     }
     
     /**

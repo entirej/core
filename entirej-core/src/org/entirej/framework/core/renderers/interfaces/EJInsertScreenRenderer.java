@@ -23,6 +23,7 @@ import org.entirej.framework.core.data.controllers.EJEditableBlockController;
 import org.entirej.framework.core.enumerations.EJManagedScreenProperty;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreInsertScreenItemProperties;
+import org.entirej.framework.core.renderers.registry.EJInsertScreenItemRendererRegister;
 
 public interface EJInsertScreenRenderer extends EJRenderer
 {
@@ -34,6 +35,13 @@ public interface EJInsertScreenRenderer extends EJRenderer
      * @param managedItemProperty
      */
     public void refreshItemProperty(EJCoreInsertScreenItemProperties itemProperties, EJManagedScreenProperty managedItemProperty);
+    
+    /**
+     * Used to return the item register used for this insert screen renderer
+     * 
+     * @return The insert screens Item Register
+     */
+    public EJInsertScreenItemRendererRegister getItemRegister();
     
     /**
      * This indicates to the insert screen renderer that one of its properties

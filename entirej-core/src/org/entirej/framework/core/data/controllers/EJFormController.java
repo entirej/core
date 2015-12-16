@@ -47,7 +47,7 @@ import org.entirej.framework.core.renderers.EJManagedFormRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJBlockFocusedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJFormEventListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJNewRecordFocusedListener;
 import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 import org.entirej.framework.core.renderers.registry.EJRendererFactory;
@@ -281,7 +281,7 @@ public class EJFormController implements Serializable
         _formEventListeners.remove(listener);
     }
     
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
         {
@@ -289,7 +289,7 @@ public class EJFormController implements Serializable
         }
     }
     
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
         {

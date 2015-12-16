@@ -52,7 +52,7 @@ import org.entirej.framework.core.renderers.EJManagedQueryScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedUpdateScreenRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJItemValueChangedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJNewRecordFocusedListener;
 import org.entirej.framework.core.renderers.interfaces.EJInsertScreenRenderer;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
@@ -92,7 +92,7 @@ public abstract class EJBlockController implements Serializable
     private String                                        _focusedItemName;
 
     private ArrayList<EJLovMappingController>             _lovMappingControllers     = new ArrayList<EJLovMappingController>();
-    private ArrayList<EJItemValueChangedListener>         _itemValueChangedListeners = new ArrayList<EJItemValueChangedListener>();
+    private ArrayList<EJScreenItemValueChangedListener>         _itemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
     private ArrayList<EJItemFocusListener>                _itemFocusListeners        = new ArrayList<EJItemFocusListener>();
     private ArrayList<EJNewRecordFocusedListener>         _newRecordListeners        = new ArrayList<EJNewRecordFocusedListener>();
 
@@ -1194,10 +1194,10 @@ public abstract class EJBlockController implements Serializable
     {
         logger.trace("START itemValueCanged. Item: {}", item.getName());
 
-        Iterator<EJItemValueChangedListener> iti = _itemValueChangedListeners.iterator();
+        Iterator<EJScreenItemValueChangedListener> iti = _itemValueChangedListeners.iterator();
         while (iti.hasNext())
         {
-            iti.next().valueChanged(item, renderer);
+            iti.next().screenItemValueChanged(item, renderer);
         }
 
         logger.trace("END itemValueChanged");
@@ -1211,7 +1211,7 @@ public abstract class EJBlockController implements Serializable
      * @param listener
      *            The listener to be added
      */
-    public void addItemValueChangedListener(EJItemValueChangedListener listener)
+    public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _itemValueChangedListeners.add(listener);
     }
@@ -1223,7 +1223,7 @@ public abstract class EJBlockController implements Serializable
      * @param listener
      *            The listener to be removed
      */
-    public void removeItemValueChangedListener(EJItemValueChangedListener listener)
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         _itemValueChangedListeners.remove(listener);
     }

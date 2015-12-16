@@ -33,6 +33,12 @@ public class EJMainScreenItemRendererRegister extends EJBlockItemRendererRegiste
         super(block);
     }
     
+    public EJScreenType getScreenType()
+    {
+        return EJScreenType.MAIN;
+    }
+    
+    
     /**
      * Used to clear and reset the register
      * <p>
@@ -115,9 +121,9 @@ public class EJMainScreenItemRendererRegister extends EJBlockItemRendererRegiste
     }
     
     @Override
-    public void valueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
     {
-        super.valueChanged(item, changedRenderer);
+        super.screenItemValueChanged(item, changedRenderer);
         
         try
         {
