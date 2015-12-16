@@ -146,10 +146,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         // it
         if (_registeredRecord != null)
         {
-           try
-           {
-               _registeredRecord.setDataItemValueChangedListener(null);
-           
+            
             
                 EJManagedItemRendererWrapper renderer;
                 for (String itemName : _itemRendererMap.keySet())
@@ -170,12 +167,8 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
                         }
                     }
                 }
-           }
-           finally
            
-           {
-               _registeredRecord.setDataItemValueChangedListener(this);
-           }
+         
                    
             
         }
