@@ -569,10 +569,14 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
         // Use the ScreenType.MAIN for all calls except those from the
         // insert/update and query screens as these will be handled differently
         // within the block controller
-        _block.dataItemValueChanged(itemName, this, EJScreenType.MAIN);
+       
         if (_dataItemChangedListener != null)
         {
             _dataItemChangedListener.dataItemValueChanged(itemName, this, EJScreenType.MAIN);
+        }
+        else
+        {
+            _block.dataItemValueChanged(itemName, this, EJScreenType.MAIN);
         }
     }
 
