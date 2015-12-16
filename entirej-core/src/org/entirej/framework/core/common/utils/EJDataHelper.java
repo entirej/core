@@ -92,7 +92,7 @@ public class EJDataHelper
             // to retrieve the block_item value from the displayed screen if the
             // block displayed is the same as the block from which I should
             // retrieve the default value
-            if (itemLovController != null && blockName.equals(itemLovController.getItemToValidate().getBlock()))
+            if (itemLovController != null && blockName.equals(itemLovController.getItemToValidate().getBlock().getProperties().getName()))
             {
                 logger.trace("Getting parameter for screen: {}", itemLovController.getItemToValidate().getScreenType());
                 EJDataRecord dataRecord = null; 
