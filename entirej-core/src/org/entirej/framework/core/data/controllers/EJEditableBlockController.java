@@ -838,10 +838,10 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                 // now inform the renderer that the query is finished. The
                 // renderer will need to refresh itself to display the new
                 // records
-                if (_blockRendererController != null)
-                {
-                    _blockRendererController.queryExecuted();
-                }
+//                if (_blockRendererController != null)
+//                {
+//                    _blockRendererController.queryExecuted();
+//                }
 
                 if (getMirrorBlockSynchronizer() != null)
                 {

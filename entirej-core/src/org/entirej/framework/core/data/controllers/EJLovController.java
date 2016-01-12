@@ -282,10 +282,10 @@ public class EJLovController extends EJBlockController implements Serializable
 
             // now inform the renderer that the query is finished. The renderer
             // will need to refresh itself to display the new records
-            if (_lovRendererController != null)
-            {
-                _lovRendererController.queryExecuted();
-            }
+//            if (_lovRendererController != null)
+//            {
+//                _lovRendererController.queryExecuted();
+//            }
         }
         finally
         {
