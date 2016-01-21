@@ -154,11 +154,7 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
         // This must be done after initial values have been copied otherwise
         // change notifications will fire when not expected
         for (EJDataItem item : getAllItems())
-        {
-            if (!item.getProperties().isBlockServiceItem())
-            {
-                continue;
-            }
+        {       
             item.setValueChangedListener(this);
         }
     }
@@ -560,7 +556,10 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
     public void valueChanged(String itemName, Object value)
     {
         // Set the data entity to the value specified
-        _block.getServicePojoHelper().setValue(itemName, _servicePojo, value);
+        if (_block.getServicePojoHelper() != null)
+        {
+            _block.getServicePojoHelper().setValue(itemName, _servicePojo, value);
+        }
 
         // Now record that the record has been changed
         _changed = true;
