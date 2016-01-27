@@ -92,7 +92,7 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
      *             If there is no reusable block with the given name or there
      *             was an error reading the reusable block definition file
      */
-    public EJCoreBlockProperties createReferencedBlockProperties(EJCoreFormProperties formProperties, String referencedBlockName)
+    public EJCoreBlockProperties createReferencedBlockProperties(EJCoreFormProperties formProperties, String referencedBlockName,String blockName)
     {
         if (referencedBlockName == null)
         {
@@ -121,7 +121,7 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
                 
                 for (EJCoreLovDefinitionProperties lovDef : handler.getFormProperties().getLovDefinitionContainer().getAllLovDefinitionProperties())
                 {
-                    lovDef.internalSetName(String.format("%s.%s", referencedBlockName, lovDef.getName()));
+                    lovDef.internalSetName(String.format("%s.%s", blockName, lovDef.getName()));
                     formProperties.addLovDefinitionProperties(lovDef);
                 }
                 

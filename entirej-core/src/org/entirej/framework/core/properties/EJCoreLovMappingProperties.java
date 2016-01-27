@@ -97,7 +97,7 @@ public class EJCoreLovMappingProperties  implements Serializable
     public EJCoreLovDefinitionProperties getLovDefinitionProperties()
     {
         if(_mappedBlock.isReferenceBlock())
-            return _mappedBlock.getFormProperties().getLovDefinitionProperties(String.format("%s.%s", _mappedBlock.getReferencedBlockName(),_lovDefinitionName));
+            return _mappedBlock.getFormProperties().getLovDefinitionProperties(String.format("%s.%s", _mappedBlock.getName(),_lovDefinitionName));
         
         return _mappedBlock.getFormProperties().getLovDefinitionProperties(_lovDefinitionName);
     }

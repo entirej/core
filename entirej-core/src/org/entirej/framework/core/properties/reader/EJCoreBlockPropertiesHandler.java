@@ -123,7 +123,7 @@ public class EJCoreBlockPropertiesHandler extends EJCorePropertiesTagHandler
                 else
                 {
                     EJCoreFormPropertiesFactory formFactory = new EJCoreFormPropertiesFactory(_handlerFactory.getFrameworkManager());
-                    setBlockProperties(formFactory.createReferencedBlockProperties(_formProperties, referencedBlockName));
+                    setBlockProperties(formFactory.createReferencedBlockProperties(_formProperties, referencedBlockName,blockName));
                     getBlockProperties().setLovDefinitionProperties(_lovDefinitionProperties);
                     getBlockProperties().internalSetName(blockName);
                     getBlockProperties().internalSetReferenced(true);
