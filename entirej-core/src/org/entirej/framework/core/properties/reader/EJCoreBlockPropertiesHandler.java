@@ -117,8 +117,8 @@ public class EJCoreBlockPropertiesHandler extends EJCorePropertiesTagHandler
                 if (objectGroup != null && objectGroup.length() > 0)
                 {
                     // objectgroup block holder
-                    setBlockProperties(new EJCoreBlockProperties(_handlerFactory.getFrameworkManager(), _formProperties, blockName, true, true));
-                    _blockProperties.internalSetName(blockName);
+                    return;
+                    
                 }
                 else
                 {
