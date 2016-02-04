@@ -129,15 +129,22 @@ public class EJItemLovController implements Serializable
     public boolean isLovActivationEnabled()
     {
         EJScreenItemProperties props = getScreenProperties();
-        if (props != null && props.getLovMappingName() != null)
-        {
-            return true;
-        }
-        
         if (_mappingProperties != null)
         {
             return true;
         }
+        
+        if (props != null && props.getLovMappingName() != null)
+        {
+            if(_item.getBlock().getProperties().getLovMappingContainer().contains(props.getLovMappingName()))
+            {
+                return true;
+            }
+            
+            
+        }
+        
+        
         return false;
     }
     
