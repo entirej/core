@@ -185,13 +185,13 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
      * Returns a collection of currently opened forms or an empty collection of
      * there are currently no opened forms
      * 
-     * @return A collection of opened forms or an empty colelction if there are
+     * @return A collection of opened forms or an empty collection if there are
      *         currently no opened forms
      */
     public Collection<EJInternalForm> getOpenForms();
     
     /**
-     * Indicates container to update title of giebn form 
+     * Indicates container to update title of given form 
      * 
      * @param form
      *            The form to be updated in the the container
