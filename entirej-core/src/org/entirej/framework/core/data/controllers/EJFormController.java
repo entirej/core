@@ -774,4 +774,11 @@ public class EJFormController implements Serializable
             
         }
     }
+
+    public void setFormTitle(String title)
+    {
+       getProperties().setTranslatedTitle(title);
+       _frameworkManager.getApplicationManager().updateFormTitle(_form);
+        
+    }
 }

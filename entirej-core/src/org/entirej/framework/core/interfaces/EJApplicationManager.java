@@ -189,5 +189,14 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
      *         currently no opened forms
      */
     public Collection<EJInternalForm> getOpenForms();
+    
+    /**
+     * Indicates container to update title of giebn form 
+     * 
+     * @param form
+     *            The form to be updated in the the container
+     */
+    public void updateFormTitle(EJInternalForm form);
+
 
 }

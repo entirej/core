@@ -704,6 +704,19 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setFormParameter(name, value);
     }
+    
+    
+    /**
+     * Sets the  title of the form 
+     * 
+     * @param title
+     *            The title of the form to set
+     * 
+     */
+    public void setTitle(String title)
+    {
+        _form.setTitle(title);
+    }
 
     /**
      * Returns the From Level Parameter with the given name

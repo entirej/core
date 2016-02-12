@@ -976,4 +976,11 @@ public class EJInternalForm implements Serializable
     {
         return _formController.getFrameworkManager().getTranslationController().createDateHelper();
     }
+
+    public void setTitle(String title)
+    {
+        _formController.setFormTitle(title);
+        
+        
+    }
 }
