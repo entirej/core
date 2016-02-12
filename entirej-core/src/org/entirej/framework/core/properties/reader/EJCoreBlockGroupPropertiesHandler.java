@@ -66,14 +66,18 @@ public class EJCoreBlockGroupPropertiesHandler extends EJCorePropertiesTagHandle
         if (name.equals(ELEMENT_BLOCK))
         {
             EJCoreBlockProperties blockProperties = ((EJCoreBlockPropertiesHandler) currentDelegate).getBlockProperties();
-            _formProperties.addBlockProperties(blockProperties);
-            EJCanvasProperties canvasProperties = _formProperties.getCanvasProperties(blockProperties.getCanvasName());
-            if (canvasProperties != null)
+            if(blockProperties!=null)
             {
-                ((EJCoreCanvasProperties) canvasProperties).setBlockProperties(blockProperties);
+                _formProperties.addBlockProperties(blockProperties);
+                EJCanvasProperties canvasProperties = _formProperties.getCanvasProperties(blockProperties.getCanvasName());
+                if (canvasProperties != null)
+                {
+                    ((EJCoreCanvasProperties) canvasProperties).setBlockProperties(blockProperties);
+                }
+                
+                return;
             }
-            blockProperties.getScreenItemGroupContainer(EJScreenType.MAIN);
-            return;
+            
         }
     }
 }
