@@ -265,4 +265,10 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().clearCanvasMessages(canvasName);
 
     }
+
+    public void setBadge(String canvasName,String page, String badge)
+    {
+        _formController.getRenderer().setTabPageBadge(canvasName,page, badge);
+        
+    }
 }

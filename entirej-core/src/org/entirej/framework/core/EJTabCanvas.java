@@ -67,4 +67,23 @@ public class EJTabCanvas extends EJCanvas
     {
         return getCanvasController().getDisplayedTabPage(getName());
     }
+    
+    /**
+     * Instructs EntireJ to display Badge on  given tab canvas page
+     * @param tabPageName
+     *            The page to be shown
+     * @param badge
+     *            text that need to shown as a badge
+     */
+    public void setBadge(String pageName,String badge)
+    {
+        try
+        {
+            getCanvasController().setBadge(getName(),pageName, badge);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
 }

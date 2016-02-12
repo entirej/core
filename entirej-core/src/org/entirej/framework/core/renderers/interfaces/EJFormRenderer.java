@@ -209,6 +209,8 @@ public interface EJFormRenderer extends EJRenderer
     
     public void setButtonVisible(String canvasName, EJPopupButton button, boolean state);
     public void setButtonLabel(String canvasName, EJPopupButton button, String label);
+
+    public void setTabPageBadge(String canvasName,String tabPageName,  String badge);
    
     
 }
