@@ -19,6 +19,7 @@
 package org.entirej.framework.core.interfaces;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import org.entirej.framework.core.EJFrameworkHelper;
 import org.entirej.framework.core.EJFrameworkInitialiser;
@@ -179,5 +180,14 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
      * @return The amount of forms currently opened
      */
     public int getOpenedFormCount();
+
+    /**
+     * Returns a collection of currently opened forms or an empty collection of
+     * there are currently no opened forms
+     * 
+     * @return A collection of opened forms or an empty colelction if there are
+     *         currently no opened forms
+     */
+    public Collection<EJInternalForm> getOpenForms();
 
 }

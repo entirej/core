@@ -462,6 +462,30 @@ public class EJForm implements EJFrameworkHelper
             return new EJForm(form);
         }
     }
+    
+    /**
+     * Returns a collection of currently opened forms
+     * 
+     * @return A collection containing the currently opened forms
+     */
+    public Collection<EJForm> getOpenForms()
+    {
+        ArrayList<EJForm> openForms = new ArrayList<EJForm>();
+        Collection<EJInternalForm> forms = _form.getFrameworkManager().getApplicationManager().getOpenForms();
+        
+        if (forms == null || forms.isEmpty())
+        {
+            return openForms;
+        }
+        else
+        {
+            for (EJInternalForm form : forms)
+            {
+                openForms.add(new EJForm(form));
+            }
+            return openForms;
+        }
+    }
 
     /**
      * Returns the amount of forms that are currently opened within the Form
