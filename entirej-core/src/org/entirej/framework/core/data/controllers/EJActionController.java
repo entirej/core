@@ -71,6 +71,11 @@ public class EJActionController implements Serializable
         loadActionProcessors();
     }
     
+    public EJFormActionProcessor getFormActionProcessor()
+    {
+        return _formLevelActionProcessor;
+    }
+    
     private void loadActionProcessors()
     {
         if (_formController.getProperties().getActionProcessorClassName() != null && _formController.getProperties().getActionProcessorClassName().length() > 0)
