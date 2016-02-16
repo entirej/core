@@ -468,10 +468,10 @@ public class EJForm implements EJFrameworkHelper
      * 
      * @return A collection containing the currently opened forms
      */
-    public Collection<EJForm> getOpenForms()
+    public Collection<EJForm> getOpenedForms()
     {
         ArrayList<EJForm> openForms = new ArrayList<EJForm>();
-        Collection<EJInternalForm> forms = _form.getFrameworkManager().getApplicationManager().getOpenForms();
+        Collection<EJInternalForm> forms = _form.getFrameworkManager().getApplicationManager().getOpenedForms();
         
         if (forms == null || forms.isEmpty())
         {
