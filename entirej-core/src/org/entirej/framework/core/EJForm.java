@@ -911,6 +911,33 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().generateReport(reportName);
     }
+    
+   
+    public void runReportAsync(String reportName)
+    {
+        runReportAsync(reportName,null,null);
+        
+    }
+    
+    public void runReportAsync(String reportName, EJMessage completedMessage)
+    {
+        runReportAsync(reportName,null,completedMessage);
+        
+    }
+    
+   
+    public void runReportAsync(String reportName, EJParameterList parameterList)
+    {
+        runReportAsync(reportName,parameterList,null);
+        
+    }
+    
+    @Override
+    public void runReportAsync(String reportName, EJParameterList parameterList, EJMessage completedMessage)
+    {
+         _form.getFrameworkManager().runReportAsync(reportName, parameterList, completedMessage);
+        
+    }
 
     /**
      * Returns this forms parameter list
