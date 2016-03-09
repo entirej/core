@@ -147,6 +147,15 @@ public interface EJFrameworkHelper extends EJMessenger, Serializable
     public String generateReport(String reportName, EJParameterList parameterList);
     
     public String generateReport(String reportName);
+    
+    
+    public void runReportAsync(String reportName, EJParameterList parameterList);
+    
+    public void runReportAsync(String reportName, EJParameterList parameterList,EJMessage completedMessage);
+
+    public void runReportAsync(String reportName,EJMessage completedMessage);
+    
+    public void runReportAsync(String reportName);
 
     public EJTranslatorHelper getTranslatorHelper();
 }

@@ -415,6 +415,34 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     public String generateReport(String reportName){
        return getApplicationManager().generateReport(reportName);
     }
+    
+    
+    @Override
+    public void runReportAsync(String reportName)
+    {
+        runReportAsync(reportName,null,null);
+        
+    }
+    @Override
+    public void runReportAsync(String reportName, EJMessage completedMessage)
+    {
+        runReportAsync(reportName,null,completedMessage);
+        
+    }
+    
+    @Override
+    public void runReportAsync(String reportName, EJParameterList parameterList)
+    {
+        runReportAsync(reportName,parameterList,null);
+        
+    }
+    
+    @Override
+    public void runReportAsync(String reportName, EJParameterList parameterList, EJMessage completedMessage)
+    {
+        getApplicationManager().runReportAsync(reportName, parameterList, completedMessage);
+        
+    }
 
     /**
      * Informs the application manager to open a popup form
