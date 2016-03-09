@@ -292,7 +292,7 @@ public class EJScreenItem
     {
         if (_item.getManagedItemRenderer() != null)
         {
-            return _item.getManagedItemRenderer().getValue();
+            return _item.getManagedItemRenderer().getDisplayValue();
         }
         else
         {
