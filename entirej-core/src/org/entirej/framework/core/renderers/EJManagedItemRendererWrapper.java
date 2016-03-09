@@ -148,6 +148,25 @@ public class EJManagedItemRendererWrapper implements EJItemRenderer
     /**
      * Managed delegate for the <code>ItemRenderer</code>
      * 
+     * @see {@link EJItemRenderer#getDisplayValue()}
+     */
+    public Object getDisplayValue()
+    {
+        try
+        {
+            return _itemRenderer.getDisplayValue();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
+    }
+    
+    
+    /**
+     * Managed delegate for the <code>ItemRenderer</code>
+     * 
      * @see {@link EJItemRenderer#initialise()}
      */
     public void initialise(EJScreenItemController item, EJScreenItemProperties screenItemProperties)

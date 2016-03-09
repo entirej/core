@@ -34,7 +34,7 @@ public interface EJItemRenderer extends EJRenderer
      * 
      */
     public void refreshItemRenderer();
-    
+
     /**
      * Indicates to the item renderer that one of its properties has changed
      * 
@@ -42,7 +42,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The name of the property that has changed
      */
     public void refreshItemRendererProperty(String propertyName);
-    
+
     /**
      * Used to initialize the renderer using the given controller
      * <p>
@@ -55,26 +55,36 @@ public interface EJItemRenderer extends EJRenderer
      *            The screen upon which this item will be displayed
      */
     public void initialise(EJScreenItemController item, EJScreenItemProperties screenItemProperties);
-    
+
     /**
      * Used to retrieve the item used to initialize this item renderer
      * 
      * @return The renderers item
      */
     public EJScreenItemController getItem();
-    
+
     /**
      * Used to clear the renderers value
      */
     public void clearValue();
-    
+
     /**
      * Returns the value of the renderer
      * 
      * @return The renderers current value
      */
     public Object getValue();
-    
+
+    /**
+     * Returns the display value of the renderer
+     * <p>
+     * If this is a combo box then the get display value will return the
+     * description shown in the combo box and not the actual return value
+     * 
+     * @return The value displayed within this renderer
+     */
+    public Object getDisplayValue();
+
     /**
      * Sets the initial value of this item
      * <p>
@@ -85,7 +95,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The renderers initial value
      */
     public void setInitialValue(Object value);
-    
+
     /**
      * Sets this renderers value
      * <p>
@@ -96,7 +106,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The renderers new value
      */
     public void setValue(Object value);
-    
+
     /**
      * Informs the renderer if a validation error occurred
      * <p>
@@ -106,7 +116,7 @@ public interface EJItemRenderer extends EJRenderer
      * <code>true</code> will be passed
      */
     public void validationErrorOccurred(boolean error);
-    
+
     /**
      * Checks to see if the renderers value equals a value given
      * 
@@ -116,7 +126,7 @@ public interface EJItemRenderer extends EJRenderer
      *         if they are not
      */
     public boolean valueEqualsTo(Object value);
-    
+
     /**
      * Sets the edit allowed flag for this renderer
      * 
@@ -124,7 +134,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The edit allowed flag
      */
     public void setEditAllowed(boolean editAllowed);
-    
+
     /**
      * Indicates if this renderers value can be modified
      * 
@@ -132,7 +142,7 @@ public interface EJItemRenderer extends EJRenderer
      *         <code>false</code>
      */
     public boolean isEditAllowed();
-    
+
     /**
      * Indicates to the <code>ItemRenderer</code> that the item is to be made
      * mandatory
@@ -145,7 +155,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The mandatory flag
      */
     public void setMandatory(boolean mandatory);
-    
+
     /**
      * Indicates that the item renderer should enable itself for LOV activation
      * <p>
@@ -160,7 +170,7 @@ public interface EJItemRenderer extends EJRenderer
      *            Enable LOV activation for this item
      */
     public void enableLovActivation(boolean enable);
-    
+
     /**
      * Indicates if this renderer should be made visible or not
      * 
@@ -168,7 +178,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The visible flag
      */
     public void setVisible(boolean visible);
-    
+
     /**
      * Used to assign a set of visual attribute properties to this item
      * 
@@ -177,7 +187,7 @@ public interface EJItemRenderer extends EJRenderer
      * @throws EJItemRendererException
      */
     public void setVisualAttribute(EJCoreVisualAttributeProperties visualAttributeProperties);
-    
+
     /**
      * Used to retrieve the visual attribute properties from this item
      * 
@@ -185,21 +195,21 @@ public interface EJItemRenderer extends EJRenderer
      *         or <code>null</code> if none has been assigned
      */
     public EJCoreVisualAttributeProperties getVisualAttributeProperties();
-    
+
     /**
      * Indicates if this renderer is visible
      * 
      * @return The visible flag
      */
     public boolean isVisible();
-    
+
     /**
      * Indicates if this renderer is mandatory
      * 
      * @return The mandatory flag
      */
     public boolean isMandatory();
-    
+
     /**
      * Indicates if this item's value is valid
      * <p>
@@ -215,12 +225,12 @@ public interface EJItemRenderer extends EJRenderer
      *             thrown if there was an error during this method
      */
     public boolean isValid();
-    
+
     /**
      * Indicates to the item renderer that it should gain focus
      */
     public void gainFocus();
-    
+
     /**
      * Sets the name of the block item for which this renderer is responsible
      * for
@@ -232,14 +242,14 @@ public interface EJItemRenderer extends EJRenderer
      *            The name of the block item
      */
     public void setRegisteredItemName(String name);
-    
+
     /**
      * Returns the name of the block item for which this renderer is responsible
      * 
      * @return The name of the block item for which this renderer is responsible
      */
     public String getRegisteredItemName();
-    
+
     /**
      * Sets this items label
      * 
@@ -247,7 +257,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The label to set
      */
     public void setLabel(String label);
-    
+
     /**
      * Sets this items hint
      * 
@@ -255,7 +265,7 @@ public interface EJItemRenderer extends EJRenderer
      *            The hint to set
      */
     public void setHint(String hint);
-    
+
     /**
      * Indicates if this renderer is read-only
      * 

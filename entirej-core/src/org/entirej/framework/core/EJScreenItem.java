@@ -266,8 +266,29 @@ public class EJScreenItem
      * within the items renderer
      * 
      * @return The value held within the items renderer if it has one
+     * @see #getDisplayValue()
      */
     public Object getValue()
+    {
+        if (_item.getManagedItemRenderer() != null)
+        {
+            return _item.getManagedItemRenderer().getValue();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * If this item has a renderer, then this method will return the value
+     * displayed to the user. If this is a ComboBox, then it will return the
+     * description and not the combo value
+     * 
+     * @return The display value of this item as a String
+     * @see #getValue()
+     */
+    public Object getDisplayValue()
     {
         if (_item.getManagedItemRenderer() != null)
         {
@@ -404,9 +425,9 @@ public class EJScreenItem
      * If the user changes record, then the visual attribute will still be
      * displayed unless the developer changes it. If the visual attribute should
      * only be displayed for a given item instance, i.e. the item on a per
-     * record basis. Then this can be achieved by using the {@link
-     * Record.getItem(String).setVisualAttribute(String)} method from the record
-     * passed to the forms action processor.
+     * record basis. Then this can be achieved by using the
+     * {@link Record.getItem(String).setVisualAttribute(String)} method from the
+     * record passed to the forms action processor.
      * 
      * 
      * @param visualAttributeName
@@ -433,8 +454,8 @@ public class EJScreenItem
     /**
      * Sets this item to be mandatory
      * <p>
-     * A mandatory item, is an item that allows users to change the value {@see
-     * #setEditable(boolean)} and the value is a required value
+     * A mandatory item, is an item that allows users to change the value
+     * {@see #setEditable(boolean)} and the value is a required value
      * 
      * @param mandatory
      *            <code>true</code> if this item should be mandatory, otherwise
@@ -549,7 +570,7 @@ public class EJScreenItem
      */
     public void setItemRendererProperty(String propertyName, String propertyValue)
     {
-        if (hasValue(propertyName) )
+        if (hasValue(propertyName))
         {
             refreshItemRendererProperty(propertyName, propertyValue);
         }
