@@ -83,7 +83,7 @@ public interface EJItemRenderer extends EJRenderer
      * 
      * @return The value displayed within this renderer
      */
-    public Object getDisplayValue();
+    public String getDisplayValue();
 
     /**
      * Sets the initial value of this item

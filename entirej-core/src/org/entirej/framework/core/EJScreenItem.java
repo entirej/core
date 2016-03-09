@@ -288,7 +288,7 @@ public class EJScreenItem
      * @return The display value of this item as a String
      * @see #getValue()
      */
-    public Object getDisplayValue()
+    public String getDisplayValue()
     {
         if (_item.getManagedItemRenderer() != null)
         {

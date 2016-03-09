@@ -150,7 +150,7 @@ public class EJManagedItemRendererWrapper implements EJItemRenderer
      * 
      * @see {@link EJItemRenderer#getDisplayValue()}
      */
-    public Object getDisplayValue()
+    public String getDisplayValue()
     {
         try
         {
