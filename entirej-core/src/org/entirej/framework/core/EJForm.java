@@ -41,7 +41,7 @@ import org.entirej.framework.core.properties.interfaces.EJFormProperties;
 
 public class EJForm implements EJFrameworkHelper
 {
-    private   EJInternalForm _form;
+    private EJInternalForm _form;
 
     public EJForm(EJInternalForm form)
     {
@@ -117,6 +117,20 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getApplicationManager().isFormOpened(formName);
     }
+    
+    /**
+     * Checks to see if a form with the given form is already open
+     * <p>
+     * 
+     * 
+     * @param form
+     * @return <code>true</code> if the form is already open, otherwise
+     *         <code>false</code>
+     */
+    public boolean isFormOpened(EJForm form)
+    {
+        return _form.getFrameworkManager().getApplicationManager().isFormOpened(form._form);
+    }
 
     /**
      * Instructs the application manager to switch for the given form name
@@ -138,6 +152,25 @@ public class EJForm implements EJFrameworkHelper
 
         EJInternalForm form = _form.getFrameworkManager().getApplicationManager().switchToForm(formName);
         return new EJForm(form);
+    }
+    
+    /**
+     * Instructs the application manager to switch for the given form 
+     * <p>
+     * 
+     * 
+     * @param form
+     *            The form to switch to
+     */
+    public void switchToForm(EJForm form)
+    {
+        if (!isFormOpened(form))
+        {
+            throw new EJApplicationException("There is no opened form with the passed form object");
+        }
+        
+        _form.getFrameworkManager().getApplicationManager().switchToForm(form._form);
+      
     }
 
     /**
