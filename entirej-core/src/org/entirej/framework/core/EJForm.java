@@ -117,11 +117,9 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().getApplicationManager().isFormOpened(formName);
     }
-    
+
     /**
-     * Checks to see if a form with the given form is already open
-     * <p>
-     * 
+     * Checks to see if the given form has been opened
      * 
      * @param form
      * @return <code>true</code> if the form is already open, otherwise
@@ -133,15 +131,20 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
-     * Instructs the application manager to switch for the given form name
+     * Instructs the application manager to switch to the form with the given
+     * name
      * <p>
      * If there is no form with the given name, then an exception is raised
      * otherwise, the new form will be displayed and the forms {@link EJForm}
      * will be returned
+     * <p>
+     * If there is more than one form opened with the given name, then the first
+     * one will be opened
      * 
      * @param formName
      *            The name of the form to switch to
      * @return The {@link EJForm} of the newly focused form
+     * @see EJForm#isFormOpened(String)
      */
     public EJForm switchToForm(String formName)
     {
@@ -153,24 +156,26 @@ public class EJForm implements EJFrameworkHelper
         EJInternalForm form = _form.getFrameworkManager().getApplicationManager().switchToForm(formName);
         return new EJForm(form);
     }
-    
+
     /**
-     * Instructs the application manager to switch for the given form 
+     * Instructs the application manager to switch to the given form
      * <p>
-     * 
+     * An exception will be thrown if you are trying to switch to a form that is
+     * not yet opened
      * 
      * @param form
      *            The form to switch to
+     * @see EJForm#isFormOpened(EJForm)
      */
     public void switchToForm(EJForm form)
     {
         if (!isFormOpened(form))
         {
-            throw new EJApplicationException("There is no opened form with the passed form object");
+            throw new EJApplicationException("There form passed to switchToForm is not yet opened");
         }
-        
+
         _form.getFrameworkManager().getApplicationManager().switchToForm(form._form);
-      
+
     }
 
     /**
@@ -299,8 +304,8 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.openPopupCanvas"));
+            throw new EJApplicationException(
+                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.openPopupCanvas"));
         }
 
         getPopupCanvas(canvasName).open();
@@ -320,8 +325,8 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.closePopupCanvas"));
+            throw new EJApplicationException(
+                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.closePopupCanvas"));
         }
 
         getPopupCanvas(canvasName).close();
@@ -348,8 +353,8 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "Form.showTabCanvasPage"));
+            throw new EJApplicationException(
+                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "Form.showTabCanvasPage"));
         }
 
         getTabCanvas(canvasName).showPage(pageName);
@@ -412,8 +417,8 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJInternalForm.showStackedCanvasPage"));
+            throw new EJApplicationException(
+                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.showStackedCanvasPage"));
         }
 
         getStackedCanvas(canvasName).showPage(pageName);
@@ -495,7 +500,7 @@ public class EJForm implements EJFrameworkHelper
             return new EJForm(form);
         }
     }
-    
+
     /**
      * Returns a collection of currently opened forms
      * 
@@ -505,7 +510,7 @@ public class EJForm implements EJFrameworkHelper
     {
         ArrayList<EJForm> openForms = new ArrayList<EJForm>();
         Collection<EJInternalForm> forms = _form.getFrameworkManager().getApplicationManager().getOpenedForms();
-        
+
         if (forms == null || forms.isEmpty())
         {
             return openForms;
@@ -737,10 +742,9 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setFormParameter(name, value);
     }
-    
-    
+
     /**
-     * Sets the  title of the form 
+     * Sets the title of the form
      * 
      * @param title
      *            The title of the form to set
@@ -944,32 +948,30 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().generateReport(reportName);
     }
-    
-   
+
     public void runReportAsync(String reportName)
     {
-        runReportAsync(reportName,null,null);
-        
+        runReportAsync(reportName, null, null);
+
     }
-    
+
     public void runReportAsync(String reportName, EJMessage completedMessage)
     {
-        runReportAsync(reportName,null,completedMessage);
-        
+        runReportAsync(reportName, null, completedMessage);
+
     }
-    
-   
+
     public void runReportAsync(String reportName, EJParameterList parameterList)
     {
-        runReportAsync(reportName,parameterList,null);
-        
+        runReportAsync(reportName, parameterList, null);
+
     }
-    
+
     @Override
     public void runReportAsync(String reportName, EJParameterList parameterList, EJMessage completedMessage)
     {
-         _form.getFrameworkManager().runReportAsync(reportName, parameterList, completedMessage);
-        
+        _form.getFrameworkManager().runReportAsync(reportName, parameterList, completedMessage);
+
     }
 
     /**
