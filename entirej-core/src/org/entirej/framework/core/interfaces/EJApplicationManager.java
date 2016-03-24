@@ -140,7 +140,18 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
      * @return <code>true</code> if the form is opened otherwise
      *         <code>false</code>
      */
+    
     public boolean isFormOpened(String formName);
+    /**
+     * Checks to see if a form with the given form is already open
+     * <p>
+     * 
+     * 
+     * @param form
+     * @return <code>true</code> if the form is opened otherwise
+     *         <code>false</code>
+     */
+    public boolean isFormOpened(EJInternalForm form);
 
     /**
      * Instructs the application manager to switch for the given form name
@@ -154,6 +165,16 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
      * @return The {@link EJInternalForm} of the newly focused form
      */
     public EJInternalForm switchToForm(String formName);
+    
+    /**
+     * Instructs the application manager to switch for the given form 
+     * <p>
+     * 
+     * 
+     * @param form
+     *            The  form to switch to
+     */
+    public void switchToForm(EJInternalForm form);
 
     /**
      * Returns the current active form within the application

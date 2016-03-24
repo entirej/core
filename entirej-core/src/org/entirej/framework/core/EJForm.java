@@ -41,7 +41,7 @@ import org.entirej.framework.core.properties.interfaces.EJFormProperties;
 
 public class EJForm implements EJFrameworkHelper
 {
-    private EJInternalForm _form;
+    private   EJInternalForm _form;
 
     public EJForm(EJInternalForm form)
     {

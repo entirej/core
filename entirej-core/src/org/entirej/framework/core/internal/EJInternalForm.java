@@ -68,7 +68,7 @@ import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 
 public class EJInternalForm implements Serializable
 {
-    private EJFormController                      _formController;
+    private  EJFormController                      _formController;
     private EJQuestionController                  _questionController;
 
     private Map<String, EJEmbeddedFormController> _embeddedForms = new HashMap<String, EJEmbeddedFormController>();

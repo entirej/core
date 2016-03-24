@@ -38,7 +38,7 @@ import org.entirej.framework.core.properties.EJCoreFormProperties;
  */
 public class EJDataForm implements Serializable
 {
-    private EJCoreFormProperties             _formProperties;
+    private  EJCoreFormProperties             _formProperties;
     private HashMap<String, EJDataBlock> _dataBlocks;
 
     /**

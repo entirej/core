@@ -67,7 +67,7 @@ public class EJFormController implements Serializable
     private EJManagedActionController                  _formActionController;
     private EJInternalForm                             _form;
     private EJForm                                     _ejForm;
-    private EJDataForm                                 _dataForm;
+    private  EJDataForm                                 _dataForm;
     private HashMap<String, EJEditableBlockController> _blockControllers   = new HashMap<String, EJEditableBlockController>();
     private HashMap<String, EJLovController>           _lovControllers     = new HashMap<String, EJLovController>();
     
