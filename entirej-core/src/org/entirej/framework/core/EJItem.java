@@ -104,6 +104,46 @@ public class EJItem implements Serializable
         
     }
     
+    
+    /**
+     * Used to set the item instance visual attribute
+     * <P>
+     * An item instance visual attribute will be displayed when the record this
+     * item is contained within is displayed to the user. Depending on how the
+     * block renderer is displaying the blocks records will depend on how this
+     * visual attribute is displayed. If for example the block is displaying
+     * records in a table, then the item instance visual attribute will be a
+     * cell in the table. Whereas setting the screen item visual attribute will
+     * set the visual attribute to the entire column
+     * <p>
+     * Setting the visual attribute to <code>null</code> will return the item
+     * instance to its default visual attributes
+     * <p>
+     * 
+     * @param visualAttribute
+     *            The visual attribute to set
+     *             
+     * @see #getVisualAttribute()
+     */
+    public void setVisualAttribute(EJCoreVisualAttributeProperties visualAttribute)
+    {
+        _dataItem.setVisualAttribute(visualAttribute);
+        EJBlockRendererController blockRendererController = _block.getRendererController();
+        if (blockRendererController != null)
+        {
+            try
+            {
+                blockRendererController.refreshItemProperty(_dataItem.getName(), EJManagedScreenProperty.ITEM_INSTANCE_VISUAL_ATTRIBUTE, _record);
+            }
+            catch (Exception e)
+            {
+                _block.getFrameworkManager().handleException(e);
+            }
+        }
+        
+    }
+    
+    
     /**
      * Returns the visual attribute properties set on this item or
      * <code>null</code> if no visual attribute has been set
