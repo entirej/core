@@ -20,5 +20,26 @@ package org.entirej.framework.core.enumerations;
 
 public enum EJPopupButton
 {
-    ONE, TWO, THREE, UNDEFINED
+    ONE, TWO, THREE, UNDEFINED;
+
+    public String toString()
+    {
+        switch (this)
+        {
+            case ONE:
+
+                return "Button 1";
+            case TWO:
+
+                return "Button 2";
+            case THREE:
+
+                return "Button 3";
+            default:
+                return "Undefined";
+
+        }
+
+    }
+
 }
