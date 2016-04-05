@@ -21,6 +21,7 @@ package org.entirej.framework.core;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockRendererController;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
+import org.entirej.framework.core.enumerations.EJLovDisplayReason;
 import org.entirej.framework.core.enumerations.EJManagedScreenProperty;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
@@ -86,6 +87,17 @@ public class EJScreenItem
     public boolean isUsedInLovDefinition()
     {
         return _item.getBlock().getProperties().isUsedInLovDefinition();
+    }
+
+    /**
+     * Used to programmatically display an items LOV
+     */
+    public void displayLov()
+    {
+        if (_item.getItemLovController() != null)
+        {
+            _item.getItemLovController().displayLov(EJLovDisplayReason.LOV);
+        }
     }
 
     /**
