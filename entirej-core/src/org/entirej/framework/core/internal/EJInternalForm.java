@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,7 +34,6 @@ import org.entirej.framework.core.EJManagedFrameworkConnection;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJMessageFactory;
 import org.entirej.framework.core.EJParameterList;
-import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJCanvasController;
 import org.entirej.framework.core.data.controllers.EJDateHelper;
@@ -49,7 +49,6 @@ import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.data.controllers.EJQuestionController;
 import org.entirej.framework.core.enumerations.EJCanvasType;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
-import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.interfaces.EJMessenger;
 import org.entirej.framework.core.interfaces.EJTranslator;
 import org.entirej.framework.core.properties.EJCoreFormProperties;
@@ -62,8 +61,8 @@ import org.entirej.framework.core.renderers.EJManagedFormRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJBlockFocusedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJFormEventListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
-import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJNewRecordFocusedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 
 public class EJInternalForm implements Serializable
@@ -980,7 +979,37 @@ public class EJInternalForm implements Serializable
     public void setTitle(String title)
     {
         _formController.setFormTitle(title);
-        
-        
+    }
+    
+    /**
+     * Indicates to the form that you want to open the Open File dialog
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose a file to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return The fully qualified path name where the file is stored
+     */
+    public String promptFileUpload(String title)
+    {
+        return _formController.promptFileUpload(title);
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog to
+     * select multiple files
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose one or more files to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return A list containingThe fully qualified path names of the chosen
+     *         files
+     */
+    public List<String> promptMultipleFileUpload(String title)
+    {
+        return _formController.promptMultipleFileUpload(title);
     }
 }

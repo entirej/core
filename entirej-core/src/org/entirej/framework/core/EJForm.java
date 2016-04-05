@@ -18,8 +18,10 @@
  ******************************************************************************/
 package org.entirej.framework.core;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
@@ -36,6 +38,7 @@ import org.entirej.framework.core.interfaces.EJTranslator;
 import org.entirej.framework.core.internal.EJInternalEditableBlock;
 import org.entirej.framework.core.internal.EJInternalForm;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
+import org.entirej.framework.core.properties.EJFileLoader;
 import org.entirej.framework.core.properties.definitions.interfaces.EJDisplayProperties;
 import org.entirej.framework.core.properties.interfaces.EJFormProperties;
 
@@ -1016,5 +1019,80 @@ public class EJForm implements EJFrameworkHelper
     public void askInternalQuestion(EJInternalQuestion question)
     {
         _form.getFrameworkManager().askInternalQuestion(question);
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose a file to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return The fully qualified path name where the file is stored
+     */
+    public String promptFileUpload(String title)
+    {
+        return _form.promptFileUpload(title);
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog to
+     * select multiple files
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose one or more files to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return A list containingThe fully qualified path names of the chosen
+     *         files
+     */
+    public List<String> promptMultipleFileUpload(String title)
+    {
+        return _form.promptMultipleFileUpload(title);
+    }
+
+    /**
+     * Loads a given fully qualified file from either the Classpath or an
+     * absolute path
+     * <p>
+     * First the <code>EJFileLoader</code> will check the CLASSPATH for the file
+     * using
+     * <code>EJFileLoader.class.getClassLoader().getResourcesAsStream()</code>
+     * and if this is not successful, then <code>FileLoader</code> will try to
+     * create a new <code>File</code> instance using the file name given. If the
+     * file is found then the file will be read into a DOM tree and the DOM
+     * document will be returned. If the file is not found then
+     * <code>null</code> will be returned.
+     * 
+     * @param fileName
+     *            The file required
+     * @return The file contents as a DOM tree or null if the file was not found
+     * @throws IllegalArgumentException
+     *             if there were problems incurred when opening required file
+     */
+    public InputStream loadFile(String fileName)
+    {
+        return EJFileLoader.loadFile(fileName);
+    }
+
+    /**
+     * Used to check if a given file exists
+     * <p>
+     * <p>
+     * First the <code>EJFileLoader</code> will check the CLASSPATH for the file
+     * using
+     * <code>EJFileLoader.class.getClassLoader().getResourcesAsStream()</code>
+     * and if this is not successful, then <code>EJFileLoader</code> will try to
+     * create a new <code>File</code> instance using the file name given.
+     * 
+     * @param fileName
+     *            The name of the file to check
+     * @return <code>true</code> if the file exists otherwise <code>false</code>
+     */
+    public static boolean fileExists(String fileName)
+    {
+        return EJFileLoader.fileExists(fileName);
     }
 }

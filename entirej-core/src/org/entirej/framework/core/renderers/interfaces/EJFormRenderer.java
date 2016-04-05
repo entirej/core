@@ -19,6 +19,7 @@
 package org.entirej.framework.core.renderers.interfaces;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
@@ -210,5 +211,31 @@ public interface EJFormRenderer extends EJRenderer
     public void setButtonVisible(String canvasName, EJPopupButton button, boolean state);
     public void setButtonLabel(String canvasName, EJPopupButton button, String label);
    
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose a file to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return The fully qualified path name where the file is stored
+     */
+    public String promptFileUpload(String title);
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog to
+     * select multiple files
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose one or more files to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return A list containingThe fully qualified path names of the chosen
+     *         files
+     */
+    public List<String> promptMultipleFileUpload(String title);
     
 }

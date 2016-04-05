@@ -19,29 +19,30 @@
 package org.entirej.framework.core.renderers;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
 import org.entirej.framework.core.internal.EJInternalForm;
 import org.entirej.framework.core.renderers.interfaces.EJFormRenderer;
 
-
 public class EJManagedFormRendererWrapper implements Serializable
 {
     private EJFrameworkManager _frameworkManager;
-    private EJFormRenderer    _renderer;
-    
+    private EJFormRenderer     _renderer;
+
     public EJManagedFormRendererWrapper(EJFrameworkManager manager, EJFormRenderer renderer)
     {
         _frameworkManager = manager;
         _renderer = renderer;
     }
-    
+
     public EJFormRenderer getUnmanagedRenderer()
     {
         return _renderer;
     }
-    
+
     public void formCleared()
     {
         try
@@ -53,7 +54,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             handleException(e);
         }
     }
-    
+
     public void formClosed()
     {
         try
@@ -90,7 +91,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshFormRendererProperty(String propertyName)
     {
         try
@@ -102,7 +103,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             handleException(e);
         }
     }
-    
+
     public void savePerformed()
     {
         try
@@ -114,7 +115,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             handleException(e);
         }
     }
-    
+
     /**
      * Forces the form to gain initial focus
      * <p>
@@ -135,7 +136,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             handleException(e);
         }
     }
-    
+
     public Object getGuiComponent()
     {
         try
@@ -148,7 +149,7 @@ public class EJManagedFormRendererWrapper implements Serializable
             return null;
         }
     }
-    
+
     private void handleException(Exception e)
     {
         if (e instanceof EJApplicationException)
@@ -158,6 +159,54 @@ public class EJManagedFormRendererWrapper implements Serializable
         else
         {
             _frameworkManager.handleException(new EJApplicationException(e));
+        }
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose a file to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return The fully qualified path name where the file is stored
+     */
+    public String promptFileUpload(String title)
+    {
+        try
+        {
+            return _renderer.promptFileUpload(title);
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog to
+     * select multiple files
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose one or more files to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return A list containingThe fully qualified path names of the chosen
+     *         files
+     */
+    public List<String> promptMultipleFileUpload(String title)
+    {
+        try
+        {
+            return _renderer.promptMultipleFileUpload(title);
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return new ArrayList<String>();
         }
     }
 }

@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.entirej.framework.core.EJApplicationException;
@@ -780,5 +781,37 @@ public class EJFormController implements Serializable
        getProperties().setTranslatedTitle(title);
        _frameworkManager.getApplicationManager().updateFormTitle(_form);
         
+    }
+    
+    /**
+     * Indicates to the form that you want to open the Open File dialog
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose a file to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return The fully qualified path name where the file is stored
+     */
+    public String promptFileUpload(String title)
+    {
+        return _formRenderer.promptFileUpload(title);
+    }
+
+    /**
+     * Indicates to the form that you want to open the Open File dialog to
+     * select multiple files
+     * <p>
+     * This will inform the Client Framework to open its file browser so that
+     * the user can search and choose one or more files to load
+     * 
+     * @param title
+     *            The title to display on the File Dialog
+     * @return A list containingThe fully qualified path names of the chosen
+     *         files
+     */
+    public List<String> promptMultipleFileUpload(String title)
+    {
+        return _formRenderer.promptMultipleFileUpload(title);
     }
 }
