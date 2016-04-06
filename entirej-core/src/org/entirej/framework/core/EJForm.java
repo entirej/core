@@ -1072,7 +1072,7 @@ public class EJForm implements EJFrameworkHelper
      * @throws IllegalArgumentException
      *             if there were problems incurred when opening required file
      */
-    public InputStream loadFile(String fileName)
+    public InputStream loadFileFromClasspath(String fileName)
     {
         return EJFileLoader.loadFile(fileName);
     }
@@ -1091,7 +1091,7 @@ public class EJForm implements EJFrameworkHelper
      *            The name of the file to check
      * @return <code>true</code> if the file exists otherwise <code>false</code>
      */
-    public static boolean fileExists(String fileName)
+    public static boolean fileExistsOnClasspath(String fileName)
     {
         return EJFileLoader.fileExists(fileName);
     }
