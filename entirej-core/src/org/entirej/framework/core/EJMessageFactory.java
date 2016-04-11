@@ -219,9 +219,13 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("The canvas type passed to $1 is not of the type: $2", replacementStrings);
             case INVALID_FORM_OR_CANVAS_NAME:
                 return new EJMessage("No embedded form exists for form: $1 and canvas $2", replacementStrings);
+            case INVALID_BLOCK_FOR_RECORD:
+                return new EJMessage("Record is created for a different block. $1 instead of $2", replacementStrings);
                 
             case SETTING_BLOCK_NAME_TO_NULL:
                 return new EJMessage("Trying to reset a block name to null. Block: $1.$2", replacementStrings);
+            case RECORD_CREATED_WITHOUT_BLOCK:
+                return new EJMessage("The record has not been created for this block. use EJBlock.createRecord", replacementStrings);
                 
             case INVALID_DATA_TYPE_FOR_ITEM:
                 return new EJMessage("Trying to set data item $1 to an incorrect data type. Expecting $2 but received $3", replacementStrings);

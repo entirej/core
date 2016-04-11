@@ -175,6 +175,16 @@ public class EJInternalEditableBlock extends EJInternalBlock implements Serializ
                     "FormManager.deleteRecord"));
         }
         
+        if (record.getBlockName() == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.RECORD_CREATED_WITHOUT_BLOCK));
+        }
+        
+        if (!record.getBlockName().equals(getProperties().getName()))
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_BLOCK_FOR_RECORD, record.getBlockName(), getProperties().getName()));
+        }
+        
         _blockController.executeDelete((EJDataRecord) record);
     }
     
@@ -189,6 +199,16 @@ public class EJInternalEditableBlock extends EJInternalBlock implements Serializ
         if (insertRecord == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_RECORD_PASSED_TO_METHOD, "executeInsert"));
+        }
+        
+        if (insertRecord.getBlockName() == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.RECORD_CREATED_WITHOUT_BLOCK));
+        }
+        
+        if (!insertRecord.getBlockName().equals(getProperties().getName()))
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_BLOCK_FOR_RECORD, insertRecord.getBlockName(), getProperties().getName()));
         }
         
         _blockController.executeInsert(insertRecord);
@@ -206,6 +226,16 @@ public class EJInternalEditableBlock extends EJInternalBlock implements Serializ
         if (updateRecord == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_RECORD_PASSED_TO_METHOD, "executeUpdate"));
+        }
+        
+        if (updateRecord.getBlockName() == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.RECORD_CREATED_WITHOUT_BLOCK));
+        }
+        
+        if (!updateRecord.getBlockName().equals(getProperties().getName()))
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_BLOCK_FOR_RECORD, updateRecord.getBlockName(), getProperties().getName()));
         }
         
         _blockController.executeUpdate(updateRecord);
