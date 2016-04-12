@@ -116,5 +116,12 @@ public enum EJPropertyDefinitionType
      * and allows the chooser to choose any form available within the developers
      * project
      */
-    FORM_ID
+    FORM_ID,
+    
+    /**
+     * Informs the <b>EntireJ Framework Plugin</b> to provide an application parameters chooser
+     * and allows the chooser to choose any application parameter available within the developers
+     * project
+     */
+    APPLICATION_PARAMETER
 }
