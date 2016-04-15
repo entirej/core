@@ -99,6 +99,8 @@ public class EJFormController implements Serializable
         _ejForm = new EJForm(_form);
         _canvasController = new EJCanvasController(this);
         
+        loadLovDefinitions();
+        _formActionController.initialise(this);
         initialiseController();
         
         // Inform the forms action processor that the form has been created
@@ -146,17 +148,22 @@ public class EJFormController implements Serializable
         return _parameterList;
     }
     
-    private void initialiseController()
+    private void loadLovDefinitions()
     {
-        LOGGER.trace("START initialiseController");
-        EJCoreFormProperties formProperties = _dataForm.getProperties();
-        
+        LOGGER.trace("START loadingLovDefinitions");
         for (EJCoreLovDefinitionProperties lovDefinition : _dataForm.getProperties().getLovDefinitionContainer().getAllLovDefinitionProperties())
         {
             EJLovController lovController = new EJLovController(this, lovDefinition);
             _lovControllers.put(lovDefinition.getName(), lovController);
         }
         
+        LOGGER.trace("END loadingLovDefinitions");
+    }
+    
+    private void initialiseController()
+    {
+        LOGGER.trace("START initialiseController");
+        EJCoreFormProperties formProperties = _dataForm.getProperties();
         LOGGER.trace("Setting up blocks");
         ArrayList<EJEditableBlockController> mirroredParents = new ArrayList<EJEditableBlockController>();
         for (EJDataBlock block : _dataForm.getAllBlocks())

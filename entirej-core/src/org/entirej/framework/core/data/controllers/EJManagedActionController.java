@@ -44,6 +44,11 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
     public EJManagedActionController(EJFormController formController)
     {
         _appManager = formController.getFrameworkManager().getApplicationManager();
+//        _unmanagedController = new EJActionController(formController);
+    }
+    
+    void initialise(EJFormController formController)
+    {
         _unmanagedController = new EJActionController(formController);
     }
     

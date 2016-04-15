@@ -741,10 +741,11 @@ public class EJActionController implements Serializable
             String blockName = queryCriteria == null ? "" : queryCriteria.getBlockName();
             if (queryCriteria != null && queryCriteria.isUsedInLov())
             {
-                if (_lovActionProcessors.containsKey(queryCriteria.getLovName()))
+                String lovName = queryCriteria.getLovName();
+                if (_lovActionProcessors.containsKey(lovName))
                 {
-                    logger.trace("Calling LOV  level preQuery. Lov: {}", queryCriteria.getLovName());
-                    _lovActionProcessors.get(blockName).preQuery(_lovs.get(blockName), queryCriteria);
+                    logger.trace("Calling LOV  level preQuery. Lov: {}", lovName);
+                    _lovActionProcessors.get(lovName).preQuery(_lovs.get(lovName), queryCriteria);
                     logger.trace("Called LOV level preQuery");
                 }
             }
@@ -1189,10 +1190,11 @@ public class EJActionController implements Serializable
             // executing
             if (queryCriteria != null && queryCriteria.isUsedInLov())
             {
-                if (_lovActionProcessors.containsKey(queryCriteria.getLovName()))
+                String lovName = queryCriteria.getLovName();
+                if (_lovActionProcessors.containsKey(lovName))
                 {
-                    logger.trace("Calling LOV level validateQueryCriteria. Lov: {}", queryCriteria.getLovName());
-                    _lovActionProcessors.get(blockName).validateQueryCriteria(_lovs.get(blockName), queryCriteria);
+                    logger.trace("Calling LOV level validateQueryCriteria. Lov: {}", lovName);
+                    _lovActionProcessors.get(lovName).validateQueryCriteria(_lovs.get(lovName), queryCriteria);
                     logger.trace("Called LOV level validateQueryCriteria");
                 }
             }
