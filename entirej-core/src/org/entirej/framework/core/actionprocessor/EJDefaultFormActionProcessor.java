@@ -103,11 +103,11 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
-    public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType) throws EJActionProcessorException
+    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException
     {
     }
     
-    public void validateItem(EJForm form, EJRecord record, String itemName, EJScreenType screenType) throws EJActionProcessorException
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException
     {
     }
     

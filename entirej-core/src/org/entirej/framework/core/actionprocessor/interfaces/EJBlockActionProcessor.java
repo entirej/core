@@ -50,7 +50,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The query criteria for this block
      */
     public void preQuery(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
-    
+
     /**
      * Called for each record of a queried block. The <code>EJrRecord</code> is
      * the retrieved record. Setting values of this record, will set the value
@@ -68,7 +68,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record retrieved
      */
     public void postQuery(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called after a block has fully completed its query action
      * <p>
@@ -84,7 +84,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @throws EJActionProcessorException
      */
     public void postBlockQuery(EJForm form, EJBlock block) throws EJActionProcessorException;
-    
+
     /**
      * Called before a record is deleted from the block but not from the blocks
      * underlying data source.
@@ -97,7 +97,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record to be deleted
      */
     public void preDelete(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called after a record has been deleted from the data block but not from
      * the blocks underlying data source
@@ -110,7 +110,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record that was deleted
      */
     public void postDelete(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called before a record is inserted into the data block
      * <p>
@@ -118,7 +118,8 @@ public interface EJBlockActionProcessor extends Serializable
      * method can be used to set values of the inserted record before it is
      * inserted however any items that are part of a master detail relationship
      * <B>must</B> be added within the
-     * <code>{@link #initialiseRecord(EJForm, EJRecord, EJRecordType)}</code> method.
+     * <code>{@link #initialiseRecord(EJForm, EJRecord, EJRecordType)}</code>
+     * method.
      * 
      * @param form
      *            The form from which this method is called
@@ -127,7 +128,7 @@ public interface EJBlockActionProcessor extends Serializable
      * 
      */
     public void preInsert(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called after the given record is inserted into the block
      * 
@@ -137,7 +138,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record that was inserted
      */
     public void postInsert(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called before the given record is updated within the data block
      * 
@@ -147,7 +148,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record that will be updated
      */
     public void preUpdate(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called after the given record has been updated within the data block
      * 
@@ -157,7 +158,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record that was updated
      */
     public void postUpdate(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
+
     /**
      * Called each time the user navigated to a new record. The
      * <code>EJRecord</code> given, is the record that was navigated to, i.e.
@@ -169,20 +170,17 @@ public interface EJBlockActionProcessor extends Serializable
      *            The new current record
      */
     public void newRecordInstance(EJForm form, EJRecord record) throws EJActionProcessorException;
-    
-   
+
     /**
      * Called when an LOV is activated on the given screen item
      * <p>
      * <ul>
      * There different ways a lov can be activated:
-     * <li>
-     * {@link EJLovDisplayReason#LOV} This is when a user activates the LOV
+     * <li>{@link EJLovDisplayReason#LOV} This is when a user activates the LOV
      * directly, e.g. with a defined LOV function key or a double click of the
      * mouse</li>
-     * <li>
-     * {@link EJLovDisplayReason#VALIDATE} This is when the user enters a value
-     * into a field with lov activation applied to it. The value will be
+     * <li>{@link EJLovDisplayReason#VALIDATE} This is when the user enters a
+     * value into a field with lov activation applied to it. The value will be
      * validated by the LOV controller and not via the action processor. EntireJ
      * needs to ensure that the value entered is a valid LOV value</li>
      * </ul>
@@ -195,7 +193,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The reason for the lov activation
      */
     public void lovActivated(EJForm form, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException;
-    
+
     /**
      * Called after a value has been chosen or the LOV is closed
      * <p>
@@ -211,7 +209,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            was chosen
      */
     public void lovCompleted(EJForm form, EJScreenItem screenItem, boolean valueChosen) throws EJActionProcessorException;
-    
+
     /**
      * Called when validation is required on a given record
      * <p>
@@ -234,7 +232,7 @@ public interface EJBlockActionProcessor extends Serializable
      *      EJQueryCriteria)
      */
     public void validateRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException;
-    
+
     /**
      * Used to validate the given query criteria before a query is made on the
      * block
@@ -249,7 +247,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The query criteria that should be validated
      */
     public void validateQueryCriteria(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
-    
+
     /**
      * Called after a user modifies an item
      * <p>
@@ -260,15 +258,17 @@ public interface EJBlockActionProcessor extends Serializable
      * 
      * @param form
      *            The form from which this method is called
-     * @param record
-     *            The record containing the modified value
+     * @param blockName
+     *            The block that contains the item that has changed. Use the
+     *            EJScreenType to find out which record has actually been
+     *            changed
      * @param itemName
      *            The name of the modified item
      * @param screenType
      *            The screen upon which the item was modified
      */
-    public void validateItem(EJForm form, EJRecord record, String itemName, EJScreenType screenType) throws EJActionProcessorException;
-    
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+
     /**
      * Called each time an item with an action command is modified on the main
      * screen of a form
@@ -281,16 +281,16 @@ public interface EJBlockActionProcessor extends Serializable
      * 
      * @param form
      *            The form from which this method is called
-     * @param record
-     *            The current record from the current block
+     * @param blockName
+     *            the block that has fired the command
      * @param command
      *            The action command as defined within the main screen item
      *            properties
      * @param screenType
      *            The screen from where this method was called
      */
-    public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType) throws EJActionProcessorException;
-    
+    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException;
+
     /**
      * Called when a record is created for one of the screens. This allows
      * developers to add default values to a record before it is displayed
@@ -303,7 +303,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The type of record to be initialised
      */
     public void initialiseRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException;
-    
+
     /**
      * Called before a query, insert or update screen is opened
      * <p>
@@ -313,12 +313,12 @@ public interface EJBlockActionProcessor extends Serializable
      * @param block
      *            The block which contains the screen that is being opened
      * @param record
-     *            The record pass to Screen           
+     *            The record that is used to initialise the screen
      * @param screenType
      *            The type of screen that is being opened
      */
-    public void preOpenScreen(EJBlock block,EJRecord record, EJScreenType screenType) throws EJActionProcessorException;
-    
+    public void preOpenScreen(EJBlock block, EJRecord record, EJScreenType screenType) throws EJActionProcessorException;
+
     /**
      * Called when an update operation is cancelled by the user
      * 
@@ -326,7 +326,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The block that has had the update operation cancelled
      */
     public void whenUpdateCancelled(EJBlock block) throws EJActionProcessorException;
-    
+
     /**
      * Called when an insert operation is cancelled by the user
      * 

@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.entirej.framework.core.EJFrameworkManager;
-import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockController;
@@ -508,13 +507,8 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
     {
         try
         {
-            EJDataRecord dataRecordForUpdate = _blockController.getFormController().getUnmanagedActionController().preChange(_blockController, screenType);
-            EJRecord recordForUpdate = new EJRecord(dataRecordForUpdate);
-
             getBlockController().getFormController().getManagedActionController().getUnmanagedController()
-                    .validateItem(getBlockController().getFormController().getEJForm(), recordForUpdate, item.getRegisteredItemName(), screenType);
-
-            _blockController.getFormController().getUnmanagedActionController().postChange(_blockController, dataRecordForUpdate, screenType);
+                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType);
             item.validationErrorOccurred(false);
         }
         catch (Exception e)

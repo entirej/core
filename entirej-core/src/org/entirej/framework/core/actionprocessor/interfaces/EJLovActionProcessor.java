@@ -150,14 +150,14 @@ public interface EJLovActionProcessor extends Serializable
      * 
      * @param form
      *            The form from which this method is called
-     * @param record
-     *            The record containing the modified value
+     * @param blockName
+     *            The the block firing the event
      * @param itemName
      *            The name of the modified item
      * @param screenType
      *            The screen upon which the item was modified
      */
-    public void validateItem(EJLov lov, EJRecord record, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+    public void validateItem(EJLov lov, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
     
     /**
      * Called each time an item with an action command is modified on the main
@@ -171,15 +171,15 @@ public interface EJLovActionProcessor extends Serializable
      * 
      * @param lov
      *            The lov from which this method is called
-     * @param record
-     *            The current record from the current block
+     * @param blockName
+     *            The block that fired the event
      * @param command
      *            The action command as defined within the main screen item
      *            properties
      * @param screenType
      *            The screen from where this method was called
      */
-    public void executeActionCommand(EJLov lov, EJRecord record, String command, EJScreenType screenType) throws EJActionProcessorException;
+    public void executeActionCommand(EJLov lov, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException;
     
     /**
      * Called whenever a new record is created. The <code>DataRecord</code> is

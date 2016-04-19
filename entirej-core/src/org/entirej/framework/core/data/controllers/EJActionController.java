@@ -562,22 +562,24 @@ public class EJActionController implements Serializable
         logger.trace("END embeddedFormClosed");
     }
     
-    public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType)
+    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType)
+    {
+        executeActionCommand(form, blockName, command, screenType, null);
+    }
+    
+    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType, String lovDefinitionName)
     {
         logger.trace("START executeActionCommand. Form: {}, Command: {}, Screen: {}", form.getName(), command, screenType);
-        
-        String blockName = (record == null ? "" : record.getBlockName());
         
         EJManagedFrameworkConnection connection = form.getConnection();
         try
         {
-            if (record != null && record.isUsedInLovDefinition())
+            if (lovDefinitionName != null)
             {
-                String lovName = record.getLovDefinitionName();
-                if (_lovActionProcessors.containsKey(lovName))
+                if (_lovActionProcessors.containsKey(lovDefinitionName))
                 {
-                    logger.trace("Calling LOV level executeActionCommand: Lov: {}", lovName);
-                    _lovActionProcessors.get(lovName).executeActionCommand(_lovs.get(lovName), record, command, screenType);
+                    logger.trace("Calling LOV level executeActionCommand: Lov: {}", lovDefinitionName);
+                    _lovActionProcessors.get(lovDefinitionName).executeActionCommand(_lovs.get(lovDefinitionName), blockName, command, screenType);
                     logger.trace("Called LOV level executeActionCommand");
                 }
             }
@@ -586,13 +588,13 @@ public class EJActionController implements Serializable
                 if (_blockLevelActionProcessors.containsKey(blockName))
                 {
                     logger.trace("Calling block level executeActionCommand. Block: {}", blockName);
-                    _blockLevelActionProcessors.get(blockName).executeActionCommand(form, record, command, screenType);
+                    _blockLevelActionProcessors.get(blockName).executeActionCommand(form, blockName, command, screenType);
                     logger.trace("Called block level executeActionCommand");
                 }
                 else
                 {
                     logger.trace("Calling form level executeActionCommand");
-                    _formLevelActionProcessor.executeActionCommand(form, record, command, screenType);
+                    _formLevelActionProcessor.executeActionCommand(form, blockName, command, screenType);
                     logger.trace("Called form level executeActionCommand");
                 }
             }
@@ -612,21 +614,23 @@ public class EJActionController implements Serializable
         logger.trace("END executeActionCommand");
     }
     
-    public void validateItem(EJForm form, EJRecord record, String itemName, EJScreenType screenType)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType)
+    {
+        validateItem(form, blockName, itemName, screenType, null);
+    }
+    
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, String lovDefinitionName)
     {
         logger.trace("START validateItem. Form: {}, Item: {}, Screen: {}", form.getName(), itemName, screenType);
         EJManagedFrameworkConnection connection = form.getConnection();
         try
         {
-            String blockName = record == null ? "" : record.getBlockName();
-            
-            if (record != null && record.isUsedInLovDefinition())
+            if (lovDefinitionName != null)
             {
-                String lovName = record.getLovDefinitionName();
-                if (_lovActionProcessors.containsKey(lovName))
+                if (_lovActionProcessors.containsKey(lovDefinitionName))
                 {
-                    logger.trace("Calling LOV level validateItem. Lov: {}", lovName);
-                    _lovActionProcessors.get(lovName).validateItem(_lovs.get(lovName), record, itemName, screenType);
+                    logger.trace("Calling LOV level validateItem. Lov: {}", lovDefinitionName);
+                    _lovActionProcessors.get(lovDefinitionName).validateItem(_lovs.get(lovDefinitionName), blockName, itemName, screenType);
                     logger.trace("Called LOV level validateItem");
                 }
             }
@@ -635,13 +639,13 @@ public class EJActionController implements Serializable
                 if (_blockLevelActionProcessors.containsKey(blockName))
                 {
                     logger.trace("Calling block level validateItem. Block: {}", blockName);
-                    _blockLevelActionProcessors.get(blockName).validateItem(form, record, itemName, screenType);
+                    _blockLevelActionProcessors.get(blockName).validateItem(form, blockName, itemName, screenType);
                     logger.trace("Called block level validateItem");
                 }
                 else
                 {
                     logger.trace("Calling form level validateItem");
-                    _formLevelActionProcessor.validateItem(form, record, itemName, screenType);
+                    _formLevelActionProcessor.validateItem(form, blockName, itemName, screenType);
                     logger.trace("Called form level validateItem");
                 }
             }

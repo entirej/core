@@ -21,7 +21,6 @@ package org.entirej.framework.core.data.controllers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,8 +51,8 @@ import org.entirej.framework.core.renderers.EJManagedQueryScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedUpdateScreenRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
-import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.eventhandlers.EJNewRecordFocusedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJInsertScreenRenderer;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 import org.entirej.framework.core.renderers.interfaces.EJQueryScreenRenderer;
@@ -1046,14 +1045,8 @@ public abstract class EJBlockController implements Serializable
 
         logger.trace("START executeActionCommand: ScreenType: {}, Command: {}", screenType, actionCommand);
 
-        EJDataRecord dataRecordForUpdate = getFormController().getUnmanagedActionController().preChange(this, screenType);
-        EJRecord recordForUpdate = new EJRecord(dataRecordForUpdate);
-
         logger.trace("   -> calling ActionController executeActionCommand");
-        getFormController().getUnmanagedActionController().executeActionCommand(_formController.getEJForm(), recordForUpdate, actionCommand, screenType);
-
-        // now populate any modified values to the screens
-        getFormController().getUnmanagedActionController().postChange(this, dataRecordForUpdate, screenType);
+        getFormController().getUnmanagedActionController().executeActionCommand(_formController.getEJForm(), _blockProperties.getName(), actionCommand, screenType);
 
         logger.trace("END executeActionCommand");
     }

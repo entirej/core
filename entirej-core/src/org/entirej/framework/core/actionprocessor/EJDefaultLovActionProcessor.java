@@ -62,12 +62,12 @@ public class EJDefaultLovActionProcessor implements EJLovActionProcessor
     }
     
     @Override
-    public void validateItem(EJLov lov, EJRecord record, String itemName, EJScreenType screenType) throws EJActionProcessorException
+    public void validateItem(EJLov lov, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException
     {
     }
     
     @Override
-    public void executeActionCommand(EJLov lov, EJRecord record, String command, EJScreenType screenType) throws EJActionProcessorException
+    public void executeActionCommand(EJLov lov, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException
     {
     }
     

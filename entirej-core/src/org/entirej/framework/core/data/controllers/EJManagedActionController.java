@@ -346,11 +346,11 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
-    public void executeActionCommand(EJForm form, EJRecord record, String command, EJScreenType screenType)
+    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType)
     {
         try
         {
-            _unmanagedController.executeActionCommand(form, record, command, screenType);
+            _unmanagedController.executeActionCommand(form, blockName, command, screenType);
         }
         catch (Exception e)
         {
@@ -358,11 +358,11 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
-    public void validateItem(EJForm form, EJRecord record, String itemName, EJScreenType screenType)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType)
     {
         try
         {
-            _unmanagedController.validateItem(form, record, itemName, screenType);
+            _unmanagedController.validateItem(form, blockName, itemName, screenType);
         }
         catch (Exception e)
         {
