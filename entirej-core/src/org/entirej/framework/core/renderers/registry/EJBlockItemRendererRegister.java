@@ -508,7 +508,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         try
         {
             getBlockController().getFormController().getManagedActionController().getUnmanagedController()
-                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType);
+                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, item.getValue());
             item.validationErrorOccurred(false);
         }
         catch (Exception e)

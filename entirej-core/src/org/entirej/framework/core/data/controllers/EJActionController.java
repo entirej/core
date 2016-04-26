@@ -614,12 +614,12 @@ public class EJActionController implements Serializable
         logger.trace("END executeActionCommand");
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object value)
     {
-        validateItem(form, blockName, itemName, screenType, null);
+        validateItem(form, blockName, itemName, screenType, value, null);
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, String lovDefinitionName)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object value, String lovDefinitionName)
     {
         logger.trace("START validateItem. Form: {}, Item: {}, Screen: {}", form.getName(), itemName, screenType);
         EJManagedFrameworkConnection connection = form.getConnection();
@@ -639,13 +639,13 @@ public class EJActionController implements Serializable
                 if (_blockLevelActionProcessors.containsKey(blockName))
                 {
                     logger.trace("Calling block level validateItem. Block: {}", blockName);
-                    _blockLevelActionProcessors.get(blockName).validateItem(form, blockName, itemName, screenType);
+                    _blockLevelActionProcessors.get(blockName).validateItem(form, blockName, itemName, screenType, value);
                     logger.trace("Called block level validateItem");
                 }
                 else
                 {
                     logger.trace("Calling form level validateItem");
-                    _formLevelActionProcessor.validateItem(form, blockName, itemName, screenType);
+                    _formLevelActionProcessor.validateItem(form, blockName, itemName, screenType, value);
                     logger.trace("Called form level validateItem");
                 }
             }
