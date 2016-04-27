@@ -286,6 +286,19 @@ public class EJInternalForm implements Serializable
     }
 
     /**
+     * Returns the name of the first navigable block on this form
+     * <p>
+     * If a form property is set, this will be returned, if now, then the first
+     * displayed block in the forms list of blocks will be returned
+     * 
+     * @return
+     */
+    public String getFirstNavigableBlock()
+    {
+        return _formController.getProperties().getFirstNavigableBlock();
+    }
+    
+    /**
      * Returns the currently focused block or <code>null</code> if there is no
      * block focused
      * 

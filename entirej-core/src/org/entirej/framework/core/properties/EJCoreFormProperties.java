@@ -55,6 +55,7 @@ public class EJCoreFormProperties implements EJFormProperties
     private int                                    _formHeight               = 400;
     private int                                    _formWidth                = 200;
     private int                                    _numCols                  = 1;
+    private String                                 _firstNavigableBlock      = "";
 
     private EJCoreCanvasPropertiesContainer        _canvasContainer;
     private EJCoreBlockPropertiesContainer         _blockContainer;
@@ -636,6 +637,30 @@ public class EJCoreFormProperties implements EJFormProperties
     public void setActionProcessorClassName(String processorName)
     {
         _actionProcessorClassName = processorName;
+    }
+
+    /**
+     * Returns the name of the first navigable block of this form
+     * 
+     * @return The name of the first navigable block of this form
+     */
+    public String getFirstNavigableBlock()
+    {
+        return _firstNavigableBlock;
+    }
+
+    /**
+     * Sets the first navigable block of this form
+     * <p>
+     * The first navigable block can be set by the developer or, if not set, it
+     * will be set to the first visible block on the form
+     * 
+     * @param blockName
+     *            The name of this forms first navigable block
+     */
+    public void setFirstNavigableBlock(String blockName)
+    {
+        _firstNavigableBlock = blockName;
     }
 
     /**
