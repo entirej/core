@@ -40,6 +40,13 @@ public interface EJFormProperties extends Serializable
     public String getTitle();
     
     /**
+     * Returns the name of the first navigable block of this form
+     * 
+     * @return The name of the first navigable block of this form
+     */
+    public String getFirstNavigableBlock();
+    
+    /**
      * Returns the number of display columns that this for uses
      * <p>
      * The form will lay out the main content canvases within a grid. This
