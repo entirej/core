@@ -29,26 +29,27 @@ import org.xml.sax.SAXException;
 
 public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
 {
-    private boolean                        _isCreatingLovDefinition    = false;
-    private boolean                        _isCreatingReferecedBlock   = false;
+    private boolean                        _isCreatingLovDefinition      = false;
+    private boolean                        _isCreatingReferecedBlock     = false;
     private EJCorePropertiesHandlerFactory _handlerFactory;
     private EJCoreFormProperties           _formProperties;
-    
-    private static final String            ELEMENT_FORM_TITLE          = "formTitle";
-    private static final String            ELEMENT_FORM_WIDTH          = "formWidth";
-    private static final String            ELEMENT_FORM_HEIGHT         = "formHeight";
-    private static final String            ELEMENT_NUM_COLS            = "numCols";
-    private static final String            ELEMENT_ACTION_PROCESSOR    = "actionProcessorClassName";
-    private static final String            ELEMENT_RENDERER_NAME       = "formRendererName";
-    private static final String            ELEMENT_RENDERER_PROPERTIES = "formRendererProperties";
-    private static final String            ELEMENT_FORM_PARAMETER      = "formParameter";
-    private static final String            ELEMENT_CANVAS              = "canvas";
-    private static final String            ELEMENT_BLOCK               = "block";
-    private static final String            ELEMENT_BLOCK_GROUP         = "blockGroup";
-    private static final String            ELEMENT_RELATION            = "relation";
-    private static final String            ELEMENT_LOV_DEFINITION      = "lovDefinition";
-    private static final String            ELEMENT_OBJGROUP_DEFINITION = "objGroupDefinition";
-    
+
+    private static final String            ELEMENT_FORM_TITLE            = "formTitle";
+    private static final String            ELEMENT_FORM_WIDTH            = "formWidth";
+    private static final String            ELEMENT_FORM_HEIGHT           = "formHeight";
+    private static final String            ELEMENT_NUM_COLS              = "numCols";
+    private static final String            ELEMENT_ACTION_PROCESSOR      = "actionProcessorClassName";
+    private static final String            ELEMENT_FIRST_NAVIGABLE_BLOCK = "firstNavigableBlock";
+    private static final String            ELEMENT_RENDERER_NAME         = "formRendererName";
+    private static final String            ELEMENT_RENDERER_PROPERTIES   = "formRendererProperties";
+    private static final String            ELEMENT_FORM_PARAMETER        = "formParameter";
+    private static final String            ELEMENT_CANVAS                = "canvas";
+    private static final String            ELEMENT_BLOCK                 = "block";
+    private static final String            ELEMENT_BLOCK_GROUP           = "blockGroup";
+    private static final String            ELEMENT_RELATION              = "relation";
+    private static final String            ELEMENT_LOV_DEFINITION        = "lovDefinition";
+    private static final String            ELEMENT_OBJGROUP_DEFINITION   = "objGroupDefinition";
+
     public EJCoreFormPropertiesHandler(EJCorePropertiesHandlerFactory handlerFactory, String formName, boolean isCreatingLovDefinition,
             boolean isCreatingReferecedBlock)
     {
@@ -57,17 +58,17 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         _handlerFactory = handlerFactory;
         _formProperties = new EJCoreFormProperties(handlerFactory.getFrameworkManager(), formName, isCreatingLovDefinition, isCreatingReferecedBlock);
     }
-    
+
     public boolean isCreatingLovDefinition()
     {
         return _isCreatingLovDefinition;
     }
-    
+
     public EJCoreFormProperties getFormProperties()
     {
         return _formProperties;
     }
-    
+
     public void startLocalElement(String name, Attributes attributes) throws SAXException
     {
         // Now process the FORM PROPERTIES elements
@@ -103,16 +104,16 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         {
             String paramName = attributes.getValue("name");
             String dataTypeName = attributes.getValue("dataType");
-            
+
             EJInternalFormParameter parameter = new EJInternalFormParameter(paramName, dataTypeName);
-            if(parameter.isValidDefaultValueType())
+            if (parameter.isValidDefaultValueType())
             {
-                parameter.setValue(parameter.toDefaultValue( attributes.getValue("defaultValue")));
+                parameter.setValue(parameter.toDefaultValue(attributes.getValue("defaultValue")));
             }
             _formProperties.addFormParameter(parameter);
         }
     }
-    
+
     public void endLocalElement(String name, String value, String untrimmedValue)
     {
         if (name.equals(ELEMENT_FORM_TITLE))
@@ -156,12 +157,16 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         {
             _formProperties.setActionProcessorClassName(value);
         }
+        else if (name.equals(ELEMENT_FIRST_NAVIGABLE_BLOCK))
+        {
+            _formProperties.setFirstNavigableBlock(name);
+        }
         else if (name.equals(ELEMENT_RENDERER_NAME))
         {
             _formProperties.setFormRendererName(value);
         }
     }
-    
+
     public void cleanUpAfterDelegate(String name, EJCorePropertiesTagHandler currentDelegate)
     {
         if (name.equals(ELEMENT_CANVAS))
@@ -171,7 +176,7 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         else if (name.equals(ELEMENT_BLOCK))
         {
             EJCoreBlockProperties blockProperties = ((EJCoreBlockPropertiesHandler) currentDelegate).getBlockProperties();
-            if(blockProperties!=null)
+            if (blockProperties != null)
             {
                 _formProperties.addBlockProperties(blockProperties);
                 EJCanvasProperties canvasProperties = _formProperties.getCanvasProperties(blockProperties.getCanvasName());
@@ -180,13 +185,12 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
                     ((EJCoreCanvasProperties) canvasProperties).setBlockProperties(blockProperties);
                 }
             }
-            
-           
+
             return;
         }
         else if (name.equals(ELEMENT_BLOCK_GROUP))
         {
-            
+
             return;
         }
         else if (name.equals(ELEMENT_RELATION))
@@ -201,7 +205,7 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         }
         else if (name.equals(ELEMENT_OBJGROUP_DEFINITION))
         {
-           
+
             return;
         }
         else if (name.equals(ELEMENT_RENDERER_PROPERTIES))
@@ -209,5 +213,5 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
             _formProperties.setFormRendererProperties(((EJCoreFrameworkExtensionPropertiesHandler) currentDelegate).getMainPropertiesGroup());
         }
     }
-    
+
 }
