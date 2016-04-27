@@ -358,11 +358,11 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object value)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object oldValue, Object newValue)
     {
         try
         {
-            _unmanagedController.validateItem(form, blockName, itemName, screenType, value);
+            _unmanagedController.validateItem(form, blockName, itemName, screenType, oldValue, newValue);
         }
         catch (Exception e)
         {

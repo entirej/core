@@ -292,7 +292,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
         _insertScreenItemValueChangedListeners.remove(listener);
     }
 
-    public void itemValueChaged()
+    public void itemValueChaged(Object oldValue, Object newValue)
     {
         try
         {
@@ -301,7 +301,7 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
                 Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _insertScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().screenItemValueChanged(this, _insertScreenItemRenderer.getUnmanagedRenderer());
+                    valueChangedListeners.next().screenItemValueChanged(this, _insertScreenItemRenderer.getUnmanagedRenderer(), oldValue, newValue);
                 }
             }
         }

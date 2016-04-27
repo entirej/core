@@ -287,7 +287,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         _queryScreenItemValueChangedListeners.remove(listener);
     }
 
-    public void itemValueChaged()
+    public void itemValueChaged(Object oldValue, Object newValue)
     {
         try
         {
@@ -296,7 +296,7 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
                 Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _queryScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().screenItemValueChanged(this, _queryScreenItemRenderer.getUnmanagedRenderer());
+                    valueChangedListeners.next().screenItemValueChanged(this, _queryScreenItemRenderer.getUnmanagedRenderer(), oldValue, newValue);
                 }
             }
         }

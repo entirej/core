@@ -178,8 +178,13 @@ public interface EJScreenItemController extends Serializable
      * <p>
      * The item renderer will inform this item that its value has been changed.
      * EntireJ can then inform any registered action processors of the change
+     * 
+     * @param oldValue
+     *            The value before it was changed
+     * @param newValue
+     *            The value after it was changed
      */
-    public void itemValueChaged();
+    public void itemValueChaged(Object oldValue, Object newValue);
 
     /**
      * Indicates that this item has gained focus

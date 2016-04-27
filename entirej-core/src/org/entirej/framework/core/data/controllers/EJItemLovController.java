@@ -153,7 +153,7 @@ public class EJItemLovController implements Serializable
         return _item.getProperties();
     }
     
-    public void validateItem(Object value)
+    public void validateItem(Object oldValue, Object newValue)
     {
         if (getScreenProperties().isLovNotificationEnabled() || _mappingProperties!=null)
         {
@@ -167,7 +167,7 @@ public class EJItemLovController implements Serializable
             return;
         }
         
-        if (value == null)
+        if (newValue == null)
         {
             _lovController.clearAllValues(getItemRendererRegister(), _mappingProperties, _item);
             notifyLovCompleted(false);
@@ -180,7 +180,7 @@ public class EJItemLovController implements Serializable
         }
         
         String lovDefItemName = _mappingProperties.getLovDefinitionItemForBlockItem(_item.getReferencedItemProperties().getName());
-        _lovController.validateItem(getItemRendererRegister(), _mappingProperties, _item, value, lovDefItemName);
+        _lovController.validateItem(getItemRendererRegister(), _mappingProperties, _item, oldValue, newValue, lovDefItemName);
     }
     
     private void notifyLovCompleted(boolean valueChosen)

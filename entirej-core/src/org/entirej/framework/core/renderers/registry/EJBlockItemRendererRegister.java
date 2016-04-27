@@ -126,11 +126,11 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
     {
         for (EJScreenItemValueChangedListener listener : _screenItemValueChangedListeners)
         {
-            listener.screenItemValueChanged(item, changedRenderer);
+            listener.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
         }
     }
 
@@ -487,28 +487,28 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         _itemChanged = true;
     }
 
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
     {
         if (_validate)
         {
             _itemChanged = true;
-            _blockController.itemValueChanged(item, changedRenderer);
+            _blockController.itemValueChanged(item, changedRenderer, oldValue, newValue);
 
             EJManagedItemRendererWrapper renderer = _itemRendererMap.get(item.getProperties().getReferencedItemName());
 
             if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
             {
-                fireLovValidate(item, changedRenderer.getValue());
+                fireLovValidate(item, oldValue, newValue);
             }
         }
     }
 
-    public void validateItem(EJItemRenderer item, EJScreenType screenType)
+    public void validateItem(EJItemRenderer item, EJScreenType screenType, Object oldValue, Object newValue)
     {
         try
         {
             getBlockController().getFormController().getManagedActionController().getUnmanagedController()
-                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, item.getValue());
+                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, oldValue, newValue);
             item.validationErrorOccurred(false);
         }
         catch (Exception e)
@@ -518,7 +518,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    public abstract void fireLovValidate(EJScreenItemController item, Object value);
+    public abstract void fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue);
 
     public void focusGained(EJItemFocusedEvent focusedEvent)
     {

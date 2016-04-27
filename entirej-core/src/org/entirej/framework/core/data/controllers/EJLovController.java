@@ -389,7 +389,7 @@ public class EJLovController extends EJBlockController implements Serializable
     }
 
     public void validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
-            EJScreenItemController itemToValidate, Object value, String lovDefItemName)
+            EJScreenItemController itemToValidate, Object oldValue, Object newValue, String lovDefItemName)
     {
         EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()));
 
@@ -401,7 +401,7 @@ public class EJLovController extends EJBlockController implements Serializable
             return;
         }
 
-        queryCriteria.add(EJRestrictions.equals(lovDefItemName, value));
+        queryCriteria.add(EJRestrictions.equals(lovDefItemName, newValue));
 
         EJManagedFrameworkConnection connection = getFormController().getFrameworkManager().getConnection();
         try
@@ -421,7 +421,7 @@ public class EJLovController extends EJBlockController implements Serializable
                 else
                 {
                     queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()), itemToValidate.getItemLovController());
-                    queryCriteria.add(EJRestrictions.like(lovDefItemName, value));
+                    queryCriteria.add(EJRestrictions.like(lovDefItemName, newValue));
                     executeQuery(queryCriteria);
 
                     if (getBlockRecordCount() == 1)
@@ -519,13 +519,14 @@ public class EJLovController extends EJBlockController implements Serializable
                 String lovDefItemName = mapProps.getLovDefinitionItemName();
 
                 if (record.containsItem(lovDefItemName) && blockItemName != null && blockItemName.trim().length() > 0)
-                {
+                { 
+                    Object oldValue = blockItemRegister.getRegisteredRecord().getValue(blockItemName);
                     blockItemRegister.setItemValueNoValidate(itemToValidate.getScreenType(), blockItemName, record.getValue(lovDefItemName));
 
                     EJManagedItemRendererWrapper item = blockItemRegister.getManagedItemRendererForItem(blockItemName);
                     if (item != null)
                     {
-                        blockItemRegister.validateItem(item, itemToValidate.getScreenType());
+                        blockItemRegister.validateItem(item, itemToValidate.getScreenType(), oldValue, record.getValue(lovDefItemName));
                     }
                 }
             }

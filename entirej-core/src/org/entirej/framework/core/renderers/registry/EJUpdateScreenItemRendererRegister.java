@@ -59,17 +59,17 @@ public class EJUpdateScreenItemRendererRegister extends EJBlockItemRendererRegis
         super.resetRegister();
     }
     
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer)
+    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
     {
-        super.screenItemValueChanged(item, changedRenderer);
+        super.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
         
         try
         {
-            validateItem(changedRenderer, item.getScreenType());
+            validateItem(changedRenderer, item.getScreenType(), oldValue, newValue);
         }
         finally
         {
-            fireValueChanged(item, changedRenderer);
+            fireValueChanged(item, changedRenderer, oldValue, newValue);
         }
     }
     
@@ -175,8 +175,8 @@ public class EJUpdateScreenItemRendererRegister extends EJBlockItemRendererRegis
         item.addItemValueChangedListener(this);
     }
     
-    public void fireLovValidate(EJScreenItemController item, Object value)
+    public void fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue)
     {
-        item.getItemLovController().validateItem(value);
+        item.getItemLovController().validateItem(oldValue, newValue);
     }
 }
