@@ -159,7 +159,7 @@ public class EJCoreFormPropertiesHandler extends EJCorePropertiesTagHandler
         }
         else if (name.equals(ELEMENT_FIRST_NAVIGABLE_BLOCK))
         {
-            _formProperties.setFirstNavigableBlock(name);
+            _formProperties.setFirstNavigableBlock(value);
         }
         else if (name.equals(ELEMENT_RENDERER_NAME))
         {
