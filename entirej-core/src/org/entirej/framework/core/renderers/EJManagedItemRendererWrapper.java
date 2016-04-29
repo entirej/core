@@ -20,6 +20,7 @@ package org.entirej.framework.core.renderers;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
+import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
@@ -464,6 +465,34 @@ public class EJManagedItemRendererWrapper implements EJItemRenderer
             return null;
         }
     }
+    
+    @Override
+    public void setMessage(EJMessage message)
+    {
+        try
+        {
+            _itemRenderer.setMessage(message);
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+        }
+    }
+    
+    @Override
+    public void clearMessage()
+    {
+        try
+        {
+            _itemRenderer.clearMessage();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+        }
+    }
+    
+    
     
     @Override
     public void validationErrorOccurred(boolean error)

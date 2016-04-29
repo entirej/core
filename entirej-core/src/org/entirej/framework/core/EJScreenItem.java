@@ -479,6 +479,27 @@ public class EJScreenItem
     }
 
     /**
+     * Send a message to this item
+     * <p>
+     * The item will contain an icon depending on the message type sent
+     * 
+     * @param message
+     *            The message to set
+     */
+    public void setMessage(EJMessage message)
+    {
+        _item.getManagedItemRenderer().setMessage(message);
+    }
+
+    /**
+     * Clears any message from this item
+     */
+    public void clearMessage()
+    {
+        _item.getManagedItemRenderer().clearMessage();
+    }
+
+    /**
      * Sets this item to be valid
      * 
      * @param valid

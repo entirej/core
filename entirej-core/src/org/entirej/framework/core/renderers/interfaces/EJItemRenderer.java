@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
+import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
@@ -106,6 +107,22 @@ public interface EJItemRenderer extends EJRenderer
      *            The renderers new value
      */
     public void setValue(Object value);
+
+    /**
+     * Sets a message on this item
+     * <p>
+     * A border and icon will be displayed depending on the message level of the
+     * given mesage
+     * 
+     * @param message
+     *            The message to set
+     */
+    public void setMessage(EJMessage message);
+
+    /**
+     * clear any message from this item
+     */
+    public void clearMessage();
 
     /**
      * Informs the renderer if a validation error occurred
