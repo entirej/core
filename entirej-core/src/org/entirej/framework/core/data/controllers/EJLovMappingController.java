@@ -66,7 +66,7 @@ public class EJLovMappingController implements Serializable
                 
                 if (!lovRecord.containsItem(lovDefItemName)) continue;
                 if (!blockRecord.containsItem(blockItemName)) continue;
-                if (blockRecord.getValue(blockItemName) != null) continue;
+               
                 
                 blockRecord.getItem(blockItemName).setValue(lovRecord.getValue(lovDefItemName));
             }
