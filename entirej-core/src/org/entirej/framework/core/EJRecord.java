@@ -56,6 +56,8 @@ public class EJRecord implements Serializable
     public void populateWithLovValues()
     {
         _dataRecord.getBlock().getBlockController().addLovMappingValuesAfterQuery(_dataRecord);
+        //update ui with record changes
+        synchronize();
     }
 
     /**
