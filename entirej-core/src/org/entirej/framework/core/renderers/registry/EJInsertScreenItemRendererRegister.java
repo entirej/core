@@ -57,18 +57,25 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super.resetRegister();
     }
     
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
     {
-        super.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
+        boolean handled=  super.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
         
-        try
+        
+        if(!handled)
+            
         {
-            validateItem(changedRenderer, item.getScreenType(), oldValue, newValue);
+            try
+            {
+                validateItem(changedRenderer, item.getScreenType(), oldValue, newValue);
+            }
+            finally
+            {
+                fireValueChanged(item, changedRenderer, oldValue, newValue);
+            }
         }
-        finally
-        {
-            fireValueChanged(item, changedRenderer, oldValue, newValue);
-        }
+        
+        return true;
     }
     
     /**
@@ -174,9 +181,9 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         item.addItemValueChangedListener(this);
     }
     
-    public void fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue)
+    public boolean fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue)
     {
-        item.getItemLovController().validateItem(oldValue, newValue);
+       return item.getItemLovController().validateItem(oldValue, newValue);
     }
     
 }

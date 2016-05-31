@@ -388,7 +388,7 @@ public class EJLovController extends EJBlockController implements Serializable
         }
     }
 
-    public void validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
+    public boolean validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
             EJScreenItemController itemToValidate, Object oldValue, Object newValue, String lovDefItemName)
     {
         EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()));
@@ -398,7 +398,7 @@ public class EJLovController extends EJBlockController implements Serializable
             getFormController().getMessenger().handleMessage(
                     new EJMessage(EJMessageLevel.ERROR, "Unable to validate item.\nThere is no item called " + lovDefItemName + " within the lov definition "
                             + _definitionProperties.getName()));
-            return;
+            return false;
         }
 
         queryCriteria.add(EJRestrictions.equals(lovDefItemName, newValue));
@@ -411,12 +411,15 @@ public class EJLovController extends EJBlockController implements Serializable
             if (getBlockRecordCount() == 1)
             {
                 lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                return true;
             }
+            
             else
             {
                 if (getBlockRecordCount() > 1)
                 {
                     _lovRendererController.displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
+                    return true;
                 }
                 else
                 {
@@ -428,6 +431,7 @@ public class EJLovController extends EJBlockController implements Serializable
                     {
 
                         lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                        return true;
                     }
                     else if (getBlockRecordCount() > 1)
                     {
@@ -436,19 +440,23 @@ public class EJLovController extends EJBlockController implements Serializable
                     else
                     {
                         displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
+                        return true;
                     }
                 }
             }
+            
         }
         catch (EJApplicationException e)
         {
             getFormController().getFrameworkManager().handleException(e);
+            
         }
         finally
         {
             connection.close();
         }
 
+        return false;
     }
 
     void clearAllValues(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties, EJScreenItemController itemToValidate)

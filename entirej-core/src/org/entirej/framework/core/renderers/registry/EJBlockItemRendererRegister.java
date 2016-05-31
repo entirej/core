@@ -487,7 +487,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         _itemChanged = true;
     }
 
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
     {
         if (_validate)
         {
@@ -498,9 +498,10 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
 
             if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
             {
-                fireLovValidate(item, oldValue, newValue);
+               return  fireLovValidate(item, oldValue, newValue);
             }
         }
+        return false;
     }
 
     public void validateItem(EJItemRenderer item, EJScreenType screenType, Object oldValue, Object newValue)
@@ -518,7 +519,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    public abstract void fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue);
+    public abstract boolean fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue);
 
     public void focusGained(EJItemFocusedEvent focusedEvent)
     {
