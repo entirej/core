@@ -410,7 +410,7 @@ public class EJLovController extends EJBlockController implements Serializable
 
             if (getBlockRecordCount() == 1)
             {
-                lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0),oldValue);
                 return true;
             }
             
@@ -430,7 +430,7 @@ public class EJLovController extends EJBlockController implements Serializable
                     if (getBlockRecordCount() == 1)
                     {
 
-                        lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                        lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0),oldValue);
                         return true;
                     }
                     else if (getBlockRecordCount() > 1)
@@ -494,7 +494,8 @@ public class EJLovController extends EJBlockController implements Serializable
      */
     public void lovCompleted(EJItemLovController itemLovController, EJDataRecord record)
     {
-        lovCompleted(itemLovController.getItemRendererRegister(), itemLovController.getLovMappingProperties(), itemLovController.getItemToValidate(), record);
+        Object oldValue = itemLovController.getItemRendererRegister().getRegisteredRecord().getValue(itemLovController.getItemToValidate().getName());
+        lovCompleted(itemLovController.getItemRendererRegister(), itemLovController.getLovMappingProperties(), itemLovController.getItemToValidate(), record,oldValue);
     }
 
     /**
@@ -511,7 +512,7 @@ public class EJLovController extends EJBlockController implements Serializable
      *            canceled the lov operation
      */
     void lovCompleted(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties, EJScreenItemController itemToValidate,
-            EJDataRecord record)
+            EJDataRecord record,Object oldItemValue)
     {
         if (record != null)
         {
@@ -534,6 +535,10 @@ public class EJLovController extends EJBlockController implements Serializable
                     EJManagedItemRendererWrapper item = blockItemRegister.getManagedItemRendererForItem(blockItemName);
                     if (item != null)
                     {
+                        if(itemToValidate.getName().equals(item.getRegisteredItemName()))
+                        {
+                            oldValue = oldItemValue;
+                        }
                         blockItemRegister.validateItem(item, itemToValidate.getScreenType(), oldValue, record.getValue(lovDefItemName));
                     }
                 }
