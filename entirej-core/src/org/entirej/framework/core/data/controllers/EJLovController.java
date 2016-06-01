@@ -407,9 +407,11 @@ public class EJLovController extends EJBlockController implements Serializable
         try
         {
             executeQuery(queryCriteria);
-
+            //reset old value to ui as LOV going to validate suggested user value
+            blockItemRegister.setItemValueNoValidate(itemToValidate.getScreenType(), itemToValidate.getName(), oldValue);
             if (getBlockRecordCount() == 1)
             {
+               
                 lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
                 return true;
             }
@@ -419,7 +421,6 @@ public class EJLovController extends EJBlockController implements Serializable
                 if (getBlockRecordCount() > 1)
                 {
                     _lovRendererController.displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
-                    return true;
                 }
                 else
                 {
@@ -431,7 +432,6 @@ public class EJLovController extends EJBlockController implements Serializable
                     {
 
                         lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
-                        return true;
                     }
                     else if (getBlockRecordCount() > 1)
                     {
@@ -440,9 +440,10 @@ public class EJLovController extends EJBlockController implements Serializable
                     else
                     {
                         displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
-                        return true;
+                       
                     }
                 }
+                return true;
             }
             
         }
