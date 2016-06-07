@@ -440,9 +440,6 @@ public class EJLovController extends EJBlockController implements Serializable
                     else
                     {
                         displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
-                       
-                    }
-                }
                         return true;
                     }
                 }
