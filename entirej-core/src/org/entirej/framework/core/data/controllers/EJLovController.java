@@ -440,6 +440,9 @@ public class EJLovController extends EJBlockController implements Serializable
                     else
                     {
                         displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
+                       
+                    }
+                }
                         return true;
                     }
                 }
@@ -494,7 +497,6 @@ public class EJLovController extends EJBlockController implements Serializable
      */
     public void lovCompleted(EJItemLovController itemLovController, EJDataRecord record)
     {
-        Object oldValue = itemLovController.getItemRendererRegister().getRegisteredRecord().getValue(itemLovController.getItemToValidate().getName());
         lovCompleted(itemLovController.getItemRendererRegister(), itemLovController.getLovMappingProperties(), itemLovController.getItemToValidate(), record);
     }
 
