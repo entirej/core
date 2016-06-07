@@ -20,6 +20,8 @@ package org.entirej.framework.core.renderers.registry;
 
 import java.util.Iterator;
 
+import org.entirej.framework.core.EJRecord;
+import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockController;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
@@ -57,9 +59,9 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         super.resetRegister();
     }
     
-    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue)
     {
-        boolean handled=  super.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
+        boolean handled=  super.screenItemValueChanged(item, changedRenderer, newValue);
         
         
         if(!handled)
@@ -67,11 +69,13 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         {
             try
             {
-                validateItem(changedRenderer, item.getScreenType(), oldValue, newValue);
+                EJDataRecord record = getRegisteredRecord().copy();
+                record.setValue(item.getName(), newValue);
+                validateItem(changedRenderer, item.getScreenType(), new EJRecord(record));
             }
             finally
             {
-                fireValueChanged(item, changedRenderer, oldValue, newValue);
+                fireValueChanged(item, changedRenderer, newValue);
             }
         }
         
@@ -181,9 +185,9 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         item.addItemValueChangedListener(this);
     }
     
-    public boolean fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue)
+    public boolean fireLovValidate(EJScreenItemController item, Object newValue)
     {
-       return item.getItemLovController().validateItem(oldValue, newValue);
+       return item.getItemLovController().validateItem(newValue);
     }
     
 }

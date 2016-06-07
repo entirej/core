@@ -107,7 +107,7 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object oldValue, Object newValue) throws EJActionProcessorException
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues) throws EJActionProcessorException
     {
     }
     

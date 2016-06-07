@@ -266,13 +266,13 @@ public interface EJBlockActionProcessor extends Serializable
      *            The name of the modified item
      * @param screenType
      *            The screen upon which the item was modified
-     * @param oldValue
-     *            The old value of the item that requires validation
-     * @param newValue
-     *            The new value of the item that requires validation
+     * @param newValues
+     *            This record is a copy of the block record with the new values
+     *            to be validated. If the item being validated is an LOV item,
+     *            then the record will contain all items available in the LOV
+     *            mapping
      */
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object oldValue, Object newValue)
-            throws EJActionProcessorException;
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues) throws EJActionProcessorException;
 
     /**
      * Called each time an item with an action command is modified on the main

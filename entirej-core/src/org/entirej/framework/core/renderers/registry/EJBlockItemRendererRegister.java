@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.entirej.framework.core.EJFrameworkManager;
+import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockController;
@@ -126,11 +127,11 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue)
     {
         for (EJScreenItemValueChangedListener listener : _screenItemValueChangedListeners)
         {
-            listener.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
+            listener.screenItemValueChanged(item, changedRenderer, newValue);
         }
     }
 
@@ -487,29 +488,29 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         _itemChanged = true;
     }
 
-    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue)
     {
         if (_validate)
         {
             _itemChanged = true;
-            _blockController.itemValueChanged(item, changedRenderer, oldValue, newValue);
+            _blockController.itemValueChanged(item, changedRenderer, newValue);
 
             EJManagedItemRendererWrapper renderer = _itemRendererMap.get(item.getProperties().getReferencedItemName());
 
             if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
             {
-               return  fireLovValidate(item, oldValue, newValue);
+               return  fireLovValidate(item, newValue);
             }
         }
         return false;
     }
 
-    public void validateItem(EJItemRenderer item, EJScreenType screenType, Object oldValue, Object newValue)
+    public void validateItem(EJItemRenderer item, EJScreenType screenType, EJRecord newValues)
     {
         try
         {
             getBlockController().getFormController().getManagedActionController().getUnmanagedController()
-                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, oldValue, newValue);
+                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, newValues);
             item.validationErrorOccurred(false);
         }
         catch (Exception e)
@@ -519,7 +520,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    public abstract boolean fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue);
+    public abstract boolean fireLovValidate(EJScreenItemController item, Object newValue);
 
     public void focusGained(EJItemFocusedEvent focusedEvent)
     {
