@@ -275,6 +275,25 @@ public interface EJBlockActionProcessor extends Serializable
     public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues) throws EJActionProcessorException;
 
     /**
+     * This method is called after the item has been changed and validated
+     * <p>
+     * 
+     * @param form
+     *            The form from which this method is called
+     * @param blockName
+     *            The block that contains the item that has changed. Use the
+     *            EJScreenType to find out which record has actually been
+     *            changed
+     * @param itemName
+     *            The name of the modified item
+     * @param screenType
+     *            The screen upon which the item was modified
+     *            
+     * @throws EJActionProcessorException
+     */
+    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+
+    /**
      * Called each time an item with an action command is modified on the main
      * screen of a form
      * <p>

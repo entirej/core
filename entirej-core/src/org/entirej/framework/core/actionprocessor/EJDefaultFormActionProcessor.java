@@ -111,6 +111,10 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
+    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException
+    {
+    }
+    
     public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException
     {
     }

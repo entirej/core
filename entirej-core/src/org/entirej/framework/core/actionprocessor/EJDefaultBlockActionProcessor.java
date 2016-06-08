@@ -47,6 +47,11 @@ public class EJDefaultBlockActionProcessor implements EJBlockActionProcessor
     {
     }
     
+    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException
+    {
+        
+    }
+    
     public void postQuery(EJForm form, EJRecord record) throws EJActionProcessorException
     {
     }
