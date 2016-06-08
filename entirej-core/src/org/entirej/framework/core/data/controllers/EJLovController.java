@@ -557,14 +557,11 @@ public class EJLovController extends EJBlockController implements Serializable
                 }
             }
             
-            // TODO: need to call postChange here......
-            
-            
             EJScreenItem screenItem = new EJScreenItem(itemToValidate.getBlock(), itemToValidate.getScreenType(), itemToValidate.getBlock().getScreenItem(
                     itemToValidate.getScreenType(), itemToValidate.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovCompleted(_formController.getEJForm(), screenItem, true);
             
-
+            blockItemRegister.postItemChanged(item, itemToValidate.getScreenType());
 
         }
         else

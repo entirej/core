@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
 import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
@@ -517,6 +518,21 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         {
             item.validationErrorOccurred(true);
             getBlockController().getFrameworkManager().handleException(e);
+            throw new EJApplicationException();
+        }
+    }
+    
+    public void postItemChanged(EJItemRenderer item, EJScreenType screenType)
+    {
+        try
+        {
+            getBlockController().getFormController().getManagedActionController().getUnmanagedController()
+                    .postItemChanged(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType);
+        }
+        catch (Exception e)
+        {
+            getBlockController().getFrameworkManager().handleException(e);
+            throw new EJApplicationException();
         }
     }
 

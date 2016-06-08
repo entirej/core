@@ -291,7 +291,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            
      * @throws EJActionProcessorException
      */
-    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+    public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
 
     /**
      * Called each time an item with an action command is modified on the main

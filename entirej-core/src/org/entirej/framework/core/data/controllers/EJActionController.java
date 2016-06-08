@@ -614,7 +614,7 @@ public class EJActionController implements Serializable
         logger.trace("END executeActionCommand");
     }
     
-    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType)
+    public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType)
     {
         logger.trace("START postItemChange. Form: {}, Block: {}, Item: {}, Screen: {}", form.getName(), blockName, itemName, screenType);
         EJManagedFrameworkConnection connection = form.getConnection();
@@ -623,13 +623,13 @@ public class EJActionController implements Serializable
                 if (_blockLevelActionProcessors.containsKey(blockName))
                 {
                     logger.trace("Calling block level postItemChange. Block: {}", blockName);
-                    _blockLevelActionProcessors.get(blockName).postItemChange(form, blockName, itemName, screenType);
+                    _blockLevelActionProcessors.get(blockName).postItemChanged(form, blockName, itemName, screenType);
                     logger.trace("Called block level postItemChange");
                 }
                 else
                 {
                     logger.trace("Calling form level postItemChange");
-                    _formLevelActionProcessor.postItemChange(form, blockName, itemName, screenType);
+                    _formLevelActionProcessor.postItemChanged(form, blockName, itemName, screenType);
                     logger.trace("Called form level postItemChange");
                 }
             

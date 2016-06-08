@@ -73,6 +73,7 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
                 record.setValue(item.getName(), newValue);
                 validateItem(changedRenderer, item.getScreenType(), new EJRecord(record));
                 setItemValueNoValidate(item.getScreenType(), item.getName(), newValue);
+                postItemChanged(changedRenderer, item.getScreenType());
             }
             finally
             {

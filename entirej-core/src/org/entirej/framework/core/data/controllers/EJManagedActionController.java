@@ -370,11 +370,11 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
-    public void postItemChange(EJForm form, String blockName, String itemName, EJScreenType screenType)
+    public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType)
     {
         try
         {
-            _unmanagedController.postItemChange(form, blockName, itemName, screenType);
+            _unmanagedController.postItemChanged(form, blockName, itemName, screenType);
         }
         catch (Exception e)
         {
