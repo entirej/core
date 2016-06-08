@@ -144,34 +144,34 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
     {
         // Ensure all screen items are in the registered record before returning
         // it
-        if (_registeredRecord != null)
-        {
-            
-            
-                EJManagedItemRendererWrapper renderer;
-                for (String itemName : _itemRendererMap.keySet())
-                {
-                    if (_registeredRecord.containsItem(itemName))
-                    {
-                        renderer = _itemRendererMap.get(itemName);
-                        if (!renderer.isReadOnly())
-                        {
-                            Object newValue = renderer.getValue();
-                            Object oldValue = _registeredRecord.getValue(itemName);
-                            if((newValue==null && oldValue!=null) 
-                                    || (newValue!=null && oldValue==null) 
-                                    || (oldValue!=null && !oldValue.equals(newValue)))
-                            {
-                                _registeredRecord.setValue(itemName, newValue);
-                            }
-                        }
-                    }
-                }
-           
-         
-                   
-            
-        }
+//        if (_registeredRecord != null)
+//        {
+//            
+//            
+//                EJManagedItemRendererWrapper renderer;
+//                for (String itemName : _itemRendererMap.keySet())
+//                {
+//                    if (_registeredRecord.containsItem(itemName))
+//                    {
+//                        renderer = _itemRendererMap.get(itemName);
+//                        if (!renderer.isReadOnly())
+//                        {
+//                            Object newValue = renderer.getValue();
+//                            Object oldValue = _registeredRecord.getValue(itemName);
+//                            if((newValue==null && oldValue!=null) 
+//                                    || (newValue!=null && oldValue==null) 
+//                                    || (oldValue!=null && !oldValue.equals(newValue)))
+//                            {
+//                                _registeredRecord.setValue(itemName, newValue);
+//                            }
+//                        }
+//                    }
+//                }
+//           
+//         
+//                   
+//            
+//        }
         return _registeredRecord;
     }
 

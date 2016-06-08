@@ -205,6 +205,11 @@ public class EJDefaultServicePojoHelper implements Serializable
      */
     public Object createNewServicePojo(Object baseEntityObject)
     {
+        
+        if (_blockProperties.getBlockService() == null)
+        {
+            return null;
+        }
         try
         {
 
