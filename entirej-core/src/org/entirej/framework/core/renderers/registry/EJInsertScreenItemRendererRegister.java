@@ -72,6 +72,7 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
                 EJDataRecord record = getRegisteredRecord().copy();
                 record.setValue(item.getName(), newValue);
                 validateItem(changedRenderer, item.getScreenType(), new EJRecord(record));
+                setItemValueNoValidate(item.getScreenType(), item.getName(), newValue);
             }
             finally
             {
