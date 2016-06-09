@@ -614,12 +614,47 @@ public class EJActionController implements Serializable
         logger.trace("END executeActionCommand");
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object oldValue, Object newValue)
+    public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType)
     {
-        validateItem(form, blockName, itemName, screenType, oldValue, newValue, null);
+        logger.trace("START postItemChange. Form: {}, Block: {}, Item: {}, Screen: {}", form.getName(), blockName, itemName, screenType);
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+                if (_blockLevelActionProcessors.containsKey(blockName))
+                {
+                    logger.trace("Calling block level postItemChange. Block: {}", blockName);
+                    _blockLevelActionProcessors.get(blockName).postItemChanged(form, blockName, itemName, screenType);
+                    logger.trace("Called block level postItemChange");
+                }
+                else
+                {
+                    logger.trace("Calling form level postItemChange");
+                    _formLevelActionProcessor.postItemChanged(form, blockName, itemName, screenType);
+                    logger.trace("Called form level postItemChange");
+                }
+            
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        logger.trace("END postItemChange");
     }
     
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, Object oldValue, Object newValue, String lovDefinitionName)
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues)
+    {
+        validateItem(form, blockName, itemName, screenType, newValues, null);
+    }
+    
+    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues, String lovDefinitionName)
     {
         logger.trace("START validateItem. Form: {}, Item: {}, Screen: {}", form.getName(), itemName, screenType);
         EJManagedFrameworkConnection connection = form.getConnection();
@@ -639,13 +674,13 @@ public class EJActionController implements Serializable
                 if (_blockLevelActionProcessors.containsKey(blockName))
                 {
                     logger.trace("Calling block level validateItem. Block: {}", blockName);
-                    _blockLevelActionProcessors.get(blockName).validateItem(form, blockName, itemName, screenType, oldValue, newValue);
+                    _blockLevelActionProcessors.get(blockName).validateItem(form, blockName, itemName, screenType, newValues);
                     logger.trace("Called block level validateItem");
                 }
                 else
                 {
                     logger.trace("Calling form level validateItem");
-                    _formLevelActionProcessor.validateItem(form, blockName, itemName, screenType, oldValue, newValue);
+                    _formLevelActionProcessor.validateItem(form, blockName, itemName, screenType, newValues);
                     logger.trace("Called form level validateItem");
                 }
             }

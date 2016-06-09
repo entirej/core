@@ -388,8 +388,8 @@ public class EJLovController extends EJBlockController implements Serializable
         }
     }
 
-    public void validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
-            EJScreenItemController itemToValidate, Object oldValue, Object newValue, String lovDefItemName)
+    public boolean validateItem(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties,
+            EJScreenItemController itemToValidate, Object newValue, String lovDefItemName)
     {
         EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(getBlock()));
 
@@ -398,7 +398,7 @@ public class EJLovController extends EJBlockController implements Serializable
             getFormController().getMessenger().handleMessage(
                     new EJMessage(EJMessageLevel.ERROR, "Unable to validate item.\nThere is no item called " + lovDefItemName + " within the lov definition "
                             + _definitionProperties.getName()));
-            return;
+            return false;
         }
 
         queryCriteria.add(EJRestrictions.equals(lovDefItemName, newValue));
@@ -411,12 +411,15 @@ public class EJLovController extends EJBlockController implements Serializable
             if (getBlockRecordCount() == 1)
             {
                 lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                return true;
             }
+            
             else
             {
                 if (getBlockRecordCount() > 1)
                 {
                     _lovRendererController.displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
+                    return true;
                 }
                 else
                 {
@@ -428,6 +431,7 @@ public class EJLovController extends EJBlockController implements Serializable
                     {
 
                         lovCompleted(blockItemRegister, mappingProperties, itemToValidate, getRecord(0));
+                        return true;
                     }
                     else if (getBlockRecordCount() > 1)
                     {
@@ -436,19 +440,23 @@ public class EJLovController extends EJBlockController implements Serializable
                     else
                     {
                         displayLov(itemToValidate.getItemLovController(), EJLovDisplayReason.VALIDATE);
+                        return true;
                     }
                 }
             }
+            
         }
         catch (EJApplicationException e)
         {
             getFormController().getFrameworkManager().handleException(e);
+            
         }
         finally
         {
             connection.close();
         }
 
+        return false;
     }
 
     void clearAllValues(EJBlockItemRendererRegister blockItemRegister, EJCoreLovMappingProperties mappingProperties, EJScreenItemController itemToValidate)
@@ -508,6 +516,8 @@ public class EJLovController extends EJBlockController implements Serializable
         if (record != null)
         {
 
+            EJDataRecord newRecord = blockItemRegister.getRegisteredRecord().copy();
+            
             for (EJCoreLovItemMappingProperties mapProps : mappingProperties.getAllItemMappingProperties())
             {
                 String blockItemName = mapProps.getBlockItemName();
@@ -520,20 +530,38 @@ public class EJLovController extends EJBlockController implements Serializable
 
                 if (record.containsItem(lovDefItemName) && blockItemName != null && blockItemName.trim().length() > 0)
                 { 
-                    Object oldValue = blockItemRegister.getRegisteredRecord().getValue(blockItemName);
-                    blockItemRegister.setItemValueNoValidate(itemToValidate.getScreenType(), blockItemName, record.getValue(lovDefItemName));
-
-                    EJManagedItemRendererWrapper item = blockItemRegister.getManagedItemRendererForItem(blockItemName);
-                    if (item != null)
-                    {
-                        blockItemRegister.validateItem(item, itemToValidate.getScreenType(), oldValue, record.getValue(lovDefItemName));
-                    }
+                    newRecord.setValue(blockItemName, record.getValue(lovDefItemName));
                 }
             }
 
+            // Now I have set all mapped item values, I need to fire the validation on the changed item
+            EJManagedItemRendererWrapper item = itemToValidate.getManagedItemRenderer();
+            if (item != null)
+            {
+                blockItemRegister.validateItem(item, itemToValidate.getScreenType(), new EJRecord(newRecord));
+            }
+
+            // If I get here, then validation was a success, now I need to set the lov values
+            for (EJCoreLovItemMappingProperties mapProps : mappingProperties.getAllItemMappingProperties())
+            {
+                String blockItemName = mapProps.getBlockItemName();
+                if (blockItemName == null || blockItemName.trim().length() == 0)
+                {
+                    continue;
+                }
+
+                String lovDefItemName = mapProps.getLovDefinitionItemName();
+                if (record.containsItem(lovDefItemName) && blockItemName != null && blockItemName.trim().length() > 0)
+                { 
+                    blockItemRegister.setItemValueNoValidate(itemToValidate.getScreenType(), blockItemName, record.getValue(lovDefItemName));
+                }
+            }
+            
             EJScreenItem screenItem = new EJScreenItem(itemToValidate.getBlock(), itemToValidate.getScreenType(), itemToValidate.getBlock().getScreenItem(
                     itemToValidate.getScreenType(), itemToValidate.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovCompleted(_formController.getEJForm(), screenItem, true);
+            
+            blockItemRegister.postItemChanged(item, itemToValidate.getScreenType());
 
         }
         else

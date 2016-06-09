@@ -25,5 +25,5 @@ import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 
 public interface EJScreenItemValueChangedListener extends Serializable
 {
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue);
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue);
 }

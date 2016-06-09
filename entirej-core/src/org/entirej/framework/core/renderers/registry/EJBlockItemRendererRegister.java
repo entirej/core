@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
+import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.data.controllers.EJBlockController;
@@ -38,7 +40,8 @@ import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusedEvent;
 import org.entirej.framework.core.renderers.eventhandlers.EJScreenItemValueChangedListener;
 import org.entirej.framework.core.renderers.interfaces.EJItemRenderer;
 
-public abstract class EJBlockItemRendererRegister implements EJScreenItemValueChangedListener, EJItemFocusListener, EJDataItemValueChangedListener, Serializable
+public abstract class EJBlockItemRendererRegister implements EJScreenItemValueChangedListener, EJItemFocusListener, EJDataItemValueChangedListener,
+        Serializable
 {
     private ArrayList<EJScreenItemValueChangedListener>   _screenItemValueChangedListeners;
     private EJFrameworkManager                            _frameworkManager;
@@ -50,7 +53,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
     private boolean                                       _validate    = true;
 
     public abstract EJScreenType getScreenType();
-    
+
     public EJBlockItemRendererRegister(EJBlockController blockController)
     {
         _blockController = blockController;
@@ -72,7 +75,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
      */
     public void resetRegister()
     {
-        if(_registeredRecord!=null)
+        if (_registeredRecord != null)
         {
             _registeredRecord.setDataItemValueChangedListener(null);
         }
@@ -88,21 +91,26 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         try
         {
             _registeredRecord = record;
-            if(record!=null)
+            if (record != null)
             {
                 _registeredRecord.setDataItemValueChangedListener(null);
             }
-            
+
             for (EJManagedItemRendererWrapper renderer : _itemRendererMap.values())
             {
                 renderer.clearValue();
             }
             refreshAfterChange(record);
+            // read ui defaults if applicable
+            if (shouldReadScreenValues())
+            {
+                readScreenValues();
+            }
         }
         finally
         {
             _itemChanged = false;
-            if(record!=null)
+            if (record != null)
             {
                 _registeredRecord.setDataItemValueChangedListener(this);
             }
@@ -126,11 +134,11 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
     }
 
-    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    protected void fireValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue)
     {
         for (EJScreenItemValueChangedListener listener : _screenItemValueChangedListeners)
         {
-            listener.screenItemValueChanged(item, changedRenderer, oldValue, newValue);
+            listener.screenItemValueChanged(item, changedRenderer, newValue);
         }
     }
 
@@ -139,38 +147,41 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         return _blockController;
     }
 
-    public EJDataRecord getRegisteredRecord()
+    protected boolean shouldReadScreenValues()
+    {
+        return _blockController.getProperties().isControlBlock() && _blockController.getProperties().addControlBlockDefaultRecord();
+    }
+
+    protected void readScreenValues()
     {
         // Ensure all screen items are in the registered record before returning
         // it
         if (_registeredRecord != null)
         {
-            
-            
-                EJManagedItemRendererWrapper renderer;
-                for (String itemName : _itemRendererMap.keySet())
+
+            EJManagedItemRendererWrapper renderer;
+            for (String itemName : _itemRendererMap.keySet())
+            {
+                if (_registeredRecord.containsItem(itemName))
                 {
-                    if (_registeredRecord.containsItem(itemName))
+                    renderer = _itemRendererMap.get(itemName);
+
+                    Object newValue = renderer.getValue();
+                    Object oldValue = _registeredRecord.getValue(itemName);
+                    if ((newValue == null && oldValue != null) || (newValue != null && oldValue == null) || (oldValue != null && !oldValue.equals(newValue)))
                     {
-                        renderer = _itemRendererMap.get(itemName);
-                        if (!renderer.isReadOnly())
-                        {
-                            Object newValue = renderer.getValue();
-                            Object oldValue = _registeredRecord.getValue(itemName);
-                            if((newValue==null && oldValue!=null) 
-                                    || (newValue!=null && oldValue==null) 
-                                    || (oldValue!=null && !oldValue.equals(newValue)))
-                            {
-                                _registeredRecord.setValue(itemName, newValue);
-                            }
-                        }
+                        _registeredRecord.setValue(itemName, newValue);
                     }
+
                 }
-           
-         
-                   
-            
+            }
+
         }
+    }
+
+    public EJDataRecord getRegisteredRecord()
+    {
+
         return _registeredRecord;
     }
 
@@ -288,7 +299,7 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         }
         else
         {
-            if(_registeredRecord!=null)
+            if (_registeredRecord != null)
                 _registeredRecord.setDataItemValueChangedListener(null);
             _registeredRecord = null;
         }
@@ -487,38 +498,62 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         _itemChanged = true;
     }
 
-    public void screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object oldValue, Object newValue)
+    public boolean screenItemValueChanged(EJScreenItemController item, EJItemRenderer changedRenderer, Object newValue)
     {
         if (_validate)
         {
             _itemChanged = true;
-            _blockController.itemValueChanged(item, changedRenderer, oldValue, newValue);
+            _blockController.itemValueChanged(item, changedRenderer, newValue);
 
             EJManagedItemRendererWrapper renderer = _itemRendererMap.get(item.getProperties().getReferencedItemName());
 
             if (renderer != null && item.getItemLovController() != null && item.getProperties().isLovNotificationEnabled())
             {
-                fireLovValidate(item, oldValue, newValue);
+                return fireLovValidate(item, newValue);
             }
         }
+        return false;
     }
 
-    public void validateItem(EJItemRenderer item, EJScreenType screenType, Object oldValue, Object newValue)
+    public void validateItem(EJItemRenderer item, EJScreenType screenType, EJRecord newValues)
     {
         try
         {
-            getBlockController().getFormController().getManagedActionController().getUnmanagedController()
-                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(), item.getRegisteredItemName(), screenType, oldValue, newValue);
+            getBlockController()
+                    .getFormController()
+                    .getManagedActionController()
+                    .getUnmanagedController()
+                    .validateItem(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(),
+                            item.getRegisteredItemName(), screenType, newValues);
             item.validationErrorOccurred(false);
         }
         catch (Exception e)
         {
             item.validationErrorOccurred(true);
             getBlockController().getFrameworkManager().handleException(e);
+            throw new EJApplicationException();
         }
     }
 
-    public abstract void fireLovValidate(EJScreenItemController item, Object oldValue, Object newValue);
+    public void postItemChanged(EJItemRenderer item, EJScreenType screenType)
+    {
+        try
+        {
+            getBlockController()
+                    .getFormController()
+                    .getManagedActionController()
+                    .getUnmanagedController()
+                    .postItemChanged(getBlockController().getFormController().getEJForm(), _blockController.getProperties().getName(),
+                            item.getRegisteredItemName(), screenType);
+        }
+        catch (Exception e)
+        {
+            getBlockController().getFrameworkManager().handleException(e);
+            throw new EJApplicationException();
+        }
+    }
+
+    public abstract boolean fireLovValidate(EJScreenItemController item, Object newValue);
 
     public void focusGained(EJItemFocusedEvent focusedEvent)
     {

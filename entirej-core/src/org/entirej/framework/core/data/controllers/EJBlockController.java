@@ -1183,14 +1183,14 @@ public abstract class EJBlockController implements Serializable
      * @param renderer
      *            The item renderer that has changed
      */
-    public void itemValueChanged(EJScreenItemController item, EJItemRenderer renderer, Object oldValue, Object newValue)
+    public void itemValueChanged(EJScreenItemController item, EJItemRenderer renderer, Object newValue)
     {
         logger.trace("START itemValueCanged. Item: {}", item.getName());
 
         Iterator<EJScreenItemValueChangedListener> iti = _itemValueChangedListeners.iterator();
         while (iti.hasNext())
         {
-            iti.next().screenItemValueChanged(item, renderer, oldValue, newValue);
+            iti.next().screenItemValueChanged(item, renderer, newValue);
         }
 
         logger.trace("END itemValueChanged");

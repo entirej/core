@@ -294,7 +294,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
         _mainScreenItemValueChangedListeners.add(listener);
     }
     
-    public void itemValueChaged(Object oldValue, Object newValue)
+    public void itemValueChaged(Object newValue)
     {
         try
         {
@@ -304,7 +304,7 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
                 Iterator<EJScreenItemValueChangedListener> valueChangedListeners = _mainScreenItemValueChangedListeners.iterator();
                 while (valueChangedListeners.hasNext())
                 {
-                    valueChangedListeners.next().screenItemValueChanged(this, _mainScreenItemRenderer.getUnmanagedRenderer(), oldValue, newValue);
+                    valueChangedListeners.next().screenItemValueChanged(this, _mainScreenItemRenderer.getUnmanagedRenderer(), newValue);
                 }
             }
         }
