@@ -44,7 +44,7 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
     
     
     @Override
-    protected boolean isReadScreenValues()
+    protected boolean shouldReadScreenValues()
     {
         return true;
     }

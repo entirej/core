@@ -43,7 +43,7 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
     }
     
     @Override
-    protected boolean isReadScreenValues()
+    protected boolean shouldReadScreenValues()
     {
         return true;
     }
