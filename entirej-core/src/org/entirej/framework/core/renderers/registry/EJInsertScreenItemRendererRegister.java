@@ -42,6 +42,12 @@ public class EJInsertScreenItemRendererRegister extends EJBlockItemRendererRegis
         return EJScreenType.INSERT;
     }
     
+    @Override
+    protected boolean isReadScreenValues()
+    {
+        return true;
+    }
+    
     /**
      * Used to clear and reset the register
      * <p>

@@ -100,6 +100,11 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
                 renderer.clearValue();
             }
             refreshAfterChange(record);
+            //read ui defaults if applicable 
+            if(isReadScreenValues())
+            {
+                readScreenValues();
+            }
         }
         finally
         {
@@ -141,38 +146,49 @@ public abstract class EJBlockItemRendererRegister implements EJScreenItemValueCh
         return _blockController;
     }
 
+    
+    protected boolean isReadScreenValues()
+    {
+        return _blockController.getProperties().isControlBlock() && _blockController.getProperties().addControlBlockDefaultRecord();
+    }
+    
+    protected void readScreenValues()
+    {
+     // Ensure all screen items are in the registered record before returning
+        // it
+        if (_registeredRecord != null)
+        {
+            
+            
+                EJManagedItemRendererWrapper renderer;
+                for (String itemName : _itemRendererMap.keySet())
+                {
+                    if (_registeredRecord.containsItem(itemName))
+                    {
+                        renderer = _itemRendererMap.get(itemName);
+                        if (!renderer.isReadOnly())
+                        {
+                            Object newValue = renderer.getValue();
+                            Object oldValue = _registeredRecord.getValue(itemName);
+                            if((newValue==null && oldValue!=null) 
+                                    || (newValue!=null && oldValue==null) 
+                                    || (oldValue!=null && !oldValue.equals(newValue)))
+                            {
+                                _registeredRecord.setValue(itemName, newValue);
+                            }
+                        }
+                    }
+                }
+           
+         
+                   
+            
+        }
+    }
+    
     public EJDataRecord getRegisteredRecord()
     {
-        // Ensure all screen items are in the registered record before returning
-        // it
-//        if (_registeredRecord != null)
-//        {
-//            
-//            
-//                EJManagedItemRendererWrapper renderer;
-//                for (String itemName : _itemRendererMap.keySet())
-//                {
-//                    if (_registeredRecord.containsItem(itemName))
-//                    {
-//                        renderer = _itemRendererMap.get(itemName);
-//                        if (!renderer.isReadOnly())
-//                        {
-//                            Object newValue = renderer.getValue();
-//                            Object oldValue = _registeredRecord.getValue(itemName);
-//                            if((newValue==null && oldValue!=null) 
-//                                    || (newValue!=null && oldValue==null) 
-//                                    || (oldValue!=null && !oldValue.equals(newValue)))
-//                            {
-//                                _registeredRecord.setValue(itemName, newValue);
-//                            }
-//                        }
-//                    }
-//                }
-//           
-//         
-//                   
-//            
-//        }
+        
         return _registeredRecord;
     }
 

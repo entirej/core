@@ -43,6 +43,12 @@ public class EJQueryScreenItemRendererRegister extends EJBlockItemRendererRegist
     }
     
     
+    @Override
+    protected boolean isReadScreenValues()
+    {
+        return true;
+    }
+    
     /**
      * Used to clear and reset the register
      * <p>
