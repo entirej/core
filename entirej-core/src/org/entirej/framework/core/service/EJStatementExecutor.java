@@ -166,8 +166,6 @@ public class EJStatementExecutor implements Serializable
                         "The StatementExecutor requires the ConnectionFactory to return a JDBC Connection but another type was returned");
             }
             
-            Connection connection = (Connection) conObj;
-            
             if (criteria != null)
             {
                 for (EJRestriction<?> restriction : criteria.getBlockServiceItemRestrictions())
@@ -181,7 +179,7 @@ public class EJStatementExecutor implements Serializable
             
             logger.info("Statement to be executed after adding where: {}", stmt.toString());
             
-            pstmt = connection.prepareStatement(stmt.toString());
+            pstmt = ((Connection) conObj).prepareStatement(stmt.toString());
             int pos = 1;
             
             for (EJStatementParameter parameter : parameters)
@@ -229,7 +227,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e2)
             {
             }
-            fwkConnection.rollback();
             throw new EJApplicationException("Error executing update statement: " + e.getMessage(), e);
         }
         finally
@@ -241,7 +238,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e)
             {
             }
-            fwkConnection.close();
         }
     }
     
@@ -274,8 +270,7 @@ public class EJStatementExecutor implements Serializable
                         "The StatementExecutor requires the ConnectionFactory to return a JDBC Connection but another type was returned");
             }
             
-            Connection connection = (Connection) conObj;
-            proc = connection.prepareCall(procedureStatement);
+            proc = ((Connection) conObj).prepareCall(procedureStatement);
             int pos = 0;
             
             for (EJStatementParameter parameter : parameters)
@@ -332,7 +327,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e2)
             {
             }
-            fwkConnection.rollback();
             throw new EJApplicationException("Error executing stored procedure", e);
         }
         finally
@@ -344,7 +338,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e)
             {
             }
-            fwkConnection.close();
         }
         
         return 0;
@@ -399,18 +392,16 @@ public class EJStatementExecutor implements Serializable
                         "The StatementExecutor requires the ConnectionFactory to return a JDBC Connection but another type was returned");
             }
             
-            Connection connection = (Connection) conObj;
-            
             // I can only add paging to a select if it has been set within the
             // query criteria. If not query criteria has been set, then no paging
             // is possible
             if (queryCriteria != null)
             {
-                pstmt = connection.prepareStatement(wrapSelectForPaging(selectStatement, queryCriteria));
+                pstmt = ((Connection) conObj).prepareStatement(wrapSelectForPaging(selectStatement, queryCriteria));
             }
             else
             {
-                pstmt = connection.prepareStatement(selectStatement);
+                pstmt = ((Connection) conObj).prepareStatement(selectStatement);
             }
             
             int pos = 1;
@@ -462,7 +453,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e2)
             {
             }
-            fwkConnection.rollback();
             throw new EJApplicationException("Error executing block query", e);
         }
         finally
@@ -477,7 +467,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e)
             {
             }
-            fwkConnection.close();
         }
     }
     
@@ -524,7 +513,6 @@ public class EJStatementExecutor implements Serializable
                         "The StatementExecutor requires the ConnectionFactory to return a JDBC Connection but another type was returned");
             }
             ArrayList<EJStatementParameter> allParameters = new ArrayList<EJStatementParameter>(Arrays.asList(parameters));
-            Connection connection = (Connection) conObj;
             if (queryCriteria != null)
             {
                 StringBuffer stmt = new StringBuffer(selectStatement);
@@ -552,11 +540,11 @@ public class EJStatementExecutor implements Serializable
             // is possible
             if (queryCriteria != null)
             {
-                pstmt = connection.prepareStatement(wrapSelectForPaging(selectStatement, queryCriteria));
+                pstmt = ((Connection) conObj).prepareStatement(wrapSelectForPaging(selectStatement, queryCriteria));
             }
             else
             {
-                pstmt = connection.prepareStatement(selectStatement);
+                pstmt = ((Connection) conObj).prepareStatement(selectStatement);
             }
             int pos = 1;
             
@@ -599,7 +587,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e2)
             {
             }
-            fwkConnection.rollback();
             throw new EJApplicationException("Error executing query", e);
         }
         finally
@@ -614,7 +601,6 @@ public class EJStatementExecutor implements Serializable
             catch (SQLException e)
             {
             }
-            fwkConnection.close();
         }
     }
     
