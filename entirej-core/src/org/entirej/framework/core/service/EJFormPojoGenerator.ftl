@@ -47,6 +47,16 @@ public class ${class_name}
         }
         else
         {
+        
+            <#list columns as column>
+        		if(fieldName.equals(FieldNames.${column.name}))
+				{
+					return (T)get${column.method_name}();
+				}
+    		</#list>
+           
+			        
+        
             return null;
         }
     }
