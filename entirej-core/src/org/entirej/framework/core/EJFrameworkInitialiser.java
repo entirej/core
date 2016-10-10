@@ -27,7 +27,7 @@ public class EJFrameworkInitialiser
         try
         {
                 EJFrameworkManager frameworkManager = new EJFrameworkManager(entireJPropertiesFileName);
-                EJConnectionHelper.setEJFrameworkManager(frameworkManager);
+                EJConnectionHelper.setEJFrameworkManager(frameworkManager,entireJPropertiesFileName);
                 return frameworkManager.getApplicationManager();
         }
         catch (Exception e)

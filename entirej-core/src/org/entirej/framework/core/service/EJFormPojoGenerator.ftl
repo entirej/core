@@ -64,6 +64,10 @@ public class ${class_name}
     public void clearInitialValues()
     {
        _initialValues.clear();
+        <#list columns as column>
+        
+       _initialValues.put(FieldNames.${column.name}, _${column.var_name});
+    	</#list>
     }
 
     public static class FieldNames<T>
