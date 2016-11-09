@@ -33,12 +33,12 @@ public class ${service_name} implements EJBlockService<${pojo_name}>
     {
     
 <#if table_name != "">   
-        List<EJStatementParameter> parameters = new ArrayList<EJStatementParameter>();
+        
         int recordsProcessed = 0;
         for (${pojo_name} record : newRecords)
         {
             // Initialise the value list
-          
+          List<EJStatementParameter> parameters = new ArrayList<EJStatementParameter>();
 <#list fields as field >
 			 parameters.add(new EJStatementParameter("${field.name}", ${field.data_type}.class, record.get${field.method_name}()));
 </#list>
@@ -59,12 +59,12 @@ public class ${service_name} implements EJBlockService<${pojo_name}>
     public void executeUpdate(EJForm form, List<${pojo_name}> updateRecords)
     {
 <#if table_name != "">      
-        List<EJStatementParameter> parameters = new ArrayList<EJStatementParameter>();
-
+        
         int recordsProcessed = 0;
         for (${pojo_name} record : updateRecords)
         {
-            parameters.clear();
+            List<EJStatementParameter> parameters = new ArrayList<EJStatementParameter>();
+
 
             // First add the new values
 <#list fields as field >
