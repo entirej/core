@@ -201,11 +201,7 @@ public class EJPojoHelper implements Serializable
             {
                 return annotation.value();
             }
-            Annotation[] annotations = method.getDeclaredAnnotations();
-            if (annotations == null || annotations.length == 0)
-            {
-                return null;
-            }
+           
             
            
             
