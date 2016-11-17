@@ -124,23 +124,16 @@ public class EJPojoHelper implements Serializable
             Set<String> items = new TreeSet<String>();
             for (Method method : pojo.getMethods())
             {
-                Annotation[] annotations = method.getDeclaredAnnotations();
-                if (annotations == null || annotations.length == 0)
+                EJFieldName annotation = method.getAnnotation(EJFieldName.class);
+                if(annotation!=null )
                 {
-                    continue;
+                    String fieldName = annotation.value();
+                    if (fieldName != null && !fieldNames.contains(fieldName))
+                    {
+                        items.add(fieldName);
+                    }  
                 }
                 
-                for (Annotation annotation : annotations)
-                {
-                    if (EJFieldName.class.isAssignableFrom(annotation.annotationType()))
-                    {
-                        String fieldName = (String) EJFieldName.class.getMethod(EJFieldName.VALUE).invoke(annotation);
-                        if (fieldName != null && !fieldNames.contains(fieldName))
-                        {
-                            items.add(fieldName);
-                        }
-                    }
-                }
             }
             fieldNames.addAll(items);
            
@@ -173,21 +166,9 @@ public class EJPojoHelper implements Serializable
         try
         {
             Method method = pojo.getMethod(methodName);
-            Annotation[] annotations = method.getDeclaredAnnotations();
-            if (annotations == null || annotations.length == 0)
-            {
-                return null;
-            }
             
-            for (Annotation annotation : annotations)
-            {
-                if (EJFieldName.class.isAssignableFrom(annotation.annotationType()))
-                {
-                    return (String) EJFieldName.class.getMethod(EJFieldName.VALUE).invoke(annotation);
-                }
-            }
             
-            return null;
+            return getFieldName(pojo, method);
         }
         catch (Exception e)
         {
@@ -215,19 +196,18 @@ public class EJPojoHelper implements Serializable
         
         try
         {
+            EJFieldName annotation = method.getAnnotation(EJFieldName.class);
+            if(annotation!=null )
+            {
+                return annotation.value();
+            }
             Annotation[] annotations = method.getDeclaredAnnotations();
             if (annotations == null || annotations.length == 0)
             {
                 return null;
             }
             
-            for (Annotation annotation : annotations)
-            {
-                if (EJFieldName.class.isAssignableFrom(annotation.annotationType()))
-                {
-                    return (String) EJFieldName.class.getMethod(EJFieldName.VALUE).invoke(annotation);
-                }
-            }
+           
             
             return null;
         }
@@ -259,34 +239,29 @@ public class EJPojoHelper implements Serializable
         {
             for (Method method : pojo.getMethods())
             {
-                Annotation[] annotations = method.getDeclaredAnnotations();
-                if (annotations != null && annotations.length > 0)
+                
+                EJFieldName annotation = method.getAnnotation(EJFieldName.class);
+                if(annotation!=null )
                 {
-                    for (Annotation annotation : annotations)
+                    if (method.getReturnType().equals(void.class))
                     {
-                        if (EJFieldName.class.isAssignableFrom(annotation.annotationType()))
+                        if (method.getParameterTypes().length == 1)
                         {
-                            if (method.getReturnType().equals(void.class))
+                            if (!datatypes.contains(method.getParameterTypes()[0]))
                             {
-                                if (method.getParameterTypes().length == 1)
-                                {
-                                    if (!datatypes.contains(method.getParameterTypes()[0]))
-                                    {
-                                        datatypes.add(method.getParameterTypes()[0]);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (!datatypes.contains(method.getReturnType()))
-                                {
-                                    datatypes.add(method.getReturnType());
-                                }
+                                datatypes.add(method.getParameterTypes()[0]);
                             }
                         }
                     }
-                    
+                    else
+                    {
+                        if (!datatypes.contains(method.getReturnType()))
+                        {
+                            datatypes.add(method.getReturnType());
+                        }
+                    }
                 }
+                
             }
             
             return datatypes;
@@ -320,31 +295,23 @@ public class EJPojoHelper implements Serializable
         {
             for (Method method : pojo.getMethods())
             {
-                Annotation[] annotations = method.getDeclaredAnnotations();
-                if (annotations != null && annotations.length > 0)
+                
+                EJFieldName annotation = method.getAnnotation(EJFieldName.class);
+                if(annotation!=null && fieldName.equals(annotation.value()))
                 {
-                    for (Annotation annotation : annotations)
+                    if (method.getReturnType().equals(void.class))
                     {
-                        if (EJFieldName.class.isAssignableFrom(annotation.annotationType()))
+                        if (method.getParameterTypes().length == 1)
                         {
-                            if (fieldName.equals((String) EJFieldName.class.getMethod(EJFieldName.VALUE).invoke(annotation)))
-                            {
-                                if (method.getReturnType().equals(void.class))
-                                {
-                                    if (method.getParameterTypes().length == 1)
-                                    {
-                                        return method.getParameterTypes()[0];
-                                    }
-                                }
-                                else
-                                {
-                                    return method.getReturnType();
-                                }
-                            }
+                            return method.getParameterTypes()[0];
                         }
                     }
-                    
+                    else
+                    {
+                        return method.getReturnType();
+                    }
                 }
+                
             }
             
             return null;
