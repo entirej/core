@@ -55,7 +55,10 @@ public class EJDataHelper
     
     private static Object getDefaultValue(EJForm form, EJBlockItem item, String defaultValue, EJItemLovController itemLovController)
     {
-        logger.trace("START getDefaultValue. Form: {}, Item: {}, defaultValue: {}", form.getProperties().getName(), item.getName(), defaultValue);
+        
+        final boolean traceEnabled = logger.isTraceEnabled();
+        if(traceEnabled)
+            logger.trace("START getDefaultValue. Form: {}, Item: {}, defaultValue: {}", form.getProperties().getName(), item.getName(), defaultValue);
         
         if (defaultValue == null || defaultValue.trim().length() == 0)
         {
@@ -64,27 +67,29 @@ public class EJDataHelper
         
         String paramTypeCode = defaultValue.substring(0, defaultValue.indexOf(':'));
         String paramValue = defaultValue.substring(defaultValue.indexOf(':') + 1);
-        
-        logger.trace("Parameter Type: {} Value: {}", paramTypeCode, paramValue);
+        if(traceEnabled)
+            logger.trace("Parameter Type: {} Value: {}", paramTypeCode, paramValue);
         
         if ("APP_PARAMETER".equals(paramTypeCode))
         {
             EJApplicationLevelParameter param = form.getApplicationLevelParameter(paramValue);
-            logger.trace("Application Parameter Value: {}", param.getValue());
+            if(traceEnabled)
+                logger.trace("Application Parameter Value: {}", param.getValue());
             return param.getValue();
         }
         else if ("FORM_PARAMETER".equals(paramTypeCode))
         {
             EJFormParameter param = form.getFormParameter(paramValue);
-            logger.trace("Form Parameter Value: {}", param.getValue());
+            if(traceEnabled)
+                logger.trace("Form Parameter Value: {}", param.getValue());
             return param.getValue();
         }
         else if ("BLOCK_ITEM".equals(paramTypeCode))
         {
             String blockName = paramValue.substring(0, paramValue.indexOf('.'));
             String itemName = paramValue.substring(paramValue.indexOf('.') + 1);
-            
-            logger.trace("Block Item");
+            if(traceEnabled)
+                logger.trace("Block Item");
             
             EJRecord record = null;
             // If the itemLovController is not null then it means that I am
@@ -94,9 +99,11 @@ public class EJDataHelper
             // retrieve the default value
             if (itemLovController != null && blockName.equals(itemLovController.getItemToValidate().getBlock().getProperties().getName()))
             {
-                logger.trace("Getting parameter for screen: {}", itemLovController.getItemToValidate().getScreenType());
+                if(traceEnabled)
+                    logger.trace("Getting parameter for screen: {}", itemLovController.getItemToValidate().getScreenType());
                 EJDataRecord dataRecord = null; 
-                logger.trace("Getting parameter for LOV: Block: "+blockName);
+                if(traceEnabled)
+                    logger.trace("Getting parameter for LOV: Block: "+blockName);
                 
                 EJBlock block = form.getBlock(blockName);
                 if (block == null)
@@ -127,7 +134,8 @@ public class EJDataHelper
             }
             else
             {
-                logger.trace("Getting parameter for LOV: Block: "+blockName);
+                if(traceEnabled)
+                    logger.trace("Getting parameter for LOV: Block: "+blockName);
                 
                 EJBlock block = form.getBlock(blockName);
                 if (block == null)
@@ -142,18 +150,21 @@ public class EJDataHelper
             if (record != null )
             {
                 Object val = record.getValue(itemName);
-                logger.trace("BlockItem value: {}", val);
+                if(traceEnabled)
+                    logger.trace("BlockItem value: {}", val);
                 return val;
             }
             else
             {
-                logger.trace("Could not find a record for the specified block");
+                if(traceEnabled)
+                    logger.trace("Could not find a record for the specified block");
                 return null;
             }
         }
         else if ("CLASS_FIELD".equals(paramTypeCode))
         {
-            logger.trace("Class Field Parameter");
+            if(traceEnabled)
+                logger.trace("Class Field Parameter");
             return getDefaultValueFromClassField(item, paramValue);
         }
         else
@@ -166,6 +177,7 @@ public class EJDataHelper
     private static Object getDefaultValueFromClassField(EJBlockItem item, String paramValue)
     {
         
+        
         if (paramValue == null || paramValue.trim().length() == 0)
         {
             return null;
@@ -177,10 +189,13 @@ public class EJDataHelper
                     + item.getName() + ":" + paramValue));
         }
         
+        final boolean traceEnabled = logger.isTraceEnabled();
+        
+        
         String fieldName = paramValue.substring(paramValue.lastIndexOf('.') + 1);
         String fullClassName = paramValue.substring(0, paramValue.indexOf("." + fieldName));
-        
-        logger.trace("Getting value for item: {} in class {}", fieldName, fullClassName);
+        if(traceEnabled)
+            logger.trace("Getting value for item: {} in class {}", fieldName, fullClassName);
         
         try
         {
@@ -190,7 +205,8 @@ public class EJDataHelper
             if (Modifier.isPublic(field.getModifiers()) && Modifier.isStatic(field.getModifiers()))
             {
                 Object val = field.get(null);
-                logger.trace("Got value {} ", val);
+                if(traceEnabled)
+                    logger.trace("Got value {} ", val);
                 return val;
             }
             else
