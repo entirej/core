@@ -53,7 +53,8 @@ public class EJStatementExecutor implements Serializable
     
     public int executeDelete(EJFrameworkConnection connection, String tableName, EJStatementCriteria criteria, EJStatementParameter... parameters)
     {
-        logger.info("Executing delete for {}", tableName);
+        if(logger.isInfoEnabled())
+            logger.info("Executing delete for {}", tableName);
         
         StringBuilder stmt = new StringBuilder();
         stmt.append("\nDELETE FROM ");
@@ -75,7 +76,8 @@ public class EJStatementExecutor implements Serializable
     
     public int executeInsert(EJFrameworkConnection connection, String tableName, EJStatementParameter... parameters)
     {
-        logger.info("Executing insert for {}", tableName);
+        if(logger.isInfoEnabled())
+            logger.info("Executing insert for {}", tableName);
         
         StringBuilder stmt = new StringBuilder();
         stmt.append("\nINSERT INTO ");
@@ -101,7 +103,8 @@ public class EJStatementExecutor implements Serializable
         valuesStmt.append(")");
         stmt.append(valuesStmt.toString());
         
-        logger.info("insertStatment:\n{}", stmt.toString());
+        if(logger.isInfoEnabled())
+            logger.info("insertStatment:\n{}", stmt.toString());
         
         return executeStatement(connection, stmt.toString(), null, parameters);
     }
@@ -118,7 +121,8 @@ public class EJStatementExecutor implements Serializable
     
     public int executeUpdate(EJFrameworkConnection fwkConnection, String tableName, EJStatementCriteria criteria, EJStatementParameter... parameters)
     {
-        logger.info("Executing update for {}", tableName);
+        if(logger.isInfoEnabled())
+            logger.info("Executing update for {}", tableName);
         
         StringBuilder stmt = new StringBuilder();
         stmt.append("\nUPDATE ");
@@ -151,6 +155,7 @@ public class EJStatementExecutor implements Serializable
         ArrayList<EJStatementParameter> updateParameters = new ArrayList<EJStatementParameter>();
         
         PreparedStatement pstmt = null;
+        final boolean infoEnabled = logger.isInfoEnabled();
         try
         {
             Object conObj = fwkConnection.getConnectionObject();
@@ -177,7 +182,8 @@ public class EJStatementExecutor implements Serializable
                 }
             }
             
-            logger.info("Statement to be executed after adding where: {}", stmt.toString());
+            if(infoEnabled)
+                logger.info("Statement to be executed after adding where: {}", stmt.toString());
             
             pstmt = ((Connection) conObj).prepareStatement(stmt.toString());
             int pos = 1;
@@ -186,12 +192,14 @@ public class EJStatementExecutor implements Serializable
             {
                 if (parameter.getValue() == null)
                 {
-                    logger.info("Statement parameter at index {} being set to NULL", pos);
+                    if(infoEnabled)
+                        logger.info("Statement parameter at index {} being set to NULL", pos);
                     pstmt.setNull(pos++, parameter.getJdbcType());
                 }
                 else
                 {
-                    logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
+                    if(infoEnabled)
+                        logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
                     pstmt.setObject(pos++, parameter.getValue());
                 }
             }
@@ -201,12 +209,14 @@ public class EJStatementExecutor implements Serializable
             {
                 if (parameter.getValue() == null)
                 {
-                    logger.info("Statement parameter at index {} being set to NULL", pos);
+                    if(infoEnabled)
+                        logger.info("Statement parameter at index {} being set to NULL", pos);
                     pstmt.setNull(pos++, parameter.getJdbcType());
                 }
                 else
                 {
-                    logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
+                    if(infoEnabled)
+                        logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
                     pstmt.setObject(pos++, parameter.getValue());
                 }
             }
@@ -218,7 +228,8 @@ public class EJStatementExecutor implements Serializable
         }
         catch (Exception e)
         {
-            logger.info("Error executing statement", e);
+            if(infoEnabled)
+                logger.info("Error executing statement", e);
             e.printStackTrace();
             try
             {
@@ -258,7 +269,9 @@ public class EJStatementExecutor implements Serializable
             throw new NullPointerException("The EJFrameworkConnection passed to the EJStatementExecutor is null");
         }
         
-        logger.info("Executing stored procedure for {}", procedureStatement);
+        final boolean infoEnabled = logger.isInfoEnabled();
+        if(infoEnabled)
+            logger.info("Executing stored procedure for {}", procedureStatement);
         
         CallableStatement proc = null;
         try
@@ -279,27 +292,32 @@ public class EJStatementExecutor implements Serializable
                 switch (parameter.getParameterType())
                 {
                     case IN:
-                        logger.info("Statement IN parameter being registered at index {} and being set to {}", pos, parameter.getValue());
+                        if(infoEnabled)
+                            logger.info("Statement IN parameter being registered at index {} and being set to {}", pos, parameter.getValue());
                         proc.setObject(pos, parameter.getValue());
                         break;
                     case INOUT:
-                        logger.info("Statement INOUT parameter being registered at index {} and being set to {}", pos, parameter.getValue());
+                        if(infoEnabled)
+                            logger.info("Statement INOUT parameter being registered at index {} and being set to {}", pos, parameter.getValue());
                         parameter.setPosition(pos);
                         proc.setObject(pos, parameter.getValue());
                         proc.registerOutParameter(pos, parameter.getJdbcType());
                         break;
                     case OUT:
                     case RETURN:
-                        logger.info("Statement OUT/RETURN parameter being regestered at index {}", pos);
+                        if(infoEnabled)
+                            logger.info("Statement OUT/RETURN parameter being regestered at index {}", pos);
                         proc.registerOutParameter(pos, parameter.getJdbcType());
                         parameter.setPosition(pos);
                         break;
                 }
             }
             
-            logger.info("Executing Statement");
+            if(infoEnabled)
+                logger.info("Executing Statement");
             proc.execute();
-            logger.info("Statement Completed");
+            if(infoEnabled)
+                logger.info("Statement Completed");
             
             for (EJStatementParameter parameter : parameters)
             {
@@ -309,7 +327,8 @@ public class EJStatementExecutor implements Serializable
                     case OUT:
                     case RETURN:
                         Object value = proc.getObject(parameter.getPosition());
-                        logger.info("Retrieving OUT/RETURN parameter at index {}, value = {}", parameter.getPosition(), value);
+                        if(infoEnabled)
+                            logger.info("Retrieving OUT/RETURN parameter at index {}, value = {}", parameter.getPosition(), value);
                         parameter.setValue(value);
                         break;
                 }
@@ -318,7 +337,8 @@ public class EJStatementExecutor implements Serializable
         }
         catch (Exception e)
         {
-            logger.info("Error executing statement", e);
+            if(infoEnabled)
+                logger.info("Error executing statement", e);
             e.printStackTrace();
             try
             {
@@ -350,7 +370,9 @@ public class EJStatementExecutor implements Serializable
     
     public <T> List<T> executeQuery(Class<T> pojoType, EJFrameworkConnection fwkConnection, String selectStatement, EJQueryCriteria queryCriteria)
     {
-        logger.info("Executing query to return a list of {}\n{}", pojoType, selectStatement);
+        final boolean infoEnabled = logger.isInfoEnabled();
+        if(infoEnabled)
+            logger.info("Executing query to return a list of {}\n{}", pojoType, selectStatement);
         
         StringBuffer stmt = new StringBuffer(selectStatement);
         
@@ -363,14 +385,16 @@ public class EJStatementExecutor implements Serializable
             }
         }
         
-        logger.info("Added the QueryCriteria expressions {}", stmt.toString());
+        if(infoEnabled)
+            logger.info("Added the QueryCriteria expressions {}", stmt.toString());
         
         for (EJQuerySort sort : queryCriteria.getSorts())
         {
             stmt.append(addOrderBy(stmt.toString(), sort));
         }
         
-        logger.info("Added the Order By expressions {}", stmt.toString());
+        if(infoEnabled)
+            logger.info("Added the Order By expressions {}", stmt.toString());
         
         EJStatementParameter[] valuesArray = new EJStatementParameter[queryValues.size()];
         return executeQuery(pojoType, fwkConnection, stmt.toString(), queryCriteria, queryValues.toArray(valuesArray));
@@ -383,6 +407,7 @@ public class EJStatementExecutor implements Serializable
         
         ArrayList<T> results = new ArrayList<T>();
         PreparedStatement pstmt = null;
+        final boolean infoEnabled = logger.isInfoEnabled();
         try
         {
             Object conObj = fwkConnection.getConnectionObject();
@@ -408,14 +433,17 @@ public class EJStatementExecutor implements Serializable
             
             for (EJStatementParameter parameter : parameters)
             {
-                logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
+                if(infoEnabled)
+                    logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
                 pstmt.setObject(pos++, parameter.getValue());
             }
             
-            logger.info("Executing Query");
+            if(infoEnabled)
+                logger.info("Executing Query");
             ResultSet rset = pstmt.executeQuery();
             ResultSetMetaData metaData = rset.getMetaData();
-            logger.info("Query Executed");
+            if(infoEnabled)
+                logger.info("Query Executed");
             try
             {
                 while (rset.next())
@@ -429,7 +457,8 @@ public class EJStatementExecutor implements Serializable
                     results.add(result);
                 }
                 
-                logger.info("Query retrieved {} results", results.size());
+                if(infoEnabled)
+                    logger.info("Query retrieved {} results", results.size());
             }
             catch (InstantiationException e)
             {
@@ -444,7 +473,8 @@ public class EJStatementExecutor implements Serializable
         }
         catch (SQLException e)
         {
-            logger.info("Error Executing Query", e);
+            if(infoEnabled)
+                logger.info("Error Executing Query", e);
             e.printStackTrace();
             try
             {
@@ -501,7 +531,9 @@ public class EJStatementExecutor implements Serializable
             throw new NullPointerException("No EJFrameworkConnection passed to EJStatementExecutor");
         }
         
-        logger.info("Executing generic query {}", selectStatement);
+        boolean infoEnabled = logger.isInfoEnabled();
+        if(infoEnabled)
+            logger.info("Executing generic query {}", selectStatement);
         
         PreparedStatement pstmt = null;
         try
@@ -525,7 +557,8 @@ public class EJStatementExecutor implements Serializable
                     }
                 }
                 
-                logger.info("Added the QueryCriteria expressions {}", stmt.toString());
+                if(infoEnabled)
+                    logger.info("Added the QueryCriteria expressions {}", stmt.toString());
                 
                 for (EJQuerySort sort : queryCriteria.getSorts())
                 {
@@ -550,14 +583,17 @@ public class EJStatementExecutor implements Serializable
             
             for (EJStatementParameter parameter : allParameters)
             {
-                logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
+                if(infoEnabled)
+                    logger.info("Statement parameter at index {} being set to {}", pos, parameter.getValue());
                 pstmt.setObject(pos++, parameter.getValue());
             }
             
-            logger.info("Executing Query");
+            if(infoEnabled)
+                logger.info("Executing Query");
             ResultSet rset = pstmt.executeQuery();
             ResultSetMetaData metaData = rset.getMetaData();
-            logger.info("Query Executed");
+            if(infoEnabled)
+                logger.info("Query Executed");
             
             ArrayList<EJSelectResult> results = new ArrayList<EJSelectResult>();
             while (rset.next())
@@ -572,13 +608,15 @@ public class EJStatementExecutor implements Serializable
                 results.add(result);
             }
             
-            logger.info("Query retrieved {} results", results.size());
+            if(infoEnabled)
+                logger.info("Query retrieved {} results", results.size());
             return results;
             
         }
         catch (SQLException e)
         {
-            logger.info("Error executing query", e);
+            if(infoEnabled)
+                logger.info("Error executing query", e);
             e.printStackTrace();
             try
             {

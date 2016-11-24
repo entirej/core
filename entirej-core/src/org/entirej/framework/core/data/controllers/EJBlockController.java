@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
@@ -91,7 +90,7 @@ public abstract class EJBlockController implements Serializable
     private String                                        _focusedItemName;
 
     private ArrayList<EJLovMappingController>             _lovMappingControllers     = new ArrayList<EJLovMappingController>();
-    private ArrayList<EJScreenItemValueChangedListener>         _itemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
+    private ArrayList<EJScreenItemValueChangedListener>   _itemValueChangedListeners = new ArrayList<EJScreenItemValueChangedListener>();
     private ArrayList<EJItemFocusListener>                _itemFocusListeners        = new ArrayList<EJItemFocusListener>();
     private ArrayList<EJNewRecordFocusedListener>         _newRecordListeners        = new ArrayList<EJNewRecordFocusedListener>();
 
@@ -173,7 +172,9 @@ public abstract class EJBlockController implements Serializable
 
     protected void initialiseItems()
     {
-        logger.trace("START initialiseItems");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START initialiseItems");
         for (EJCoreLovMappingProperties mappingProperties : getProperties().getLovMappingContainer().getAllLovMappingProperties())
         {
             _lovMappingControllers.add(new EJLovMappingController(_frameworkManager, getBlock(), mappingProperties));
@@ -183,14 +184,10 @@ public abstract class EJBlockController implements Serializable
         {
             _itemProperties.put(props.getName(), new EJItemController(this, props));
 
-            EJScreenItemProperties mainScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.MAIN)
-                    .getScreenItemProperties(props.getName());
-            EJScreenItemProperties insertScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.INSERT)
-                    .getScreenItemProperties(props.getName());
-            EJScreenItemProperties updateScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.UPDATE)
-                    .getScreenItemProperties(props.getName());
-            EJScreenItemProperties queryScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.QUERY)
-                    .getScreenItemProperties(props.getName());
+            EJScreenItemProperties mainScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.MAIN).getScreenItemProperties(props.getName());
+            EJScreenItemProperties insertScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.INSERT).getScreenItemProperties(props.getName());
+            EJScreenItemProperties updateScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.UPDATE).getScreenItemProperties(props.getName());
+            EJScreenItemProperties queryScreenItemProps = getProperties().getScreenItemGroupContainer(EJScreenType.QUERY).getScreenItemProperties(props.getName());
 
             if (mainScreenItemProps != null)
             {
@@ -217,12 +214,14 @@ public abstract class EJBlockController implements Serializable
             }
         }
 
-        logger.trace("END initialiseItems");
+        if (traceEnabled)
+            logger.trace("END initialiseItems");
     }
 
     protected void initialiseItemRenderers()
     {
-        logger.trace("START initialiseItemRenderers");
+        if (logger.isTraceEnabled())
+            logger.trace("START initialiseItemRenderers");
 
         for (EJScreenItemController itemController : _mainScreenItems.values())
         {
@@ -244,7 +243,8 @@ public abstract class EJBlockController implements Serializable
             itemController.initialiseRenderer();
         }
 
-        logger.trace("END initialiseItemRenderers");
+        if (logger.isTraceEnabled())
+            logger.trace("END initialiseItemRenderers");
     }
 
     /**
@@ -487,7 +487,9 @@ public abstract class EJBlockController implements Serializable
             return;
         }
 
-        logger.trace("START navigateToFirstRecord");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START navigateToFirstRecord");
 
         EJDataRecord record = getRendererController().getFirstRecord();
         if (record != null)
@@ -495,7 +497,8 @@ public abstract class EJBlockController implements Serializable
             navigateToRecord(record);
         }
 
-        logger.trace("END navigateTorFirstRecord");
+        if (traceEnabled)
+            logger.trace("END navigateTorFirstRecord");
     }
 
     /**
@@ -510,13 +513,16 @@ public abstract class EJBlockController implements Serializable
             return;
         }
 
-        logger.trace("START navigateToLastRecord");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START navigateToLastRecord");
         EJDataRecord record = getRendererController().getLastRecord();
         if (record != null)
         {
             navigateToRecord(record);
         }
-        logger.trace("END navigateToLastRecord");
+        if (traceEnabled)
+            logger.trace("END navigateToLastRecord");
     }
 
     public abstract void navigateToRecord(EJDataRecord record);
@@ -562,81 +568,103 @@ public abstract class EJBlockController implements Serializable
 
     public EJDataRecord getRecordBefore(EJDataRecord currentRecord)
     {
-        logger.trace("START getRecordBefore");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START getRecordBefore");
 
         if (currentRecord == null || getRendererController() == null)
         {
-            logger.trace("END getRecordBefore. NULL");
+            if (traceEnabled)
+                logger.trace("END getRecordBefore. NULL");
             return null;
         }
-        logger.trace("END getRecordBefore");
+        if (traceEnabled)
+            logger.trace("END getRecordBefore");
 
         return getRendererController().getRecordBefore(currentRecord);
     }
 
     public EJDataRecord getRecordAfter(EJDataRecord currentRecord)
     {
-        logger.trace("START getRecordAfter");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START getRecordAfter");
 
         if (currentRecord == null || getRendererController() == null)
         {
-            logger.trace("END getRecordAfter. NUKK");
+            if (traceEnabled)
+                logger.trace("END getRecordAfter. NUKK");
             return null;
         }
-        logger.trace("END getRecordAfter");
+        if (traceEnabled)
+            logger.trace("END getRecordAfter");
         return getRendererController().getRecordAfter(currentRecord);
     }
 
     public int getDisplayedRecordNumber(EJDataRecord record)
     {
-        logger.trace("START getDisplayedRecordNumber");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START getDisplayedRecordNumber");
         if (getRendererController() == null)
         {
-            logger.trace("END getDisplayedRecordNumber: -1");
+            if (traceEnabled)
+                logger.trace("END getDisplayedRecordNumber: -1");
 
             return -1;
         }
         int recNum = getRendererController().getDisplayedRecordNumber(record);
 
-        logger.trace("END getDisplayedRecordNumber: {}", recNum);
+        if (traceEnabled)
+            logger.trace("END getDisplayedRecordNumber: {}", recNum);
 
         return recNum;
     }
 
     public boolean isFirstDisplayedRecord()
     {
-        logger.trace("START isFirstDisplayedRecord");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START isFirstDisplayedRecord");
         if (getRendererController() == null)
         {
-            logger.trace("END isFirstDisplayedRecord: false");
+            if (traceEnabled)
+                logger.trace("END isFirstDisplayedRecord: false");
             return false;
         }
 
         if (getFocusedRecord() == getRendererController().getFirstRecord())
         {
-            logger.trace("END isFirstDisplayedRecord: true");
+            if (traceEnabled)
+                logger.trace("END isFirstDisplayedRecord: true");
             return true;
         }
-        logger.trace("END isFirstDisplayedRecord: false");
+        if (traceEnabled)
+            logger.trace("END isFirstDisplayedRecord: false");
         return false;
     }
 
     public boolean isLastDisplayedRecord()
     {
-        logger.trace("START isLastDisplayedRecord");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START isLastDisplayedRecord");
         if (getRendererController() == null)
         {
-            logger.trace("END isLastDisplayedRecord. Value: false");
+            if (traceEnabled)
+                logger.trace("END isLastDisplayedRecord. Value: false");
             return false;
         }
 
         if (getFocusedRecord() == getRendererController().getLastRecord())
         {
-            logger.trace("END isLastDisplayedRecord. Value: true");
+            if (traceEnabled)
+                logger.trace("END isLastDisplayedRecord. Value: true");
             return true;
         }
 
-        logger.trace("END isLastDisplayedRecord. Value: false");
+        if (traceEnabled)
+            logger.trace("END isLastDisplayedRecord. Value: false");
         return false;
     }
 
@@ -746,7 +774,9 @@ public abstract class EJBlockController implements Serializable
      */
     public EJDataRecord copyFocusedRecord()
     {
-        logger.trace("START copyFocusedRecord");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START copyFocusedRecord");
 
         if (getFocusedRecord() == null)
         {
@@ -775,7 +805,8 @@ public abstract class EJBlockController implements Serializable
             }
         }
         getFormController().getManagedActionController().initialiseRecord(getFormController().getEJForm(), new EJRecord(record), EJRecordType.INSERT);
-        logger.trace("END  copyFocusedRecord");
+        if (traceEnabled)
+            logger.trace("END  copyFocusedRecord");
         return record;
     }
 
@@ -800,8 +831,7 @@ public abstract class EJBlockController implements Serializable
      */
     public boolean canQueryInPages()
     {
-        if ((!getProperties().queryAllRows()) && (_blockProperties.getBlockService() != null && _blockProperties.getBlockService().canQueryInPages())
-                && getProperties().getPageSize() > 0)
+        if ((!getProperties().queryAllRows()) && (_blockProperties.getBlockService() != null && _blockProperties.getBlockService().canQueryInPages()) && getProperties().getPageSize() > 0)
         {
             return true;
         }
@@ -838,7 +868,9 @@ public abstract class EJBlockController implements Serializable
 
     protected final void getPage(boolean informRenderer)
     {
-        logger.trace("START getPage");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START getPage");
 
         EJManagedFrameworkConnection connection = getFrameworkManager().getConnection();
         try
@@ -855,9 +887,11 @@ public abstract class EJBlockController implements Serializable
             _queryCriteria.setQueryAllRows(_queryAllRows);
             _queryCriteria.setMaxResults(_maxResults);
 
-            logger.trace("Calling execute query on service: {}", _blockProperties.getBlockService().getClass().getName());
+            if (traceEnabled)
+                logger.trace("Calling execute query on service: {}", _blockProperties.getBlockService().getClass().getName());
             List<?> entities = _blockProperties.getBlockService().executeQuery(getFormController().getEJForm(), _queryCriteria);
-            logger.trace("Execute query on block service completed. {} records retrieved", (entities == null ? 0 : entities.size()));
+            if (traceEnabled)
+                logger.trace("Execute query on block service completed. {} records retrieved", (entities == null ? 0 : entities.size()));
 
             if (entities != null)
             {
@@ -881,7 +915,8 @@ public abstract class EJBlockController implements Serializable
 
                 // Create a post query cache so that lookups on each record are
                 // optimized
-                logger.trace("Creating post query cache and doing post queries");
+                if (traceEnabled)
+                    logger.trace("Creating post query cache and doing post queries");
                 EJPostQueryCache postQueryCache = new EJPostQueryCache();
                 for (Object entity : entities)
                 {
@@ -889,7 +924,8 @@ public abstract class EJBlockController implements Serializable
                     addLovMappingValuesAfterQuery(record, postQueryCache);
                     addQueriedRecord(record);
                 }
-                logger.trace("Completed post queries, clearing post query cache");
+                if (traceEnabled)
+                    logger.trace("Completed post queries, clearing post query cache");
 
                 // Clear the cache to free memory
                 postQueryCache.clear();
@@ -927,7 +963,8 @@ public abstract class EJBlockController implements Serializable
             connection.close();
         }
 
-        logger.trace("END getPage");
+        if (traceEnabled)
+            logger.trace("END getPage");
     }
 
     public void nextPage()
@@ -937,12 +974,13 @@ public abstract class EJBlockController implements Serializable
 
     public void nextPage(boolean informRenderer)
     {
-        logger.trace("START nextPage");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START nextPage");
 
         if (_blockProperties.getBlockService() == null)
         {
-            getFormController().getMessenger().handleMessage(
-                    new EJMessage(EJMessageLevel.MESSAGE, "Cannot fetch next page when no data service has been defined. Block: " + getProperties().getName()));
+            getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE, "Cannot fetch next page when no data service has been defined. Block: " + getProperties().getName()));
             return;
         }
 
@@ -954,7 +992,8 @@ public abstract class EJBlockController implements Serializable
         _pageNumber++;
         getPage(informRenderer);
 
-        logger.trace("END nextPage");
+        if (traceEnabled)
+            logger.trace("END nextPage");
     }
 
     public void previousPage()
@@ -964,11 +1003,12 @@ public abstract class EJBlockController implements Serializable
 
     public void previousPage(boolean informRenderer)
     {
-        logger.trace("START previousPage");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START previousPage");
         if (_blockProperties.getBlockService() == null)
         {
-            getFormController().getMessenger().handleMessage(
-                    new EJMessage(EJMessageLevel.MESSAGE, "Cannot fetch next page when no data service has been defined. Block: " + getProperties().getName()));
+            getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE, "Cannot fetch next page when no data service has been defined. Block: " + getProperties().getName()));
             return;
         }
 
@@ -979,7 +1019,8 @@ public abstract class EJBlockController implements Serializable
 
         _pageNumber--;
         getPage(informRenderer);
-        logger.trace("END previousPage");
+        if (traceEnabled)
+            logger.trace("END previousPage");
     }
 
     public void addLovMappingValuesAfterQuery(EJDataRecord queriedRecord)
@@ -1043,12 +1084,16 @@ public abstract class EJBlockController implements Serializable
             return;
         }
 
-        logger.trace("START executeActionCommand: ScreenType: {}, Command: {}", screenType, actionCommand);
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START executeActionCommand: ScreenType: {}, Command: {}", screenType, actionCommand);
 
-        logger.trace("   -> calling ActionController executeActionCommand");
+        if (traceEnabled)
+            logger.trace("   -> calling ActionController executeActionCommand");
         getFormController().getUnmanagedActionController().executeActionCommand(_formController.getEJForm(), _blockProperties.getName(), actionCommand, screenType);
 
-        logger.trace("END executeActionCommand");
+        if (traceEnabled)
+            logger.trace("END executeActionCommand");
     }
 
     /**
@@ -1089,12 +1134,14 @@ public abstract class EJBlockController implements Serializable
     {
         if (_pageNumber <= 1)
         {
-            logger.trace("START isOnFirstPage: true");
+            if (logger.isTraceEnabled())
+                logger.trace("START isOnFirstPage: true");
 
             return true;
         }
 
-        logger.trace("START isOnFirstPage: false");
+        if (logger.isTraceEnabled())
+            logger.trace("START isOnFirstPage: false");
 
         return false;
     }
@@ -1147,7 +1194,9 @@ public abstract class EJBlockController implements Serializable
      */
     public void clearBlock(boolean clearChanges)
     {
-        logger.trace("START clearBlock");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START clearBlock");
 
         _dataBlock.clearBlock(clearChanges);
 
@@ -1161,7 +1210,8 @@ public abstract class EJBlockController implements Serializable
             _mirrorBlockSynchronizer.blockCleared(this);
         }
 
-        logger.trace("END clearBlock");
+        if (traceEnabled)
+            logger.trace("END clearBlock");
     }
 
     /**
@@ -1185,7 +1235,9 @@ public abstract class EJBlockController implements Serializable
      */
     public void itemValueChanged(EJScreenItemController item, EJItemRenderer renderer, Object newValue)
     {
-        logger.trace("START itemValueCanged. Item: {}", item.getName());
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START itemValueCanged. Item: {}", item.getName());
 
         Iterator<EJScreenItemValueChangedListener> iti = _itemValueChangedListeners.iterator();
         while (iti.hasNext())
@@ -1193,7 +1245,8 @@ public abstract class EJBlockController implements Serializable
             iti.next().screenItemValueChanged(item, renderer, newValue);
         }
 
-        logger.trace("END itemValueChanged");
+        if (traceEnabled)
+            logger.trace("END itemValueChanged");
 
     }
 
@@ -1258,7 +1311,9 @@ public abstract class EJBlockController implements Serializable
     {
         _focusedItemName = focusedEvent.getItem().getProperties().getReferencedItemName();
 
-        logger.trace("START itemFocusGained. Item: {}", _focusedItemName);
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START itemFocusGained. Item: {}", _focusedItemName);
 
         Iterator<EJItemFocusListener> iti = _itemFocusListeners.iterator();
         while (iti.hasNext())
@@ -1266,7 +1321,8 @@ public abstract class EJBlockController implements Serializable
             iti.next().focusGained(focusedEvent);
         }
 
-        logger.trace("END itemFocusGained");
+        if (traceEnabled)
+            logger.trace("END itemFocusGained");
 
     }
 
@@ -1278,7 +1334,9 @@ public abstract class EJBlockController implements Serializable
      */
     public void itemFocusLost(EJItemFocusedEvent focusedEvent)
     {
-        logger.trace("START itemFocusLost");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START itemFocusLost");
 
         Iterator<EJItemFocusListener> iti = _itemFocusListeners.iterator();
         while (iti.hasNext())
@@ -1286,7 +1344,8 @@ public abstract class EJBlockController implements Serializable
             iti.next().focusLost(focusedEvent);
         }
 
-        logger.trace("END itemFocusLost");
+        if (traceEnabled)
+            logger.trace("END itemFocusLost");
     }
 
     /**
@@ -1327,7 +1386,9 @@ public abstract class EJBlockController implements Serializable
     {
         if (focusedRecord != null)
         {
-            logger.trace("START newRecordFocused");
+            boolean traceEnabled = logger.isTraceEnabled();
+            if (traceEnabled)
+                logger.trace("START newRecordFocused");
 
             Iterator<EJNewRecordFocusedListener> iti = _newRecordListeners.iterator();
             while (iti.hasNext())
@@ -1335,7 +1396,8 @@ public abstract class EJBlockController implements Serializable
                 iti.next().focusedGained(focusedRecord);
             }
 
-            logger.trace("END newRecordFocused");
+            if (traceEnabled)
+                logger.trace("END newRecordFocused");
         }
     }
 

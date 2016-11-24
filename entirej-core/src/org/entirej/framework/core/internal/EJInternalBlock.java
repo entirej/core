@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.internal;
 
@@ -100,9 +99,11 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
 
     public void refreshAfterChange(EJDataRecord record)
     {
-        logger.trace("START refreshRecordValues");
+        if (logger.isTraceEnabled())
+            logger.trace("START refreshRecordValues");
         _blockController.refreshAfterChange(record);
-        logger.trace("END refreshRecordValues");
+        if (logger.isTraceEnabled())
+            logger.trace("END refreshRecordValues");
     }
 
     /**
@@ -279,8 +280,7 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
         EJScreenItemController item = _blockController.getScreenItem(screenType, itemName);
         if (item == null)
         {
-            EJMessage message = EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NO_ITEM_ON_FORM, itemName,
-                    _blockController.getProperties().getName(), _blockController.getFormController().getProperties().getName());
+            EJMessage message = EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NO_ITEM_ON_FORM, itemName, _blockController.getProperties().getName(), _blockController.getFormController().getProperties().getName());
             throw new EJApplicationException(message);
         }
 
@@ -330,13 +330,15 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void clearFocusedRecord()
     {
-        logger.trace("START clearFocusedRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START clearFocusedRecord");
         EJDataRecord record = _blockController.getFocusedRecord();
         if (record != null)
         {
             record.clear();
         }
-        logger.trace("END clearFocusedRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("END clearFocusedRecord");
     }
 
     /**
@@ -346,7 +348,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public EJDataRecord copyFocusedRecord()
     {
-        logger.trace("START copyFocusedRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START copyFocusedRecord");
         return _blockController.copyFocusedRecord();
     }
 
@@ -387,7 +390,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public EJDataRecord createRecordNoAction()
     {
-        logger.trace("START createRecordNoAction - Returning directly");
+        if (logger.isTraceEnabled())
+            logger.trace("START createRecordNoAction - Returning directly");
         return _blockController.createRecordNoAction();
     }
 
@@ -400,7 +404,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void executeQuery(EJQueryCriteria queryCriteria)
     {
-        logger.trace("START executeQuery");
+        if (logger.isTraceEnabled())
+            logger.trace("START executeQuery");
 
         EJManagedFrameworkConnection connection = getFrameworkManager().getConnection();
 
@@ -437,7 +442,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
             }
         }
 
-        logger.trace("END executeQuery");
+        if (logger.isTraceEnabled())
+            logger.trace("END executeQuery");
     }
 
     /**
@@ -451,9 +457,11 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void executeActionCommand(String actionCommand, EJScreenType screenType)
     {
-        logger.trace("START executeActionCommand");
+        if (logger.isTraceEnabled())
+            logger.trace("START executeActionCommand");
         _blockController.executeActionCommand(actionCommand, screenType);
-        logger.trace("END executeActionCommand");
+        if (logger.isTraceEnabled())
+            logger.trace("END executeActionCommand");
     }
 
     /**
@@ -462,7 +470,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void executeLastQuery()
     {
-        logger.trace("START executeLastQuery");
+        if (logger.isTraceEnabled())
+            logger.trace("START executeLastQuery");
         EJManagedFrameworkConnection connection = null;
         try
         {
@@ -485,7 +494,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
                 connection.close();
             }
         }
-        logger.trace("END executeLastQuery");
+        if (logger.isTraceEnabled())
+            logger.trace("END executeLastQuery");
     }
 
     /**
@@ -622,7 +632,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void nextPage()
     {
-        logger.trace("START nextPage");
+        if (logger.isTraceEnabled())
+            logger.trace("START nextPage");
         EJManagedFrameworkConnection connection = null;
         try
         {
@@ -640,7 +651,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
                 connection.close();
             }
         }
-        logger.trace("END nextPage");
+        if (logger.isTraceEnabled())
+            logger.trace("END nextPage");
     }
 
     /**
@@ -652,7 +664,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void previousPage()
     {
-        logger.trace("START previousPage");
+        if (logger.isTraceEnabled())
+            logger.trace("START previousPage");
         EJManagedFrameworkConnection connection = null;
         try
         {
@@ -670,7 +683,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
                 connection.close();
             }
         }
-        logger.trace("END previousPage");
+        if (logger.isTraceEnabled())
+            logger.trace("END previousPage");
     }
 
     /**
@@ -680,9 +694,11 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void nextRecord()
     {
-        logger.trace("START nextRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START nextRecord");
         _blockController.nextRecord();
-        logger.trace("END nextRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("END nextRecord");
     }
 
     /**
@@ -693,7 +709,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public boolean isLastDisplayedRecord()
     {
-        logger.trace("START isLastDisplayedRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START isLastDisplayedRecord");
         return _blockController.isLastDisplayedRecord();
     }
 
@@ -704,9 +721,11 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void previousRecord()
     {
-        logger.trace("START previousRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START previousRecord");
         _blockController.previousRecord();
-        logger.trace("END previousRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("END previousRecord");
     }
 
     /**
@@ -718,7 +737,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public boolean isFirstDisplayedRecord()
     {
-        logger.trace("START isFirstDisplayedRecord");
+        if (logger.isTraceEnabled())
+            logger.trace("START isFirstDisplayedRecord");
         return _blockController.isFirstDisplayedRecord();
     }
 
@@ -734,9 +754,11 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public void newRecordInstance(EJDataRecord selectedRecord)
     {
-        logger.trace("START newRecordInstance");
+        if (logger.isTraceEnabled())
+            logger.trace("START newRecordInstance");
         _blockController.newRecordInstance(selectedRecord);
-        logger.trace("END newRecordInstance");
+        if (logger.isTraceEnabled())
+            logger.trace("END newRecordInstance");
     }
 
     /**
@@ -767,7 +789,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public int getBlockRecordCount()
     {
-        logger.trace("START getBlockRecordCount");
+        if (logger.isTraceEnabled())
+            logger.trace("START getBlockRecordCount");
         return _blockController.getDataBlock().getBlockRecordCount();
     }
 
@@ -778,13 +801,15 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
      */
     public int getDisplayedRecordCount()
     {
-        logger.trace("START getDisplayedRecordCount");
+        if (logger.isTraceEnabled())
+            logger.trace("START getDisplayedRecordCount");
         return _blockController.getDisplayedRecordCount();
     }
 
     public int getDisplayedRecordNumber(EJDataRecord record)
     {
-        logger.trace("START getDisplayedRecordNumber");
+        if (logger.isTraceEnabled())
+            logger.trace("START getDisplayedRecordNumber");
         return _blockController.getDisplayedRecordNumber(record);
     }
 
@@ -841,7 +866,7 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
             {
                 _valueChangedListeners.get(listener).add(itemName);
             }
-        }        
+        }
     }
 
     public void removeItemValueChangedListener(String itemName, EJDataItemValueChangedListener listener)
@@ -877,7 +902,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
             if (_valueChangedListeners.get(listener).contains(itemName))
             {
                 // Now at this stage, check the record to ensure that it is the
-                // blocks focused record. I don't want to fire on non focused records
+                // blocks focused record. I don't want to fire on non focused
+                // records
                 if (EJScreenType.INSERT.equals(screenType))
                 {
                     listener.dataItemValueChanged(itemName, changedRecord, screenType);

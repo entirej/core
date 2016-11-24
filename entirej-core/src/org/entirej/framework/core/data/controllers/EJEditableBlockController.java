@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
@@ -124,7 +123,9 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             return;
         }
 
-        logger.trace("START initialiseScreenRenderers");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START initialiseScreenRenderers");
 
         EJQueryScreenRenderer queryScreenRenderer = _blockRendererController.getQueryScreenRenderer();
         if (queryScreenRenderer != null && getProperties().getScreenItemGroupContainer(EJScreenType.QUERY).count() > 0)
@@ -147,7 +148,8 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             setUpdateScreenRenderer(updateScreenRenderer);
         }
 
-        logger.trace("END initialiseScreenRenderers");
+        if (traceEnabled)
+            logger.trace("END initialiseScreenRenderers");
     }
 
     /**
@@ -247,8 +249,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                     getFormController().getFocusedBlockController().setRendererFocus(false);
                 }
                 getFormController().setFocusedBlockController(this);
-                getFormController().getManagedActionController().getUnmanagedController().newBlockInstance(getFormController().getEJForm(),
-                        getProperties().getName());
+                getFormController().getManagedActionController().getUnmanagedController().newBlockInstance(getFormController().getEJForm(), getProperties().getName());
 
                 // Inform all listeners that this block has gained focus.
                 for (EJBlockFocusedListener listener : _blockFocusListeners)
@@ -348,7 +349,9 @@ public class EJEditableBlockController extends EJBlockController implements Seri
 
     public void navigateToRecord(EJDataRecord record)
     {
-        logger.trace("START navigateToRecord {}", record);
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START navigateToRecord {}", record);
         if (getDataBlock().containsRecord(record))
         {
             if (getRendererController() != null)
@@ -357,7 +360,8 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                 newRecordInstance(record);
             }
         }
-        logger.trace("END navigateToRecord");
+        if (traceEnabled)
+            logger.trace("END navigateToRecord");
     }
 
     /**
@@ -408,8 +412,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
     {
         if (areChildRelationsDirty())
         {
-            EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_INSERT_RECORD,
-                    insertedRecord);
+            EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_INSERT_RECORD, insertedRecord);
             getFormController().getMessenger().askInternalQuestion(q);
         }
         else
@@ -417,8 +420,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             addMasterRelationValues(insertedRecord);
 
             // Ensure that the new record is valid
-            getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(insertedRecord),
-                    EJRecordType.INSERT);
+            getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(insertedRecord), EJRecordType.INSERT);
             getFormController().getUnmanagedActionController().preInsert(getFormController().getEJForm(), new EJRecord(insertedRecord));
 
             getDataBlock().recordCreated(insertedRecord, getFocusedRecord());
@@ -457,8 +459,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                     getFocusedRecord().copyValuesToRecord(recordToUpdate);
 
                     recordToUpdate.setBaseRecord(getFocusedRecord());
-                    getFormController().getUnmanagedActionController().initialiseRecord(getFormController().getEJForm(), new EJRecord(recordToUpdate),
-                            EJRecordType.UPDATE);
+                    getFormController().getUnmanagedActionController().initialiseRecord(getFormController().getEJForm(), new EJRecord(recordToUpdate), EJRecordType.UPDATE);
                     getFormController().getUnmanagedActionController().preOpenScreen(new EJBlock(_block), new EJRecord(recordToUpdate), EJScreenType.UPDATE);
                     _blockRendererController.enterUpdate(recordToUpdate);
 
@@ -489,15 +490,16 @@ public class EJEditableBlockController extends EJBlockController implements Seri
      */
     public void executeUpdate(EJDataRecord updatedRecord)
     {
-        logger.trace("START ExecuteUpdate");
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START ExecuteUpdate");
 
         if (updatedRecord == null)
         {
             throw new EJApplicationException("The record passed to recordUpdated is null.");
         }
 
-        if ((updatedRecord.getBaseRecord() != null && getDataBlock().containsRecord(updatedRecord.getBaseRecord()))
-                || getDataBlock().containsRecord(updatedRecord))
+        if ((updatedRecord.getBaseRecord() != null && getDataBlock().containsRecord(updatedRecord.getBaseRecord())) || getDataBlock().containsRecord(updatedRecord))
         {
             // Record validation should only be made if the update is being
             // carried out by the framework.
@@ -506,8 +508,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             // record will have been set
             if (updatedRecord.getBaseRecord() != null)
             {
-                getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(updatedRecord),
-                        EJRecordType.UPDATE);
+                getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(updatedRecord), EJRecordType.UPDATE);
             }
 
             getFormController().getUnmanagedActionController().preUpdate(getFormController().getEJForm(), new EJRecord(updatedRecord));
@@ -548,7 +549,8 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_RECORD_PASSED_TO_PERFORM_UPDATE));
         }
 
-        logger.trace("END ExecuteUpdate");
+        if (traceEnabled)
+            logger.trace("END ExecuteUpdate");
     }
 
     @Override
@@ -578,8 +580,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
         {
             if (hasChildRelationsWithData())
             {
-                getFormController().getMessenger()
-                        .handleMessage(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.CANNOT_DELETE_WHILE_CHILDREN_EXIST));
+                getFormController().getMessenger().handleMessage(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.CANNOT_DELETE_WHILE_CHILDREN_EXIST));
             }
             else
             {
@@ -612,8 +613,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
 
             if (relation != null)
             {
-                userMessage = getFormController().getUnmanagedActionController().getMasterDetailDeleteViolationMessage(getFormController().getEJForm(),
-                        relation.getName());
+                userMessage = getFormController().getUnmanagedActionController().getMasterDetailDeleteViolationMessage(getFormController().getEJForm(), relation.getName());
             }
 
             // Only display the user message if one was specified
@@ -623,16 +623,14 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             }
             else
             {
-                getFormController().getMessenger()
-                        .handleMessage(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.CANNOT_DELETE_WHILE_CHILDREN_EXIST));
+                getFormController().getMessenger().handleMessage(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.CANNOT_DELETE_WHILE_CHILDREN_EXIST));
             }
         }
         else
         {
             if (deletedRecord == null)
             {
-                EJMessage message = EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_RECORD_PASSED_TO_METHOD,
-                        "BlockController.performDeleteOperation");
+                EJMessage message = EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_RECORD_PASSED_TO_METHOD, "BlockController.performDeleteOperation");
                 getFormController().getMessenger().handleMessage(message);
             }
 
@@ -642,8 +640,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                 getFormController().getMessenger().handleMessage(message);
             }
 
-            getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(deletedRecord),
-                    EJRecordType.DELETE);
+            getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(deletedRecord), EJRecordType.DELETE);
             getFormController().getUnmanagedActionController().preDelete(getFormController().getEJForm(), new EJRecord(deletedRecord));
 
             // determine the next focused record
@@ -700,8 +697,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
     {
         if (getBlockService() == null)
         {
-            getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE,
-                    "Cannot perform query operation when no data service has been defined. Block: " + getProperties().getName()));
+            getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE, "Cannot perform query operation when no data service has been defined. Block: " + getProperties().getName()));
             return;
         }
 
@@ -753,16 +749,14 @@ public class EJEditableBlockController extends EJBlockController implements Seri
     {
         if (isBlockDirty() || areChildRelationsDirty())
         {
-            EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_QUERY_PERFORM,
-                    queryCriteria);
+            EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_QUERY_PERFORM, queryCriteria);
             getFormController().getMessenger().askInternalQuestion(q);
         }
         else
         {
             if (getBlockService() == null)
             {
-                getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE,
-                        "Cannot perform query operation when no data service has been defined. Block: " + getProperties().getName()));
+                getFormController().getMessenger().handleMessage(new EJMessage(EJMessageLevel.MESSAGE, "Cannot perform query operation when no data service has been defined. Block: " + getProperties().getName()));
             }
 
             if (preventMasterlessOperations())
@@ -838,10 +832,10 @@ public class EJEditableBlockController extends EJBlockController implements Seri
                 // now inform the renderer that the query is finished. The
                 // renderer will need to refresh itself to display the new
                 // records
-//                if (_blockRendererController != null)
-//                {
-//                    _blockRendererController.queryExecuted();
-//                }
+                // if (_blockRendererController != null)
+                // {
+                // _blockRendererController.queryExecuted();
+                // }
 
                 if (getMirrorBlockSynchronizer() != null)
                 {
@@ -1027,8 +1021,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             // master and thus retrieving new detail records
             if (areChildRelationsDirty())
             {
-                EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_NEW_RECORD_INSTANCE,
-                        selectedRecord);
+                EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_NEW_RECORD_INSTANCE, selectedRecord);
                 getFormController().getMessenger().askInternalQuestion(q);
             }
             else
@@ -1480,8 +1473,7 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             return;
         }
 
-        EJCoreRelationProperties relationProperties = getProperties().getFormProperties()
-                .getMasterRelationProperties(super.getFormController().getBlockController(detailQueryCriteria.getBlockName()).getProperties());
+        EJCoreRelationProperties relationProperties = getProperties().getFormProperties().getMasterRelationProperties(super.getFormController().getBlockController(detailQueryCriteria.getBlockName()).getProperties());
         // If there is no relation defined then the user has set the master
         // block pane but not set the
         // relation property within the block definition xml file.

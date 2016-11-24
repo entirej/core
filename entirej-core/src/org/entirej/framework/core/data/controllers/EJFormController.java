@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
@@ -58,7 +57,7 @@ import org.slf4j.LoggerFactory;
 public class EJFormController implements Serializable
 {
     private final Logger                               LOGGER              = LoggerFactory.getLogger(EJFormController.class);
-    
+
     private EJEditableBlockController                  _focusedBlockController;
     private EJFrameworkManager                         _frameworkManager;
     private EJParameterList                            _parameterList;
@@ -68,69 +67,74 @@ public class EJFormController implements Serializable
     private EJManagedActionController                  _formActionController;
     private EJInternalForm                             _form;
     private EJForm                                     _ejForm;
-    private  EJDataForm                                 _dataForm;
+    private EJDataForm                                 _dataForm;
     private HashMap<String, EJEditableBlockController> _blockControllers   = new HashMap<String, EJEditableBlockController>();
     private HashMap<String, EJLovController>           _lovControllers     = new HashMap<String, EJLovController>();
-    
-    private final ArrayList<EJFormEventListener>    _formEventListeners = new ArrayList<EJFormEventListener>();
-    
+
+    private final ArrayList<EJFormEventListener>       _formEventListeners = new ArrayList<EJFormEventListener>();
+
     EJFormController(EJFrameworkManager frameworkManager, EJDataForm dataForm, EJMessenger messenger)
     {
-        LOGGER.trace("START Constructor");
-        
+        boolean traceEnabled = LOGGER.isTraceEnabled();
+        if (traceEnabled)
+            LOGGER.trace("START Constructor");
+
         if (dataForm == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_DATA_FORM_PASSED_TO_FORM_CONTROLLER));
         }
-        
+
         _frameworkManager = frameworkManager;
         _dataForm = dataForm;
         _messenger = messenger;
         createParameterList();
-        
+
         _formRenderer = EJRendererFactory.getInstance().getFormRenderer(frameworkManager, dataForm.getProperties());
-        
+
         // First create the actionProcessor instance as this is can be used
         // within the block renderer initialization
         // If none has been defined, use the framework default action processor
         _formActionController = new EJManagedActionController(this);
-        
+
         _form = new EJInternalForm(this);
         _ejForm = new EJForm(_form);
         _canvasController = new EJCanvasController(this);
-        
+
         loadLovDefinitions();
         _formActionController.initialise(this);
         initialiseController();
-        
+
         // Inform the forms action processor that the form has been created
-        
-        LOGGER.trace("Calling initialiseForm");
+
+        if (traceEnabled)
+            LOGGER.trace("Calling initialiseForm");
         _formRenderer.getUnmanagedRenderer().initialiseForm(_form);
-        LOGGER.trace("Called initialiseForm");
-        
+        if (traceEnabled)
+            LOGGER.trace("Called initialiseForm");
+
         initialiseBlockScreenRenderers();
-        
+
         for (EJBlockController blockController : _blockControllers.values())
         {
             blockController.initialiseItemRenderers();
         }
-        
+
         for (EJLovController lovController : _lovControllers.values())
         {
             lovController.initialiseItemRenderers();
         }
 
         // getUnmanagedActionController().newFormInstance(new EJForm(_form));
-        
-        LOGGER.trace("END Constructor");
+
+        if (traceEnabled)
+            LOGGER.trace("END Constructor");
     }
-    
+
     public void formInitialised()
     {
         getUnmanagedActionController().newFormInstance(new EJForm(_form));
     }
-    
+
     private void createParameterList()
     {
         EJParameterList list = new EJParameterList();
@@ -142,50 +146,57 @@ public class EJFormController implements Serializable
         }
         _parameterList = list;
     }
-    
+
     public EJParameterList getParameterList()
     {
         return _parameterList;
     }
-    
+
     private void loadLovDefinitions()
     {
-        LOGGER.trace("START loadingLovDefinitions");
+        boolean traceEnabled = LOGGER.isTraceEnabled();
+        if (traceEnabled)
+            LOGGER.trace("START loadingLovDefinitions");
         for (EJCoreLovDefinitionProperties lovDefinition : _dataForm.getProperties().getLovDefinitionContainer().getAllLovDefinitionProperties())
         {
             EJLovController lovController = new EJLovController(this, lovDefinition);
             _lovControllers.put(lovDefinition.getName(), lovController);
         }
-        
-        LOGGER.trace("END loadingLovDefinitions");
+
+        if (traceEnabled)
+            LOGGER.trace("END loadingLovDefinitions");
     }
-    
+
     private void initialiseController()
     {
-        LOGGER.trace("START initialiseController");
+        boolean traceEnabled = LOGGER.isTraceEnabled();
+        if (traceEnabled)
+            LOGGER.trace("START initialiseController");
         EJCoreFormProperties formProperties = _dataForm.getProperties();
-        LOGGER.trace("Setting up blocks");
+        if (traceEnabled)
+            LOGGER.trace("Setting up blocks");
         ArrayList<EJEditableBlockController> mirroredParents = new ArrayList<EJEditableBlockController>();
         for (EJDataBlock block : _dataForm.getAllBlocks())
         {
             EJCoreBlockProperties blockProps = _dataForm.getProperties().getBlockProperties(block.getName());
             EJEditableBlockController blockController = new EJEditableBlockController(this, blockProps, block);
             _blockControllers.put(blockProps.getName(), blockController);
-            
+
             if (blockProps.isMirrorParent())
             {
                 mirroredParents.add(blockController);
             }
         }
-        LOGGER.trace("DONE setting up blocks");
-        
+        if (traceEnabled)
+            LOGGER.trace("DONE setting up blocks");
+
         // Add mirrored references
         for (EJEditableBlockController parentController : mirroredParents)
         {
             EJMirrorBlockSynchronizer blockSynchroniser = new EJMirrorBlockSynchronizer();
             blockSynchroniser.addMirroredBlockController(parentController);
             parentController.setMirrorBlockSynchronizer(blockSynchroniser);
-            
+
             for (EJEditableBlockController childController : _blockControllers.values())
             {
                 if (childController.getProperties().isMirrorChild())
@@ -199,29 +210,34 @@ public class EJFormController implements Serializable
                 }
             }
         }
-        
-        LOGGER.trace("Initialising Pojo Helpers");
+
+        if (traceEnabled)
+            LOGGER.trace("Initialising Pojo Helpers");
         for (EJEditableBlockController parentController : _blockControllers.values())
         {
             parentController.getBlock().initialiseServicePojoHelper();
         }
-        LOGGER.trace("DONE initialising Pojo Helpers");
-        
-        LOGGER.trace("Setting up relations");
+        if (traceEnabled)
+            LOGGER.trace("DONE initialising Pojo Helpers");
+
+        if (traceEnabled)
+            LOGGER.trace("Setting up relations");
         // Now loop through the relations and set the corresponding properties
         // within the correct block controllers.
         for (EJCoreRelationProperties relationProperties : formProperties.getRelationContainer().getAllRelationProperties())
         {
             EJEditableBlockController masterBlockController = getBlockController(relationProperties.getMasterBlockProperties().getName());
             EJEditableBlockController detailBlockController = getBlockController(relationProperties.getDetailBlockProperties().getName());
-            
+
             masterBlockController.addDetailRelationBlockController(relationProperties, detailBlockController);
             detailBlockController.setMasterRelationDetails(relationProperties, masterBlockController);
         }
-        LOGGER.trace("Relations DONE");
-        LOGGER.trace("END initialiseController");
+        if (traceEnabled)
+            LOGGER.trace("Relations DONE");
+        if (traceEnabled)
+            LOGGER.trace("END initialiseController");
     }
-    
+
     private void initialiseBlockScreenRenderers()
     {
         for (EJEditableBlockController blockController : _blockControllers.values())
@@ -229,22 +245,22 @@ public class EJFormController implements Serializable
             blockController.initialiseScreenRenderers();
         }
     }
-    
+
     public EJFrameworkManager getFrameworkManager()
     {
         return _frameworkManager;
     }
-    
+
     public EJCanvasController getCanvasController()
     {
         return _canvasController;
     }
-    
+
     public Collection<EJLovController> getAllLovControllers()
     {
         return _lovControllers.values();
     }
-    
+
     /**
      * Returns a controller for the given lov definition
      * 
@@ -260,10 +276,10 @@ public class EJFormController implements Serializable
         {
             return null;
         }
-        
+
         return _lovControllers.get(lovDefinitionName);
     }
-    
+
     public void addBlockFocusedListener(EJBlockFocusedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -271,7 +287,7 @@ public class EJFormController implements Serializable
             controller.addBlockFocusListener(listener);
         }
     }
-    
+
     public void removeBlockFocusedListener(EJBlockFocusedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -279,16 +295,17 @@ public class EJFormController implements Serializable
             controller.removeBlockFocusListener(listener);
         }
     }
+
     public void addFormEventListener(EJFormEventListener listener)
     {
         _formEventListeners.add(listener);
     }
-    
+
     public void removeFormEventListener(EJFormEventListener listener)
     {
         _formEventListeners.remove(listener);
     }
-    
+
     public void addItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -296,7 +313,7 @@ public class EJFormController implements Serializable
             controller.addItemValueChangedListener(listener);
         }
     }
-    
+
     public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -304,7 +321,7 @@ public class EJFormController implements Serializable
             controller.removeItemValueChangedListener(listener);
         }
     }
-    
+
     public void addItemFocusListener(EJItemFocusListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -312,7 +329,7 @@ public class EJFormController implements Serializable
             controller.addItemFocusListener(listener);
         }
     }
-    
+
     public void removeItemFocusListener(EJItemFocusListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -320,7 +337,7 @@ public class EJFormController implements Serializable
             controller.removeItemFocusListener(listener);
         }
     }
-    
+
     public void addNewRecordFocusedListener(EJNewRecordFocusedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -328,7 +345,7 @@ public class EJFormController implements Serializable
             controller.addNewRecordFocusedListener(listener);
         }
     }
-    
+
     public void removeNewRecordFocusedListener(EJNewRecordFocusedListener listener)
     {
         for (EJEditableBlockController controller : _blockControllers.values())
@@ -336,7 +353,7 @@ public class EJFormController implements Serializable
             controller.removeNewRecordFocusedListener(listener);
         }
     }
-    
+
     /**
      * Sets this forms messenger
      * <p>
@@ -354,7 +371,7 @@ public class EJFormController implements Serializable
     {
         _messenger = messenger;
     }
-    
+
     /**
      * Passes the given <code>Question</code> onto this forms messenger
      * <p>
@@ -371,7 +388,7 @@ public class EJFormController implements Serializable
             _messenger.askQuestion(question);
         }
     }
-    
+
     /**
      * Returns this forms messenger
      * 
@@ -381,7 +398,7 @@ public class EJFormController implements Serializable
     {
         return _messenger;
     }
-    
+
     /**
      * Returns the renderer that is responsible for this form
      * 
@@ -391,7 +408,7 @@ public class EJFormController implements Serializable
     {
         return _formRenderer;
     }
-    
+
     /**
      * Returns the renderer that is responsible for this form
      * 
@@ -403,10 +420,10 @@ public class EJFormController implements Serializable
         {
             return _formRenderer.getUnmanagedRenderer();
         }
-        
+
         return null;
     }
-    
+
     /**
      * Return the action controller for this form
      * 
@@ -416,12 +433,12 @@ public class EJFormController implements Serializable
     {
         return _formActionController;
     }
-    
+
     public EJActionController getUnmanagedActionController()
     {
         return _formActionController.getUnmanagedController();
     }
-    
+
     /**
      * Return the manager for this form
      * <p>
@@ -434,12 +451,12 @@ public class EJFormController implements Serializable
     {
         return _form;
     }
-    
+
     public EJForm getEJForm()
     {
         return _ejForm;
     }
-    
+
     /**
      * Returns a collection of all <code>BlockControllers</code> for this form
      * controller
@@ -451,7 +468,7 @@ public class EJFormController implements Serializable
     {
         return _blockControllers.values();
     }
-    
+
     /**
      * Returns a collection of <code>BlockControllers</code> that will be
      * displayed on this form. A block is only displayed if it has a canvas
@@ -473,7 +490,7 @@ public class EJFormController implements Serializable
         }
         return displayedControllers;
     }
-    
+
     /**
      * Returns the underlying properties of this form
      * 
@@ -483,7 +500,7 @@ public class EJFormController implements Serializable
     {
         return _dataForm.getProperties();
     }
-    
+
     /**
      * Returns a given <code>BlockController</code> for a given block
      * 
@@ -499,10 +516,10 @@ public class EJFormController implements Serializable
         {
             return null;
         }
-        
+
         return _blockControllers.get(blockName);
     }
-    
+
     /**
      * Returns the <code>BlockController</code> for the block which currently
      * has user focus
@@ -517,12 +534,12 @@ public class EJFormController implements Serializable
     {
         return _focusedBlockController;
     }
-    
+
     void setFocusedBlockController(EJEditableBlockController controller)
     {
         _focusedBlockController = controller;
     }
-    
+
     public boolean isDirty()
     {
         // First loop through the blocks on this form and then all embedded
@@ -531,7 +548,7 @@ public class EJFormController implements Serializable
         while (blockControllers.hasNext())
         {
             EJEditableBlockController controller = blockControllers.next();
-            
+
             if (controller.isBlockDirty())
             {
                 return true;
@@ -539,7 +556,7 @@ public class EJFormController implements Serializable
         }
         return false;
     }
-    
+
     /**
      * Returns an iterator over the block controllers of the dirty blocks of
      * this form
@@ -560,12 +577,12 @@ public class EJFormController implements Serializable
     private ListIterator<EJEditableBlockController> getAllDirtyBlockControllers(boolean forDelete)
     {
         LinkedList<EJEditableBlockController> dirtyBlocks = new LinkedList<EJEditableBlockController>();
-        
+
         Iterator<EJEditableBlockController> blockControllers = getAllBlockControllers().iterator();
         while (blockControllers.hasNext())
         {
             EJEditableBlockController controller = blockControllers.next();
-            
+
             if (controller.isBlockDirty())
             {
                 if (forDelete)
@@ -582,10 +599,10 @@ public class EJFormController implements Serializable
                 }
             }
         }
-        
+
         return dirtyBlocks.listIterator();
     }
-    
+
     private void addDirtyParent(LinkedList<EJEditableBlockController> dirtyBlocks, EJEditableBlockController childController)
     {
         if (childController.getMasterRelationBlockController() != null)
@@ -597,20 +614,20 @@ public class EJFormController implements Serializable
                 {
                     dirtyBlocks.add(childController.getMasterRelationBlockController());
                 }
-                
+
             }
         }
     }
-    
+
     private void addDirtyChild(LinkedList<EJEditableBlockController> dirtyBlocks, EJEditableBlockController parentController)
     {
         if (parentController == null)
         {
             return;
         }
-        
+
         EJCoreBlockProperties blockProperties = parentController.getProperties();
-        
+
         for (EJCoreRelationProperties relation : blockProperties.getFormProperties().getDetailRelationProperties(blockProperties))
         {
             EJCoreBlockProperties detailBlockProperties = relation.getDetailBlockProperties();
@@ -622,7 +639,7 @@ public class EJFormController implements Serializable
             }
         }
     }
-    
+
     /**
      * Indicates to this controller that all open changes within the form should
      * be saved
@@ -645,7 +662,7 @@ public class EJFormController implements Serializable
                     dirtyBlock.getManagedRendererController().synchronize();
                 }
             }
-            
+
             // Loop through the dirty blocks and perform the inserts
             ListIterator<EJEditableBlockController> dirtyControllers = getAllDirtyBlockControllers(false);
             while (dirtyControllers.hasNext())
@@ -653,7 +670,7 @@ public class EJFormController implements Serializable
                 EJEditableBlockController controller = dirtyControllers.next();
                 controller.insertDirtyRecords();
             }
-            
+
             // Loop through the dirty blocks and perform the updates
             dirtyControllers = getAllDirtyBlockControllers(false);
             while (dirtyControllers.hasNext())
@@ -661,7 +678,7 @@ public class EJFormController implements Serializable
                 EJEditableBlockController controller = dirtyControllers.next();
                 controller.updateDirtyRecords();
             }
-            
+
             // Loop through the dirty blocks and perform the deletes
             dirtyControllers = getAllDirtyBlockControllers(true);
             while (dirtyControllers.hasNext())
@@ -669,14 +686,14 @@ public class EJFormController implements Serializable
                 EJEditableBlockController controller = dirtyControllers.next();
                 controller.deleteDirtyRecords();
             }
-            
+
             // If I get this far then all data was saved successfully
             // I need to loop through all dirty blocks and set flags accordingly
             dirtyControllers = getAllDirtyBlockControllers(true);
             while (dirtyControllers.hasNext())
             {
                 EJEditableBlockController controller = dirtyControllers.next();
-                
+
                 for (EJDataRecord record : controller.getInsertedRecords())
                 {
                     record.recordSaved();
@@ -691,7 +708,7 @@ public class EJFormController implements Serializable
                 }
                 controller.getDataBlock().blockSaved();
             }
-            
+
             if (_formRenderer != null)
             {
                 _formRenderer.savePerformed();
@@ -715,7 +732,7 @@ public class EJFormController implements Serializable
             }
         }
     }
-    
+
     /**
      * Clears the forms blocks and any embedded forms of any data
      * <p>
@@ -733,7 +750,7 @@ public class EJFormController implements Serializable
             EJEditableBlockController controller = blockControllers.next();
             controller.clearBlock(clearChanges);
         }
-        
+
         if (_formRenderer != null)
         {
             _formRenderer.formCleared();
@@ -743,7 +760,7 @@ public class EJFormController implements Serializable
             listener.formCleared(this);
         }
     }
-    
+
     /**
      * This method is called when a form should be closed
      * <p>
@@ -767,7 +784,7 @@ public class EJFormController implements Serializable
             {
                 getUnmanagedActionController().preFormClosed(new EJForm(_form));
                 _frameworkManager.getApplicationManager().removeFormFromContainer(_form);
-                
+
                 clearForm(true);
                 if (_formRenderer != null)
                 {
@@ -779,17 +796,17 @@ public class EJFormController implements Serializable
             {
                 _form.handleException(e);
             }
-            
+
         }
     }
 
     public void setFormTitle(String title)
     {
-       getProperties().setTranslatedTitle(title);
-       _frameworkManager.getApplicationManager().updateFormTitle(_form);
-        
+        getProperties().setTranslatedTitle(title);
+        _frameworkManager.getApplicationManager().updateFormTitle(_form);
+
     }
-    
+
     /**
      * Indicates to the form that you want to open the Open File dialog
      * <p>

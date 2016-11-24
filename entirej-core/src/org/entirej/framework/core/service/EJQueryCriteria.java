@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class EJQueryCriteria extends EJStatementCriteria implements Serializable
 {
     private static Logger           logger       = LoggerFactory.getLogger(EJQueryCriteria.class);
-    
+ 
     private boolean                 _hasMoreRows = true;
     private int                     _maxResults  = -1;
     private boolean                 _queryAllRows;
@@ -63,8 +63,8 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
     public EJQueryCriteria(EJQueryBlock block)
     {
         super(block);
-        
-        logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
+        if(logger.isTraceEnabled())
+            logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
         if (block != null)
         {
             addDefaultQueryValues(null);
@@ -74,8 +74,8 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
     public EJQueryCriteria(EJQueryBlock block,EJItemLovController itemLovController)
     {
         super(block);
-        
-        logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
+        if(logger.isTraceEnabled())
+            logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
         if (block != null)
         {
             addDefaultQueryValues(itemLovController);
