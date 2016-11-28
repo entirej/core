@@ -854,7 +854,40 @@ public class EJInternalForm implements Serializable
             }
         }
     }
+    public EJEmbeddedFormController addEmbeddedForm(String formName, String formCanvasName, EJParameterList parameterList)
+    {
+        if (formName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_FORM_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.addEmbeddedForm"));
+        }
+        if (formCanvasName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJInternalForm.addEmbeddedForm"));
+        }
 
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(formCanvasName);
+        if (canvasProperties == null || EJCanvasType.FORM != canvasProperties.getType())
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_CANVAS_TYPE,
+                    "EJInternalForm.addEmbeddedForm", EJCanvasType.FORM.toString()));
+        }
+        try
+        {
+            EJEmbeddedFormController embeddedFormController = new EJEmbeddedFormController(_formController.getFrameworkManager(), _formController, formName,
+                    formCanvasName, parameterList);
+    
+            _embeddedForms.put(formName + ":" + formCanvasName, embeddedFormController);
+            return embeddedFormController;
+        }
+        catch (Exception e)
+        {
+            _formController.getFrameworkManager().handleException(e);
+        }
+        return null;
+        
+    }
     public void openEmbeddedForm(String formName, String formCanvasName, EJParameterList parameterList)
     {
         if (formName == null)
@@ -868,26 +901,26 @@ public class EJInternalForm implements Serializable
                     "EJInternalForm.openEmbeddedForm"));
         }
 
-        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(formCanvasName);
-        if (canvasProperties == null || EJCanvasType.FORM != canvasProperties.getType())
+        
+        EJEmbeddedFormController embeddedFormController = _embeddedForms.get(formName + ":" + formCanvasName);
+        if(embeddedFormController==null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_CANVAS_TYPE,
-                    "EJInternalForm.openEmbeddedForm", EJCanvasType.FORM.toString()));
+            embeddedFormController = addEmbeddedForm(formName, formCanvasName, parameterList);
         }
-
-        try
+        if(embeddedFormController!=null)
         {
-            EJEmbeddedFormController embeddedFormController = new EJEmbeddedFormController(_formController.getFrameworkManager(), _formController, formName,
-                    formCanvasName, parameterList);
+            try
+            {
+                
 
-            _embeddedForms.put(formName + ":" + formCanvasName, embeddedFormController);
-
-            _formController.getFrameworkManager().openEmbeddedForm(embeddedFormController);
+                _formController.getFrameworkManager().openEmbeddedForm(embeddedFormController);
+            }
+            catch (Exception e)
+            {
+                _formController.getFrameworkManager().handleException(e);
+            } 
         }
-        catch (Exception e)
-        {
-            _formController.getFrameworkManager().handleException(e);
-        }
+        
 
     }
 
