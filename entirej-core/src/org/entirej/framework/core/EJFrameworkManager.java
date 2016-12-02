@@ -395,7 +395,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     {
         // First call the preFormOpened action controller method. This will
         // allow users to stop the opening of the form if they so wish
-        form.getActionController().preFormOpened(new EJForm(form));
+        form.getActionController().getUnmanagedController().preFormOpened(new EJForm(form));
 
         getApplicationManager().addFormToContainer(form, blocking);
     }
@@ -459,7 +459,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     {
         // First call the preFormOpened action controller method. This will
         // allow users to stop the opening of the form if they so wish
-        popupFormController.getPopupForm().getActionController().preFormOpened(new EJForm(popupFormController.getPopupForm()));
+        popupFormController.getPopupForm().getActionController().getUnmanagedController().preFormOpened(new EJForm(popupFormController.getPopupForm()));
 
         getApplicationManager().openPopupForm(popupFormController);
     }
