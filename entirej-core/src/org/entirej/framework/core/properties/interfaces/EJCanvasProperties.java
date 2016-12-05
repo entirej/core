@@ -30,6 +30,7 @@ import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.entirej.framework.core.properties.EJCoreStackedPageProperties;
 import org.entirej.framework.core.properties.containers.interfaces.EJCanvasPropertiesContainer;
+import org.entirej.framework.core.properties.containers.interfaces.EJDrawerPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.interfaces.EJStackedPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.interfaces.EJTabPagePropertiesContainer;
 
@@ -134,6 +135,10 @@ public interface EJCanvasProperties extends Serializable
      * @return Returns the tab page container
      */
     public EJTabPagePropertiesContainer getTabPageContainer();
+    /**
+     * @return Returns the drawer page container
+     */
+    public EJDrawerPagePropertiesContainer getDrawerPageContainer();
     
     /**
      * If this canvas is a Tab then the canvas will have various tab pages, this
@@ -146,6 +151,18 @@ public interface EJCanvasProperties extends Serializable
      *         null if there is no tab page with the given name
      */
     public EJTabPageProperties getTabPageProperties(String name);
+    
+    /**
+     * If this canvas is a Drawer then the canvas will have various drawer pages, this
+     * method will return a specific drawer page properties for the name specified
+     * <p>
+     * 
+     * @param name
+     *            The name of the required drawer
+     * @return The <code>DrawerPageProperties</code> of the required drawer page or
+     *         null if there is no drawer page with the given name
+     */
+    public EJDrawerPageProperties getDrawerPageProperties(String name);
     
     /**
      * Returns the stacked page container used to store this canvases stacked
