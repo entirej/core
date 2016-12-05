@@ -135,6 +135,30 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
     public void tabPageChanged(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException;
 
     /**
+     * Called before the given drawer page is shown
+     * 
+     * @param form
+     *            The form from which this method is called
+     * @param drawerCanvasName
+     *            The name of the drawer canvas
+     * @param drawerPageName
+     *            The drawer page
+     */
+    public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
+    
+    /**
+     * Called whenever a user chooses a new drawer page on a drawer canvas
+     * 
+     * @param form
+     *            The form from which this method is called
+     * @param drawerCanvasName
+     *            The name of the drawer canvas
+     * @param drawerPageName
+     *            The name of the drawer within the drawer canvas
+     */
+    public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
+    
+    /**
      * Called before a given stacked page will be shown
      * 
      * @param form
