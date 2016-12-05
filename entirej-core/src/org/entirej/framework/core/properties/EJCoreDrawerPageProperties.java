@@ -56,7 +56,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     /**
      * Indicates how many display columns this page will have
      * <p>
-     * All canvases being added to the tab page will be inserted into a grid.
+     * All canvases being added to the drawer page will be inserted into a grid.
      * The grid will have any number of rows but will be limited to the amount
      * of columns as set by this parameter.
      * <p>
@@ -72,7 +72,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     /**
      * Sets the number of columns that this page will have
      * <p>
-     * All canvases being added to the tab page will be inserted into a grid.
+     * All canvases being added to the drawer page will be inserted into a grid.
      * The grid will have any number of rows but will be limited to the amount
      * of columns as set by this parameter.
      * 
@@ -85,7 +85,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * If the tab page is not visible then it will need to be made visible
+     * If the drawer page is not visible then it will need to be made visible
      * before the user can navigate to it
      * <p>
      * 
@@ -98,7 +98,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * If the tab page is not visible then it will need to be made visible
+     * If the drawer page is not visible then it will need to be made visible
      * before the user can navigate to it
      * <p>
      * 
@@ -111,7 +111,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * If the tab page is not enabled, the user can still see it, but not
+     * If the drawer page is not enabled, the user can still see it, but not
      * navigate to it
      * <p>
      * 
@@ -124,7 +124,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * If the tab page is not enabled, the user can still see it, but not
+     * If the drawer page is not enabled, the user can still see it, but not
      * navigate to it
      * <p>
      * 
@@ -139,11 +139,11 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
 
     /**
      * The first navigational block is the block to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalItem</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @return Returns the firstNavigationalBlock
      * @see EJCoreDrawerPageProperties#getFirstNavigationalItem()
@@ -155,16 +155,16 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
 
     /**
      * The first navigational block is the block to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalItem</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @param firstNavigationalBlock
      *            The firstNavigationalBlock to set.
      * @throws NullPointerException
-     *             if the block name passed is null or of zero length
+     *             if the block name passed is <code>null</code> or of zero length
      */
     public void setFirstNavigationalBlock(String firstNavigationalBlock)
     {
@@ -173,11 +173,11 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
 
     /**
      * The first navigational item is the item to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalBlock</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @return Returns the firstNavigationalItem
      */
@@ -188,11 +188,11 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
 
     /**
      * The first navigational item is the item to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalBlock</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @param firstNavigationalItem
      *            The name of the firstNavigationalItem
@@ -206,7 +206,7 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * @return Returns the name of this tab page
+     * @return Returns the name of this drawer page
      */
     public String getName()
     {
@@ -214,12 +214,12 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     }
 
     /**
-     * The page title is the text that will apear in the tab itself
+     * The page title is the text that will appear in the drawer itself
      * <p>
      * The page title is the translated version of the page title code if it was
      * translated otherwise the page title code will be returned
      * 
-     * @return Returns the pageTitle of this tab page
+     * @return Returns the pageTitle of this drawer page
      */
     public String getPageTitle()
     {
@@ -229,13 +229,13 @@ public class EJCoreDrawerPageProperties implements EJDrawerPageProperties
     /**
      * Sets this canvas's base page title
      * <p>
-     * A base page title is an untranslated title. All tab page titles will be
+     * A base page title is an untranslated title. All drawer page titles will be
      * translated using the applications translator. If there is no translator
      * defined for the application then the base page title will be used for the
-     * tab page tile
+     * drawer page tile
      * 
      * @param pageTitle
-     *            This tab page tile
+     *            This drawer page tile
      */
     public void setBasePageTitle(String pageTitle)
     {

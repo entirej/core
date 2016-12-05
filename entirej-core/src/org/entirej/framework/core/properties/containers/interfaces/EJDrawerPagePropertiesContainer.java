@@ -32,17 +32,17 @@ public interface EJDrawerPagePropertiesContainer extends Serializable
      * Return the <code>DrawerPageProperties</code> for the given name
      * 
      * @param pageName
-     *            The name of the required tab page properties
-     * @return The <code>EJTabPageProperties</code> for the given name or null
-     *         of there is no tab page with the given name
+     *            The name of the required drawer page properties
+     * @return The <code>EJDrawerPageProperties</code> for the given name or <code>null</code>
+     *         of there is no drawer page with the given name
      */
     public EJDrawerPageProperties getDrawerPageProperties(String pageName);
     
     /**
-     * Used to return the whole list of tab pages contained within this canvas.
+     * Used to return the whole list of drawer pages contained within this canvas.
      * 
      * @return A <code>Collection</code> containing this canvases
-     *         <code>EJTabPageProperties</code>
+     *         <code>EJDrawerPageProperties</code>
      */
     public Collection<EJDrawerPageProperties> getAllDrawerPageProperties();
     

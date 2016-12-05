@@ -30,7 +30,7 @@ public interface EJDrawerPageProperties extends Serializable
     /**
      * Indicates how many display columns this page will have
      * <p>
-     * All canvases being added to the tab page will be inserted into a grid.
+     * All canvases being added to the drawer page will be inserted into a grid.
      * The grid will have any number of rows but will be limited to the amount
      * of columns as set by this parameter.
      * <p>
@@ -44,7 +44,7 @@ public interface EJDrawerPageProperties extends Serializable
     public int getDrawerWidth();
     
     /**
-     * If the tab page is not visible then it will need to be made visible
+     * If the drawer page is not visible then it will need to be made visible
      * before the user can navigate to it
      * <p>
      * 
@@ -54,7 +54,7 @@ public interface EJDrawerPageProperties extends Serializable
     public boolean isVisible();
     
     /**
-     * If the tab page is not enabled, the user can still see it, but not
+     * If the drawer page is not enabled, the user can still see it, but not
      * navigate to it
      * <p>
      * 
@@ -65,11 +65,11 @@ public interface EJDrawerPageProperties extends Serializable
     
     /**
      * The first navigational block is the block to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalItem</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @return Returns the firstNavigationalBlock
      * @see #getFirstNavigationalItem()
@@ -78,28 +78,28 @@ public interface EJDrawerPageProperties extends Serializable
     
     /**
      * The first navigational item is the item to which navigation will be
-     * passed when the user clicks on this tab page
+     * passed when the user clicks on this drawer page
      * <p>
      * this property <b>must</b> be used in conjunction with
      * <code>FirstNavigationalBlock</code> otherwise it will have no effect and
-     * the focus will remain on the last block or the tab itself
+     * the focus will remain on the last block or the drawer itself
      * 
      * @return Returns the firstNavigationalItem
      */
     public String getFirstNavigationalItem();
     
     /**
-     * @return Returns the name of this tab page
+     * @return Returns the name of this drawer page
      */
     public String getName();
     
     /**
-     * The page title is the text that will apear in the tab itself
+     * The page title is the text that will appear in the drawer itself
      * <p>
      * The page title is the translated version of the page title code if it was
      * translated otherwise the page title code will be returned
      * 
-     * @return Returns the pageTitle of this tab page
+     * @return Returns the pageTitle of this drawer page
      */
     public String getPageTitle();
     

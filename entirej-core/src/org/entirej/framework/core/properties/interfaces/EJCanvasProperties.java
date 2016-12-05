@@ -160,7 +160,7 @@ public interface EJCanvasProperties extends Serializable
      * @param name
      *            The name of the required drawer
      * @return The <code>DrawerPageProperties</code> of the required drawer page or
-     *         null if there is no drawer page with the given name
+     *         <code>null</code> if there is no drawer page with the given name
      */
     public EJDrawerPageProperties getDrawerPageProperties(String name);
     

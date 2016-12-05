@@ -30,17 +30,17 @@ import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 
 public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPagePropertiesContainer, Serializable
 {
-    private List<EJDrawerPageProperties> _tabPageProperties;
-    private EJCoreDrawerPageProperties   _lastAddedTabPage;
+    private List<EJDrawerPageProperties> _drawerPageProperties;
+    private EJCoreDrawerPageProperties   _lastAddedDrawerPage;
     
     public EJCoreDrawerPagePropertiesContainer()
     {
-        _tabPageProperties = new ArrayList<EJDrawerPageProperties>();
+        _drawerPageProperties = new ArrayList<EJDrawerPageProperties>();
     }
     
     public boolean contains(String pageName)
     {
-        Iterator<EJDrawerPageProperties> iti = _tabPageProperties.iterator();
+        Iterator<EJDrawerPageProperties> iti = _drawerPageProperties.iterator();
         while (iti.hasNext())
         {
             EJDrawerPageProperties props = iti.next();
@@ -52,29 +52,29 @@ public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPageProperti
         return false;
     }
     
-    public void addDrawerPageProperties(EJCoreDrawerPageProperties tabPageProperties)
+    public void addDrawerPageProperties(EJCoreDrawerPageProperties drawerPageProperties)
     {
-        if (tabPageProperties != null)
+        if (drawerPageProperties != null)
         {
-            _tabPageProperties.add(tabPageProperties);
-            _lastAddedTabPage = tabPageProperties;
+            _drawerPageProperties.add(drawerPageProperties);
+            _lastAddedDrawerPage = drawerPageProperties;
         }
     }
     
     public void deleteDrawerPageProperties(String pageName)
     {
-        Iterator<EJDrawerPageProperties> iti = _tabPageProperties.iterator();
+        Iterator<EJDrawerPageProperties> iti = _drawerPageProperties.iterator();
         while (iti.hasNext())
         {
             EJDrawerPageProperties props = iti.next();
             
             if (props.getName().equalsIgnoreCase(pageName))
             {
-                _tabPageProperties.remove(props);
+                _drawerPageProperties.remove(props);
                 
-                if (_lastAddedTabPage == props)
+                if (_lastAddedDrawerPage == props)
                 {
-                    _lastAddedTabPage = null;
+                    _lastAddedDrawerPage = null;
                 }
                 
                 break;
@@ -84,16 +84,16 @@ public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPageProperti
     
     public EJCoreDrawerPageProperties getLastAddedCanvas()
     {
-        return _lastAddedTabPage;
+        return _lastAddedDrawerPage;
     }
     
     /**
-     * Return the <code>TabPageProperties</code> for the given name
+     * Return the <code>DrawerPageProperties</code> for the given name
      * 
      * @param pageName
-     *            The name of the required tab page properties
-     * @return The <code>TabPageProperties</code> for the given name or null of
-     *         there is no tab page with the given name
+     *            The name of the required drawer page properties
+     * @return The <code>DrawerPageProperties</code> for the given name or null of
+     *         there is no drawer page with the given name
      */
     public EJDrawerPageProperties getDrawerPageProperties(String pageName)
     {
@@ -103,7 +103,7 @@ public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPageProperti
         }
         else
         {
-            Iterator<EJDrawerPageProperties> iti = _tabPageProperties.iterator();
+            Iterator<EJDrawerPageProperties> iti = _drawerPageProperties.iterator();
             
             while (iti.hasNext())
             {
@@ -119,24 +119,24 @@ public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPageProperti
     }
     
     /**
-     * Used to return the whole list of tab pages contained within this canvas.
+     * Used to return the whole list of drawer pages contained within this canvas.
      * 
      * @return A <code>Collection</code> containing this canvases
-     *         <code>TabPageProperties</code>
+     *         <code>DrawerPageProperties</code>
      */
     public Collection<EJDrawerPageProperties> getAllDrawerPageProperties()
     {
-        return _tabPageProperties;
+        return _drawerPageProperties;
     }
     
     /**
      * This is an internal method to generate a default name for a newly created
-     * tab page
+     * drawer page
      * <p>
      * The name will be built as follows:
      * <p>
-     * <code>TAB_PAGE_</code> plus the next highest available tab page number,
-     * if there are other tab page with the default name
+     * <code>DRAWER_PAGE_</code> plus the next highest available drawer page number,
+     * if there are other drawer page with the default name
      * 
      * @return The default canvas name
      */
@@ -152,10 +152,10 @@ public class EJCoreDrawerPagePropertiesContainer implements EJDrawerPageProperti
     
     public boolean drawerNameExists(String name)
     {
-        Iterator<EJDrawerPageProperties> tabPagesProps = _tabPageProperties.iterator();
-        while (tabPagesProps.hasNext())
+        Iterator<EJDrawerPageProperties> drawerPagesProps = _drawerPageProperties.iterator();
+        while (drawerPagesProps.hasNext())
         {
-            EJDrawerPageProperties props = tabPagesProps.next();
+            EJDrawerPageProperties props = drawerPagesProps.next();
             if (props.getName().equalsIgnoreCase(name))
             {
                 return true;
