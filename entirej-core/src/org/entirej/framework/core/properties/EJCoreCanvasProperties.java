@@ -17,6 +17,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties;
 
+import org.entirej.framework.core.enumerations.EJCanvasDrawerPosition;
 import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
@@ -88,6 +89,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     // If the Canvas type is TAB, then the following properties are also
     // available
     private EJCanvasTabPosition                  _tabPosition                  = EJCanvasTabPosition.TOP;
+    private EJCanvasDrawerPosition               _drawerPosition               = EJCanvasDrawerPosition.RIGHT;
     private EJCanvasSplitOrientation             _splitOrientation             = EJCanvasSplitOrientation.HORIZONTAL;
 
     private EJLineStyle                          _lineStyle                    = EJLineStyle.SOLID;
@@ -481,7 +483,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         return _drawerPages;
     }
-    
+
     @Override
     public EJDrawerPageProperties getDrawerPageProperties(String name)
     {
@@ -492,7 +494,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
 
         return _drawerPages.getDrawerPageProperties(name);
     }
-    
+
     /**
      * If this canvas is a Tab then the canvas will have various tab pages, this
      * method will return a specific tab page properties for the name specified
@@ -528,7 +530,7 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
             _tabPages.addTabPageProperties(tab);
         }
     }
-    
+
     /**
      * Ads a drawer page to this canvas
      * 
@@ -903,6 +905,23 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _tabPosition = position;
     }
+    /**
+     * Sets the drawer position for this canvas
+     * <p>
+     * The tab positions are as follows:
+     * <ul>
+   
+     * <li>RIGHT - The drawer will be placed at the right of the canvas</li>
+     * <li>LEFT - The drawer will be placed at th left of the canvas</li>
+     * </ul>
+     * 
+     * @param position
+     *            the position of the drawer pages
+     */
+    public void setDrawerPosition(EJCanvasDrawerPosition position)
+    {
+        _drawerPosition = position;
+    }
 
     /**
      * Returns the position of the tab
@@ -913,6 +932,16 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     public EJCanvasTabPosition getTabPosition()
     {
         return _tabPosition;
+    }
+    /**
+     * Returns the position of the tab
+     * 
+     * @return The tab position
+     * @see EJCoreCanvasProperties#setTabPosition(EJCanvasDrawerPosition)
+     */
+    public EJCanvasDrawerPosition getDrawerPosition()
+    {
+        return _drawerPosition;
     }
 
     /**

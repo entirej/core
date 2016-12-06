@@ -17,11 +17,12 @@
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
-import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJCanvasDrawerPosition;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.xml.sax.Attributes;
@@ -47,6 +48,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_FRAME_TITLE            = "groupFrameTitle";
     private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
+    private static final String            ELEMENT_DRAWER_POSITION        = "drawerPosition";
     private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
     private static final String            ELEMENT_LINE_STYLE             = "lineStyle";
     private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
@@ -204,6 +206,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
             if (value != null && value.length() > 0)
             {
                 _canvasProperties.setTabPosition(EJCanvasTabPosition.valueOf(value));
+            }
+        }
+        else if (name.equals(ELEMENT_DRAWER_POSITION))
+        {
+            if (value != null && value.length() > 0)
+            {
+                _canvasProperties.setDrawerPosition(EJCanvasDrawerPosition.valueOf(value));
             }
         }
         else if (name.equals(ELEMENT_SPLIT_ORIENTATION))
