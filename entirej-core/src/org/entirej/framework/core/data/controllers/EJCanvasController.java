@@ -250,6 +250,26 @@ public class EJCanvasController implements Serializable
         _formController.getManagedActionController().tabPageChanged(_formController.getEJForm(), tabCanvasName, tabPageName);
 
     }
+    public void drawerPageChanged(String drawerCanvasName, String drawerPageName)
+    {
+        // If the tab page has a first navigational block and item, then ensure
+        // the focus is correct
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(drawerCanvasName);
+        if (canvasProperties != null)
+        {
+            EJDrawerPageProperties drawerPage = canvasProperties.getDrawerPageProperties(drawerPageName);
+            if (drawerPage != null)
+            {
+                String block = drawerPage.getFirstNavigationalBlock();
+                String item = drawerPage.getFirstNavigationalItem();
+                
+                navigateToItem(block, item);
+            }
+        }
+        
+        _formController.getManagedActionController().drawerPageChanged(_formController.getEJForm(), drawerCanvasName, drawerPageName);
+        
+    }
 
     private void navigateToItem(String block, String itemName)
     {
