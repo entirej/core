@@ -28,7 +28,7 @@ public class EJCoreDrawerPagePropertiesHandler extends EJCorePropertiesTagHandle
     private EJCoreCanvasProperties         _drawerCanvas;
     private EJCoreDrawerPageProperties     _drawerPageProperties;
 
-    private static final String            ELEMENT_DRAWER_PAGE        = "drawerPage";
+    private static final String            ELEMENT_DRAWER_PAGE     = "drawerPage";
     private static final String            ELEMENT_PAGE_TITLE      = "pageTitle";
     private static final String            ELEMENT_FIRST_NAV_BLOCK = "firstNavigationalBlock";
     private static final String            ELEMENT_FIRST_NAV_ITEM  = "firstNavigationalItem";
