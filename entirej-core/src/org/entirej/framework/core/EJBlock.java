@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core;
 
@@ -39,12 +38,12 @@ import org.entirej.framework.core.service.EJQueryCriteria;
 public class EJBlock implements EJQueryBlock, Serializable
 {
     private EJInternalEditableBlock _block;
-    
+
     public EJBlock(EJInternalEditableBlock block)
     {
         _block = block;
     }
-    
+
     /**
      * Return the form to which this block belongs
      * 
@@ -54,7 +53,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return new EJForm(_block.getForm());
     }
-    
+
     /**
      * Returns the name of this blocks canvas, or <code>null</code> if the block
      * is not displayed on a canvas
@@ -66,29 +65,29 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getProperties().getCanvasName();
     }
-    
+
     public Collection<EJBlockItem> getBlockItems()
     {
         ArrayList<EJBlockItem> blockItems = new ArrayList<EJBlockItem>();
-        
+
         for (EJItemController controller : _block.getAllBlockItemControllers())
         {
             blockItems.add(new EJBlockItem(controller.getProperties()));
         }
-        
+
         return blockItems;
     }
-    
+
     public EJBlockItem getBlockItem(String itemName)
     {
         if (_block.getProperties().getItemProperties(itemName) == null)
         {
             throw new IllegalArgumentException("There is no item called " + itemName + " on block " + _block.getProperties().getName());
         }
-        
+
         return new EJBlockItem(_block.getProperties().getItemProperties(itemName));
     }
-    
+
     /**
      * Indicates if this block is a control block
      * 
@@ -99,7 +98,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getProperties().isControlBlock();
     }
-    
+
     /**
      * Indicates if the block has an item with the given name
      * 
@@ -121,7 +120,7 @@ public class EJBlock implements EJQueryBlock, Serializable
             return true;
         }
     }
-    
+
     /**
      * Returns the name of this block
      * 
@@ -131,7 +130,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getProperties().getName();
     }
-    
+
     /**
      * Creates an empty query criteria for this block
      * <p>
@@ -144,7 +143,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.createQueryCriteria();
     }
-    
+
     /**
      * Used to create an empty record for this block
      * <p>
@@ -157,7 +156,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return new EJRecord(_block.createRecord(EJRecordType.INSERT));
     }
-    
+
     /**
      * Used to create an empty record for this block without firing the
      * whenCreateRecord action within the blocks action processor
@@ -169,7 +168,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return new EJRecord(_block.createRecordNoAction());
     }
-    
+
     /**
      * Clears this blocks data
      * <p>
@@ -187,7 +186,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.clear(clearChanges);
     }
-    
+
     /**
      * Clears all detail blocks if this block is a master in a master detail
      * relationship
@@ -205,7 +204,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.clearAllDetailRelations(clearChanges);
     }
-    
+
     /**
      * Informs the block renderer that the user wishes to delete the current
      * record. This method will display a standard message.
@@ -220,7 +219,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.askToDeleteCurrentRecord(null);
     }
-    
+
     /**
      * Informs the block renderer that the user wishes to delete the current
      * record and displays the message passed.
@@ -242,7 +241,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.askToDeleteCurrentRecord(message);
     }
-    
+
     /**
      * Instructs EntireJ to delete the given record
      * <p>
@@ -258,7 +257,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.deleteRecord(record.getDataRecord());
     }
-    
+
     /**
      * Instructs EntireJ to insert the given record into its block
      * 
@@ -269,7 +268,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.insertRecord(insertRecord.getDataRecord());
     }
-    
+
     /**
      * Instructs EntireJ to update the given record
      * <p>
@@ -281,7 +280,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.updateRecord(updateRecord.getDataRecord());
     }
-    
+
     /**
      * Instructs EntireJ to put this block into insert mode
      * <p>
@@ -299,7 +298,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.enterInsert(copyCurrentValues);
     }
-    
+
     /**
      * Instructs EntireJ to put this block into update mode
      * <p>
@@ -312,7 +311,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.enterUpdate();
     }
-    
+
     /**
      * Instructs EntireJ to put this block into query mode
      * <p>
@@ -323,7 +322,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.enterQuery();
     }
-    
+
     /**
      * Instructs EntireJ to perform a query on the given block using no query
      * criteria
@@ -334,7 +333,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.executeQuery(createQueryCriteria());
     }
-    
+
     /**
      * Instructs EntireJ to perform a query on the given block using the
      * specified criteria
@@ -350,7 +349,7 @@ public class EJBlock implements EJQueryBlock, Serializable
         }
         _block.executeQuery(queryCriteria);
     }
-    
+
     /**
      * Returns the last query criteria that was used for the query of the block
      * 
@@ -362,6 +361,7 @@ public class EJBlock implements EJQueryBlock, Serializable
         return _block.getLastQueryCriteria();
 
     }
+
     /**
      * Instructs EntireJ to re-query this block using the query criteria
      * previously entered
@@ -370,7 +370,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.executeLastQuery();
     }
-    
+
     /**
      * Forces this block to gain focus
      */
@@ -378,7 +378,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.focusGained();
     }
-    
+
     /**
      * Retrieves the focused record for the given block
      * 
@@ -399,7 +399,7 @@ public class EJBlock implements EJQueryBlock, Serializable
             return new EJRecord(record);
         }
     }
-    
+
     /**
      * Return the current record in the given screen
      * <p>
@@ -417,7 +417,7 @@ public class EJBlock implements EJQueryBlock, Serializable
         {
             throw new IllegalArgumentException("no ScreenType passed to getCurrentScreenRecord");
         }
-        
+
         EJDataRecord record = null;
         switch (screenType)
         {
@@ -433,20 +433,20 @@ public class EJBlock implements EJQueryBlock, Serializable
                 {
                     return null;
                 }
-                
+
                 record = _block.getUpdateScreenRenderer().getUpdateRecord();
             case QUERY:
                 if (_block.getUpdateScreenRenderer() == null)
                 {
                     return null;
                 }
-                
+
                 record = _block.getUpdateScreenRenderer().getUpdateRecord();
                 break;
             case MAIN:
                 return getFocusedRecord();
         }
-        
+
         if (record == null)
         {
             return null;
@@ -456,7 +456,7 @@ public class EJBlock implements EJQueryBlock, Serializable
             return new EJRecord(record);
         }
     }
-    
+
     /**
      * Returns the item that is currently focused on the current record or
      * <code>null</code> if no item has focus
@@ -470,10 +470,10 @@ public class EJBlock implements EJQueryBlock, Serializable
         {
             return null;
         }
-        
+
         return new EJItem(_block, _block.getFocusedRecord(), _block.getFocusedItem());
     }
-    
+
     /**
      * Returns the <code>FrameworkManager</code>
      * 
@@ -483,7 +483,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getFrameworkManager();
     }
-    
+
     /**
      * Indicates if this block has more pages
      * <p>
@@ -497,7 +497,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.hasMorePages();
     }
-    
+
     /**
      * Indicates if the block is currently displaying the first page of data
      * <p>
@@ -511,7 +511,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.isOnFirstPage();
     }
-    
+
     /**
      * Indicates if this block is dirty
      * <p>
@@ -525,7 +525,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.isDirty();
     }
-    
+
     /**
      * Indicates if any of the child relations of this block are dirty
      * <p>
@@ -538,7 +538,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.areChildRelationsDirty();
     }
-    
+
     /**
      * Indicates if this block allows the user to make updates
      * 
@@ -549,7 +549,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.isUpdateAllowed();
     }
-    
+
     /**
      * Indicates if this block allows the user to make inserts
      * 
@@ -560,7 +560,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.isInsertAllowed();
     }
-    
+
     /**
      * Indicates if the user can delete records from this block
      * 
@@ -571,7 +571,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.isDeleteAllowed();
     }
-    
+
     /**
      * Indicated if this block is part of a LOV Definition
      * 
@@ -582,7 +582,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getProperties().isUsedInLovDefinition();
     }
-    
+
     /**
      * Instructs this block to navigate to the given record
      * <p>
@@ -595,7 +595,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.navigateToRecord(record.getDataRecord());
     }
-    
+
     /**
      * Navigates to the first record within this block
      * <p>
@@ -605,7 +605,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.navigateToFirstRecord();
     }
-    
+
     /**
      * Navigates to the last record of this block
      * <p>
@@ -615,7 +615,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.navigateToLastRecord();
     }
-    
+
     /**
      * Set the display properties for a given block
      * <p>
@@ -641,7 +641,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.setDisplayProperty(propertyName, propertyValue);
     }
-    
+
     /**
      * Returns the display properties for this block
      * 
@@ -651,7 +651,36 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getDisplayProperties();
     }
-    
+
+    /**
+     * Used to set the blocks filter if the blocks renderer uses one
+     * <p>
+     * The filter on Multi Record Blocks is normally displayed over the list of
+     * records and when the user types in the filter field, the list of records
+     * are filtered accordingly. Use this method to set a filter
+     * programmatically
+     * 
+     * @param filter
+     *            The filter to set
+     */
+    public void setFilter(String filter)
+    {
+        _block.getManagedRenderer().setFilter(filter);
+    }
+
+    /**
+     * Returns the filter that has been set on this block or <code>null</code>
+     * if either none has been set or the filter is not supported by the blocks
+     * renderer
+     * 
+     * @return The blocks filter or <code>null</code> if no filter has been set
+     *         or the blocks renderer doesn't support filters
+     */
+    public String getFilter()
+    {
+        return _block.getManagedRenderer().getFilter();
+    }
+
     /**
      * Returns the display properties for the given block item
      * 
@@ -665,7 +694,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return _block.getBlockItemDisplayProperties(itemName);
     }
-    
+
     /**
      * Returns an immutable collection if IDataRecords for this block Retrieving
      * all records will force <B>EntireJ</B> to refresh the blocks records. If
@@ -684,10 +713,10 @@ public class EJBlock implements EJQueryBlock, Serializable
         {
             records.add(new EJRecord(record));
         }
-        
+
         return Collections.unmodifiableCollection(records);
     }
-    
+
     /**
      * Returns all screen items
      * 
@@ -706,10 +735,10 @@ public class EJBlock implements EJQueryBlock, Serializable
         {
             screenItems.add(new EJScreenItem(_block, screenType, controller));
         }
-        
+
         return screenItems;
     }
-    
+
     /**
      * Returns the screen item with the given name
      * 
@@ -723,7 +752,7 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         return new EJScreenItem(_block, screenType, _block.getScreenItem(screenType, itemName));
     }
-    
+
     /**
      * If this block is used within an LOV Definition then this method will
      * return the name of the LOV Definition
@@ -742,12 +771,12 @@ public class EJBlock implements EJQueryBlock, Serializable
             return null;
         }
     }
-    
+
     public EJDefaultServicePojoHelper getServicePojoHelper()
     {
         return _block.getServicePojoHelper();
     }
-    
+
     /**
      * Used to close the given screen
      * <p>
@@ -781,7 +810,7 @@ public class EJBlock implements EJQueryBlock, Serializable
                 break;
             case MAIN:
                 // do nothing
-                
+
         }
     }
 }

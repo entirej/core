@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
@@ -35,23 +34,23 @@ public class EJManagedEditableBlockRendererController implements Serializable
 {
     private EJEditableBlockRendererController _rendererController;
     private EJFrameworkManager                _frameworkManager;
-    
+
     public EJManagedEditableBlockRendererController(EJEditableBlockController blockController)
     {
         _frameworkManager = blockController.getFrameworkManager();
         _rendererController = new EJEditableBlockRendererController(blockController);
     }
-    
+
     public void setRenderer(EJEditableBlockRenderer renderer)
     {
         _rendererController.setRenderer(renderer);
     }
-    
+
     public EJEditableBlockRendererController getUnmanagedController()
     {
         return _rendererController;
     }
-    
+
     public void getRenderer()
     {
         try
@@ -63,7 +62,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void blockCleared()
     {
         try
@@ -75,7 +74,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void detailBlocksCleared()
     {
         try
@@ -87,7 +86,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void gainFocus()
     {
         try
@@ -99,7 +98,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public boolean hasFocus()
     {
         try
@@ -112,7 +111,32 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return false;
         }
     }
-    
+
+    public void setFilter(String filter)
+    {
+        try
+        {
+            _rendererController.setFilter(filter);
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+        }
+    }
+
+    public String getFilter()
+    {
+        try
+        {
+            return _rendererController.getFilter();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
+    }
+
     public void initialiseRenderer(EJEditableBlockController block)
     {
         try
@@ -124,7 +148,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public boolean isCurrentRecordDirty()
     {
         try
@@ -137,7 +161,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return false;
         }
     }
-    
+
     public void askToDeleteRecord(EJDataRecord recordToDelete, String message)
     {
         try
@@ -149,7 +173,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void enterInsert(EJDataRecord recordToInsert)
     {
         try
@@ -161,7 +185,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void enterQuery(EJDataRecord queryRecord)
     {
         try
@@ -173,7 +197,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void enterUpdate(EJDataRecord recordToUpdate)
     {
         try
@@ -185,7 +209,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void executingQuery()
     {
         try
@@ -197,7 +221,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void queryExecuted()
     {
         try
@@ -209,7 +233,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void recordDeleted(int dataBlockRecordNumber)
     {
         try
@@ -221,7 +245,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void recordInserted(EJDataRecord record)
     {
         try
@@ -233,7 +257,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void recordSelected(EJDataRecord record)
     {
         try
@@ -245,7 +269,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshAfterChange(EJDataRecord record)
     {
         try
@@ -257,7 +281,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshBlockProperty(EJManagedBlockProperty managedBlockPropertyType)
     {
         try
@@ -269,7 +293,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshBlockRendererProperty(String propertyName)
     {
         try
@@ -281,7 +305,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshItemProperty(String itemName, EJManagedScreenProperty managedItemPropertyType, EJDataRecord record)
     {
         try
@@ -293,7 +317,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void refreshItemRendererProperty(String itemName, String propertyName)
     {
         try
@@ -305,7 +329,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void setFocusToItem(EJScreenItemController item)
     {
         try
@@ -317,7 +341,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void setHasFocus(boolean focus)
     {
         try
@@ -329,7 +353,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public void synchronize()
     {
         try
@@ -341,7 +365,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             handleException(e);
         }
     }
-    
+
     public Object getGuiComponent()
     {
         try
@@ -354,7 +378,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJDataRecord getFocusedRecord()
     {
         try
@@ -367,7 +391,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public int getDisplayedRecordNumber(EJDataRecord record)
     {
         try
@@ -380,7 +404,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return -1;
         }
     }
-    
+
     public int getBlockRecordCount()
     {
         try
@@ -393,7 +417,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return 0;
         }
     }
-    
+
     public int getDisplayedRecordCount()
     {
         try
@@ -406,7 +430,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return 0;
         }
     }
-    
+
     public EJDataRecord getFirstRecord()
     {
         try
@@ -419,7 +443,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJDataRecord getLastRecord()
     {
         try
@@ -432,7 +456,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJDataRecord getRecordAt(int displayedRecordNumber)
     {
         try
@@ -445,7 +469,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJDataRecord getRecordAfter(EJDataRecord record)
     {
         try
@@ -458,7 +482,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJDataRecord getRecordBefore(EJDataRecord record)
     {
         try
@@ -471,7 +495,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJQueryScreenRenderer getQueryScreenRenderer()
     {
         try
@@ -484,7 +508,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJInsertScreenRenderer getInsertScreenRenderer()
     {
         try
@@ -497,7 +521,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     public EJUpdateScreenRenderer getUpdateScreenRenderer()
     {
         try
@@ -510,7 +534,7 @@ public class EJManagedEditableBlockRendererController implements Serializable
             return null;
         }
     }
-    
+
     private void handleException(Exception e)
     {
         if (e instanceof EJApplicationException)
@@ -522,5 +546,5 @@ public class EJManagedEditableBlockRendererController implements Serializable
             _frameworkManager.handleException(new EJApplicationException(e));
         }
     }
-    
+
 }
