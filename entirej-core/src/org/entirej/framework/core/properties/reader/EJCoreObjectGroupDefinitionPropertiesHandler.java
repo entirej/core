@@ -36,6 +36,7 @@ import org.entirej.framework.core.properties.containers.EJCoreRelationProperties
 import org.entirej.framework.core.properties.containers.interfaces.EJCanvasPropertiesContainer;
 import org.entirej.framework.core.properties.factory.EJCoreFormPropertiesFactory;
 import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
+import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJStackedPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJTabPageProperties;
 import org.xml.sax.Attributes;
@@ -188,6 +189,14 @@ public class EJCoreObjectGroupDefinitionPropertiesHandler extends EJCoreProperti
             else if (canvas.getType() == EJCanvasType.TAB)
             {
                 Iterator<EJTabPageProperties> allTabPages = canvas.getTabPageContainer().getAllTabPageProperties().iterator();
+                while (allTabPages.hasNext())
+                {
+                    addCanvasesFromContainer(formProperties, allTabPages.next().getContainedCanvases(), canvasList);
+                }
+            }
+            else if (canvas.getType() == EJCanvasType.DRAWER)
+            {
+                Iterator<EJDrawerPageProperties> allTabPages = canvas.getDrawerPageContainer().getAllDrawerPageProperties().iterator();
                 while (allTabPages.hasNext())
                 {
                     addCanvasesFromContainer(formProperties, allTabPages.next().getContainedCanvases(), canvasList);

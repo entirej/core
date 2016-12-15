@@ -4,39 +4,39 @@ import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcess
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.internal.EJInternalForm;
 
-public class EJTabCanvas extends EJCanvas
+public class EJDrawerCanvas extends EJCanvas
 {
 
-    public EJTabCanvas(EJInternalForm form, String name)
+    public EJDrawerCanvas(EJInternalForm form, String name)
     {
         super(form, name);
     }
 
     /**
-     * Instructs EntireJ to display the given tab canvas page
+     * Instructs EntireJ to display the given drawer canvas page
      * <p>
      * Before the tab page is shown, the
-     * <code>{@link EJFormActionProcessor#preShowTabPage(EJForm, String, String)}</code>
+     * <code>{@link EJFormActionProcessor#preShowDrawerPage(EJForm, String, String)}</code>
      * will be called
      * <p>
-     * After the tab page has been shown, the
-     * <code>{@link EJFormActionProcessor#tabPageChanged(EJForm, String, String)}</code>
+     * After the drawer page has been shown, the
+     * <code>{@link EJFormActionProcessor#drawerPageChanged(EJForm, String, String)}</code>
      * will be called
      * 
      * @param pageName
-     *            The name of the tab page
+     *            The name of the drawer page
      */
     public void showPage(String pageName)
     {
         if (pageName == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
-                    "EJTabCanvas.showPage"));
+                    "EJDrawerCanvas.showPage"));
         }
 
         try
         {
-            getCanvasController().showTabPage(getName(), pageName);
+            getCanvasController().showDrawerPage(getName(), pageName);
         }
         catch (Exception e)
         {
@@ -45,32 +45,32 @@ public class EJTabCanvas extends EJCanvas
     }
 
     /**
-     * Used to set a specific tab canvas page to be visible
+     * Used to set a specific drawer canvas page to be visible
      * 
-     * @param tabPageName
+     * @param drawerPageName
      *            The page to be shown
      * @param visbile
-     *            If set to <code>true</code> then the tab page will be made
+     *            If set to <code>true</code> then the drawer page will be made
      *            visible otherwise it will be hidden
      */
-    public void setPageVisible(String tabPageName, boolean visible)
+    public void setPageVisible(String drawerPageName, boolean visible)
     {
-        getCanvasController().setTabPageVisible(getName(), tabPageName, visible);
+        getCanvasController().setDrawerPageVisible(getName(), drawerPageName, visible);
     }
 
     /**
-     * Returns the name of the tab page which is currently displayed/active
+     * Returns the name of the drawer page which is currently displayed/active
      * 
-     * @return The currently displayed tab page
+     * @return The currently displayed drawer page
      */
     public String getDisplayedPageName()
     {
-        return getCanvasController().getDisplayedTabPage(getName());
+        return getCanvasController().getDisplayedDrawerPage(getName());
     }
     
     /**
-     * Instructs EntireJ to display Badge on  given tab canvas page
-     * @param tabPageName
+     * Instructs EntireJ to display Badge on given drawer canvas page
+     * @param drawerPageName
      *            The page to be shown
      * @param badge
      *            text that need to shown as a badge
@@ -79,7 +79,7 @@ public class EJTabCanvas extends EJCanvas
     {
         try
         {
-            getCanvasController().setTabBadge(getName(),pageName, badge);
+            getCanvasController().setDrawerBadge(getName(), pageName, badge);
         }
         catch (Exception e)
         {

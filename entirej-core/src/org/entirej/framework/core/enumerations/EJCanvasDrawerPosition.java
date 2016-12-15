@@ -18,33 +18,22 @@
  ******************************************************************************/
 package org.entirej.framework.core.enumerations;
 
-public enum EJCanvasType
+public enum EJCanvasDrawerPosition
 {
-    BLOCK, GROUP,SPLIT, TAB, POPUP, STACKED,FORM,SEPARATOR,DRAWER;
+    RIGHT, LEFT;
     
     public String toString()
     {
         switch (this)
         {
-            case BLOCK:
-                return "Block";
-            case GROUP:
-                return "Group";
-            case SPLIT:
-                return "Split";
-            case POPUP:
-                return "Pop-up";
-            case STACKED:
-                return "Stacked";
-            case TAB:
-                return "Tab";
-            case FORM:
-                return "Form";
-            case DRAWER:
-                return "Drawer";
-                
-            case SEPARATOR:
-                return "Separator";
+//            case TOP:
+//                return "Top";
+//            case BOTTOM:
+//                return "Bottom";
+            case LEFT:
+                return "Left";
+            case RIGHT:
+                return "Right";
             default:
                 return super.toString();
         }

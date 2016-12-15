@@ -102,7 +102,11 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     public void tabPageChanged(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException
     {
     }
-    
+
+    public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException
+    {
+    }
+
     public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException
     {
     }
@@ -181,6 +185,10 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     }
     
     public void preShowTabPage(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException
+    {
+    }
+    
+    public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException
     {
     }
     

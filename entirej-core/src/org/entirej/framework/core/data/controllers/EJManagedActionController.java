@@ -322,6 +322,30 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
+    public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName)
+    {
+        try
+        {
+            _unmanagedController.preShowDrawerPage(form, drawerCanvasName, drawerPageName);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+    }
+    
+    public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName)
+    {
+        try
+        {
+            _unmanagedController.drawerPageChanged(form, drawerCanvasName, drawerPageName);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+    }
+    
     public void popupFormClosed(EJParameterList parameterList)
     {
         try

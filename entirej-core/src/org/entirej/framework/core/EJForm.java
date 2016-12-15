@@ -614,6 +614,18 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
+     * Used to retrieve an {@link EJDrawerCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the drawer canvas
+     * @return The drawer canvas
+     */
+    public EJDrawerCanvas getDrawerCanvas(String name)
+    {
+        return new EJDrawerCanvas(_form, name);
+    }
+    
+    /**
      * Used to retrieve an {@link EJPopupCanvas} with the given name
      * 
      * @param name

@@ -149,6 +149,10 @@ public class EJCorePropertiesHandlerFactory implements Serializable
     {
         return new EJCoreTabPagePropertiesHandler(this, tabCanvas);
     }
+    public EJCoreDrawerPagePropertiesHandler createDrawerPageHandler(EJCoreCanvasProperties tabCanvas)
+    {
+        return new EJCoreDrawerPagePropertiesHandler(this, tabCanvas);
+    }
     
     public EJCoreUpdateScreenItemGroupPropertiesHandler createUpdateScreenItemGroupHandler(EJCoreBlockProperties blockProperties,
             EJCoreItemGroupPropertiesContainer itemGroupContainer, String exitTag)

@@ -29,6 +29,7 @@ import org.entirej.framework.core.extensions.properties.EJCoreFrameworkExtension
 import org.entirej.framework.core.interfaces.EJTranslator;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
+import org.entirej.framework.core.properties.EJCoreDrawerPageProperties;
 import org.entirej.framework.core.properties.EJCoreFormProperties;
 import org.entirej.framework.core.properties.EJCoreInsertScreenItemProperties;
 import org.entirej.framework.core.properties.EJCoreItemGroupProperties;
@@ -48,6 +49,7 @@ import org.entirej.framework.core.properties.EJCoreTabPageProperties;
 import org.entirej.framework.core.properties.EJCoreUpdateScreenItemProperties;
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
+import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJItemGroupProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
 import org.entirej.framework.core.properties.interfaces.EJStackedPageProperties;
@@ -307,6 +309,17 @@ public class EJTranslationController implements Serializable
         for (EJTabPageProperties tabPageProperties : canvasProperties.getTabPageContainer().getAllTabPageProperties())
         {
             EJCoreTabPageProperties pageProperties = (EJCoreTabPageProperties) tabPageProperties;
+            
+            pageProperties.setTranslatedPageTitle(translateText(pageProperties.getBasePageTitle()));
+            
+            for (EJCanvasProperties containedCanvas : pageProperties.getContainedCanvases().getAllCanvasProperties())
+            {
+                translateCanvasProperties((EJCoreCanvasProperties) containedCanvas);
+            }
+        }
+        for (EJDrawerPageProperties drawerPageProperties : canvasProperties.getDrawerPageContainer().getAllDrawerPageProperties())
+        {
+            EJCoreDrawerPageProperties pageProperties = (EJCoreDrawerPageProperties) drawerPageProperties;
             
             pageProperties.setTranslatedPageTitle(translateText(pageProperties.getBasePageTitle()));
             

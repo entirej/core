@@ -1,28 +1,28 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
-import org.entirej.framework.core.enumerations.EJLineStyle;
+import org.entirej.framework.core.enumerations.EJCanvasDrawerPosition;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
 import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
+import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.EJCoreCanvasProperties;
 import org.xml.sax.Attributes;
@@ -48,6 +48,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_FRAME_TITLE            = "groupFrameTitle";
     private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
+    private static final String            ELEMENT_DRAWER_POSITION        = "drawerPosition";
     private static final String            ELEMENT_SPLIT_ORIENTATION      = "splitOrientation";
     private static final String            ELEMENT_LINE_STYLE             = "lineStyle";
     private static final String            ELEMENT_BUTTON_ONE_TEXT        = "buttonOneText";
@@ -55,6 +56,7 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_BUTTON_TWO_TEXT        = "buttonTwoText";
     private static final String            ELEMENT_BUTTON_THREE_TEXT      = "buttonThreeText";
     private static final String            ELEMENT_TAB_PAGE               = "tabPage";
+    private static final String            ELEMENT_DRAWER_PAGE            = "drawerPage";
     private static final String            ELEMENT_STACKED_PAGE           = "stackedPage";
     private static final String            ELEMENT_INITIAL_STACKED_PAGE   = "initialStackedPageName";
     private static final String            ELEMENT_REFERRED_FORM_ID       = "referredFormId";
@@ -76,6 +78,10 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         if (name.equals(ELEMENT_TAB_PAGE))
         {
             setDelegate(_handlerFactory.createTabPageHandler(_canvasProperties));
+        }
+        if (name.equals(ELEMENT_DRAWER_PAGE))
+        {
+            setDelegate(_handlerFactory.createDrawerPageHandler(_canvasProperties));
         }
         else if (name.equals(ELEMENT_STACKED_PAGE))
         {
@@ -202,6 +208,13 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
                 _canvasProperties.setTabPosition(EJCanvasTabPosition.valueOf(value));
             }
         }
+        else if (name.equals(ELEMENT_DRAWER_POSITION))
+        {
+            if (value != null && value.length() > 0)
+            {
+                _canvasProperties.setDrawerPosition(EJCanvasDrawerPosition.valueOf(value));
+            }
+        }
         else if (name.equals(ELEMENT_SPLIT_ORIENTATION))
         {
             if (value != null && value.length() > 0)
@@ -252,6 +265,11 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         if (name.equals(ELEMENT_TAB_PAGE))
         {
             _canvasProperties.addTabPageProperties(((EJCoreTabPagePropertiesHandler) currentDelegate).getTabPageProperties());
+            return;
+        }
+        if (name.equals(ELEMENT_DRAWER_PAGE))
+        {
+            _canvasProperties.addDrawerPageProperties(((EJCoreDrawerPagePropertiesHandler) currentDelegate).getDrawerPageProperties());
             return;
         }
         if (name.equals(ELEMENT_STACKED_PAGE))

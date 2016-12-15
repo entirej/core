@@ -104,6 +104,17 @@ public interface EJFormRenderer extends EJRenderer
     public void showTabPage(String tabCanvasName, String tabPageName);
 
     /**
+     * Instructs the form renderer to show a drawer page
+     * <p>
+     * 
+     * @param drawerCanvasName
+     *            The name of the drawer canvas containing the required page
+     * @param drawerPageName
+     *            The name of the page to be shown
+     */
+    public void showDrawerPage(String drawerCanvasName, String drawerPageName);
+    
+    /**
      * Used to set a specific tab canvas page to be visible
      * 
      * @param tabCanvasName
@@ -117,6 +128,19 @@ public interface EJFormRenderer extends EJRenderer
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible);
 
     /**
+     * Used to set a specific drawer canvas page to be visible
+     * 
+     * @param drawerCanvasName
+     *            The drawer canvas
+     * @param drawerPageName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the drawer page will be made
+     *            visible otherwise it will be hidden
+     */
+    public void setDrawerPageVisible(String drawerCanvasName, String drawerPageName, boolean visible);
+    
+    /**
      * Returns the current tab page name of the given tab canvas
      * <p>
      * If the name given is not a tab page or no page is displayed,
@@ -129,6 +153,19 @@ public interface EJFormRenderer extends EJRenderer
      */
     public String getDisplayedTabPage(String tabCanvasName);
 
+    /**
+     * Returns the current drawer page name of the given drawer canvas
+     * <p>
+     * If the name given is not a drawer page or no page is displayed,
+     * <code>null</code> will be returned
+     * 
+     * @param drawerCanvasName
+     * @return The name of the currently displayed drawer page, or if the name
+     *         given is not a drawer page or no page is displayed,
+     *         <code>null</code> will be returned
+     */
+    public String getDisplayedDrawerPage(String drawerCanvasName);
+    
     /**
      * Instructs the form renderer to show a popup canvas
      * <p>
@@ -212,6 +249,9 @@ public interface EJFormRenderer extends EJRenderer
     public void setButtonLabel(String canvasName, EJPopupButton button, String label);
 
     public void setTabPageBadge(String canvasName,String tabPageName,  String badge);
+    
+    public void setDrawerPageBadge(String canvasName,String drawerPageName,  String badge);
+    
    
 
     /**

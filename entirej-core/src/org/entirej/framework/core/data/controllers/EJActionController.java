@@ -549,6 +549,59 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END tabPageChanged");
     }
+    
+    public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName)
+    {
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START preShowDrawerPage. Form: {}, DrawerCanvasName: {}, DrawerPageName: {}", form.getName(), drawerCanvasName, drawerPageName);
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+            _formLevelActionProcessor.preShowTabPage(form, drawerCanvasName, drawerPageName);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        if (traceEnabled)
+            logger.trace("END preShowDrawerPage");
+    }
+    
+    public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName)
+    {
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START drawerPageChanged. Form: {}, DrawerCanvasName: {}, DrawerPageName: {}", form.getName(), drawerCanvasName, drawerPageName);
+
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+            _formLevelActionProcessor.drawerPageChanged(form, drawerCanvasName, drawerPageName);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        if (traceEnabled)
+            logger.trace("END drawerPageChanged");
+    }
 
     public void popupFormClosed(EJParameterList parameterList)
     {

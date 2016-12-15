@@ -1,23 +1,23 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.properties;
 
+import org.entirej.framework.core.enumerations.EJCanvasDrawerPosition;
 import org.entirej.framework.core.enumerations.EJLineStyle;
 import org.entirej.framework.core.enumerations.EJCanvasMessagePosition;
 import org.entirej.framework.core.enumerations.EJCanvasSplitOrientation;
@@ -25,9 +25,12 @@ import org.entirej.framework.core.enumerations.EJCanvasTabPosition;
 import org.entirej.framework.core.enumerations.EJCanvasType;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.properties.containers.EJCoreCanvasPropertiesContainer;
+import org.entirej.framework.core.properties.containers.EJCoreDrawerPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreStackedPagePropertiesContainer;
 import org.entirej.framework.core.properties.containers.EJCoreTabPagePropertiesContainer;
+import org.entirej.framework.core.properties.containers.interfaces.EJDrawerPagePropertiesContainer;
 import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
+import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJStackedPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJTabPageProperties;
 
@@ -35,64 +38,67 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
 {
     // If this is a BlockCanvas then this variable will hold the properties of
     // the block which will be displayed upon it
-    private EJCoreBlockProperties _blockProperties;
+    private EJCoreBlockProperties                _blockProperties;
 
-    private EJCanvasType _type                         = EJCanvasType.BLOCK;
+    private EJCanvasType                         _type                         = EJCanvasType.BLOCK;
     // Can be either a Tab Canvas or a CONTENT type canvas
-    private String       _contentCanvasName            = "";
+    private String                               _contentCanvasName            = "";
     // The name of the tab page if the content canvas is a tab
-    private String       _contentCanvasTabPageName     = "";
+    private String                               _contentCanvasTabPageName     = "";
     // The name of the stacked page if the content canvas is a stacked canvas
-    private String       _contentCanvasStackedPageName = "";
+    private String                               _contentCanvasStackedPageName = "";
     // The x position on the main form or the content canvas if one has been
     // defined
-    private int          _width                        = 0;
-    private int          _height                       = 0;
-    private int          _numCols                      = 1;
-    private int          _verticalSpan                 = 1;
-    private int          _horizontalSpan               = 1;
-    private int          _messagePaneSize              = 200;
-    private boolean      _expandHorizontally           = true;
-    private boolean      _expandVertically             = true;
-    private boolean      _displayGroupFrame            = false;
-    private boolean      _closeableMessagePane         = true;
-    private String       _name                         = "";
-    private String       _popupPageTitle               = "";
-    private String       _basePopupPageTitle           = "";
-    private String       _groupFrameTitle              = "";
-    private String       _baseGroupFrameTitle          = "";
-    private String       _buttonOneText                = "";
-    private String       _baseButtonOneText            = "";
-    private String       _buttonTwoText                = "";
-    private String       _baseButtonTwoText            = "";
-    private String       _buttonThreeText              = "";
-    private String       _baseButtonThreeText          = "";
-    private String       _initiallyStackedPageName     = "";
+    private int                                  _width                        = 0;
+    private int                                  _height                       = 0;
+    private int                                  _numCols                      = 1;
+    private int                                  _verticalSpan                 = 1;
+    private int                                  _horizontalSpan               = 1;
+    private int                                  _messagePaneSize              = 200;
+    private boolean                              _expandHorizontally           = true;
+    private boolean                              _expandVertically             = true;
+    private boolean                              _displayGroupFrame            = false;
+    private boolean                              _closeableMessagePane         = true;
+    private String                               _name                         = "";
+    private String                               _popupPageTitle               = "";
+    private String                               _basePopupPageTitle           = "";
+    private String                               _groupFrameTitle              = "";
+    private String                               _baseGroupFrameTitle          = "";
+    private String                               _buttonOneText                = "";
+    private String                               _baseButtonOneText            = "";
+    private String                               _buttonTwoText                = "";
+    private String                               _baseButtonTwoText            = "";
+    private String                               _buttonThreeText              = "";
+    private String                               _baseButtonThreeText          = "";
+    private String                               _initiallyStackedPageName     = "";
 
-    private EJCanvasMessagePosition _messagePosition = EJCanvasMessagePosition.RIGHT;
-    private EJPopupButton           _button          = EJPopupButton.ONE;
+    private EJCanvasMessagePosition              _messagePosition              = EJCanvasMessagePosition.RIGHT;
+    private EJPopupButton                        _button                       = EJPopupButton.ONE;
 
     private EJCoreTabPagePropertiesContainer     _tabPages;
+    private EJCoreDrawerPagePropertiesContainer  _drawerPages;
     private EJCoreStackedPagePropertiesContainer _stackedPages;
     private EJCoreCanvasPropertiesContainer      _popupCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _groupCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _splitCanvasContainer;
     private EJCoreCanvasPropertiesContainer      _parentCanvasContainer;
 
-    private String _referredFormId;
+    private String                               _referredFormId;
 
     //
     // If the Canvas type is TAB, then the following properties are also
     // available
-    private EJCanvasTabPosition      _tabPosition      = EJCanvasTabPosition.TOP;
-    private EJCanvasSplitOrientation _splitOrientation = EJCanvasSplitOrientation.HORIZONTAL;
+    private EJCanvasTabPosition                  _tabPosition                  = EJCanvasTabPosition.TOP;
+    private EJCanvasDrawerPosition               _drawerPosition               = EJCanvasDrawerPosition.RIGHT;
+    private EJCanvasSplitOrientation             _splitOrientation             = EJCanvasSplitOrientation.HORIZONTAL;
 
-    private EJLineStyle _lineStyle = EJLineStyle.SOLID;
+    private EJLineStyle                          _lineStyle                    = EJLineStyle.SOLID;
 
     public EJCoreCanvasProperties(String name)
     {
         _name = name;
         _tabPages = new EJCoreTabPagePropertiesContainer();
+        _drawerPages = new EJCoreDrawerPagePropertiesContainer();
         _stackedPages = new EJCoreStackedPagePropertiesContainer();
         _popupCanvasContainer = new EJCoreCanvasPropertiesContainer();
         _groupCanvasContainer = new EJCoreCanvasPropertiesContainer();
@@ -472,6 +478,23 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         return _tabPages;
     }
 
+    @Override
+    public EJDrawerPagePropertiesContainer getDrawerPageContainer()
+    {
+        return _drawerPages;
+    }
+
+    @Override
+    public EJDrawerPageProperties getDrawerPageProperties(String name)
+    {
+        if (name == null)
+        {
+            return null;
+        }
+
+        return _drawerPages.getDrawerPageProperties(name);
+    }
+
     /**
      * If this canvas is a Tab then the canvas will have various tab pages, this
      * method will return a specific tab page properties for the name specified
@@ -505,6 +528,22 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
         if (tab != null)
         {
             _tabPages.addTabPageProperties(tab);
+        }
+    }
+
+    /**
+     * Ads a drawer page to this canvas
+     * 
+     * @param drawer
+     *            The drawer to add
+     * @throws NullPointerException
+     *             if the drawer passed is null
+     */
+    public void addDrawerPageProperties(EJCoreDrawerPageProperties tab)
+    {
+        if (tab != null)
+        {
+            _drawerPages.addDrawerPageProperties(tab);
         }
     }
 
@@ -866,6 +905,23 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     {
         _tabPosition = position;
     }
+    /**
+     * Sets the drawer position for this canvas
+     * <p>
+     * The tab positions are as follows:
+     * <ul>
+   
+     * <li>RIGHT - The drawer will be placed at the right of the canvas</li>
+     * <li>LEFT - The drawer will be placed at th left of the canvas</li>
+     * </ul>
+     * 
+     * @param position
+     *            the position of the drawer pages
+     */
+    public void setDrawerPosition(EJCanvasDrawerPosition position)
+    {
+        _drawerPosition = position;
+    }
 
     /**
      * Returns the position of the tab
@@ -876,6 +932,16 @@ public class EJCoreCanvasProperties implements EJCanvasProperties
     public EJCanvasTabPosition getTabPosition()
     {
         return _tabPosition;
+    }
+    /**
+     * Returns the position of the tab
+     * 
+     * @return The tab position
+     * @see EJCoreCanvasProperties#setTabPosition(EJCanvasDrawerPosition)
+     */
+    public EJCanvasDrawerPosition getDrawerPosition()
+    {
+        return _drawerPosition;
     }
 
     /**

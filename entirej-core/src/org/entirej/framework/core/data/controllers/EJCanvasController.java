@@ -27,6 +27,7 @@ import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
+import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJStackedPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJTabPageProperties;
 
@@ -55,6 +56,22 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().setTabPageVisible(tabCanvasName, tabPageName, visible);
     }
 
+    /**
+     * Used to set a specific drawer canvas page to be visible
+     * 
+     * @param drawerCanvasName
+     *            The drawer canvas
+     * @param drawerPageName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the drawer page will be made
+     *            visible otherwise it will be hidden
+     */
+    public void setDrawerPageVisible(String drawerCanvasName, String drawerPageName, boolean visible)
+    {
+        _formController.getRenderer().setDrawerPageVisible(drawerCanvasName, drawerPageName, visible);
+    }
+    
     /**
      * Used to show a specific tab canvas page
      * 
@@ -85,6 +102,37 @@ public class EJCanvasController implements Serializable
             }
         }
     }
+    
+    /**
+     * Used to show a specific drawer canvas page
+     * 
+     * @param drawerCanvasName
+     *            The drawer canvas
+     * @param drawerPageName
+     *            The page to be shown
+     */
+    public void showDrawerPage(String drawerCanvasName, String drawerPageName)
+    {
+        // Inform the action processor that a new drawer page will be displayed
+        _formController.getManagedActionController().preShowDrawerPage(_formController.getEJForm(), drawerCanvasName, drawerPageName);
+        // Display that drawer page
+        _formController.getRenderer().showDrawerPage(drawerCanvasName, drawerPageName);
+        // Inform the action processor that a drawer page has been changed
+        _formController.getManagedActionController().drawerPageChanged(_formController.getEJForm(), drawerCanvasName, drawerPageName);
+
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(drawerCanvasName);
+        if (canvasProperties != null)
+        {
+            EJDrawerPageProperties drawerPage = canvasProperties.getDrawerPageProperties(drawerPageName);
+            if (drawerPage != null)
+            {
+                String block = drawerPage.getFirstNavigationalBlock();
+                String item = drawerPage.getFirstNavigationalItem();
+
+                navigateToItem(block, item);
+            }
+        }
+    }
 
     /**
      * Returns the current tab page name of the given tab canvas
@@ -100,6 +148,22 @@ public class EJCanvasController implements Serializable
     public String getDisplayedTabPage(String tabCanvasName)
     {
         return _formController.getRenderer().getDisplayedTabPage(tabCanvasName);
+    }
+
+    /**
+     * Returns the current drawer page name of the given drawer canvas
+     * <p>
+     * If the name given is not a drawer page or no page is displayed,
+     * <code>null</code> will be returned
+     * 
+     * @param drawerCanvasName
+     * @return The name of the currently displayed drawer page, or if the name
+     *         given is not a drawer page or no page is displayed,
+     *         <code>null</code> will be returned
+     */
+    public String getDisplayedDrawerPage(String drawerCanvasName)
+    {
+        return _formController.getRenderer().getDisplayedDrawerPage(drawerCanvasName);
     }
 
     /**
@@ -186,6 +250,26 @@ public class EJCanvasController implements Serializable
         _formController.getManagedActionController().tabPageChanged(_formController.getEJForm(), tabCanvasName, tabPageName);
 
     }
+    public void drawerPageChanged(String drawerCanvasName, String drawerPageName)
+    {
+        // If the tab page has a first navigational block and item, then ensure
+        // the focus is correct
+        EJCanvasProperties canvasProperties = _formController.getProperties().getCanvasProperties(drawerCanvasName);
+        if (canvasProperties != null)
+        {
+            EJDrawerPageProperties drawerPage = canvasProperties.getDrawerPageProperties(drawerPageName);
+            if (drawerPage != null)
+            {
+                String block = drawerPage.getFirstNavigationalBlock();
+                String item = drawerPage.getFirstNavigationalItem();
+                
+                navigateToItem(block, item);
+            }
+        }
+        
+        _formController.getManagedActionController().drawerPageChanged(_formController.getEJForm(), drawerCanvasName, drawerPageName);
+        
+    }
 
     private void navigateToItem(String block, String itemName)
     {
@@ -266,9 +350,15 @@ public class EJCanvasController implements Serializable
 
     }
 
-    public void setBadge(String canvasName,String page, String badge)
+    public void setTabBadge(String canvasName,String page, String badge)
     {
         _formController.getRenderer().setTabPageBadge(canvasName,page, badge);
+        
+    }
+    
+    public void setDrawerBadge(String canvasName,String page, String badge)
+    {
+        _formController.getRenderer().setDrawerPageBadge(canvasName,page, badge);
         
     }
 }
