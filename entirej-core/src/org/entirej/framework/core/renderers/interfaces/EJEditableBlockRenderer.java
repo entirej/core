@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
@@ -33,7 +32,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            The property that has been changed
      */
     public void refreshBlockProperty(EJManagedBlockProperty managedBlockPropertyType);
-    
+
     /**
      * This indicates to the block renderer that one of its properties has been
      * modified
@@ -42,7 +41,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            The name of the modified property
      */
     public void refreshBlockRendererProperty(String propertyName);
-    
+
     /**
      * Called after the renderer has been instantiated
      * <p>
@@ -54,13 +53,13 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            This renderer is responsible for rendering this block
      */
     public void initialiseRenderer(EJEditableBlockController block);
-    
+
     /**
      * Informs the block renderer that a query has been executed and the block
      * now contains new records that need to be displayed to the user
      */
     public void queryExecuted();
-    
+
     /**
      * Used to indicate if the current record being displayed has been modified
      * <p>
@@ -74,7 +73,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *         <code>false</code>
      */
     public boolean isCurrentRecordDirty();
-    
+
     /**
      * Informs the block renderer that the underlying block has been cleared
      * <p>
@@ -82,13 +81,13 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      * view should be refreshed
      */
     public void blockCleared();
-    
+
     /**
      * Informs the block renderer that all the detail blocks of this block have
      * been cleared. The underlying block of this renderer has not been cleared.
      */
     public void detailBlocksCleared();
-    
+
     /**
      * Indicates that the given record has been inserted into the underlying
      * blocks list of records
@@ -100,7 +99,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            The record that was inserted
      */
     public void recordInserted(EJDataRecord record);
-    
+
     /**
      * Indicates that the given record has been deleted
      * <p>
@@ -119,7 +118,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            EJDataBlock record number and not the visible record number
      */
     public void recordDeleted(int dataBlockRecordNumber);
-    
+
     /**
      * Indicates if this block renderer has the current focus
      * <p>
@@ -133,7 +132,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *         <code>false</code>
      */
     public boolean hasFocus();
-    
+
     /**
      * Indicates to the block renderer that it has current focus
      * <p>
@@ -144,12 +143,28 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            The focus indicator for this block renderer
      */
     public void setHasFocus(boolean focus);
-    
+
+    /**
+     * Set the filter on this renderer if the renderer uses a filter
+     * 
+     * @param filter
+     *            The filter to set
+     */
+    public void setFilter(String filter);
+
+    /**
+     * Returns the filter that has been set on this renderer or
+     * <code>null</code> if no filter has been set
+     * 
+     * @return the blocks filter or <code>null</code> if no filter has been set
+     */
+    public String getFilter();
+
     /**
      * Informs the block renderer that it should gain focus
      */
     public void gainFocus();
-    
+
     /**
      * Informs the block renderer that it should set focus to the given item
      * 
@@ -157,7 +172,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            The item that should gain focus
      */
     public void setFocusToItem(EJScreenItemController item);
-    
+
     /**
      * Informs the block renderer that the user wants to perform an insert
      * operation
@@ -172,7 +187,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            entered and the processor has validated it
      */
     public void enterInsert(EJDataRecord recordToInsert);
-    
+
     /**
      * Informs the block renderer that the user wished to update the current
      * record. The current record will be wrapped within the given record to
@@ -180,7 +195,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      * were successful
      */
     public void enterUpdate(EJDataRecord recordToUpdate);
-    
+
     /**
      * Indicates to the block renderer that the user wishes to delete the given
      * record
@@ -192,7 +207,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      *            standard message should be used
      */
     public void askToDeleteRecord(EJDataRecord recordToDelete, String message);
-    
+
     /**
      * Returns the renderer that is to be used for executing queries on this
      * block
@@ -200,7 +215,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      * @return The {@link EJQueryScreenRenderer}
      */
     public EJQueryScreenRenderer getQueryScreenRenderer();
-    
+
     /**
      * Returns the renderer that is to be used for executing inserts on this
      * block
@@ -208,7 +223,7 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      * @return The {@link EJInsertScreenRenderer}
      */
     public EJInsertScreenRenderer getInsertScreenRenderer();
-    
+
     /**
      * Returns the renderer that is to be used for executing updates on this
      * block
@@ -216,5 +231,5 @@ public interface EJEditableBlockRenderer extends EJBlockRenderer
      * @return The {@link EJUpdateScreenRenderer}
      */
     public EJUpdateScreenRenderer getUpdateScreenRenderer();
-    
+
 }

@@ -108,6 +108,26 @@ public class EJEditableBlockRendererController extends EJBlockRendererController
         }
     }
     
+    public void setFilter(String filter)
+    {
+        if (_renderer != null)
+        {
+            _renderer.setFilter(filter);
+        }
+    }
+    
+    public String getFilter()
+    {
+        if (_renderer != null)
+        {
+            return _renderer.getFilter();
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
     public boolean hasFocus()
     {
         if (_renderer != null)
