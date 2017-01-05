@@ -78,7 +78,7 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
                 EJCoreBlockPropertiesContainer blockContainer = formProperties.getBlockContainer();
                 BLOCK: for (EJCoreBlockProperties block : blockContainer.getAllBlockProperties())
                 {
-                    if (block.getCanvasName() != null || !block.getCanvasName().isEmpty())
+                    if (block.getCanvasName() != null && !block.getCanvasName().isEmpty())
                     {
                         EJCanvasProperties canvasProperties = formProperties.getCanvasProperties(block.getCanvasName());
                         while (canvasProperties != null)
