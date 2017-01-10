@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.properties.reader;
 
@@ -29,42 +28,43 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
 {
     private EJCorePropertiesHandlerFactory _handlerFactory;
     private EJCoreProperties               _properties;
-    
-    protected static final String          APPLICATION_MANAGER_CLASS_NAME = "applicationManager";
-    protected static final String          REUSABLE_BLOCK_LOC             = "reusableBlocksLocation";
-    protected static final String          REUSABLE_LOV_LOV               = "reusableLovDefinitionLocation";
-    protected static final String          OBJECTGROUP_LOC                = "objectGroupDefinitionLocation";
-    protected static final String          APPLICATION_PROPERTIES         = "applicationDefinedProperties";
-    
-    protected static final String          CONNECTION_FACTORY_CLASS_NAME  = "connectionFactoryClassName";
-    protected static final String          TRANSLATOR_CLASS_NAME          = "translatorClassName";
-    protected static final String          APPLICATION_LEVEL_PARAMETER    = "appicationLevelParameter";
-    protected static final String          FORMS_PACKAGE                  = "formsPackage";
-    
-    protected static final String          FORM_RENDERERS                 = "formRenderers";
-    protected static final String          BLOCK_RENDERERS                = "blockRenderers";
-    protected static final String          ITEM_RENDERERS                 = "itemRenderers";
-    protected static final String          LOV_RENDERERS                  = "lovRenderers";
-    protected static final String          APP_COMP_RENDERERS             = "appCompRenderers";
-    protected static final String          RENDERER                       = "renderer";
-    private static final String            APP_MENU                       = "applicationMenu";
-    
-    private static final String            VISUAL_ATTRIBUTE               = "visualAttribute";
-    
-    private static final String            APP_LAYOUT                     = "applicationLayout";
-    
-    private boolean                        _selectingFormRenderers        = false;
-    private boolean                        _selectingBlockRenderers       = false;
-    private boolean                        _selectingItemRenderers        = false;
-    private boolean                        _selectingLovRenderers         = false;
-    private boolean                        _selectingAppCompRenderers     = false;
-    
+
+    protected static final String          APPLICATION_MANAGER_CLASS_NAME          = "applicationManager";
+    protected static final String          APPLICATION_ACTION_PROCESSOR_CLASS_NAME = "applicationActionProcessor";
+    protected static final String          REUSABLE_BLOCK_LOC                      = "reusableBlocksLocation";
+    protected static final String          REUSABLE_LOV_LOV                        = "reusableLovDefinitionLocation";
+    protected static final String          OBJECTGROUP_LOC                         = "objectGroupDefinitionLocation";
+    protected static final String          APPLICATION_PROPERTIES                  = "applicationDefinedProperties";
+
+    protected static final String          CONNECTION_FACTORY_CLASS_NAME           = "connectionFactoryClassName";
+    protected static final String          TRANSLATOR_CLASS_NAME                   = "translatorClassName";
+    protected static final String          APPLICATION_LEVEL_PARAMETER             = "appicationLevelParameter";
+    protected static final String          FORMS_PACKAGE                           = "formsPackage";
+
+    protected static final String          FORM_RENDERERS                          = "formRenderers";
+    protected static final String          BLOCK_RENDERERS                         = "blockRenderers";
+    protected static final String          ITEM_RENDERERS                          = "itemRenderers";
+    protected static final String          LOV_RENDERERS                           = "lovRenderers";
+    protected static final String          APP_COMP_RENDERERS                      = "appCompRenderers";
+    protected static final String          RENDERER                                = "renderer";
+    private static final String            APP_MENU                                = "applicationMenu";
+
+    private static final String            VISUAL_ATTRIBUTE                        = "visualAttribute";
+
+    private static final String            APP_LAYOUT                              = "applicationLayout";
+
+    private boolean                        _selectingFormRenderers                 = false;
+    private boolean                        _selectingBlockRenderers                = false;
+    private boolean                        _selectingItemRenderers                 = false;
+    private boolean                        _selectingLovRenderers                  = false;
+    private boolean                        _selectingAppCompRenderers              = false;
+
     public EJCoreEntireJPropertiesHandler(EJCorePropertiesHandlerFactory handlerFactory)
     {
         _handlerFactory = handlerFactory;
         _properties = EJCoreProperties.getInstance();
     }
-    
+
     @Override
     public void startLocalElement(String name, Attributes attributes) throws SAXException
     {
@@ -96,16 +96,16 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
                 return;
             }
         }
-        
+
         if (name.equals(APPLICATION_LEVEL_PARAMETER))
         {
             String paramName = attributes.getValue("name");
             String dataTypeName = attributes.getValue("dataType");
-            
+
             EJApplicationLevelParameter parameter = new EJApplicationLevelParameter(paramName, dataTypeName);
-            if(parameter.isValidDefaultValueType())
+            if (parameter.isValidDefaultValueType())
             {
-                parameter.setValue(parameter.toDefaultValue( attributes.getValue("defaultValue")));
+                parameter.setValue(parameter.toDefaultValue(attributes.getValue("defaultValue")));
             }
             _properties.addApplicationLevelParameter(parameter);
         }
@@ -150,7 +150,7 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
             setDelegate(new EJCoreLayoutHandler(_handlerFactory));
         }
     }
-    
+
     @Override
     public void endLocalElement(String name, String value, String untrimmedValue) throws SAXException
     {
@@ -159,6 +159,17 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
             try
             {
                 _properties.setApplicationManagerClassName(value);
+            }
+            catch (Exception e)
+            {
+                throw new SAXException(e.getMessage(), e);
+            }
+        }
+        else if (name.equals(APPLICATION_ACTION_PROCESSOR_CLASS_NAME))
+        {
+            try
+            {
+                _properties.setApplicationActionProcessorClassName(value);
             }
             catch (Exception e)
             {
@@ -219,9 +230,9 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
         {
             _selectingLovRenderers = false;
         }
-        
+
     }
-    
+
     @Override
     public void cleanUpAfterDelegate(String name, EJCorePropertiesTagHandler currentDelegate)
     {
@@ -242,41 +253,40 @@ public class EJCoreEntireJPropertiesHandler extends EJCorePropertiesTagHandler
             _properties.setLayoutContainer(((EJCoreLayoutHandler) currentDelegate).getContainer());
         }
     }
-    
+
     private void addFormRenderer(Attributes attributes)
     {
         String name = attributes.getValue("name");
         String rendererClassName = attributes.getValue("rendererClassName");
         _properties.addFormRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName, EJCoreRendererAssignmentContainer.FORM_RENDERER_TYPE));
     }
-    
+
     private void addAppComponentRenderer(Attributes attributes)
     {
         String name = attributes.getValue("name");
         String rendererClassName = attributes.getValue("rendererClassName");
-        _properties.addApplicationComponentRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName,
-                EJCoreRendererAssignmentContainer.APP_COMPONENT_RENDERER_TYPE));
+        _properties.addApplicationComponentRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName, EJCoreRendererAssignmentContainer.APP_COMPONENT_RENDERER_TYPE));
     }
-    
+
     private void addBlockRenderer(Attributes attributes)
     {
         String name = attributes.getValue("name");
         String rendererClassName = attributes.getValue("rendererClassName");
         _properties.addBlockRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName, EJCoreRendererAssignmentContainer.BLOCK_RENDERER_TYPE));
     }
-    
+
     private void addItemRenderer(Attributes attributes)
     {
         String name = attributes.getValue("name");
         String rendererClassName = attributes.getValue("rendererClassName");
         _properties.addItemRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName, EJCoreRendererAssignmentContainer.ITEM_RENDERER_TYPE));
     }
-    
+
     private void addLovRenderer(Attributes attributes)
     {
         String name = attributes.getValue("name");
         String rendererClassName = attributes.getValue("rendererClassName");
         _properties.addLovRendererAssignment(new EJCoreRendererAssignment(name, rendererClassName, EJCoreRendererAssignmentContainer.LOV_RENDERER_TYPE));
     }
-    
+
 }

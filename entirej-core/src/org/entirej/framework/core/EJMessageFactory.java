@@ -90,6 +90,8 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("The form properties passed to $1 is null", replacementStrings);
             case NULL_MENU_PROPERTIES_PASSED_TO_METHOD:
                 return new EJMessage("The menu properties passed to $1 is null", replacementStrings);
+            case NULL_APPLIACTION_ACTION_PROCESSOR_PASSED_TO_METHOD:
+                return new EJMessage("The application action processor class passed to $1 is null", replacementStrings);
             case NULL_BLOCK_PROPERTIES_PASSED_TO_METHOD:
                 return new EJMessage("The block properties passed to $1 is null", replacementStrings);
             case NULL_PROCESSOR_NAME_PASSED_TO_METHOD:
@@ -193,6 +195,8 @@ public class EJMessageFactory implements Serializable
                 return new EJMessage("The record passed to performUpdateOperation does not exists in the underlying blocks list of records");
             case INVALID_GROUP_NAME_IN_SET_PROPERTY_VALUE:
                 return new EJMessage("The name ($1) passed to setPropertyValue contains a group name that does not exists: $1", replacementStrings);
+            case INVALID_ACTION_PROCESSOR_FOR_APPLIACTION:
+                return new EJMessage("There is no application action processor with the name $1", replacementStrings);
             case INVALID_ACTION_PROCESSOR_FOR_MENU:
                 return new EJMessage("There is no menu action processor with the name $1", replacementStrings);
             case INVALID_ACTION_PROCESSOR_FOR_FORM:
@@ -253,6 +257,8 @@ public class EJMessageFactory implements Serializable
             case NO_CONNECTION_FACTORY_DEFINED_FOR_APPLICATION:
                 return new EJMessage(
                         "A Connection Factory must be assigned to the application. Please go to the EntireJFramework properties and assign the applications Connection Factory");
+            case NO_ACTION_PROCESSOR_DEFINED_FOR_APPLIACTION:
+                return new EJMessage("No action processor defined for application", replacementStrings);
             case NO_ACTION_PROCESSOR_DEFINED_FOR_FORM:
                 return new EJMessage("No action processor defined for form $1", replacementStrings);
             case NO_ACTION_PROCESSOR_DEFINED_FOR_LOV:

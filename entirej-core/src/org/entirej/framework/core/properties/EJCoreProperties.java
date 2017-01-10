@@ -60,6 +60,7 @@ public class EJCoreProperties implements EJEntireJProperties
     private EJTranslator                                 _applicationTranslator;
     private String                                       _connectionFactoryClassName;
     private String                                       _applicationManagerClassName;
+    private String                                       _applicationActionProcessorClassName;
     
     static
     {
@@ -110,6 +111,21 @@ public class EJCoreProperties implements EJEntireJProperties
     public String getApplicationManagerClassName()
     {
         return _applicationManagerClassName;
+    }
+    public void setApplicationActionProcessorClassName(String className)
+    {
+        if (className == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_APPLICATION_MANAGER_PASSED_TO_METHOD,
+                    "EntireJCoreProperties.setApplicationActionProcessorClassName"));
+        }
+        
+        _applicationActionProcessorClassName = className;
+    }
+    
+    public String getApplicationActionProcessorClassName()
+    {
+        return _applicationActionProcessorClassName;
     }
     
     /**

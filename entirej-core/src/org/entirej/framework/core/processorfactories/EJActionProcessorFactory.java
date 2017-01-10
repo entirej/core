@@ -25,6 +25,7 @@ import org.entirej.framework.core.EJActionProcessorException;
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
 import org.entirej.framework.core.EJMessageFactory;
+import org.entirej.framework.core.actionprocessor.interfaces.EJApplicationActionProcessor;
 import org.entirej.framework.core.actionprocessor.interfaces.EJBlockActionProcessor;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.actionprocessor.interfaces.EJLovActionProcessor;
@@ -34,6 +35,7 @@ import org.entirej.framework.core.properties.EJCoreBlockProperties;
 import org.entirej.framework.core.properties.EJCoreFormProperties;
 import org.entirej.framework.core.properties.EJCoreLovDefinitionProperties;
 import org.entirej.framework.core.properties.EJCoreMenuProperties;
+import org.entirej.framework.core.properties.EJCoreProperties;
 
 public class EJActionProcessorFactory implements Serializable
 {
@@ -230,6 +232,37 @@ public class EJActionProcessorFactory implements Serializable
         }
     }
     
+    
+    
+    public EJApplicationActionProcessor getActionProcessor(EJFrameworkManager frameworkManager,EJCoreProperties coreProperties)
+    {
+        if (coreProperties == null)
+        {
+            return null;
+        }
+        
+        String actionProcessorName = coreProperties.getApplicationActionProcessorClassName();
+        
+        if (actionProcessorName == null || actionProcessorName.trim().length() == 0)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                    EJFrameworkMessage.NO_ACTION_PROCESSOR_DEFINED_FOR_APPLIACTION));
+        }
+        
+        try
+        {
+            Class<?> processorClass = Class.forName(actionProcessorName);
+            return createNewApplicationActionProcessorInstance(frameworkManager, processorClass);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                    EJFrameworkMessage.INVALID_ACTION_PROCESSOR_FOR_APPLIACTION, actionProcessorName));
+        }
+    }
+    
+   
+    
     /**
      * Creates a new <code>EJFormActionProcessor</code> from the class instance
      * stored within the cache
@@ -384,6 +417,42 @@ public class EJActionProcessorFactory implements Serializable
             {
                 throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorClass.getName(), "EJMenuActionProcessor"));
+            }
+        }
+        catch (InstantiationException e)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);
+        }
+    }
+    
+    
+    
+    private EJApplicationActionProcessor createNewApplicationActionProcessorInstance(EJFrameworkManager frameworkManager, Class<?> processorClass)
+    {
+        if (processorClass == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                    EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, "createNewApplicationActionProcessorInstance"));
+        }
+        
+        Object processorObject;
+        try
+        {
+            processorObject = processorClass.newInstance();
+            if (processorObject instanceof EJApplicationActionProcessor)
+            {
+                return (EJApplicationActionProcessor) processorObject;
+            }
+            else
+            {
+                throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
+                        EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorClass.getName(), "EJApplicationActionProcessor"));
             }
         }
         catch (InstantiationException e)
