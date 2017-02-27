@@ -160,6 +160,11 @@ public class EJItemLovController implements Serializable
             EJScreenItem screenItem = new EJScreenItem(_item.getBlock(), _item.getScreenType(), _item.getBlock().getScreenItem(_item.getScreenType(),
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, EJLovDisplayReason.VALIDATE);
+            
+            if (getScreenProperties().isLovNotificationEnabled() || _mappingProperties == null)
+            {
+                return true;
+            }
         }
         
         if (!isLovActivationEnabled())
