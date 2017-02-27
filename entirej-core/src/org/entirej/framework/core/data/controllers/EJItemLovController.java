@@ -161,7 +161,7 @@ public class EJItemLovController implements Serializable
                     _item.getProperties().getReferencedItemName()));
             _formController.getManagedActionController().lovActivated(_formController.getEJForm(), screenItem, EJLovDisplayReason.VALIDATE);
             
-            if (getScreenProperties().isLovNotificationEnabled() || _mappingProperties == null)
+            if (getScreenProperties().isLovNotificationEnabled() && _mappingProperties == null)
             {
                 return true;
             }
