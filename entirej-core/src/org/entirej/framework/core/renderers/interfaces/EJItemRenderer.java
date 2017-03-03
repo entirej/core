@@ -18,6 +18,8 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers.interfaces;
 
+import java.util.List;
+
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.interfaces.EJScreenItemController;
 import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
@@ -75,6 +77,15 @@ public interface EJItemRenderer extends EJRenderer
      * @return The renderers current value
      */
     public Object getValue();
+
+    /**
+     * If this item has a renderer and it is a renderer that can have multiple
+     * valid values, e.g. a list box, then this method will return a list of all
+     * these values.
+     * 
+     * @return The list of valid values allowable for this item
+     */
+    public List<Object> getValidValues();
 
     /**
      * Returns the display value of the renderer

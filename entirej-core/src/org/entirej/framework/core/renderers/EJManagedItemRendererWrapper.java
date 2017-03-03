@@ -18,6 +18,8 @@
  ******************************************************************************/
 package org.entirej.framework.core.renderers;
 
+import java.util.List;
+
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
 import org.entirej.framework.core.EJMessage;
@@ -138,6 +140,24 @@ public class EJManagedItemRendererWrapper implements EJItemRenderer
         try
         {
             return _itemRenderer.getValue();
+        }
+        catch (Exception e)
+        {
+            handleException(e);
+            return null;
+        }
+    }
+    
+    /**
+     * Managed delegate for the <code>ItemRenderer</code>
+     * 
+     * @see {@link EJItemRenderer#getValidValues()}
+     */
+    public List<Object> getValidValues()
+    {
+        try
+        {
+            return _itemRenderer.getValidValues();
         }
         catch (Exception e)
         {
