@@ -457,6 +457,11 @@ public class EJCoreInsertScreenItemProperties implements EJScreenItemProperties,
         _validateFromLov = validateFromLov;
     }
 
+    public void enableLovValidation(boolean enable)
+    {
+        _validateFromLov = enable;
+    }
+    
     public boolean validateFromLov()
     {
         return _validateFromLov;

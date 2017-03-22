@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.properties.interfaces;
 
@@ -36,7 +35,7 @@ public interface EJScreenItemProperties extends Serializable
      * @return The name of the block item that this item references
      */
     public abstract String getReferencedItemName();
-    
+
     /**
      * Indicates if this screen item is a spacer item
      * 
@@ -44,14 +43,7 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isSpacerItem();
-    
-    
-    
-    
-    
-    
-    
-    
+
     /**
      * Returns the label defined for this block item
      * <p>
@@ -62,7 +54,7 @@ public interface EJScreenItemProperties extends Serializable
      * @see #getBaseLabel()
      */
     public String getLabel();
-    
+
     /**
      * Returns the hint defined for this block item
      * <p>
@@ -72,7 +64,7 @@ public interface EJScreenItemProperties extends Serializable
      * @return The label defined for this item
      */
     public String getHint();
-    
+
     /**
      * The action command is a string identifier sent by the item renderer to
      * the action processor when, for example a button is pressed
@@ -84,7 +76,7 @@ public interface EJScreenItemProperties extends Serializable
      * @see IActionProcessor The command the item renderer will send
      */
     public String getActionCommand();
-    
+
     /**
      * gets the visual attribute properties that should be used for this item
      * <p>
@@ -95,7 +87,7 @@ public interface EJScreenItemProperties extends Serializable
      *         for this item
      */
     public EJCoreVisualAttributeProperties getVisualAttributeProperties();
-    
+
     /**
      * Indicates if this item is to be made visible
      * <p>
@@ -104,7 +96,7 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isVisible();
-    
+
     /**
      * Indicates if this item can be modified
      * <p>
@@ -113,7 +105,7 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isEditAllowed();
-    
+
     /**
      * If the block renderer requires no insert or update screen. Then it
      * probably means that users edit the data directly within the main screen.
@@ -124,6 +116,26 @@ public interface EJScreenItemProperties extends Serializable
      *         otherwise <code>false</code>
      */
     public boolean isMandatory();
+
+    /**
+     * Sets the enabled flag of the Lov Validation
+     * <p>
+     * Lov Validation indicates that the value entered within the item by the
+     * user should be validated against the assigned LOV
+     * 
+     * @param enable
+     *            Enables the lov validation
+     */
+    public void enableLovValidation(boolean enable);
+
+
+    /**
+     * Indicates if this screen item should be validated against the lov values
+     * 
+     * @return <code>true</code> if the item should be validated against the lov
+     *         values otherwise <code>false</code>
+     */
+    public boolean validateFromLov();
     
     /**
      * Sets the enabled flag of Lov Notification
@@ -140,7 +152,7 @@ public interface EJScreenItemProperties extends Serializable
      *            Enables lov notification
      */
     public void enableLovNotification(boolean enable);
-    
+
     /**
      * Indicates if lov notification has been enabled
      * <p>
@@ -156,7 +168,7 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isLovNotificationEnabled();
-    
+
     /**
      * Returns the name of the lov mapping assigned to this item
      * 
@@ -164,25 +176,15 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>null</code> if none was assigned
      */
     public String getLovMappingName();
-    
-    /**
-     * Indicates if this screen item should be validated agains the lov values
-     * 
-     * @return <code>true</code> if the item should be validated against the lov
-     *         values otherwise <code>false</code>
-     */
-    public boolean validateFromLov();
-    
-    
-    
-    
+
+
     /**
      * Returns the orientation of the Separator
      * 
      * @return The separator orientation
      */
     public EJSeparatorOrientation getSeparatorOrientation();
-    
+
     /**
      * Returns the style of the line
      * 
@@ -190,7 +192,7 @@ public interface EJScreenItemProperties extends Serializable
      * 
      */
     public EJLineStyle getSeparatorLineStyle();
-    
+
     /**
      * Indicates if this spacer screen item renderer as separator
      * 
@@ -198,5 +200,5 @@ public interface EJScreenItemProperties extends Serializable
      *         <code>false</code>
      */
     public boolean isSeparator();
-    
+
 }
