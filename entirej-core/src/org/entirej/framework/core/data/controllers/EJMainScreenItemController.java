@@ -86,13 +86,20 @@ public class EJMainScreenItemController implements EJScreenItemController, Compa
         if (lovMapping == null)
         {
             _itemLovController = null;
+            if (_mainScreenItemProps.isLovNotificationEnabled())
+            {
+                _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+            }
         }
         else
         {
             EJCoreLovMappingProperties mappingPropertiesByName = _itemProperties.getLovMappingPropertiesByName(lovMapping);
             if (mappingPropertiesByName == null)
             {
-                _itemLovController = null;
+                if (_mainScreenItemProps.isLovNotificationEnabled())
+                {
+                    _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+                }
             }
             else
             {

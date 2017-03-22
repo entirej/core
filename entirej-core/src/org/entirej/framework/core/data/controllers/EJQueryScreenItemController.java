@@ -84,6 +84,10 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
         if (lovMapping == null)
         {
             _itemLovController = null;
+            if (_queryScreenItemProps.isLovNotificationEnabled())
+            {
+                _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+            }
         }
         else
         {
@@ -91,6 +95,10 @@ public class EJQueryScreenItemController implements EJScreenItemController, Comp
             if (mappingPropertiesByName == null)
             {
                 _itemLovController = null;
+                if (_queryScreenItemProps.isLovNotificationEnabled())
+                {
+                    _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+                }
             }
             else
             {

@@ -84,14 +84,28 @@ public class EJInsertScreenItemController implements EJScreenItemController, Com
     {
         if (lovMapping == null)
         {
-            _itemLovController = null;
+            if (_insertScreenItemProps.isLovNotificationEnabled())
+            {
+                _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+            }
+            else
+            {
+                _itemLovController = null;
+            }
         }
         else
         {
             EJCoreLovMappingProperties mappingPropertiesByName = _itemProperties.getLovMappingPropertiesByName(lovMapping);
             if (mappingPropertiesByName == null)
             {
-                _itemLovController = null;
+                if (_insertScreenItemProps.isLovNotificationEnabled())
+                {
+                    _itemLovController = new EJItemLovController(_blockController.getFormController(), this, null);
+                }
+                else
+                {
+                    _itemLovController = null;
+                }
             }
             else
             {
