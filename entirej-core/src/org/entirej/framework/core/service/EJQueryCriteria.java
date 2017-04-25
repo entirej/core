@@ -62,10 +62,16 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
      */
     public EJQueryCriteria(EJQueryBlock block)
     {
+        this(block, true);
+    }
+    
+    
+    public EJQueryCriteria(EJQueryBlock block,boolean includeDefaultQueryValues)
+    {
         super(block);
         if(logger.isTraceEnabled())
             logger.trace("Creating new QueryCriteria for block {}", (block == null ? "null" : block.getName()));
-        if (block != null)
+        if (includeDefaultQueryValues && block != null)
         {
             addDefaultQueryValues(null);
         }

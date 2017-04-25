@@ -34,6 +34,7 @@ public class EJCoreLovMappingProperties  implements Serializable
     private String                                  _lovDisplayName     = "";
     private String                                  _baseLovDisplayName = "";
     private boolean                                 _executeAfterQuery  = true;
+    private boolean                                 _includeDefaultQueryValues  = false;
     private EJCoreBlockProperties                   _mappedBlock;
     private List<EJCoreLovItemMappingProperties> _lovItemMappings;
     
@@ -64,6 +65,16 @@ public class EJCoreLovMappingProperties  implements Serializable
     public boolean executeAfterQuery()
     {
         return _executeAfterQuery;
+    }
+    
+    public boolean includeDefaultQueryValues()
+    {
+        return _includeDefaultQueryValues;
+    }
+    
+    public void setIncludeDefaultQueryValues(boolean includeDefaultQueryValues)
+    {
+        this._includeDefaultQueryValues = includeDefaultQueryValues;
     }
     
     /**
@@ -345,6 +356,9 @@ public class EJCoreLovMappingProperties  implements Serializable
     {
         _lovDisplayName = translatedDisplayName;
     }
+    
+    
+    
     
 
     

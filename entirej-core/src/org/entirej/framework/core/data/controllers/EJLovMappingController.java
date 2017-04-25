@@ -105,7 +105,7 @@ public class EJLovMappingController implements Serializable
         // record depending on the lov mapping properties
         
         EJLovController lovController = formController.getLovController(_mappingProperties.getLovDefinitionProperties().getName());
-        EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(lovController.getBlock()));
+        EJQueryCriteria queryCriteria = new EJQueryCriteria(new EJLovBlock(lovController.getBlock()),_mappingProperties.includeDefaultQueryValues());
         
         // Because the lov will be called as part of the post query, I can
         // set some default values for the queryCriteria
@@ -113,7 +113,7 @@ public class EJLovMappingController implements Serializable
         queryCriteria.setPageNumber(1);
         queryCriteria.setPageSize(10);
         queryCriteria.setQueryAllRows(true);
-        queryCriteria.getAllRestrictions().clear();//make sure to clear all default LOV query values
+        
         
         for (EJCoreLovItemMappingProperties mapProps : _mappingProperties.getAllItemMappingProperties())
         {

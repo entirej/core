@@ -57,10 +57,12 @@ public class EJCoreLovMappingPropertiesHandler extends EJCorePropertiesTagHandle
             String mappingName = attributes.getValue("name");
             String lovDefinitionName = attributes.getValue("lovDefinitionName");
             String executeAfterQuery = attributes.getValue("executeAfterQuery");
+            String includeDefaultValues = attributes.getValue("includeDefaultQueryValues");
             String rendererName = attributes.getValue("rendererName");
             
             _lovMappingProperties = new EJCoreLovMappingProperties(_handlerFactory.getFrameworkManager(), _blockProperties, mappingName);
             _lovMappingProperties.setExecuteAfterQuery((executeAfterQuery == null ? Boolean.TRUE.booleanValue() : Boolean.parseBoolean(executeAfterQuery)));
+            _lovMappingProperties.setIncludeDefaultQueryValues((includeDefaultValues == null ? Boolean.FALSE.booleanValue() : Boolean.parseBoolean(includeDefaultValues)));
             
             // If I am creating a lov definition then this means that I am
             // loading a reusable lov definition. If this is the case, then I
