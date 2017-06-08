@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core;
 
@@ -27,6 +26,7 @@ import java.util.Locale;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJDateHelper;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJManagedActionController;
@@ -307,8 +307,7 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(
-                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.openPopupCanvas"));
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.openPopupCanvas"));
         }
 
         getPopupCanvas(canvasName).open();
@@ -328,8 +327,7 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(
-                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.closePopupCanvas"));
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.closePopupCanvas"));
         }
 
         getPopupCanvas(canvasName).close();
@@ -356,8 +354,7 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(
-                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "Form.showTabCanvasPage"));
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "Form.showTabCanvasPage"));
         }
 
         getTabCanvas(canvasName).showPage(pageName);
@@ -420,8 +417,7 @@ public class EJForm implements EJFrameworkHelper
     {
         if (canvasName == null)
         {
-            throw new EJApplicationException(
-                    EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.showStackedCanvasPage"));
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD, "EJInternalForm.showStackedCanvasPage"));
         }
 
         getStackedCanvas(canvasName).showPage(pageName);
@@ -624,7 +620,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return new EJDrawerCanvas(_form, name);
     }
-    
+
     /**
      * Used to retrieve an {@link EJPopupCanvas} with the given name
      * 
@@ -699,6 +695,29 @@ public class EJForm implements EJFrameworkHelper
     public void askQuestion(EJQuestion question)
     {
         _form.askQuestion(question);
+    }
+
+    /**
+     * Indicates to the form manager that a file upload should be asked.
+     * <p>
+     * Asking a file upload is a non blocking method. This means that the
+     * control will be passed back to the calling method as soon as the file
+     * upload is presented to the user, i.e. before the user has a chance to
+     * select files.
+     * <p>
+     * For this reason, the <code>EJFormManager</code> will call the actions
+     * processors, file uploaded method of the calling action processor. The
+     * <code>EJFileUpload</code> contains the users selected files
+     * <p>
+     * 
+     * @param fileUpload
+     *            The file upload request
+     */
+    @Override
+    public void uploadFile(EJFileUpload fileUpload)
+    {
+        _form.uploadFile(fileUpload);
+
     }
 
     /**
@@ -1046,37 +1065,6 @@ public class EJForm implements EJFrameworkHelper
         _form.getFrameworkManager().askInternalQuestion(question);
     }
 
-    /**
-     * Indicates to the form that you want to open the Open File dialog
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose a file to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return The fully qualified path name where the file is stored
-     */
-    public String promptFileUpload(String title)
-    {
-        return _form.promptFileUpload(title);
-    }
-
-    /**
-     * Indicates to the form that you want to open the Open File dialog to
-     * select multiple files
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose one or more files to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return A list containingThe fully qualified path names of the chosen
-     *         files
-     */
-    public List<String> promptMultipleFileUpload(String title)
-    {
-        return _form.promptMultipleFileUpload(title);
-    }
 
     /**
      * Loads a given fully qualified file from either the Classpath or an

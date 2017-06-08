@@ -39,6 +39,7 @@ import org.entirej.framework.core.data.controllers.EJCanvasController;
 import org.entirej.framework.core.data.controllers.EJDateHelper;
 import org.entirej.framework.core.data.controllers.EJEditableBlockController;
 import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
@@ -499,6 +500,14 @@ public class EJInternalForm implements Serializable
         if (question != null)
         {
             _formController.getMessenger().askQuestion(question);
+        }
+    }
+    
+    public void uploadFile(EJFileUpload fileUpload)
+    {
+        if (fileUpload != null)
+        {
+            _formController.getMessenger().uploadFile(fileUpload);
         }
     }
 
@@ -1027,35 +1036,4 @@ public class EJInternalForm implements Serializable
         _formController.setFormTitle(title);
     }
     
-    /**
-     * Indicates to the form that you want to open the Open File dialog
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose a file to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return The fully qualified path name where the file is stored
-     */
-    public String promptFileUpload(String title)
-    {
-        return _formController.promptFileUpload(title);
-    }
-
-    /**
-     * Indicates to the form that you want to open the Open File dialog to
-     * select multiple files
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose one or more files to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return A list containingThe fully qualified path names of the chosen
-     *         files
-     */
-    public List<String> promptMultipleFileUpload(String title)
-    {
-        return _formController.promptMultipleFileUpload(title);
-    }
 }

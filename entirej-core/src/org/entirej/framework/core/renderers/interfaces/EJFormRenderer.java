@@ -253,31 +253,5 @@ public interface EJFormRenderer extends EJRenderer
     public void setDrawerPageBadge(String canvasName,String drawerPageName,  String badge);
     
    
-
-    /**
-     * Indicates to the form that you want to open the Open File dialog
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose a file to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return The fully qualified path name where the file is stored
-     */
-    public String promptFileUpload(String title);
-
-    /**
-     * Indicates to the form that you want to open the Open File dialog to
-     * select multiple files
-     * <p>
-     * This will inform the Client Framework to open its file browser so that
-     * the user can search and choose one or more files to load
-     * 
-     * @param title
-     *            The title to display on the File Dialog
-     * @return A list containingThe fully qualified path names of the chosen
-     *         files
-     */
-    public List<String> promptMultipleFileUpload(String title);
     
 }

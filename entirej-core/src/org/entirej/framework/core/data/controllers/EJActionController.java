@@ -156,6 +156,37 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END QuestionAnswered");
     }
+    public void filesUploaded(EJFileUpload fileUpload)
+    {
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START FilesUploaded");
+        EJManagedFrameworkConnection connection = _formController.getFrameworkManager().getConnection();
+        try
+        {
+            
+                if (traceEnabled)
+                    logger.trace("Calling form level filesUploaded");
+                _formLevelActionProcessor.filesUploaded(fileUpload);
+                if (traceEnabled)
+                    logger.trace("Called form level filesUploaded");
+            
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        if (traceEnabled)
+            logger.trace("END FilesUploaded");
+    }
 
     public void newBlockInstance(EJForm form, String blockName)
     {

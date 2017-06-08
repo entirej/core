@@ -81,6 +81,20 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
+    @Override
+    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
+    {
+        try
+        {
+            _unmanagedController.filesUploaded(fileUpload);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+        
+    }
+    
     public EJMessage getMasterDetailDeleteViolationMessage(EJForm form, String relationName)
     {
         try

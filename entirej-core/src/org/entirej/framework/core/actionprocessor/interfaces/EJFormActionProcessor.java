@@ -22,6 +22,7 @@ import org.entirej.framework.core.EJActionProcessorException;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJParameterList;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.enumerations.EJPopupButton;
 
@@ -42,6 +43,21 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            action processor
      */
     public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
+    
+    /**
+     * If the <code>Form</code> is asked to upload file then selection of file/files
+     *  will be returned within this method
+     * <p>
+     * This method is needed because FileDialog are non blocking, ie. after the
+     * FileDialog is opened the code beneath the show method, is continued.
+     * <p>
+     * 
+     * @param question
+     *            The <code>EJFileUpload</code> holds all information that is
+     *            required to upload files and return selected files 
+     *            action processor
+     */
+    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException;
 
     /**
      * This method is called when the user tries to delete a master record in a

@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormControllerFactory;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
@@ -276,6 +277,20 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             LOGGER.error(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.FRAMEWORK_NOT_INITIALISED).getMessage());
         }
 
+    }
+    
+    @Override
+    public void uploadFile(EJFileUpload fileUpload)
+    {
+        if (_applicationManager != null)
+        {
+            _applicationManager.uploadFile(fileUpload);
+        }
+        else
+        {
+            LOGGER.error(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.FRAMEWORK_NOT_INITIALISED).getMessage());
+        }
+        
     }
 
     public void handleMessage(EJMessage message)

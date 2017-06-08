@@ -21,6 +21,7 @@ package org.entirej.framework.core.interfaces;
 import java.io.Serializable;
 
 import org.entirej.framework.core.EJMessage;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJQuestion;
 
@@ -86,6 +87,24 @@ public interface EJMessenger extends Serializable
      * @see {@link IActionProcessor#questionAnswered(IFormManager, EJQuestion)}
      */
     public void askQuestion(EJQuestion question);
+    
+    /**
+     * Indicate to the message listener that a file upload must be asked
+     * <p>
+     * The <code>EJFileUpload</code> holds all the information needed to ask the
+     * file upload request, the selected files and the
+     * <code>{@link IActionProcessor}</code> that must be called after the
+     * files has been uploaded
+     * <p>
+     * If the <code>IActionProcessor</code> is never called after the file upload
+     *  then there is no way of knowing if the file uploaded 
+     * and the program may not function as it should
+     * 
+     * @param fileUpload
+     *            Contains all information needed for the file upload
+     * @see {@link IActionProcessor#filesUploaded(IFormManager, EJFileUpload)}
+     */
+    public void uploadFile(EJFileUpload fileUpload);
     
     /**
      * Indicates to the messenger that the <b>EntireJ Framework</b> needs to ask

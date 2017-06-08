@@ -26,6 +26,7 @@ import org.entirej.framework.core.EJParameterList;
 import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
+import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.enumerations.EJLovDisplayReason;
 import org.entirej.framework.core.enumerations.EJPopupButton;
@@ -51,6 +52,12 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     
     public void questionAnswered(EJQuestion question) throws EJActionProcessorException
     {
+    }
+    
+    
+    @Override
+    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
+    {        
     }
     
     public EJMessage getMasterDetailDeleteViolationMessage(EJForm form, String relationName) throws EJActionProcessorException
