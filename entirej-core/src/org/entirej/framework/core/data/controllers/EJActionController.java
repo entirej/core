@@ -167,7 +167,7 @@ public class EJActionController implements Serializable
             
                 if (traceEnabled)
                     logger.trace("Calling form level filesUploaded");
-                _formLevelActionProcessor.filesUploaded(fileUpload);
+                _formLevelActionProcessor.fileUploaded(fileUpload);
                 if (traceEnabled)
                     logger.trace("Called form level filesUploaded");
             

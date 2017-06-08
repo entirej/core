@@ -698,22 +698,21 @@ public class EJForm implements EJFrameworkHelper
     }
 
     /**
-     * Indicates to the form manager that a file upload should be asked.
+     * Indicates to the form manager that a file upload has been requested
      * <p>
-     * Asking a file upload is a non blocking method. This means that the
+     * Asking for a file upload is a non blocking method. This means that the
      * control will be passed back to the calling method as soon as the file
-     * upload is presented to the user, i.e. before the user has a chance to
+     * upload dialog is presented to the user, i.e. before the user has a chance to
      * select files.
      * <p>
-     * For this reason, the <code>EJFormManager</code> will call the actions
-     * processors, file uploaded method of the calling action processor. The
-     * <code>EJFileUpload</code> contains the users selected files
+     * For this reason, {@link EJFormManager} will call the actions
+     * processors, {@link EJFormActionProcessor#filesUploaded(EJFileUpload)} method of the calling action processor. The
+     * <code>{@link EJFileUpload}</code> contains the users selected files
      * <p>
      * 
      * @param fileUpload
      *            The file upload request
      */
-    @Override
     public void uploadFile(EJFileUpload fileUpload)
     {
         _form.uploadFile(fileUpload);

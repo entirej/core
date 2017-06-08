@@ -81,8 +81,7 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
-    @Override
-    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
+    public void fileUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
     {
         try
         {

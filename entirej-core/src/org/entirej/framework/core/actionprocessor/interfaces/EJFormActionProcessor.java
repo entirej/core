@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 Mojave Innovations GmbH
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     Mojave Innovations GmbH - initial API and implementation
+ * Contributors: Mojave Innovations GmbH - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core.actionprocessor.interfaces;
 
@@ -43,21 +42,21 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            action processor
      */
     public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
-    
+
     /**
-     * If the <code>Form</code> is asked to upload file then selection of file/files
-     *  will be returned within this method
+     * Called by the file upload dialog after a user has chosen required files
      * <p>
      * This method is needed because FileDialog are non blocking, ie. after the
      * FileDialog is opened the code beneath the show method, is continued.
      * <p>
+     * Use the {@link EJFileUpload#getId()} to check which upload process caused
+     * this method to be called
      * 
-     * @param question
-     *            The <code>EJFileUpload</code> holds all information that is
-     *            required to upload files and return selected files 
-     *            action processor
+     * @param fileUpload
+     *            The {@link EJFileUpload} contains a collection of file paths
+     *            to the files that the user chose.
      */
-    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException;
+    public void fileUploaded(EJFileUpload fileUpload) throws EJActionProcessorException;
 
     /**
      * This method is called when the user tries to delete a master record in a
@@ -161,7 +160,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The drawer page
      */
     public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
-    
+
     /**
      * Called whenever a user chooses a new drawer page on a drawer canvas
      * 
@@ -173,7 +172,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The name of the drawer within the drawer canvas
      */
     public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
-    
+
     /**
      * Called before a given stacked page will be shown
      * 
@@ -261,7 +260,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The parameter list from the embedded form
      */
     public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException;
-    
+
     /**
      * This is called whenever the user will navigate to this form
      * 

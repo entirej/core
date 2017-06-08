@@ -54,9 +54,7 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
-    
-    @Override
-    public void filesUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
+    public void fileUploaded(EJFileUpload fileUpload) throws EJActionProcessorException
     {        
     }
     
