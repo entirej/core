@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
+import org.entirej.framework.core.interfaces.EJApplicationManager;
 import org.entirej.framework.core.interfaces.EJMessenger;
 
 public interface EJFrameworkHelper extends EJMessenger, Serializable
@@ -158,4 +159,7 @@ public interface EJFrameworkHelper extends EJMessenger, Serializable
     public void runReportAsync(String reportName);
 
     public EJTranslatorHelper getTranslatorHelper();
+    
+    
+    public EJTabLayoutComponent getTabLayoutComponent(String name);
 }

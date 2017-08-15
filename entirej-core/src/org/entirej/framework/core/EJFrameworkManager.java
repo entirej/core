@@ -458,6 +458,13 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         getApplicationManager().runReportAsync(reportName, parameterList, completedMessage);
         
     }
+    
+    
+    @Override
+    public EJTabLayoutComponent getTabLayoutComponent(String name)
+    {
+        return new EJTabLayoutComponent(getApplicationManager(), name);
+    }
 
     /**
      * Informs the application manager to open a popup form

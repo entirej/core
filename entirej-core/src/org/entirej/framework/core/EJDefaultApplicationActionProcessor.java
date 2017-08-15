@@ -23,4 +23,18 @@ public class EJDefaultApplicationActionProcessor implements EJApplicationActionP
 
     }
 
+    @Override
+    public void preShowTabPage(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException
+    {
+        
+        
+    }
+
+    @Override
+    public void tabPageChanged(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException
+    {
+        
+        
+    }
+
 }

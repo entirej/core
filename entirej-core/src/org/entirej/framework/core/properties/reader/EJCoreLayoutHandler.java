@@ -207,6 +207,10 @@ public class EJCoreLayoutHandler extends EJCorePropertiesTagHandler
                 {
                     item.setName(value);
                 }
+                if (name.equals("title"))
+                {
+                    item.setTitle(value);
+                }
                 if (name.equals("fill"))
                 {
                     FILL fill = FILL.valueOf(value);

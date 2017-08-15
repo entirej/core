@@ -20,6 +20,7 @@ package org.entirej.framework.core.actionprocessor.interfaces;
 import java.io.Serializable;
 
 import org.entirej.framework.core.EJActionProcessorException;
+import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJFrameworkHelper;
 
 public interface EJApplicationActionProcessor extends Serializable
@@ -49,5 +50,32 @@ public interface EJApplicationActionProcessor extends Serializable
      *            EJFrameworkHelper to access application context
      */
     public void whenApplicationEnd(EJFrameworkHelper helper) throws EJActionProcessorException;
+    
+    
+    
+    
+    /**
+     * Called before the given tab page is shown
+     * 
+     * @param helper
+     *            EJFrameworkHelper to access application context
+     * @param tabName
+     *            The name of the tab 
+     * @param tabPageName
+     *            The tab page
+     */
+    public void preShowTabPage(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException;
+
+    /**
+     * Called whenever a user chooses a new tab page on a tab 
+     * 
+     * @param helper
+     *            EJFrameworkHelper to access application context
+     * @param tabName
+     *            The name of the tab 
+     * @param tabPageName
+     *            The name of the tab within the tab canvas
+     */
+    public void tabPageChanged(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException;
 
 }

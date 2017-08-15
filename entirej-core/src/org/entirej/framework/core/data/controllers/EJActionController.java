@@ -589,7 +589,7 @@ public class EJActionController implements Serializable
         EJManagedFrameworkConnection connection = form.getConnection();
         try
         {
-            _formLevelActionProcessor.preShowTabPage(form, drawerCanvasName, drawerPageName);
+            _formLevelActionProcessor.preShowDrawerPage(form, drawerCanvasName, drawerPageName);
         }
         catch (Exception e)
         {

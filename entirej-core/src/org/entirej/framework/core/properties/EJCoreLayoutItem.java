@@ -44,6 +44,7 @@ public class EJCoreLayoutItem implements Serializable
     private final TYPE type;
     
     private String     name;
+    private String     title;
     private int        hintHeight;
     private int        hintWidth;
     private int        minHeight;
@@ -72,6 +73,16 @@ public class EJCoreLayoutItem implements Serializable
     public void setName(String name)
     {
         this.name = name;
+    }
+    
+    public String getTitle()
+    {
+        return title;
+    }
+    
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
     
     public int getHintHeight()
@@ -174,7 +185,6 @@ public class EJCoreLayoutItem implements Serializable
     public static class LayoutGroup extends EJCoreLayoutItem implements ItemContainer
     {
         private boolean                border;
-        private String                 title;
         private int                    columns = 1;
         private boolean                hideMargin;
         
@@ -205,15 +215,7 @@ public class EJCoreLayoutItem implements Serializable
             this.border = border;
         }
         
-        public String getTitle()
-        {
-            return title;
-        }
         
-        public void setTitle(String title)
-        {
-            this.title = title;
-        }
         
         public void addItem(EJCoreLayoutItem item)
         {

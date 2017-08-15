@@ -552,6 +552,13 @@ public class EJForm implements EJFrameworkHelper
         return _form.getFrameworkManager().getForm(name);
     }
 
+    
+    @Override
+    public EJTabLayoutComponent getTabLayoutComponent(String name)
+    {
+        return new EJTabLayoutComponent(_form.getFrameworkManager().getApplicationManager(), name);
+    }
+    
     /**
      * Returns the name of the first navigable block on this form
      * <p>
