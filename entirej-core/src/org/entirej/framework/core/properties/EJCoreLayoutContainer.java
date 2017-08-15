@@ -27,6 +27,7 @@ import org.entirej.framework.core.properties.EJCoreLayoutItem.ItemContainer;
 public class EJCoreLayoutContainer implements ItemContainer
 {
     
+    private String                    _title;
     private int                    _width;
     private int                    _height;
     private int                    columns = 1;
