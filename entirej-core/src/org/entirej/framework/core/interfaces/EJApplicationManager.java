@@ -231,4 +231,7 @@ public interface EJApplicationManager extends EJFrameworkHelper, Serializable
 
     public void showTabPage(String name, String pageName);
 
+    
+    public void setTabPageEnable(String name, String tabPageName, boolean enable);
+
 }

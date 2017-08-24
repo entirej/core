@@ -82,6 +82,20 @@ public class EJTabLayoutComponent
     }
 
     /**
+     * Used to set a specific tab layout page to be enable
+     * 
+     * @param tabPageName
+     *            The page to be shown
+     * @param enable
+     *            If set to <code>true</code> then the tab page will be made
+     *            enable otherwise it will be disable
+     */
+    public void setPageEnable(String tabPageName, boolean enable)
+    {
+        manager.setTabPageEnable(getName(), tabPageName, enable);
+    }
+    
+    /**
      * Returns the name of the tab page which is currently displayed/active
      * 
      * @return The currently displayed tab page
