@@ -42,7 +42,7 @@
 						<manifestEntries>
 							<Specification-Title>${project.name}</Specification-Title>
 							<Specification-Version>${project.version}</Specification-Version>
-							<Specification-Vendor>Mojave Innovations GmbH</Specification-Vendor>
+							<Specification-Vendor>CRESOFT AG</Specification-Vendor>
 							<Implementation-Title>${project.name}</Implementation-Title>
 							<Implementation-Version>${project.version}.${maven.build.timestamp}</Implementation-Version>
 							<Built-By></Built-By>
