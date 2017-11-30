@@ -351,6 +351,44 @@ public class EJBlock implements EJQueryBlock, Serializable
     }
 
     /**
+     * If paging has been enabled for this block, then this method will inform
+     * EntireJ that the user wishes to retrieve the next page of data for the
+     * block
+     * <p>
+     * <b><i>If the block is not set to query in pages then this method does
+     * nothing</i></b>
+     */
+    public void nextPage()
+    {
+        if (_block.canQueryInPages() && (!_block.getProperties().queryAllRows()))
+        {
+            if (_block.hasMorePages())
+            {
+                _block.nextPage();
+            }
+        }
+    }
+
+    /**
+     * If paging has been enabled for this block, then this method will inform
+     * EntireJ that the user wishes to retrieve the previous page of data for
+     * the block
+     * <p>
+     * <b><i>If the block is not set to query in pages or the first page is
+     * being shown then this method does nothing</i></b>
+     */
+    public void previousPage()
+    {
+        if (_block.canQueryInPages() && (!_block.getProperties().queryAllRows()))
+        {
+            if (!_block.isOnFirstPage())
+            {
+                _block.previousPage();
+            }
+        }
+    }
+
+    /**
      * Returns the last query criteria that was used for the query of the block
      * 
      * @return The last used QueryCriteria or <code>null</code> if no query has
