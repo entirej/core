@@ -26,6 +26,7 @@ import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJManagedFrameworkConnection;
 import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
+import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.enumerations.EJLovDisplayReason;
 import org.entirej.framework.core.enumerations.EJRecordType;
 import org.entirej.framework.core.enumerations.EJScreenType;
@@ -159,6 +160,22 @@ public interface EJBlockActionProcessor extends Serializable
      */
     public void postUpdate(EJForm form, EJRecord record) throws EJActionProcessorException;
 
+    /**
+     * If the <code>Block</code> asked a question then the answer of
+     * the question will be returned within the same method
+     * <p>
+     * This method is needed because Alerts are non blocking, ie. after the
+     * alert is opened the code beneath the show method, is continued.
+     * <p>
+     * 
+     * @param question
+     *            The <code>Question</code> holds all information that is
+     *            required to ask the question and to return the answer to this
+     *            action processor
+     */
+    public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
+    
+    
     /**
      * Called each time the user navigated to a new record. The
      * <code>EJRecord</code> given, is the record that was navigated to, i.e.

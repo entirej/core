@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
-import java.io.Serializable; 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -41,6 +41,7 @@ import org.entirej.framework.core.enumerations.EJPopupButton;
 import org.entirej.framework.core.enumerations.EJRecordType;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.internal.EJInternalBlock;
+import org.entirej.framework.core.internal.EJInternalEditableBlock;
 import org.entirej.framework.core.internal.EJInternalLov;
 import org.entirej.framework.core.processorfactories.EJActionProcessorFactory;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
@@ -134,11 +135,22 @@ public class EJActionController implements Serializable
             }
             else
             {
-                if (traceEnabled)
-                    logger.trace("Calling form level questionAnswered");
-                _formLevelActionProcessor.questionAnswered(question);
-                if (traceEnabled)
-                    logger.trace("Called form level questionAnswered");
+                if (question.getBlock() != null && _blockLevelActionProcessors.containsKey(question.getBlock().getProperties().getName()))
+                {
+                    if (traceEnabled)
+                        logger.trace("Calling block level questionAnswered. Block: {}", question.getBlock().getProperties().getName());
+                    _blockLevelActionProcessors.get(question.getBlock().getProperties().getName()).questionAnswered(question);
+                    if (traceEnabled)
+                        logger.trace("Called block level questionAnswered");
+                }
+                else
+                {
+                    if (traceEnabled)
+                        logger.trace("Calling form level questionAnswered");
+                    _formLevelActionProcessor.questionAnswered(question);
+                    if (traceEnabled)
+                        logger.trace("Called form level questionAnswered");
+                }
             }
         }
         catch (Exception e)
@@ -156,6 +168,7 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END QuestionAnswered");
     }
+
     public void filesUploaded(EJFileUpload fileUpload)
     {
         boolean traceEnabled = logger.isTraceEnabled();
@@ -164,13 +177,13 @@ public class EJActionController implements Serializable
         EJManagedFrameworkConnection connection = _formController.getFrameworkManager().getConnection();
         try
         {
-            
-                if (traceEnabled)
-                    logger.trace("Calling form level filesUploaded");
-                _formLevelActionProcessor.fileUploaded(fileUpload);
-                if (traceEnabled)
-                    logger.trace("Called form level filesUploaded");
-            
+
+            if (traceEnabled)
+                logger.trace("Calling form level filesUploaded");
+            _formLevelActionProcessor.fileUploaded(fileUpload);
+            if (traceEnabled)
+                logger.trace("Called form level filesUploaded");
+
         }
         catch (Exception e)
         {
@@ -580,7 +593,7 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END tabPageChanged");
     }
-    
+
     public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName)
     {
         boolean traceEnabled = logger.isTraceEnabled();
@@ -606,7 +619,7 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END preShowDrawerPage");
     }
-    
+
     public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName)
     {
         boolean traceEnabled = logger.isTraceEnabled();

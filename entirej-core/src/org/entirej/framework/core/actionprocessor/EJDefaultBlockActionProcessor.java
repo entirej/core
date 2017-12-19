@@ -24,6 +24,7 @@ import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.EJScreenItem;
 import org.entirej.framework.core.actionprocessor.interfaces.EJBlockActionProcessor;
+import org.entirej.framework.core.data.controllers.EJQuestion;
 import org.entirej.framework.core.enumerations.EJLovDisplayReason;
 import org.entirej.framework.core.enumerations.EJRecordType;
 import org.entirej.framework.core.enumerations.EJScreenType;
@@ -116,6 +117,10 @@ public class EJDefaultBlockActionProcessor implements EJBlockActionProcessor
     public void preOpenScreen(EJBlock block, EJRecord record, EJScreenType screenType) throws EJActionProcessorException
     {
         
+    }
+    
+    public void questionAnswered(EJQuestion question) throws EJActionProcessorException
+    {
     }
     
     public void whenUpdateCancelled(EJBlock block) throws EJActionProcessorException
