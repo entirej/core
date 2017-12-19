@@ -102,12 +102,12 @@ public class EJQuestion implements Serializable
         setTitle(title);
     }
 
-    void setBlock(EJInternalEditableBlock block)
+    public void setBlock(EJInternalEditableBlock block)
     {
         _block = block;
     }
 
-    EJInternalEditableBlock getBlock()
+    public EJInternalEditableBlock getBlock()
     {
         return _block;
     }
