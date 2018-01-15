@@ -30,6 +30,9 @@ public class EJFileUpload implements Serializable
     private EJForm             _form;
     private String             _title          = "";
     private boolean            _multiSelection = false;
+    private long               _uploadSizeLimit;
+    private long               _uploadTimeLimit;
+    private Collection<String> _fileExtensions;
     private Collection<String> _filePaths;
 
     /**
@@ -37,8 +40,7 @@ public class EJFileUpload implements Serializable
      *            The form that initiated the file upload
      * @param id
      *            A unique identified used to identify the file upload process
-     *            within
-     *            {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
+     *            within {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
      */
     public EJFileUpload(EJForm form, String id)
     {
@@ -51,8 +53,7 @@ public class EJFileUpload implements Serializable
      *            The form that initiated the file upload
      * @param id
      *            A unique identified used to identify the file upload process
-     *            within
-     *            {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
+     *            within {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
      * @param title
      *            The title displayed on the file upload dialog
      */
@@ -68,13 +69,12 @@ public class EJFileUpload implements Serializable
      *            The form that initiated the file upload
      * @param id
      *            A unique identified used to identify the file upload process
-     *            within
-     *            {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
+     *            within {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
      * @param title
      *            The title displayed on the file upload dialog
      * @param multiSelection
-     *            <code>true</code> if the user can choose multiple files,
-     *            otherwise <code>false</code>
+     *            <code>true</code> if the user can choose multiple files, otherwise
+     *            <code>false</code>
      */
     public EJFileUpload(EJForm form, String id, String title, boolean multiSelection)
     {
@@ -85,8 +85,8 @@ public class EJFileUpload implements Serializable
     }
 
     /**
-     * The ID is set when creating this file upload and used to identify it
-     * within {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
+     * The ID is set when creating this file upload and used to identify it within
+     * {@link EJFormActionProcessor#filesUploaded(EJFileUpload)}
      * 
      * @return The ID of this file upload
      */
@@ -124,8 +124,8 @@ public class EJFileUpload implements Serializable
     }
 
     /**
-     * Indicates if the user will be allowed to choose multiple files from the
-     * file upload dialog
+     * Indicates if the user will be allowed to choose multiple files from the file
+     * upload dialog
      * 
      * @return <code>true</code> if multiple files can be selected, otherwise
      *         <code>false</code>
@@ -139,8 +139,8 @@ public class EJFileUpload implements Serializable
      * Indicates if the user is allowed to choose multiple files
      * 
      * @param multiSelection
-     *            <code>true</code> if the user can choose multiple files,
-     *            otherwise <code>false</code>
+     *            <code>true</code> if the user can choose multiple files, otherwise
+     *            <code>false</code>
      */
     public void setMultiSelection(boolean multiSelection)
     {
@@ -169,8 +169,7 @@ public class EJFileUpload implements Serializable
     }
 
     /**
-     * Used by the file uploader to set the paths of the files selected by the
-     * user
+     * Used by the file uploader to set the paths of the files selected by the user
      * 
      * @param filePaths
      *            A collection of file path names selected by the user
@@ -183,8 +182,7 @@ public class EJFileUpload implements Serializable
     /**
      * Returns the path names of the files selected by the user
      * <p>
-     * Use the java.io File class using the file paths returned from this
-     * method:
+     * Use the java.io File class using the file paths returned from this method:
      * <p>
      * <code>new java.io.File(String pathname)</code>
      * 
@@ -198,5 +196,40 @@ public class EJFileUpload implements Serializable
             return Collections.emptyList();
         }
         return _filePaths;
+    }
+
+    public void setFileExtensions(Collection<String> fileExtensions)
+    {
+        this._fileExtensions = fileExtensions;
+    }
+
+    public Collection<String> getFileExtensions()
+    {
+        if (_fileExtensions == null)
+        {
+            return Collections.emptyList();
+        }
+        return _fileExtensions;
+    }
+
+    public void setUploadSizeLimit(long uploadSizeLimit)
+    {
+        this._uploadSizeLimit = uploadSizeLimit;
+    }
+
+    public long getUploadSizeLimit()
+    {
+        
+        return _uploadSizeLimit;
+    }
+
+    public long getUploadTimeLimit()
+    {
+        return _uploadTimeLimit;
+    }
+
+    public void setUploadTimeLimit(long uploadTimeLimit)
+    {
+        this._uploadTimeLimit = uploadTimeLimit;
     }
 }
