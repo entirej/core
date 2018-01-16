@@ -20,6 +20,7 @@ package org.entirej.framework.core.data.controllers;
 
 import java.io.Serializable;
 
+import org.entirej.framework.core.EJBlock;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessage;
 import org.entirej.framework.core.EJRecord;
@@ -53,7 +54,7 @@ public class EJQuestion implements Serializable
     private String                  _buttonThreeText;
     private EJRecord                _record;
     private EJQueryCriteria         _queryCriteria;
-    private EJInternalEditableBlock _block;
+    private EJBlock _block;
     private EJDataRecord            _dataRecord;
 
     public EJQuestion(EJForm form, String name)
@@ -102,12 +103,12 @@ public class EJQuestion implements Serializable
         setTitle(title);
     }
 
-    public void setBlock(EJInternalEditableBlock block)
+    public void setBlock(EJBlock block)
     {
         _block = block;
     }
 
-    public EJInternalEditableBlock getBlock()
+    public EJBlock getBlock()
     {
         return _block;
     }

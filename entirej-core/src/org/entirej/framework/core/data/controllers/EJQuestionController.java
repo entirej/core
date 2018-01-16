@@ -18,8 +18,10 @@
  ******************************************************************************/
 package org.entirej.framework.core.data.controllers;
 
+import org.entirej.framework.core.EJBlock;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJMessageFactory;
+import org.entirej.framework.core.EJRecord;
 import org.entirej.framework.core.data.EJDataRecord;
 import org.entirej.framework.core.enumerations.EJAskToSaveChangesOperation;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
@@ -79,7 +81,7 @@ public class EJQuestionController
             q.setButtonText(EJQuestionButton.THREE, CANCEL);
         }
         
-        q.setBlock(block);
+        q.setBlock(new EJBlock(block));
         q.setOperation(operation);
         
         return q;
@@ -135,7 +137,7 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_NEW_RECORD_INSTANCE:
                     question.getBlock().getForm().saveChanges();
-                    question.getBlock().newRecordInstance(question.getDataRecord());
+                    question.getBlock().newRecordInstance(new EJRecord(question.getDataRecord()));
                     break;
                 case QUESTION_ACTION_CLEAR_BLOCK:
                     question.getBlock().getForm().saveChanges();
@@ -143,7 +145,7 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_INSERT_RECORD:
                     question.getBlock().getForm().saveChanges();
-                    question.getBlock().insertRecord(question.getDataRecord());
+                    question.getBlock().insertRecord(new EJRecord(question.getDataRecord()));
                     break;
                 case QUESTION_ACTION_CLOSE_FORM:
                     question.getForm().saveChanges();
@@ -174,14 +176,14 @@ public class EJQuestionController
                     break;
                 case QUESTION_ACTION_NEW_RECORD_INSTANCE:
                     question.getBlock().clearAllDetailRelations(true);
-                    question.getBlock().newRecordInstance(question.getDataRecord());
+                    question.getBlock().newRecordInstance(new EJRecord(question.getDataRecord()));
                     break;
                 case QUESTION_ACTION_CLEAR_BLOCK:
                     question.getBlock().clear(true);
                     break;
                 case QUESTION_ACTION_INSERT_RECORD:
                     question.getBlock().clearAllDetailRelations(true);
-                    question.getBlock().insertRecord(question.getDataRecord());
+                    question.getBlock().insertRecord(new EJRecord(question.getDataRecord()));
                     break;
                 case QUESTION_ACTION_CLOSE_FORM:
                     question.getForm().clear(true);

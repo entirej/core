@@ -121,9 +121,9 @@ public class EJActionController implements Serializable
         EJManagedFrameworkConnection connection = _formController.getFrameworkManager().getConnection();
         try
         {
-            if (question.getBlock() != null && question.getBlock().getProperties().isUsedInLovDefinition())
+            if (question.getBlock() != null && question.getBlock().isUsedInLovDefinition())
             {
-                String lovName = question.getBlock().getProperties().getLovDefinition().getName();
+                String lovName = question.getBlock().getName();
                 if (_lovActionProcessors.containsKey(lovName))
                 {
                     if (traceEnabled)
@@ -135,11 +135,11 @@ public class EJActionController implements Serializable
             }
             else
             {
-                if (question.getBlock() != null && _blockLevelActionProcessors.containsKey(question.getBlock().getProperties().getName()))
+                if (question.getBlock() != null && _blockLevelActionProcessors.containsKey(question.getBlock().getName()))
                 {
                     if (traceEnabled)
-                        logger.trace("Calling block level questionAnswered. Block: {}", question.getBlock().getProperties().getName());
-                    _blockLevelActionProcessors.get(question.getBlock().getProperties().getName()).questionAnswered(question);
+                        logger.trace("Calling block level questionAnswered. Block: {}", question.getBlock().getName());
+                    _blockLevelActionProcessors.get(question.getBlock().getName()).questionAnswered(question);
                     if (traceEnabled)
                         logger.trace("Called block level questionAnswered");
                 }

@@ -128,6 +128,10 @@ public class EJBlock implements EJQueryBlock, Serializable
      */
     public String getName()
     {
+        if(_block.getProperties().isUsedInLovDefinition())
+        {
+           return _block.getProperties().getLovDefinition().getName();
+        }
         return _block.getProperties().getName();
     }
 
@@ -850,5 +854,23 @@ public class EJBlock implements EJQueryBlock, Serializable
                 // do nothing
 
         }
+    }
+
+    public void nextRecord()
+    {
+        _block.nextRecord();
+        
+    }
+
+    public void previousRecord()
+    {
+        _block.previousPage();
+        
+    }
+
+    public void newRecordInstance(EJRecord record)
+    {
+        _block.newRecordInstance(record.getDataRecord() );
+        
     }
 }
