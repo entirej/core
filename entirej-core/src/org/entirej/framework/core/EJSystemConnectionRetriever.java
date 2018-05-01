@@ -18,43 +18,21 @@
  ******************************************************************************/
 package org.entirej.framework.core;
 
-import java.io.Serializable;
-
-import org.entirej.framework.core.interfaces.EJConnectionFactory;
 import org.entirej.framework.core.interfaces.EJFrameworkConnection;
 import org.entirej.framework.core.properties.EJCoreProperties;
 
-public class EJConnectionRetriever implements Serializable
+public class EJSystemConnectionRetriever extends EJConnectionRetriever
 {
-    protected boolean               _closed            = false;
-    protected EJFrameworkConnection _frameworkConnection;
-    protected EJFrameworkManager    _frameworkManager;
-    protected EJConnectionFactory   _connectionFactory = EJCoreProperties.getInstance().getConnectionFactory();
-    
-    EJConnectionRetriever(EJFrameworkManager manager)
+ 
+    EJSystemConnectionRetriever(EJFrameworkManager manager)
     {
-        _frameworkManager = manager;
+        
+       super(manager);
     }
     
-    public void close()
-    {
-        _closed = true;
-        if (_frameworkConnection != null)
-        {
-            _frameworkConnection.close();
-            _frameworkConnection = null;
-        }
-    }
     
-    boolean isClosed()
-    {
-        return _closed;
-    }
     
-    public EJFrameworkManager getFrameworkManager()
-    {
-        return _frameworkManager;
-    }
+    
     
     synchronized EJFrameworkConnection getConnection()
     {
@@ -77,6 +55,6 @@ public class EJConnectionRetriever implements Serializable
                     + EJCoreProperties.getInstance().getConnectionFactoryClassName()));
         }
         
-        return _connectionFactory.createConnection(_frameworkManager);
+        return _connectionFactory.createSystemConnection(_frameworkManager);
     }
 }

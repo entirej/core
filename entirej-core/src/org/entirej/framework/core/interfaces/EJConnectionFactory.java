@@ -40,4 +40,21 @@ public interface EJConnectionFactory extends Serializable
      *            The framework manager for the application
      */
     public EJFrameworkConnection createConnection(EJFrameworkManager frameworkManager);
+    
+    /**
+     * Creates a framework system connection
+     * <p>
+     * The framework manager passed is the framework manager of the application.
+     * The framework manager can be used to access application level parameters
+     * that may be required within the connection factory.
+     * 
+     * @param frameworkManager
+     *            The framework manager for the application
+     */
+    public default EJFrameworkConnection createSystemConnection(EJFrameworkManager frameworkManager) {
+        return createConnection(frameworkManager);
+    }
+    
+    
+    
 }

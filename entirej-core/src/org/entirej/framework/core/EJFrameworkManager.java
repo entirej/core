@@ -49,6 +49,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     private final Logger                                 LOGGER         = LoggerFactory.getLogger(this.getClass());
 
     private EJConnectionRetriever                        _connectionRetriever;
+    private EJSystemConnectionRetriever                  _systemConnectionRetriever;
     private Locale                                       _currentLocale = Locale.ENGLISH;
     private EJCorePropertiesHandlerFactory               _handlerFactory;
     private EJFormPropertiesFactory                      _formPropertiesFactory;
@@ -83,6 +84,19 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             return new EJManagedFrameworkConnection(_connectionRetriever, false);
         }
 
+    }
+    public synchronized EJManagedFrameworkConnection getSystemConnection()
+    {
+        if (_systemConnectionRetriever == null || _systemConnectionRetriever.isClosed())
+        {
+            _systemConnectionRetriever = new EJSystemConnectionRetriever(this);
+            return new EJManagedFrameworkConnection(_systemConnectionRetriever, true);
+        }
+        else
+        {
+            return new EJManagedFrameworkConnection(_systemConnectionRetriever, false);
+        }
+        
     }
 
     protected EJFormPropertiesFactory createFormPropertiesFactory()

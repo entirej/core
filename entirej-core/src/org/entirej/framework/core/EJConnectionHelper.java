@@ -20,14 +20,14 @@ public class EJConnectionHelper
     public static EJManagedFrameworkConnection getConnection()
     {
         if (ref != null && ref.get() != null)
-            return ref.get().getConnection();
+            return ref.get().getSystemConnection();
         else
         {
             try
             {
                 EJFrameworkManager manager = new EJFrameworkManager(entireJPropertiesFileName);
                 ref = new WeakReference<EJFrameworkManager>(manager);
-                return manager.getConnection();
+                return manager.getSystemConnection();
             }
             catch(Exception e)
             {
