@@ -2,7 +2,7 @@ package org.entirej.framework.core;
 
 import java.lang.ref.WeakReference;
 
-public class EJConnectionHelper
+public class EJSystemConnectionHelper
 {
     private static volatile WeakReference<EJFrameworkManager> ref;
     private static String entireJPropertiesFileName;
@@ -27,7 +27,7 @@ public class EJConnectionHelper
             {
                 EJFrameworkManager manager = new EJFrameworkManager(entireJPropertiesFileName);
                 ref = new WeakReference<EJFrameworkManager>(manager);
-                return manager.getConnection();
+                return manager.getSystemConnection();
             }
             catch(Exception e)
             {
