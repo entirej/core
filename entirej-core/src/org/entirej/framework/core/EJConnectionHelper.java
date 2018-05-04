@@ -20,7 +20,7 @@ public class EJConnectionHelper
     public static EJManagedFrameworkConnection getConnection()
     {
         if (ref != null && ref.get() != null)
-            return ref.get().getSystemConnection();
+            return ref.get().getConnection();
         else
         {
             try
