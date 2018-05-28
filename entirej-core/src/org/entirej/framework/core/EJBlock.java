@@ -337,6 +337,17 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.executeQuery(createQueryCriteria());
     }
+    
+    /**
+     * Instructs EntireJ to perform a query on the given block using no query
+     * criteria in background thread 
+     * <p>
+     * The block will create an empty {@link EJQueryCriteria}
+     */
+    public void executeQueryAsync()
+    {
+        _block.executeQueryAsync(createQueryCriteria());
+    }
 
     /**
      * Instructs EntireJ to perform a query on the given block using the
@@ -352,6 +363,22 @@ public class EJBlock implements EJQueryBlock, Serializable
             queryCriteria.setBlock(this);
         }
         _block.executeQuery(queryCriteria);
+    }
+    
+    /**
+     * Instructs EntireJ to perform a query on the given block using the
+     * specified criteria in background thread
+     * 
+     * @param queryCriteria
+     *            The criteria for the query
+     */
+    public void executeQueryAsync(EJQueryCriteria queryCriteria)
+    {
+        if (queryCriteria.getBlock() == null)
+        {
+            queryCriteria.setBlock(this);
+        }
+        _block.executeQueryAsync(queryCriteria);
     }
 
     /**
@@ -411,6 +438,15 @@ public class EJBlock implements EJQueryBlock, Serializable
     public void executeLastQuery()
     {
         _block.executeLastQuery();
+    }
+    
+    /**
+     * Instructs EntireJ to re-query this block using the query criteria
+     * previously entered in backgound thread
+     */
+    public void executeLastQueryAsync()
+    {
+        _block.executeLastQueryAsync();
     }
 
     /**

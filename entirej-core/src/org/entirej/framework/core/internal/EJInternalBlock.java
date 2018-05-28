@@ -21,6 +21,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
@@ -45,9 +48,6 @@ import org.entirej.framework.core.renderers.EJManagedInsertScreenRendererWrapper
 import org.entirej.framework.core.renderers.EJManagedQueryScreenRendererWrapper;
 import org.entirej.framework.core.renderers.EJManagedUpdateScreenRendererWrapper;
 import org.entirej.framework.core.renderers.eventhandlers.EJDataItemValueChangedListener;
-import org.entirej.framework.core.renderers.registry.EJInsertScreenItemRendererRegister;
-import org.entirej.framework.core.renderers.registry.EJQueryScreenItemRendererRegister;
-import org.entirej.framework.core.renderers.registry.EJUpdateScreenItemRendererRegister;
 import org.entirej.framework.core.service.EJQueryCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +60,8 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
 
     private EJDefaultServicePojoHelper                                 _servicePojoHelper;
     private EJBlockController                                          _blockController;
+    
+    private ExecutorService                                            _executor = Executors.newCachedThreadPool();
 
     public EJInternalBlock(EJBlockController blockController)
     {
@@ -445,6 +447,19 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
         if (logger.isTraceEnabled())
             logger.trace("END executeQuery");
     }
+    
+    /**
+     * Instructs EntireJ to perform a query on the given block using the
+     * specified criteria with background thread 
+     * 
+     * @param queryCriteria
+     *            The criteria for the query
+     */
+    public void executeQueryAsync(EJQueryCriteria queryCriteria)
+    {
+         _executor.submit( () -> executeQuery(queryCriteria) );
+        
+    }
 
     /**
      * Instructs the block to execute the given action command on the given
@@ -496,6 +511,15 @@ public class EJInternalBlock implements Serializable, EJDataItemValueChangedList
         }
         if (logger.isTraceEnabled())
             logger.trace("END executeLastQuery");
+    }
+    
+    /**
+     * Instructs EntireJ to re-query this block using the query criteria
+     * previously entered
+     */
+    public void executeLastQueryAsync()
+    {
+        _executor.execute( () -> executeLastQuery() );
     }
 
     /**
