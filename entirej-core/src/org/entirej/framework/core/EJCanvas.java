@@ -77,4 +77,12 @@ public class EJCanvas
     {
         getCanvasController().clearCanvasMessages(_name);
     }
+    
+    
+    public void setTrayContent(String id)
+    {
+        
+        getCanvasController().setTrayContent(_name, id);
+        
+    }
 }

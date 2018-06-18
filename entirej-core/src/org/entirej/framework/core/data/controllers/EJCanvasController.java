@@ -335,6 +335,12 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().setCanvasMessages(canvasName, messages);
 
     }
+    
+    public void setTrayContent(String canvasName, String id)
+    {
+        _formController.getRenderer().setTrayContent(canvasName, id);
+        
+    }
 
     /**
      * Clears the messages that have been set on the given canvas
