@@ -236,6 +236,8 @@ public interface EJFormRenderer extends EJRenderer
      * @see #setCanvasMessages(String, Collection)
      */
     public void setCanvasMessages(String canvasName, Collection<EJMessage> messages);
+    
+    public default void setTrayContent(String canvasName, String id) {throw new IllegalStateException("not supported yet!");}
 
     public void setButtonEnabled(String canvasName, EJPopupButton button, boolean state);
 
