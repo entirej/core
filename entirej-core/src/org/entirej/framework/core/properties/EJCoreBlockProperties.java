@@ -1045,6 +1045,10 @@ public class EJCoreBlockProperties implements EJBlockProperties, Comparable<EJCo
      */
     public EJCoreLovMappingPropertiesContainer getLovMappingContainer()
     {
+        if(isMirrorChild())
+        {
+            return _formProperties.getBlockProperties(_mirrorBlockName).getLovMappingContainer();
+        }
         return _lovMappings;
     }
     
