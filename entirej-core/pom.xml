@@ -59,8 +59,8 @@
 					<links>
 						<link>http://docs.oracle.com/javase/6/docs/api/</link>
 					</links>
-					<javadocVersion>1.6</javadocVersion>
-					<source>1.6</source>
+					<javadocVersion>1.8</javadocVersion>
+					<source>1.8</source>
 					<show>public</show>
 					<doctitle>Entirej API</doctitle>
 					<title>Entirej API</title>
