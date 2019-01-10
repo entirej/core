@@ -3,6 +3,7 @@ package org.entirej.framework.core;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.internal.EJInternalForm;
+import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 
 public class EJDrawerCanvas extends EJCanvas
 {
@@ -80,6 +81,25 @@ public class EJDrawerCanvas extends EJCanvas
         try
         {
             getCanvasController().setDrawerBadge(getName(), pageName, badge);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
+    /**
+     * Instructs EntireJ to display Badge visual attribute on given drawer canvas page
+     * @param drawerPageName
+     *            The page to be shown
+     * @param visualAttributeName
+     *            The name of the visual attribute to set or <code>null</code>
+     *            if the screen item should be returned to its original state
+     */
+    public void setBadgeVisualAttribute(String pageName,String visualAttributeName)
+    {
+        try
+        {
+            getCanvasController().setDrawerBadgeVisualAttribute(getName(), pageName, visualAttributeName);
         }
         catch (Exception e)
         {

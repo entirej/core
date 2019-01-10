@@ -367,4 +367,9 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().setDrawerPageBadge(canvasName,page, badge);
         
     }
+    public void setDrawerBadgeVisualAttribute(String canvasName,String page, String visualAttributeName)
+    {
+        _formController.getRenderer().setDrawerPageBadgeVisualAttribute(canvasName,page, visualAttributeName);
+        
+    }
 }

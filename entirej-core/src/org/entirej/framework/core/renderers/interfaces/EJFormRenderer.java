@@ -253,6 +253,7 @@ public interface EJFormRenderer extends EJRenderer
     public void setTabPageBadge(String canvasName,String tabPageName,  String badge);
     
     public void setDrawerPageBadge(String canvasName,String drawerPageName,  String badge);
+    public void setDrawerPageBadgeVisualAttribute(String canvasName,String drawerPageName,  String visualAttributeName);
     
    
     
