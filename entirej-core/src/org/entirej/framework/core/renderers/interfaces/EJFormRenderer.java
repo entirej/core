@@ -115,6 +115,17 @@ public interface EJFormRenderer extends EJRenderer
     public void showDrawerPage(String drawerCanvasName, String drawerPageName);
     
     /**
+     * Instructs the form renderer to close a drawer page
+     * <p>
+     * 
+     * @param drawerCanvasName
+     *            The name of the drawer canvas containing the required page
+     * @param drawerPageName
+     *            The name of the page to be shown
+     */
+    public void closeDrawerPage(String drawerCanvasName, String drawerPageName);
+    
+    /**
      * Used to set a specific tab canvas page to be visible
      * 
      * @param tabCanvasName

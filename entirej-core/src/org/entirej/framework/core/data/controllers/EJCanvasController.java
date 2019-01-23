@@ -133,6 +133,22 @@ public class EJCanvasController implements Serializable
             }
         }
     }
+    /**
+     * Used to show a specific drawer canvas page
+     * 
+     * @param drawerCanvasName
+     *            The drawer canvas
+     * @param drawerPageName
+     *            The page to be shown
+     */
+    public void closeDrawerPage(String drawerCanvasName, String drawerPageName)
+    {
+        // close that drawer page
+        _formController.getRenderer().closeDrawerPage(drawerCanvasName, drawerPageName);
+        // Inform the action processor that a drawer page has been changed
+        _formController.getManagedActionController().drawerPageChanged(_formController.getEJForm(), drawerCanvasName, drawerPageName);
+       
+    }
 
     /**
      * Returns the current tab page name of the given tab canvas

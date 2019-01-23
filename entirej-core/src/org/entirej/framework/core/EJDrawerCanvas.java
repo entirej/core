@@ -44,6 +44,31 @@ public class EJDrawerCanvas extends EJCanvas
             getForm().handleException(e);
         }
     }
+    
+    /**
+     * Instructs EntireJ to hide the given drawer canvas page
+     * 
+     * 
+     * @param pageName
+     *            The name of the drawer page
+     */
+    public void closePage(String pageName)
+    {
+        if (pageName == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_CANVAS_NAME_PASSED_TO_METHOD,
+                    "EJDrawerCanvas.closePage"));
+        }
+
+        try
+        {
+            getCanvasController().closeDrawerPage(getName(), pageName);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
 
     /**
      * Used to set a specific drawer canvas page to be visible
