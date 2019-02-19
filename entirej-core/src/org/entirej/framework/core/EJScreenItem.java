@@ -878,4 +878,33 @@ public class EJScreenItem
     {
         _item.addItemValueChangedListener(listener);
     }
+    
+    /**
+     * removes an <code>ItemFocusedListener</code> to this renderer
+     * <p>
+     * The listeners must be informed when a new item gains focus. This allows
+     * the form controller to keep block operation and menu/toolbar operations
+     * in sync
+     * 
+     * @param listener
+     *            The focus listener
+     */
+    public void removeItemFocusListener(EJItemFocusListener listener)
+    {
+        _item.removeItemFocusListener(listener);
+    }
+    
+    /**
+     * removes an <code>ItemChangedListener</code> to this renderer
+     * <p>
+     * <code>ItemChangedListeners</code> must be notified if the renderers value
+     * changes
+     * 
+     * @param listener
+     *            The value changed listener
+     */
+    public void removeItemValueChangedListener(EJScreenItemValueChangedListener listener)
+    {
+        _item.removeItemValueChangedListener(listener);
+    }
 }
