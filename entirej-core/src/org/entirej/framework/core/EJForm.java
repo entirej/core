@@ -41,6 +41,8 @@ import org.entirej.framework.core.properties.EJCoreVisualAttributeProperties;
 import org.entirej.framework.core.properties.EJFileLoader;
 import org.entirej.framework.core.properties.definitions.interfaces.EJDisplayProperties;
 import org.entirej.framework.core.properties.interfaces.EJFormProperties;
+import org.entirej.framework.core.renderers.eventhandlers.EJBlockFocusedListener;
+import org.entirej.framework.core.renderers.eventhandlers.EJItemFocusListener;
 
 public class EJForm implements EJFrameworkHelper
 {
@@ -1113,5 +1115,27 @@ public class EJForm implements EJFrameworkHelper
     public static boolean fileExistsOnClasspath(String fileName)
     {
         return EJFileLoader.fileExists(fileName);
+    }
+    
+    public void addBlockFocusedListener(EJBlockFocusedListener listener) {
+        
+        _form.addBlockFocusedListener(listener);
+        
+    }
+    public void removeBlockFocusedListener(EJBlockFocusedListener listener) {
+        
+        _form.removeBlockFocusedListener(listener);
+        
+    }
+    
+    public void addItemFocusedListener(EJItemFocusListener listener) {
+        
+        _form.addItemFocusListener(listener);
+        
+    }
+    public void removeItemFocusedListener(EJItemFocusListener listener) {
+        
+        _form.removeItemFocusListener(listener);
+        
     }
 }
