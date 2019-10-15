@@ -279,6 +279,33 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END preFormOpened");
     }
+    
+    public void postFormOpened(EJForm form)
+    {
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START postFormOpened. Form: {}", form.getName());
+        
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+            _formLevelActionProcessor.postFormOpened(form);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        if (traceEnabled)
+            logger.trace("END postFormOpened");
+    }
 
     public void postFormSave(EJForm form) throws EJActionProcessorException
     {

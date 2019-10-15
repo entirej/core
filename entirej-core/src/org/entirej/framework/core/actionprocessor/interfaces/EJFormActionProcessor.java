@@ -83,6 +83,17 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The form that will be opened
      */
     public void preFormOpened(EJForm form) throws EJActionProcessorException;
+    
+    
+    /**
+     * Called after the form is opened
+     * <p>
+     * 
+     * 
+     * @param form
+     *            The form that opened
+     */
+    public void postFormOpened(EJForm form); 
 
     /**
      * Called before the form is closed

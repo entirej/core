@@ -76,6 +76,13 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
     {
     }
     
+    @Override
+    public void postFormOpened(EJForm form)
+    {
+       
+        
+    }
+    
     public void preFormClosed(EJForm form) throws EJActionProcessorException
     {
     }

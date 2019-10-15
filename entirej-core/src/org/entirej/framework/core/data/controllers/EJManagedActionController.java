@@ -155,6 +155,20 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
+    @Override
+    public void postFormOpened(EJForm form)
+    {
+        try
+        {
+            _unmanagedController.postFormOpened(form);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+        
+    }
+    
     public void preFormClosed(EJForm form)
     {
         try
