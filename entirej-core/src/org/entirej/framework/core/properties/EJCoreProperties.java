@@ -21,6 +21,7 @@ package org.entirej.framework.core.properties;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
@@ -140,6 +141,11 @@ public class EJCoreProperties implements EJEntireJProperties
         {
             _applicationLevelParameters.put(parameter.getName(), parameter);
         }
+    }
+    
+    public List<EJApplicationLevelParameter> getApplicationLevelParameters ()
+    {
+        return new ArrayList<>(_applicationLevelParameters.values().hashCode());
     }
     
     public void copyApplicationLevelParameters(EJFrameworkManager frameworkManager)
