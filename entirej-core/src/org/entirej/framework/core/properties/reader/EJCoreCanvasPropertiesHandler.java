@@ -45,6 +45,8 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
     private static final String            ELEMENT_CLOSEABLE_MESSAGE_PANE = "closeableMessagePane";
     private static final String            ELEMENT_MESSAGE_POSITION       = "messagePosition";
     private static final String            ELEMENT_MESSAGE_PANE_SIZE      = "messagePaneSize";
+    private static final String            ELEMENT_MESSAGE_PANE_VA        = "messagePaneVa";
+    private static final String            ELEMENT_MESSAGE_PANE_FORMATTING= "messagePaneFormatting";
     private static final String            ELEMENT_FRAME_TITLE            = "groupFrameTitle";
     private static final String            ELEMENT_POPUP_PAGE_TITLE       = "popupPageTitle";
     private static final String            ELEMENT_TAB_POSITION           = "tabPosition";
@@ -154,7 +156,21 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             if (value.length() > 0)
             {
-                _canvasProperties.setMessagePaneSize(Integer.parseInt(value));
+                _canvasProperties.getMessagePaneProperties().setSize(Integer.parseInt(value));
+            }
+        }
+        else if (name.equals(ELEMENT_MESSAGE_PANE_FORMATTING))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.getMessagePaneProperties().setCustomFormatting(Boolean.parseBoolean(value));
+            }
+        }
+        else if (name.equals(ELEMENT_MESSAGE_PANE_VA))
+        {
+            if (value.length() > 0)
+            {
+                _canvasProperties.getMessagePaneProperties().setVa(value);
             }
         }
         else if (name.equals(ELEMENT_EXPAND_HORIZONTALLY))
@@ -182,14 +198,14 @@ public class EJCoreCanvasPropertiesHandler extends EJCorePropertiesTagHandler
         {
             if (value != null && value.length() > 0)
             {
-                _canvasProperties.setCloseableMessagePane(Boolean.parseBoolean(value));
+                _canvasProperties.getMessagePaneProperties().setCloseable(Boolean.parseBoolean(value));
             }
         }
         else if (name.equals(ELEMENT_MESSAGE_POSITION))
         {
             if (value.length() > 0)
             {
-                _canvasProperties.setMessagePosition(EJCanvasMessagePosition.valueOf(value));
+                _canvasProperties.getMessagePaneProperties().setPosition(EJCanvasMessagePosition.valueOf(value));
             }
         }
         else if (name.equals(ELEMENT_POPUP_PAGE_TITLE))
