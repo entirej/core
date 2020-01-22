@@ -56,8 +56,12 @@ public class EJManagedFrameworkConnection implements EJFrameworkConnection
     {
         if (_initialiser)
         {
+            try {
             _connectionRetriever.getConnection().commit();
-            _connectionRetriever.close();
+            }finally {
+                _connectionRetriever.close();
+            }
+            
         }
     }
 }
