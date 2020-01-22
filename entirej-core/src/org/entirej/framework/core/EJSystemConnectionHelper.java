@@ -1,41 +1,24 @@
 package org.entirej.framework.core;
 
-import java.lang.ref.WeakReference;
+import org.entirej.framework.core.EJConnectionHelper.EJFrameworkManagerProvider;
 
 public class EJSystemConnectionHelper
 {
-    private static volatile WeakReference<EJFrameworkManager> ref;
-    private static String entireJPropertiesFileName;
-
-    static synchronized void setEJFrameworkManager(EJFrameworkManager manager,String entireFileName)
+ private static volatile EJFrameworkManagerProvider provider;
+   
+    
+    public static void setProvider(EJFrameworkManagerProvider provider)
     {
-        if (ref == null || ref.get() == null)
-        {
-            ref = new WeakReference<EJFrameworkManager>(manager);
-        }
-        entireJPropertiesFileName = entireFileName;
-
+        EJSystemConnectionHelper.provider = provider;
     }
 
     public static EJManagedFrameworkConnection getConnection()
     {
-        if (ref != null && ref.get() != null)
-            return ref.get().getSystemConnection();
-        else
-        {
-            try
-            {
-                EJFrameworkManager manager = new EJFrameworkManager(entireJPropertiesFileName);
-                ref = new WeakReference<EJFrameworkManager>(manager);
-                return manager.getSystemConnection();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        if (provider != null && provider.get() != null)
+            return provider.get().getSystemConnection();
+        
 
-        throw new EJApplicationException("EJFrameworkManager not initialized ");
+        throw new EJApplicationException("EJFrameworkManagerProvider not initialized ");
     }
 
 }
