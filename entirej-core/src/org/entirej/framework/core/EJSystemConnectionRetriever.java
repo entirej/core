@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 CRESOFT AG
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     CRESOFT AG - initial API and implementation
+ * Contributors: CRESOFT AG - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core;
 
@@ -23,26 +22,25 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 
 public class EJSystemConnectionRetriever extends EJConnectionRetriever
 {
- 
+
     EJSystemConnectionRetriever(EJFrameworkManager manager)
     {
-        
-       super(manager);
+
+        super(manager);
     }
-    
-    
-    
-    
-    
-    synchronized EJFrameworkConnection getConnection()
+
+    EJFrameworkConnection getConnection()
     {
-        if (_frameworkConnection == null)
+        synchronized (LOCK)
         {
-            _frameworkConnection = makeConnection();
+            if (_frameworkConnection == null)
+            {
+                _frameworkConnection = makeConnection();
+            }
         }
         return _frameworkConnection;
     }
-    
+
     private EJFrameworkConnection makeConnection()
     {
         if (_connectionFactory == null)
@@ -51,10 +49,9 @@ public class EJSystemConnectionRetriever extends EJConnectionRetriever
             // cause a loop in the application if the message tries to retrieve
             // a managed connection which causes the same exception again and
             // again
-            throw new EJApplicationException(new EJMessage("Unable to retrieve connection factory: "
-                    + EJCoreProperties.getInstance().getConnectionFactoryClassName()));
+            throw new EJApplicationException(new EJMessage("Unable to retrieve connection factory: " + EJCoreProperties.getInstance().getConnectionFactoryClassName()));
         }
-        
+
         return _connectionFactory.createSystemConnection(_frameworkManager);
     }
 }

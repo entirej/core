@@ -27,9 +27,11 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 public class EJConnectionRetriever implements Serializable
 {
     protected boolean               _closed            = false;
-    protected EJFrameworkConnection _frameworkConnection;
+    protected volatile EJFrameworkConnection _frameworkConnection;
     protected EJFrameworkManager    _frameworkManager;
     protected EJConnectionFactory   _connectionFactory = EJCoreProperties.getInstance().getConnectionFactory();
+    
+    protected final Object LOCK = new Object();
     
     EJConnectionRetriever(EJFrameworkManager manager)
     {
@@ -39,10 +41,13 @@ public class EJConnectionRetriever implements Serializable
     public void close()
     {
         _closed = true;
-        if (_frameworkConnection != null)
+        synchronized (LOCK)
         {
-            _frameworkConnection.close();
-            _frameworkConnection = null;
+            if (_frameworkConnection != null)
+            {
+                _frameworkConnection.close();
+                _frameworkConnection = null;
+            }
         }
     }
     
@@ -56,12 +61,16 @@ public class EJConnectionRetriever implements Serializable
         return _frameworkManager;
     }
     
-    synchronized EJFrameworkConnection getConnection()
+    EJFrameworkConnection getConnection()
     {
-        if (_frameworkConnection == null)
+        synchronized (LOCK)
         {
-            _frameworkConnection = makeConnection();
+             if (_frameworkConnection == null)
+             {
+                 _frameworkConnection = makeConnection();
+             }
         }
+        
         return _frameworkConnection;
     }
     
