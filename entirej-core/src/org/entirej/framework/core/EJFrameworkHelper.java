@@ -20,6 +20,7 @@ package org.entirej.framework.core;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.interfaces.EJApplicationManager;
@@ -149,6 +150,7 @@ public interface EJFrameworkHelper extends EJMessenger, Serializable
     
     public String generateReport(String reportName);
     
+    public void generateReportAsync(String reportName, EJParameterList parameterList,EJAsyncCallback<String> callback );
     
     public void runReportAsync(String reportName, EJParameterList parameterList);
     

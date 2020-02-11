@@ -998,6 +998,12 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().generateReport(reportName, parameterList);
     }
+    
+    public void generateReportAsync(String reportName, EJParameterList parameterList,EJAsyncCallback<String> callback ) {
+        
+         _form.getFrameworkManager().generateReportAsync(reportName, parameterList,callback);
+        
+    }
 
     public String generateReport(String reportName)
     {

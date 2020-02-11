@@ -447,6 +447,10 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
        return getApplicationManager().generateReport(reportName);
     }
     
+    public void generateReportAsync(String reportName, EJParameterList parameterList,EJAsyncCallback<String> callback ) {
+         getApplicationManager().generateReportAsync(reportName,parameterList,callback);
+    }
+    
     
     @Override
     public void runReportAsync(String reportName)
