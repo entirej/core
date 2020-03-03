@@ -35,6 +35,7 @@ import org.entirej.framework.core.properties.containers.interfaces.EJItemGroupPr
 import org.entirej.framework.core.properties.definitions.interfaces.EJFrameworkExtensionProperties;
 import org.entirej.framework.core.properties.interfaces.EJBlockProperties;
 import org.entirej.framework.core.properties.interfaces.EJCanvasProperties;
+import org.entirej.framework.core.properties.interfaces.EJDrawerPageProperties;
 import org.entirej.framework.core.properties.interfaces.EJFormProperties;
 import org.entirej.framework.core.properties.interfaces.EJItemGroupProperties;
 import org.entirej.framework.core.properties.interfaces.EJScreenItemProperties;
@@ -457,6 +458,17 @@ public class EJCoreFormProperties implements EJFormProperties
                     while (allTabPages.hasNext())
                     {
                         EJCanvasProperties tabPageChildCanvas = getCanvasProps(allTabPages.next().getContainedCanvases(), canvasName);
+                        if (tabPageChildCanvas != null && tabPageChildCanvas.getName().equalsIgnoreCase(canvasName))
+                        {
+                            return tabPageChildCanvas;
+                        }
+                    }
+                    break;
+                case DRAWER:
+                    Iterator<EJDrawerPageProperties> allDrawerPages = canvas.getDrawerPageContainer().getAllDrawerPageProperties().iterator();
+                    while (allDrawerPages.hasNext())
+                    {
+                        EJCanvasProperties tabPageChildCanvas = getCanvasProps(allDrawerPages.next().getContainedCanvases(), canvasName);
                         if (tabPageChildCanvas != null && tabPageChildCanvas.getName().equalsIgnoreCase(canvasName))
                         {
                             return tabPageChildCanvas;
