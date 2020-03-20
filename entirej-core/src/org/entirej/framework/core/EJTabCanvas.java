@@ -86,4 +86,24 @@ public class EJTabCanvas extends EJCanvas
             getForm().handleException(e);
         }
     }
+    
+    /**
+     * Instructs EntireJ to display  visual attribute on given tab canvas page
+     * @param pageName
+     *            The tab page to be shown
+     * @param visualAttributeName
+     *            The name of the visual attribute to set or <code>null</code>
+     *            if the screen item should be returned to its original state
+     */
+    public void setPageVisualAttribute(String pageName,String visualAttributeName)
+    {
+        try
+        {
+            getCanvasController().setTabPageVisualAttribute(getName(), pageName, visualAttributeName);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
 }

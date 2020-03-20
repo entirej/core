@@ -131,4 +131,6 @@ public class EJDrawerCanvas extends EJCanvas
             getForm().handleException(e);
         }
     }
+    
+    
 }

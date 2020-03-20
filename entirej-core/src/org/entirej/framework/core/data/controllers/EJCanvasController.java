@@ -388,4 +388,9 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().setDrawerPageBadgeVisualAttribute(canvasName,page, visualAttributeName);
         
     }
+    public void setTabPageVisualAttribute(String canvasName,String page, String visualAttributeName)
+    {
+        _formController.getRenderer().setTabPageVisualAttribute(canvasName,page, visualAttributeName);
+        
+    }
 }

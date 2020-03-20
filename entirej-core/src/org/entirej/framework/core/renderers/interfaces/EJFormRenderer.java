@@ -251,6 +251,7 @@ public interface EJFormRenderer extends EJRenderer
     public default void setTrayContent(String canvasName, String id) {throw new IllegalStateException("not supported yet!");}
 
     public void setButtonEnabled(String canvasName, EJPopupButton button, boolean state);
+    public void  setCanvasSize(String canvasName,int width,int height);
 
     public boolean isButtonEnabled(String canvasName, EJPopupButton button);
     
@@ -262,6 +263,8 @@ public interface EJFormRenderer extends EJRenderer
     public void setButtonLabel(String canvasName, EJPopupButton button, String label);
 
     public void setTabPageBadge(String canvasName,String tabPageName,  String badge);
+
+    public void setTabPageVisualAttribute(String canvasName,String tabPageName,  String visualAttributeName);
     
     public void setDrawerPageBadge(String canvasName,String drawerPageName,  String badge);
     public void setDrawerPageBadgeVisualAttribute(String canvasName,String drawerPageName,  String visualAttributeName);

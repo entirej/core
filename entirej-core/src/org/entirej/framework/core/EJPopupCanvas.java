@@ -77,6 +77,18 @@ public class EJPopupCanvas extends EJCanvas
         }
     }
     
+    public void setSize(int width,int height)
+    {
+        try
+        {
+            getForm().getRenderer().setCanvasSize(getName(),width,height);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
+    
     
     public boolean isButtonEnabled(EJPopupButton button)
     {
