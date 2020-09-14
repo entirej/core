@@ -268,6 +268,8 @@ public interface EJFormRenderer extends EJRenderer
     
     public void setDrawerPageBadge(String canvasName,String drawerPageName,  String badge);
     public void setDrawerPageBadgeVisualAttribute(String canvasName,String drawerPageName,  String visualAttributeName);
+
+    public void setPopupStatusBarMessage(String name, String status);
     
    
     

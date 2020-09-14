@@ -156,5 +156,16 @@ public class EJPopupCanvas extends EJCanvas
         return null;
     }
     
+    public void setStatusBarMessage(String status) {
+        try
+        {
+            getForm().getRenderer().setPopupStatusBarMessage(getName(),status);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        } 
+    }
+    
 
 }
