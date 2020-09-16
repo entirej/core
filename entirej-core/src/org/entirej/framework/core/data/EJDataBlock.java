@@ -138,7 +138,7 @@ public class EJDataBlock implements Serializable
 
         if (currRecord == null || _blockRecords.indexOf(currRecord) == -1)
         {
-            _blockRecords.add(0, newRecord);
+            _blockRecords.add( newRecord);
         }
         else
         {
