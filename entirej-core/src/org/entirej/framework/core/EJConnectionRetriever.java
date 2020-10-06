@@ -26,7 +26,7 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 
 public class EJConnectionRetriever implements Serializable
 {
-    protected boolean               _closed            = false;
+    protected boolean               _closed            = true;
     protected volatile EJFrameworkConnection _frameworkConnection;
     protected EJFrameworkManager    _frameworkManager;
     protected EJConnectionFactory   _connectionFactory = EJCoreProperties.getInstance().getConnectionFactory();
@@ -56,6 +56,11 @@ public class EJConnectionRetriever implements Serializable
         return _closed;
     }
     
+    void setClosed(boolean closed)
+    {
+        _closed = closed;
+    }
+    
     public EJFrameworkManager getFrameworkManager()
     {
         return _frameworkManager;
@@ -76,6 +81,8 @@ public class EJConnectionRetriever implements Serializable
     
     private EJFrameworkConnection makeConnection()
     {
+     
+        
         if (_connectionFactory == null)
         {
             // Don't pass the framework manager as a parameter as this could
