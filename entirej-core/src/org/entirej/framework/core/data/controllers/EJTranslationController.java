@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import org.entirej.framework.core.EJFrameworkManager;
-import org.entirej.framework.core.EJManagedFrameworkConnection;
 import org.entirej.framework.core.EJTranslatorHelper;
 import org.entirej.framework.core.enumerations.EJScreenType;
 import org.entirej.framework.core.extensions.properties.EJCoreFrameworkExtensionProperty;
@@ -120,7 +119,7 @@ public class EJTranslationController implements Serializable
             return null;
         }
         
-        EJManagedFrameworkConnection connection = _frameworkManager.getConnection();
+//        EJManagedFrameworkConnection connection = _frameworkManager.getConnection();
         try
         {
             if (_appTranslator != null)
@@ -142,10 +141,10 @@ public class EJTranslationController implements Serializable
         }
         finally
         {
-            if (connection != null)
-            {
-                connection.close();
-            }
+//            if (connection != null)
+//            {
+//                connection.close();
+//            }
         }
     }
     
@@ -187,7 +186,7 @@ public class EJTranslationController implements Serializable
             return null;
         }
         
-        EJManagedFrameworkConnection connection = _frameworkManager.getConnection();
+       // EJManagedFrameworkConnection connection = _frameworkManager.getConnection();
         try
         {
             if (_appTranslator != null)
@@ -210,10 +209,10 @@ public class EJTranslationController implements Serializable
         }
         finally
         {
-            if (connection != null)
-            {
-                connection.close();
-            }
+//            if (connection != null)
+//            {
+//                connection.close();
+//            }
         }
     }
     
@@ -224,7 +223,7 @@ public class EJTranslationController implements Serializable
     
     public void translateForm(EJCoreFormProperties formToTranslate, EJFrameworkManager fwManager)
     {
-        EJManagedFrameworkConnection connection = fwManager.getConnection();
+//        EJManagedFrameworkConnection connection = fwManager.getConnection();
         
         try
         {
@@ -254,10 +253,10 @@ public class EJTranslationController implements Serializable
         }
         finally
         {
-            if (connection != null)
-            {
-                connection.close();
-            }
+//            if (connection != null)
+//            {
+//                connection.close();
+//            }
         }
         
     }
