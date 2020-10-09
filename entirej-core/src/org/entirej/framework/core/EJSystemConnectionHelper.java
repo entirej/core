@@ -20,5 +20,14 @@ public class EJSystemConnectionHelper
 
         throw new EJApplicationException("EJFrameworkManagerProvider not initialized ");
     }
+    
+    public static EJManagedFrameworkConnection newConnection()
+    {
+        if (provider != null && provider.get() != null)
+            return provider.get().newSystemConnection();
+        
+        
+        throw new EJApplicationException("EJFrameworkManagerProvider not initialized ");
+    }
 
 }

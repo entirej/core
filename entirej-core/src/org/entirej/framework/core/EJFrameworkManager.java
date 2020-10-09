@@ -98,6 +98,18 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         }
         
     }
+    
+    public EJManagedFrameworkConnection newConnection()
+    {
+        return new EJManagedFrameworkConnection(new EJConnectionRetriever(this), false);
+        
+        
+    }
+    
+    public EJManagedFrameworkConnection newSystemConnection()
+    {
+        return new EJManagedFrameworkConnection(new EJSystemConnectionRetriever(this), false);
+    }
 
     protected EJFormPropertiesFactory createFormPropertiesFactory()
     {
