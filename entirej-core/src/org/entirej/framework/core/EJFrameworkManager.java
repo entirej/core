@@ -101,14 +101,14 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     
     public EJManagedFrameworkConnection newConnection()
     {
-        return new EJManagedFrameworkConnection(new EJConnectionRetriever(this), false);
+        return new EJManagedFrameworkConnection(new EJConnectionRetriever(this), true);
         
         
     }
     
     public EJManagedFrameworkConnection newSystemConnection()
     {
-        return new EJManagedFrameworkConnection(new EJSystemConnectionRetriever(this), false);
+        return new EJManagedFrameworkConnection(new EJSystemConnectionRetriever(this), true);
     }
 
     protected EJFormPropertiesFactory createFormPropertiesFactory()
