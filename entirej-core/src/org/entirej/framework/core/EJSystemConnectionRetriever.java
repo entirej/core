@@ -29,19 +29,9 @@ public class EJSystemConnectionRetriever extends EJConnectionRetriever
         super(manager);
     }
 
-    EJFrameworkConnection getConnection()
-    {
-        synchronized (LOCK)
-        {
-            if (_frameworkConnection == null)
-            {
-                _frameworkConnection = makeConnection();
-            }
-        }
-        return _frameworkConnection;
-    }
+ 
 
-    private EJFrameworkConnection makeConnection()
+    protected EJFrameworkConnection makeConnection()
     {
         if (_connectionFactory == null)
         {

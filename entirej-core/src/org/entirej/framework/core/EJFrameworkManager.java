@@ -1,20 +1,19 @@
 /*******************************************************************************
  * Copyright 2013 CRESOFT AG
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  * 
- * Contributors:
- *     CRESOFT AG - initial API and implementation
+ * Contributors: CRESOFT AG - initial API and implementation
  ******************************************************************************/
 package org.entirej.framework.core;
 
@@ -74,41 +73,36 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
 
     public synchronized EJManagedFrameworkConnection getConnection()
     {
-        if (_connectionRetriever == null || _connectionRetriever.isClosed())
+        if (_connectionRetriever == null)
         {
             _connectionRetriever = new EJConnectionRetriever(this);
-            return new EJManagedFrameworkConnection(_connectionRetriever, true);
-        }
-        else
-        {
-            return new EJManagedFrameworkConnection(_connectionRetriever, false);
         }
 
+        return new EJManagedFrameworkConnection(_connectionRetriever, _connectionRetriever.initialse());
+
     }
+
     public synchronized EJManagedFrameworkConnection getSystemConnection()
     {
-        if (_systemConnectionRetriever == null || _systemConnectionRetriever.isClosed())
+        if (_systemConnectionRetriever == null)
         {
             _systemConnectionRetriever = new EJSystemConnectionRetriever(this);
-            return new EJManagedFrameworkConnection(_systemConnectionRetriever, true);
         }
-        else
-        {
-            return new EJManagedFrameworkConnection(_systemConnectionRetriever, false);
-        }
-        
+
+        return new EJManagedFrameworkConnection(_systemConnectionRetriever, _systemConnectionRetriever.initialse());
     }
-    
+
     public EJManagedFrameworkConnection newConnection()
     {
-        return new EJManagedFrameworkConnection(new EJConnectionRetriever(this), true);
-        
-        
+        EJConnectionRetriever connectionRetriever = new EJConnectionRetriever(this);
+        return new EJManagedFrameworkConnection(connectionRetriever, connectionRetriever.initialse());
+
     }
-    
+
     public EJManagedFrameworkConnection newSystemConnection()
     {
-        return new EJManagedFrameworkConnection(new EJSystemConnectionRetriever(this), true);
+        EJSystemConnectionRetriever connectionRetriever = new EJSystemConnectionRetriever(this);
+        return new EJManagedFrameworkConnection(connectionRetriever, connectionRetriever.initialse());
     }
 
     protected EJFormPropertiesFactory createFormPropertiesFactory()
@@ -176,8 +170,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     {
         if (className == null)
         {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_APPLICATION_MANAGER_PASSED_TO_METHOD,
-                    "EntireJCoreProperties.setApplicationManagerClassName"));
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_APPLICATION_MANAGER_PASSED_TO_METHOD, "EntireJCoreProperties.setApplicationManagerClassName"));
         }
 
         try
@@ -304,7 +297,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         }
 
     }
-    
+
     @Override
     public void uploadFile(EJFileUpload fileUpload)
     {
@@ -316,7 +309,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         {
             LOGGER.error(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.FRAMEWORK_NOT_INITIALISED).getMessage());
         }
-        
+
     }
 
     public void handleMessage(EJMessage message)
@@ -439,59 +432,63 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         form.getActionController().getUnmanagedController().preFormOpened(new EJForm(form));
 
         getApplicationManager().addFormToContainer(form, blocking);
-        
+
         form.getActionController().getUnmanagedController().postFormOpened(new EJForm(form));
     }
-    
-    
-    public void runReport(String reportName, EJParameterList parameterList){
+
+    public void runReport(String reportName, EJParameterList parameterList)
+    {
         getApplicationManager().runReport(reportName, parameterList);
     }
 
-    public void runReport(String reportName){
+    public void runReport(String reportName)
+    {
         getApplicationManager().runReport(reportName);
     }
-    public String generateReport(String reportName, EJParameterList parameterList){
+
+    public String generateReport(String reportName, EJParameterList parameterList)
+    {
         return getApplicationManager().generateReport(reportName, parameterList);
     }
-    
-    public String generateReport(String reportName){
-       return getApplicationManager().generateReport(reportName);
+
+    public String generateReport(String reportName)
+    {
+        return getApplicationManager().generateReport(reportName);
     }
-    
-    public void generateReportAsync(String reportName, EJParameterList parameterList,EJAsyncCallback<String> callback ) {
-         getApplicationManager().generateReportAsync(reportName,parameterList,callback);
+
+    public void generateReportAsync(String reportName, EJParameterList parameterList, EJAsyncCallback<String> callback)
+    {
+        getApplicationManager().generateReportAsync(reportName, parameterList, callback);
     }
-    
-    
+
     @Override
     public void runReportAsync(String reportName)
     {
-        runReportAsync(reportName,null,null);
-        
+        runReportAsync(reportName, null, null);
+
     }
+
     @Override
     public void runReportAsync(String reportName, EJMessage completedMessage)
     {
-        runReportAsync(reportName,null,completedMessage);
-        
+        runReportAsync(reportName, null, completedMessage);
+
     }
-    
+
     @Override
     public void runReportAsync(String reportName, EJParameterList parameterList)
     {
-        runReportAsync(reportName,parameterList,null);
-        
+        runReportAsync(reportName, parameterList, null);
+
     }
-    
+
     @Override
     public void runReportAsync(String reportName, EJParameterList parameterList, EJMessage completedMessage)
     {
         getApplicationManager().runReportAsync(reportName, parameterList, completedMessage);
-        
+
     }
-    
-    
+
     @Override
     public EJTabLayoutComponent getTabLayoutComponent(String name)
     {
@@ -514,9 +511,9 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         // First call the preFormOpened action controller method. This will
         // allow users to stop the opening of the form if they so wish
         popupFormController.getPopupForm().getActionController().getUnmanagedController().preFormOpened(new EJForm(popupFormController.getPopupForm()));
-        
+
         getApplicationManager().openPopupForm(popupFormController);
-        
+
         popupFormController.getPopupForm().getActionController().getUnmanagedController().postFormOpened(new EJForm(popupFormController.getPopupForm()));
 
     }
@@ -529,8 +526,8 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
      * another form as its container
      * 
      * @param embeddedFormController
-     *            The controller holding all required values to open the embedded
-     *            form
+     *            The controller holding all required values to open the
+     *            embedded form
      */
     public void openEmbeddedForm(EJEmbeddedFormController embeddedFormController)
     {
@@ -543,7 +540,6 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         embeddedFormController.getEmbeddedForm().getActionController().postFormOpened(new EJForm(embeddedFormController.getEmbeddedForm()));
     }
 
-
     /**
      * Informs the application manager to close an embedded form
      * <p>
@@ -552,19 +548,18 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
      * another form as its container
      * 
      * @param embeddedFormController
-     *            The controller holding all required values to close the embedded
-     *            form
+     *            The controller holding all required values to close the
+     *            embedded form
      */
     public void closeEmbeddedForm(EJEmbeddedFormController embeddedFormController)
     {
         EJParameterList paramList = embeddedFormController.getEmbeddedForm().getParameterList();
-        
+
         getApplicationManager().closeEmbeddedForm(embeddedFormController);
-        
+
         embeddedFormController.getEmbeddedForm().getActionController().embeddedFormClosed(paramList);
     }
 
-    
     /**
      * Used to open the form with the given name
      * <p>
@@ -755,8 +750,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         }
         else
         {
-            throw new EJApplicationException(new EJMessage("Trying to set an application level parameter with the name " + valueName
-                    + ", but there is no parameter with this name. All parameters are defiined within the EntireJ.properties file"));
+            throw new EJApplicationException(new EJMessage("Trying to set an application level parameter with the name " + valueName + ", but there is no parameter with this name. All parameters are defiined within the EntireJ.properties file"));
         }
     }
 
@@ -786,8 +780,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         }
         else
         {
-            throw new EJApplicationException("Trying to get an application level parameter value with the name " + valueName
-                    + ", but there is no parameter with this name. All parameters are defiined within the EntireJ.properties file");
+            throw new EJApplicationException("Trying to get an application level parameter value with the name " + valueName + ", but there is no parameter with this name. All parameters are defiined within the EntireJ.properties file");
         }
     }
 

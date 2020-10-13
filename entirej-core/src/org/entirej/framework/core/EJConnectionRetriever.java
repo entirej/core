@@ -25,16 +25,35 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 
 public class EJConnectionRetriever implements Serializable
 {
-    protected boolean                        _closed            = true;
     protected volatile EJFrameworkConnection _frameworkConnection;
     protected EJFrameworkManager             _frameworkManager;
     protected EJConnectionFactory            _connectionFactory = EJCoreProperties.getInstance().getConnectionFactory();
 
     protected final Object                   LOCK               = new Object();
 
+    private int                              _retrievers        = 0;
+    private int                              _closers           = 0;
+
     EJConnectionRetriever(EJFrameworkManager manager)
     {
         _frameworkManager = manager;
+    }
+
+    boolean initialse()
+    {
+        synchronized (LOCK)
+        {
+            if (_frameworkConnection != null)
+            {
+                return false;
+            }
+
+            // there is no connection so make one and indicate to the caller
+            // that he
+            // was the initialiser
+            _frameworkConnection =  makeConnection();
+            return true;
+        }
     }
 
     public void close()
@@ -42,7 +61,6 @@ public class EJConnectionRetriever implements Serializable
 
         synchronized (LOCK)
         {
-            _closed = true;
             if (_frameworkConnection != null)
             {
                 _frameworkConnection.close();
@@ -51,41 +69,38 @@ public class EJConnectionRetriever implements Serializable
         }
     }
 
-    boolean isClosed()
-    {
-        synchronized (LOCK)
-        {
-            return _closed;
-        }
-    }
-
-    void setClosed(boolean closed)
-    {
-        synchronized (LOCK)
-        {
-            _closed = closed;
-        }
-    }
-
     public EJFrameworkManager getFrameworkManager()
     {
         return _frameworkManager;
     }
 
-    EJFrameworkConnection getConnection()
+    void commit()
     {
-        synchronized (LOCK)
+        if (_frameworkConnection != null)
         {
-            if (_frameworkConnection == null)
-            {
-                _frameworkConnection = makeConnection();
-            }
+            _frameworkConnection.commit();
         }
-
-        return _frameworkConnection;
     }
 
-    private EJFrameworkConnection makeConnection()
+    void rollback()
+    {
+        if (_frameworkConnection != null)
+        {
+            _frameworkConnection.rollback();
+        }
+    }
+
+    Object getConnectionObject()
+    {
+        if (_frameworkConnection != null)
+        {
+            return _frameworkConnection.getConnectionObject();
+        }
+
+        return null;
+    }
+
+    protected EJFrameworkConnection makeConnection()
     {
 
         if (_connectionFactory == null)
@@ -97,6 +112,13 @@ public class EJConnectionRetriever implements Serializable
             throw new EJApplicationException(new EJMessage("Unable to retrieve connection factory: " + EJCoreProperties.getInstance().getConnectionFactoryClassName()));
         }
 
-        return _connectionFactory.createConnection(_frameworkManager);
+        return  _connectionFactory.createConnection(_frameworkManager);
     }
+
+    @Override
+    public String toString()
+    {
+        return "Retrievers: " + _retrievers + ",  Closers: " + _closers;
+    }
+
 }
