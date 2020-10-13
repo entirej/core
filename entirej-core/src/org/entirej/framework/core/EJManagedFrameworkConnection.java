@@ -21,7 +21,7 @@ import org.entirej.framework.core.interfaces.EJFrameworkConnection;
 
 public class EJManagedFrameworkConnection implements EJFrameworkConnection
 {
-    private boolean               _initialiser = false;
+    private final boolean               _initialiser ;
     private EJConnectionRetriever _connectionRetriever;
 
     EJManagedFrameworkConnection(EJConnectionRetriever connectionRetriever, boolean initialiser)
