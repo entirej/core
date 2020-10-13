@@ -17,10 +17,19 @@
  ******************************************************************************/
 package org.entirej.framework.core;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.entirej.framework.core.interfaces.EJFrameworkConnection;
 
 public class EJManagedFrameworkConnection implements EJFrameworkConnection
 {
+
+    private static Map<String, Long> TRACE_MAP = new HashMap<>();
     private final boolean               _initialiser ;
     private EJConnectionRetriever _connectionRetriever;
 
@@ -30,14 +39,48 @@ public class EJManagedFrameworkConnection implements EJFrameworkConnection
         _initialiser = initialiser;
         if (initialiser)
         {
+
+            TRACE_MAP.put(this.toString(), System.currentTimeMillis());
             _connectionRetriever.setClosed(false);
         }
+    }
+    
+    
+    static {
+        
+        debugTrace();
+    }
+    
+    public static void debugTrace()
+    {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask()
+        {
+            
+            @Override
+            public void run()
+            {
+               
+                HashMap<String, Long> data = new HashMap<>(TRACE_MAP);
+                Set<Entry<String,Long>> entrySet = data.entrySet();
+                long currentTimeMillis = System.currentTimeMillis();
+                for (Entry<String, Long> entry : entrySet)
+                {
+                    long time = currentTimeMillis - entry.getValue();
+                    if(time > 5000) {
+                        System.err.println("TRACE EJManagedFrameworkConnection :"+entry.getKey()+" open for "+time/1000+"s");
+                    }
+                }
+            }
+        }, 10000, 10000);
     }
 
     public void commit()
     {
+        
         if (_initialiser)
         {
+            TRACE_MAP.remove(this.toString());
             _connectionRetriever.getConnection().commit();
         }
     }
@@ -58,8 +101,12 @@ public class EJManagedFrameworkConnection implements EJFrameworkConnection
 
     public void close()
     {
+
         if (_initialiser)
         {
+
+
+            TRACE_MAP.remove(this.toString());
             try
             {
                 _connectionRetriever.getConnection().commit();
