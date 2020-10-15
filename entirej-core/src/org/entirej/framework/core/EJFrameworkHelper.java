@@ -44,6 +44,8 @@ public interface EJFrameworkHelper extends EJMessenger, Serializable
      *             name
      */
     public EJApplicationLevelParameter getApplicationLevelParameter(String valueName);
+    
+    public boolean hasApplicationLevelParameter(String valueName);
 
     /**
      * Used to set an application level parameter

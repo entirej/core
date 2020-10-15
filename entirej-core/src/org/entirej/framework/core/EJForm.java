@@ -780,6 +780,12 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getApplicationLevelParameter(paramName);
     }
+    
+    
+    public boolean hasApplicationLevelParameter(String paramName)
+    {
+        return _form.hasApplicationLevelParameter(paramName);
+    }
 
     /**
      * Sets the given form parameter to the given value

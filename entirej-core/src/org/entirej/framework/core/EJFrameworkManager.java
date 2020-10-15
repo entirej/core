@@ -783,6 +783,16 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
             throw new EJApplicationException("Trying to get an application level parameter value with the name " + valueName + ", but there is no parameter with this name. All parameters are defiined within the EntireJ.properties file");
         }
     }
+    
+    public boolean hasApplicationLevelParameter(String valueName)
+    {
+        if (valueName == null)
+        {
+            throw new EJApplicationException("Trying to retrieve an application level parameter without specifying a name");
+        }
+        
+        return _applicationLevelParameters.containsKey(valueName);
+    }
 
     /**
      * Checks to see if there is a parameter with the specified name

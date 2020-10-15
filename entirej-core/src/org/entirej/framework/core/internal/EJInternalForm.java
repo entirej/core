@@ -588,6 +588,11 @@ public class EJInternalForm implements Serializable
     {
         return _formController.getFrameworkManager().getApplicationLevelParameter(paramName);
     }
+    
+    public boolean hasApplicationLevelParameter(String paramName)
+    {
+        return _formController.getFrameworkManager().hasApplicationLevelParameter(paramName);
+    }
 
     /**
      * Sets the given form parameter to the given value
