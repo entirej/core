@@ -63,6 +63,7 @@ public class EJConnectionRetriever implements Serializable
         {
             if (_frameworkConnection != null)
             {
+                _frameworkConnection.commit();
                 _frameworkConnection.close();
                 _frameworkConnection = null;
             }
