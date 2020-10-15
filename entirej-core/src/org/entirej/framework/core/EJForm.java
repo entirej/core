@@ -804,7 +804,7 @@ public class EJForm implements EJFrameworkHelper
         _form.setFormParameter(name, value);
     }
     
-    public EJParameterList getFormParameter() 
+    public EJParameterList getFormParameterList() 
     {
         return _form.getFormParameterList();
     }
