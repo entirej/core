@@ -635,6 +635,10 @@ public class EJInternalForm implements Serializable
             throw new EJApplicationException(message);
         }
     }
+    public boolean hasFormParameter(String name)
+    {
+        return _formController.getParameterList().contains(name);
+    }
 
     /**
      * Return the properties of this form

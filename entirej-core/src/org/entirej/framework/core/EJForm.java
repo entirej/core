@@ -823,6 +823,18 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFormParameter(name);
     }
+    
+    /**
+     * Returns the From Level Parameter constants
+     * 
+     * @param name
+     *            The name of the required application parameter
+     * @return The form constants parameter with name or not 
+     */
+    public boolean hasFormParameter(String name)
+    {
+        return _form.hasFormParameter(name);
+    }
 
     /**
      * Set the display properties for this form
