@@ -122,9 +122,17 @@ public class EJLovController extends EJBlockController implements Serializable
     @Override
     public void refreshAfterChange(EJDataRecord record)
     {
-        if (_lovRendererController != null)
+        EJManagedFrameworkConnection connection = _lovBlock.getFrameworkManager().getConnection();
+        try
         {
-            _lovRendererController.refreshAfterChange(record);
+            if (_lovRendererController != null)
+            {
+                _lovRendererController.refreshAfterChange(record);
+            }
+        }
+        finally
+        {
+            connection.close();
         }
     }
 

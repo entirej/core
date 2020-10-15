@@ -556,13 +556,21 @@ public class EJEditableBlockController extends EJBlockController implements Seri
     @Override
     public void refreshAfterChange(EJDataRecord record)
     {
-        if (_blockRendererController != null)
+        EJManagedFrameworkConnection connection = _block.getFrameworkManager().getConnection();
+        try
         {
-            _blockRendererController.refreshAfterChange(record);
+            if (_blockRendererController != null)
+            {
+                _blockRendererController.refreshAfterChange(record);
+            }
+            if (getMirrorBlockSynchronizer() != null)
+            {
+                getMirrorBlockSynchronizer().refreshAfterChange(this, record);
+            }
         }
-        if (getMirrorBlockSynchronizer() != null)
+        finally
         {
-            getMirrorBlockSynchronizer().refreshAfterChange(this, record);
+            connection.close();
         }
 
     }
