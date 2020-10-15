@@ -803,6 +803,11 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setFormParameter(name, value);
     }
+    
+    public EJParameterList getFormParameter() 
+    {
+        return _form.getFormParameterList();
+    }
 
     /**
      * Sets the title of the form

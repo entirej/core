@@ -619,6 +619,11 @@ public class EJInternalForm implements Serializable
             throw new EJApplicationException(message);
         }
     }
+    
+    public EJParameterList getFormParameterList()
+    {
+        return _formController.getParameterList();
+    }
 
     /**
      * Returns the From Level Parameter with the given name
