@@ -442,6 +442,42 @@ public class EJEditableBlockController extends EJBlockController implements Seri
             getFormController().getUnmanagedActionController().postInsert(getFormController().getEJForm(), new EJRecord(insertedRecord));
         }
     }
+    
+    
+    public void executeInsert(EJDataRecord insertedRecord,int position)
+    {
+        if (areChildRelationsDirty())
+        {
+            EJInternalQuestion q = _questionController.makeAskToSaveChangesQuestion(_block, EJAskToSaveChangesOperation.QUESTION_ACTION_INSERT_RECORD, insertedRecord);
+            getFormController().getMessenger().askInternalQuestion(q);
+        }
+        else
+        {
+            addMasterRelationValues(insertedRecord);
+            
+            // Ensure that the new record is valid
+            getFormController().getUnmanagedActionController().validateRecord(getFormController().getEJForm(), new EJRecord(insertedRecord), EJRecordType.INSERT);
+            getFormController().getUnmanagedActionController().preInsert(getFormController().getEJForm(), new EJRecord(insertedRecord));
+            
+            getDataBlock().recordCreated(insertedRecord, position);
+            
+            if (_blockRendererController != null)
+            {
+                _blockRendererController.recordInserted(insertedRecord);
+            }
+            if (getMirrorBlockSynchronizer() != null)
+            {
+                getMirrorBlockSynchronizer().recordInserted(this, insertedRecord);
+            }
+            
+            newRecordInstance(insertedRecord);
+            
+            // Tell the application developer that a record has been inserted.
+            // Ensure that the block has the record already, otherwise the
+            // developer might try to get the record and it will not be there
+            getFormController().getUnmanagedActionController().postInsert(getFormController().getEJForm(), new EJRecord(insertedRecord));
+        }
+    }
 
     /**
      * Informs the blocks renderer that the user wishes to update the current

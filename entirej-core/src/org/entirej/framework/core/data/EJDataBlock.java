@@ -147,6 +147,22 @@ public class EJDataBlock implements Serializable
         _insertRecords.add(newRecord);
         _dirty = true;
     }
+    
+    public void recordCreated(EJDataRecord newRecord, int position)
+    {
+        newRecord.markForInsert(true);
+        
+        if (position == -1 || _blockRecords.size() >= position)
+        {
+            _blockRecords.add( newRecord);
+        }
+        else
+        {
+            _blockRecords.add(position, newRecord);
+        }
+        _insertRecords.add(newRecord);
+        _dirty = true;
+    }
 
     /**
      * Causes the record to be removed from the blocks list and added to the

@@ -272,6 +272,19 @@ public class EJBlock implements EJQueryBlock, Serializable
     {
         _block.insertRecord(insertRecord.getDataRecord());
     }
+    
+    /**
+     * Instructs EntireJ to insert the given record into its block
+     * 
+     * @param insertRecord
+     *            The record to be inserted
+     * @param position
+     *            The record index to be inserted
+     */
+    public void insertRecord(EJRecord insertRecord,int position)
+    {
+        _block.insertRecord(insertRecord.getDataRecord(),position);
+    }
 
     /**
      * Instructs EntireJ to update the given record

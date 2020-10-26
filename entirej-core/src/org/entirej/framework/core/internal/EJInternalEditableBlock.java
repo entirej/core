@@ -215,6 +215,34 @@ public class EJInternalEditableBlock extends EJInternalBlock implements Serializ
     }
     
     /**
+     * Instructs EntireJ to insert the given record into its block
+     * 
+     * @param insertRecord
+     *            The record to be inserted
+     * @param position
+     *            The record index to be inserted
+     */
+    public void insertRecord(EJDataRecord insertRecord,int position)
+    {
+        if (insertRecord == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.NULL_RECORD_PASSED_TO_METHOD, "executeInsert"));
+        }
+        
+        if (insertRecord.getBlockName() == null)
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.RECORD_CREATED_WITHOUT_BLOCK));
+        }
+        
+        if (!insertRecord.getBlockName().equals(getProperties().getName()))
+        {
+            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_BLOCK_FOR_RECORD, insertRecord.getBlockName(), getProperties().getName()));
+        }
+        
+        _blockController.executeInsert(insertRecord,position);
+    }
+    
+    /**
      * Instructs EntireJ to update the given record
      * <p>
      * 
