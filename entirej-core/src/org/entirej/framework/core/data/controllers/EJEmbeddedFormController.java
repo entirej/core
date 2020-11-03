@@ -26,6 +26,9 @@ import org.entirej.framework.core.internal.EJInternalForm;
 
 public class EJEmbeddedFormController implements Serializable
 {
+    // Used for the form parameter to add the parent form to the embedded forms
+    public static final String EJ_INTERNAL_EMBEDDED_FORM_PARENT = "EJ_INTERNAL_EMBEDDED_FORM_PARENT";
+    
     private EJFormController _parentForm;
     private EJFormController _embeddedForm;
     private String           _canvasName;
@@ -44,7 +47,12 @@ public class EJEmbeddedFormController implements Serializable
         return _canvasName;
     }
     
-    public EJInternalForm getCallingForm()
+    public EJFormController getParentFormController()
+    {
+        return _parentForm;
+    }
+    
+    public EJInternalForm getParentForm()
     {
         return _parentForm.getInternalForm();
     }

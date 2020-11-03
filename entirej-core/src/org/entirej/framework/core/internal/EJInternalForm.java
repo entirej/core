@@ -934,8 +934,6 @@ public class EJInternalForm implements Serializable
         {
             try
             {
-                
-
                 _formController.getFrameworkManager().openEmbeddedForm(embeddedFormController);
             }
             catch (Exception e)

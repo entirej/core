@@ -26,7 +26,9 @@ import java.util.Locale;
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
 import org.entirej.framework.core.data.controllers.EJDateHelper;
+import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.data.controllers.EJFileUpload;
+import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJManagedActionController;
@@ -554,13 +556,12 @@ public class EJForm implements EJFrameworkHelper
         return _form.getFrameworkManager().getForm(name);
     }
 
-    
     @Override
     public EJTabLayoutComponent getTabLayoutComponent(String name)
     {
         return new EJTabLayoutComponent(_form.getFrameworkManager().getApplicationManager(), name);
     }
-    
+
     /**
      * Returns the name of the first navigable block on this form
      * <p>
@@ -711,12 +712,13 @@ public class EJForm implements EJFrameworkHelper
      * <p>
      * Asking for a file upload is a non blocking method. This means that the
      * control will be passed back to the calling method as soon as the file
-     * upload dialog is presented to the user, i.e. before the user has a chance to
-     * select files.
+     * upload dialog is presented to the user, i.e. before the user has a chance
+     * to select files.
      * <p>
-     * For this reason, {@link EJFormManager} will call the actions
-     * processors, {@link EJFormActionProcessor#filesUploaded(EJFileUpload)} method of the calling action processor. The
-     * <code>{@link EJFileUpload}</code> contains the users selected files
+     * For this reason, {@link EJFormManager} will call the actions processors,
+     * {@link EJFormActionProcessor#filesUploaded(EJFileUpload)} method of the
+     * calling action processor. The <code>{@link EJFileUpload}</code> contains
+     * the users selected files
      * <p>
      * 
      * @param fileUpload
@@ -780,8 +782,7 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getApplicationLevelParameter(paramName);
     }
-    
-    
+
     public boolean hasApplicationLevelParameter(String paramName)
     {
         return _form.hasApplicationLevelParameter(paramName);
@@ -803,8 +804,8 @@ public class EJForm implements EJFrameworkHelper
     {
         _form.setFormParameter(name, value);
     }
-    
-    public EJParameterList getFormParameterList() 
+
+    public EJParameterList getFormParameterList()
     {
         return _form.getFormParameterList();
     }
@@ -834,13 +835,13 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFormParameter(name);
     }
-    
+
     /**
      * Returns the From Level Parameter constants
      * 
      * @param name
      *            The name of the required application parameter
-     * @return The form constants parameter with name or not 
+     * @return The form constants parameter with name or not
      */
     public boolean hasFormParameter(String name)
     {
@@ -1007,6 +1008,27 @@ public class EJForm implements EJFrameworkHelper
         return _form.getEmbeddedForm(formName, canvasName);
     }
 
+    /**
+     * USed to return the Parent for, if this form is currently an embedded form
+     * <p>
+     * if this form is not an embedded form then this method will return null
+     * 
+     * @return The parent <code>EJForm</code> or <code>null</code> if this form
+     *         is not an embedded form
+     */
+    public EJForm getEmbeddedFormParent()
+    {
+        if (_form.getParameterList().contains(EJEmbeddedFormController.EJ_INTERNAL_EMBEDDED_FORM_PARENT))
+        {
+            EJFormController parentController = (EJFormController) _form.getParameterList().getParameter(EJEmbeddedFormController.EJ_INTERNAL_EMBEDDED_FORM_PARENT).getValue();
+            if (parentController != null)
+            {
+                return new EJForm(parentController.getInternalForm());
+            }
+        }
+        return null;
+    }
+
     public void runReport(String reportName, EJParameterList parameterList)
     {
         _form.getFrameworkManager().runReport(reportName, parameterList);
@@ -1021,11 +1043,12 @@ public class EJForm implements EJFrameworkHelper
     {
         return _form.getFrameworkManager().generateReport(reportName, parameterList);
     }
-    
-    public void generateReportAsync(String reportName, EJParameterList parameterList,EJAsyncCallback<String> callback ) {
-        
-         _form.getFrameworkManager().generateReportAsync(reportName, parameterList,callback);
-        
+
+    public void generateReportAsync(String reportName, EJParameterList parameterList, EJAsyncCallback<String> callback)
+    {
+
+        _form.getFrameworkManager().generateReportAsync(reportName, parameterList, callback);
+
     }
 
     public String generateReport(String reportName)
@@ -1102,7 +1125,6 @@ public class EJForm implements EJFrameworkHelper
         _form.getFrameworkManager().askInternalQuestion(question);
     }
 
-
     /**
      * Loads a given fully qualified file from either the Classpath or an
      * absolute path
@@ -1145,26 +1167,32 @@ public class EJForm implements EJFrameworkHelper
     {
         return EJFileLoader.fileExists(fileName);
     }
-    
-    public void addBlockFocusedListener(EJBlockFocusedListener listener) {
-        
+
+    public void addBlockFocusedListener(EJBlockFocusedListener listener)
+    {
+
         _form.addBlockFocusedListener(listener);
-        
+
     }
-    public void removeBlockFocusedListener(EJBlockFocusedListener listener) {
-        
+
+    public void removeBlockFocusedListener(EJBlockFocusedListener listener)
+    {
+
         _form.removeBlockFocusedListener(listener);
-        
+
     }
-    
-    public void addItemFocusedListener(EJItemFocusListener listener) {
-        
+
+    public void addItemFocusedListener(EJItemFocusListener listener)
+    {
+
         _form.addItemFocusListener(listener);
-        
+
     }
-    public void removeItemFocusedListener(EJItemFocusListener listener) {
-        
+
+    public void removeItemFocusedListener(EJItemFocusListener listener)
+    {
+
         _form.removeItemFocusListener(listener);
-        
+
     }
 }

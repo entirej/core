@@ -25,6 +25,7 @@ import org.entirej.framework.core.data.controllers.EJEmbeddedFormController;
 import org.entirej.framework.core.data.controllers.EJFileUpload;
 import org.entirej.framework.core.data.controllers.EJFormController;
 import org.entirej.framework.core.data.controllers.EJFormControllerFactory;
+import org.entirej.framework.core.data.controllers.EJFormParameter;
 import org.entirej.framework.core.data.controllers.EJInternalQuestion;
 import org.entirej.framework.core.data.controllers.EJPopupFormController;
 import org.entirej.framework.core.data.controllers.EJQuestion;
@@ -533,6 +534,11 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
     {
         // First call the preFormOpened action controller method. This will
         // allow users to stop the opening of the form if they so wish
+        
+        EJFormParameter embeddedFormParentParam = new EJFormParameter(EJEmbeddedFormController.EJ_INTERNAL_EMBEDDED_FORM_PARENT,  EJFormController.class);
+        embeddedFormParentParam.setValue(embeddedFormController.getParentFormController());
+        embeddedFormController.getEmbeddedForm().getFormParameterList().addParameter(embeddedFormParentParam);
+        
         embeddedFormController.getEmbeddedForm().getActionController().preFormOpened(new EJForm(embeddedFormController.getEmbeddedForm()));
 
         getApplicationManager().openEmbeddedForm(embeddedFormController);
