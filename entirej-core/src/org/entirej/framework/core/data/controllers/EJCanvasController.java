@@ -72,6 +72,11 @@ public class EJCanvasController implements Serializable
         _formController.getRenderer().setDrawerPageVisible(drawerCanvasName, drawerPageName, visible);
     }
     
+    public void setDrawerVisible(String drawerCanvasName, boolean visible)
+    {
+        _formController.getRenderer().setDrawerVisible(drawerCanvasName, visible);
+    }
+    
     /**
      * Used to show a specific tab canvas page
      * 

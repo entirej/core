@@ -151,6 +151,8 @@ public interface EJFormRenderer extends EJRenderer
      */
     public void setDrawerPageVisible(String drawerCanvasName, String drawerPageName, boolean visible);
     
+    public void setDrawerVisible(String drawerCanvasName,  boolean visible);
+    
     /**
      * Returns the current tab page name of the given tab canvas
      * <p>

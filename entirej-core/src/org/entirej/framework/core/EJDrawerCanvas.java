@@ -84,6 +84,12 @@ public class EJDrawerCanvas extends EJCanvas
         getCanvasController().setDrawerPageVisible(getName(), drawerPageName, visible);
     }
 
+    
+    public void setVisible(boolean visible)
+    {
+        getCanvasController().setDrawerVisible(getName(),  visible);
+    }
+    
     /**
      * Returns the name of the drawer page which is currently displayed/active
      * 
