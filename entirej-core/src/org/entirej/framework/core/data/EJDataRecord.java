@@ -41,7 +41,7 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
     private Object                         _servicePojo;
     private EJInternalBlock                _block;
 
-    private HashMap<String, EJDataItem>    _itemList;
+    private EJDataMap<String, EJDataItem>    _itemList;
     private boolean                        _queriedRecord   = false;
     private boolean                        _markedForUpdate = false;
     private boolean                        _markedForDelete = false;
@@ -58,7 +58,7 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
         _formController = formController;
         _block = block;
         _servicePojo = getBlock().getServicePojoHelper().createNewPojoFromService();
-        _itemList = new HashMap<String, EJDataItem>();
+        _itemList = new EJDataMap<String, EJDataItem>();
         initialiseRecord(formController, addDefaultInsertValues, null);
     }
 
@@ -72,7 +72,7 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
         _formController = formController;
         _block = block;
         _servicePojo = servicePojo;
-        _itemList = new HashMap<String, EJDataItem>();
+        _itemList = new EJDataMap<String, EJDataItem>();
         initialiseRecord(formController, addDefaultInsertValues, servicePojo);
     }
 
@@ -90,7 +90,7 @@ public class EJDataRecord implements Serializable, EJValueChangedListener
         _formController = formController;
         _block = block;
         _servicePojo = servicePojo;
-        _itemList = new HashMap<String, EJDataItem>();
+        _itemList = new EJDataMap<String, EJDataItem>();
         initialiseRecord(formController, false, sourceEntityObject);
     }
 
