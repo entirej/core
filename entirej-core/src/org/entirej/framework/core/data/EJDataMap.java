@@ -60,5 +60,19 @@ public class EJDataMap<K, V>
         
         System.out.println(data.keySet());
         System.out.println(data.values());
+        data.put("1", "one2");
+        data.put("2", "two2");
+        
+
+        System.out.println(data.keySet());
+        System.out.println(data.values());
+        System.out.println(data.containsKey("1"));
+        System.out.println(data.containsKey("12"));
+        
+    }
+
+    public void clear()
+    {
+        data.clear();
     }
 }
