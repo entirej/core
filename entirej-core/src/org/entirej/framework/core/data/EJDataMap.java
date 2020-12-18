@@ -50,4 +50,15 @@ public class EJDataMap<K, V>
     {
         return data.stream().map(n -> n.k).collect(Collectors.toList());
     }
+    
+    public static void main(String[] args)
+    {
+        EJDataMap<String, String> data = new EJDataMap<>();
+        
+        data.put("1", "one");
+        data.put("2", "two");
+        
+        System.out.println(data.keySet());
+        System.out.println(data.values());
+    }
 }
