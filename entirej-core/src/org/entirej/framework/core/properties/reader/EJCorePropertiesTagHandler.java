@@ -93,6 +93,8 @@ public abstract class EJCorePropertiesTagHandler extends DefaultHandler implemen
      */
     public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException
     {
+        if(name!=null)
+            name = name.intern();
         // reset content buffer
         _characterBuffer.setLength(0);
         
@@ -114,6 +116,8 @@ public abstract class EJCorePropertiesTagHandler extends DefaultHandler implemen
      */
     public void endElement(String uri, String localName, String name) throws SAXException
     {
+        if(name!=null)
+            name = name.intern();
         // delegate to subHandler
         if (_delegateHandler != null)
         {
