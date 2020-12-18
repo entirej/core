@@ -130,7 +130,7 @@ public abstract class EJCorePropertiesTagHandler extends DefaultHandler implemen
         
         // handle locally
         _untrimmedValue = _characterBuffer.toString();
-        _value = _untrimmedValue.trim();
+        _value = _untrimmedValue.trim().intern();
         
         endLocalElement(name, _value, _untrimmedValue);
     }
