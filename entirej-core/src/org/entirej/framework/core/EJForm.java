@@ -654,6 +654,18 @@ public class EJForm implements EJFrameworkHelper
     {
         return new EJStackedCanvas(_form, name);
     }
+    
+    /**
+     * Used to retrieve an {@link EJSplitCanvas} with the given name
+     * 
+     * @param name
+     *            The name of the split canvas
+     * @return The split canvas
+     */
+    public EJSplitCanvas getSplitCanvas(String name)
+    {
+        return new EJSplitCanvas(_form, name);
+    }
 
     /**
      * Returns the <code>VisualAttributeProperties</code> with the given name or

@@ -55,6 +55,22 @@ public class EJCanvasController implements Serializable
     {
         _formController.getRenderer().setTabPageVisible(tabCanvasName, tabPageName, visible);
     }
+    
+    /**
+     * Used to set a specific split child canvas  to be visible
+     * 
+     * @param splitCanvasName
+     *            The spilt canvas
+     * @param splitPageCanvasName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the split child canvas will be made
+     *            visible otherwise it will be hidden
+     */
+    public void setSplitPageVisible(String splitCanvasName, String splitPageCanvasName, boolean visible)
+    {
+        _formController.getRenderer().setSplitPageVisible(splitCanvasName, splitPageCanvasName, visible);
+    }
 
     /**
      * Used to set a specific drawer canvas page to be visible

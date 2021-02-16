@@ -137,6 +137,20 @@ public interface EJFormRenderer extends EJRenderer
      *            visible otherwise it will be hidden
      */
     public void setTabPageVisible(String tabCanvasName, String tabPageName, boolean visible);
+    
+    
+    /**
+     * Used to set a specific split child canvas  to be visible
+     * 
+     * @param splitCanvasName
+     *            The spilt canvas
+     * @param splitPageCanvasName
+     *            The page to be shown
+     * @param visbile
+     *            If set to <code>true</code> then the split child canvas will be made
+     *            visible otherwise it will be hidden
+     */
+    public void setSplitPageVisible(String splitCanvasName, String splitPageCanvasName, boolean visible);
 
     /**
      * Used to set a specific drawer canvas page to be visible
