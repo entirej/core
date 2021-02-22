@@ -252,6 +252,32 @@ public class EJActionController implements Serializable
         if (traceEnabled)
             logger.trace("END focusGained");
     }
+    
+    public void focusLost(EJForm form)
+    {
+        boolean traceEnabled = logger.isTraceEnabled();
+        if (traceEnabled)
+            logger.trace("START focusLost. Form: {}", form.getName());
+        EJManagedFrameworkConnection connection = form.getConnection();
+        try
+        {
+            _formLevelActionProcessor.focusLost(form);
+        }
+        catch (Exception e)
+        {
+            if (connection != null)
+            {
+                connection.rollback();
+            }
+            throw new EJApplicationException(e);
+        }
+        finally
+        {
+            connection.close();
+        }
+        if (traceEnabled)
+            logger.trace("END focusLost");
+    }
 
     public void preFormOpened(EJForm form)
     {

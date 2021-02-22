@@ -72,6 +72,12 @@ public class EJDefaultFormActionProcessor implements EJFormActionProcessor
         
     }
     
+    public void focusLost(EJForm form) throws EJActionProcessorException
+    {
+        
+        
+    }
+    
     public void preFormOpened(EJForm form) throws EJActionProcessorException
     {
     }

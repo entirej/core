@@ -131,6 +131,19 @@ public class EJInternalForm implements Serializable
     {
         _formController.getManagedActionController().focusGained(new EJForm(this));
     }
+    
+    /**
+     * Must be called whenever the form lost focus
+     * <p>
+     * This method will inform the forms action processor that the form has
+     * lost focus. This will call the forms developers application logic that
+     * should be called when the new form lost focus.
+     */
+    
+    public void focusLost()
+    {
+        _formController.getManagedActionController().focusLost(new EJForm(this));
+    }
 
     /**
      * Indicates if this form is dirty

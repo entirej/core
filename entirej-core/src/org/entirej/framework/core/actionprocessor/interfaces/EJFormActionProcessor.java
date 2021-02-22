@@ -279,6 +279,14 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The form from which this method is called
      */
     public void focusGained(EJForm form) throws EJActionProcessorException;
+    
+    /**
+     * This is called whenever the user will navigate out of this form
+     * 
+     * @param form
+     *            The form from which this method is called
+     */
+    public void focusLost(EJForm form) throws EJActionProcessorException;
 
     /**
      * This is called whenever a modal form is closing

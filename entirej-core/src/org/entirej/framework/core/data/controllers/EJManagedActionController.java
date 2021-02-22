@@ -131,6 +131,18 @@ public class EJManagedActionController implements EJFormActionProcessor, Seriali
         }
     }
     
+    public void focusLost(EJForm form)
+    {
+        try
+        {
+            _unmanagedController.focusLost(form);
+        }
+        catch (Exception e)
+        {
+            _appManager.handleException(e);
+        }
+    }
+    
     public void newFormInstance(EJForm form)
     {
         try
