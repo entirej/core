@@ -34,6 +34,7 @@ public class EJMessage implements Serializable
     private List<String>   _replacementStrings;
     private EJMessageLevel _messageLevel;
     private Date           _creationDate    = new Date(System.currentTimeMillis());
+    private Runnable       _callback;
     
     public EJMessage(String text, String... replacementStrings)
     {
@@ -164,5 +165,25 @@ public class EJMessage implements Serializable
     public Exception getException()
     {
         return _cause;
+    }
+    
+    /**
+     * Returns the callback that action upon user action
+     * 
+     * @return If this message has callback action on upon user action, otherwise <code>null</code>
+     */
+    public Runnable getCallback()
+    {
+        return _callback;
+    }
+    /**
+     * Sets this messages callback 
+     * 
+     * @param e
+     *            The callback action upon user action
+     */
+    public void setCallback(Runnable _callback)
+    {
+        this._callback = _callback;
     }
 }
