@@ -85,4 +85,16 @@ public class EJCanvas
         getCanvasController().setTrayContent(_name, id);
         
     }
+    
+    public void setSize(int width,int height)
+    {
+        try
+        {
+            getForm().getRenderer().setCanvasSize(getName(),width,height);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
 }
