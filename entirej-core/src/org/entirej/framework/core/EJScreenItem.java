@@ -100,6 +100,16 @@ public class EJScreenItem
             _item.getItemLovController().displayLov(EJLovDisplayReason.LOV);
         }
     }
+    /**
+     * Used to programmatically set lov display name
+     */
+    public void setLovDisplayName(String displayName)
+    {
+        if (_item.getItemLovController() != null)
+        {
+            _item.getItemLovController().getLovMappingProperties().setBaseLovDisplayName(displayName);
+        }
+    }
 
     /**
      * If this item is used within a lov definition, then this method will
