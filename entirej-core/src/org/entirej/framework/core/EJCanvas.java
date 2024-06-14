@@ -1,5 +1,6 @@
 package org.entirej.framework.core;
 
+import java.awt.Point;
 import java.util.Collection;
 
 import org.entirej.framework.core.data.controllers.EJCanvasController;
@@ -96,5 +97,30 @@ public class EJCanvas
         {
             getForm().handleException(e);
         }
+    }
+    
+    public int getWidth()
+    {
+        try
+        {
+            return getForm().getRenderer().getCanvasWidth(getName());
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        return -1;
+    }
+    public int getHeight()
+    {
+        try
+        {
+            return getForm().getRenderer().getCanvasHeight(getName());
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        return -1;
     }
 }

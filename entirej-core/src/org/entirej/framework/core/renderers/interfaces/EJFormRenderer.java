@@ -268,6 +268,7 @@ public interface EJFormRenderer extends EJRenderer
 
     public void setButtonEnabled(String canvasName, EJPopupButton button, boolean state);
     public void  setCanvasSize(String canvasName,int width,int height);
+    
 
     public boolean isButtonEnabled(String canvasName, EJPopupButton button);
     
@@ -286,6 +287,10 @@ public interface EJFormRenderer extends EJRenderer
     public void setDrawerPageBadgeVisualAttribute(String canvasName,String drawerPageName,  String visualAttributeName);
 
     public void setPopupStatusBarMessage(String name, String status);
+
+    public int getCanvasWidth(String canvasName);
+
+    public int getCanvasHeight(String canvasName);
     
    
     
