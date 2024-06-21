@@ -111,11 +111,38 @@ public class EJCanvas
         }
         return -1;
     }
+    
     public int getHeight()
     {
         try
         {
             return getForm().getRenderer().getCanvasHeight(getName());
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        return -1;
+    }
+    
+    public int getPreferredWidth()
+    {
+        try
+        {
+            return getForm().getRenderer().getPreferredCanvasWidth(getName());
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+        return -1;
+    }
+    
+    public int getPreferredHeight()
+    {
+        try
+        {
+            return getForm().getRenderer().getPreferredCanvasHeight(getName());
         }
         catch (Exception e)
         {

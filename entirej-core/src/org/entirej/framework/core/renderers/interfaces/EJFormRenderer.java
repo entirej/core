@@ -291,6 +291,9 @@ public interface EJFormRenderer extends EJRenderer
     public int getCanvasWidth(String canvasName);
 
     public int getCanvasHeight(String canvasName);
+    public int getPreferredCanvasWidth(String canvasName);
+    
+    public int getPreferredCanvasHeight(String canvasName);
     
    
     
