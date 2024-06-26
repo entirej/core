@@ -106,4 +106,15 @@ public class EJTabCanvas extends EJCanvas
             getForm().handleException(e);
         }
     }
+    
+    public void updatePageLayout(String pageName) {
+        try
+        {
+            getCanvasController().updatePageLayout(getName(), pageName);
+        }
+        catch (Exception e)
+        {
+            getForm().handleException(e);
+        }
+    }
 }
