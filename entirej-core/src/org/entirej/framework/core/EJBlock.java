@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.entirej.framework.core.data.EJDataItem;
 import org.entirej.framework.core.data.EJDataRecord;
@@ -884,6 +886,52 @@ public class EJBlock implements EJQueryBlock, Serializable
     public void newRecordInstance(EJRecord record)
     {
         _block.newRecordInstance(record.getDataRecord() );
-        
+
+    }
+
+    /**
+     * Returns an {@link Optional} containing the currently focused record, or
+     * an empty {@link Optional} if no record is focused
+     *
+     * @return An {@link Optional} containing the focused record, or empty if
+     *         none
+     */
+    public Optional<EJRecord> findFocusedRecord()
+    {
+        return Optional.ofNullable(getFocusedRecord());
+    }
+
+    /**
+     * Returns a {@link Stream} of all {@link EJRecord} instances within this
+     * block
+     *
+     * @return A stream of records, or an empty stream if the block has no
+     *         records
+     */
+    public Stream<EJRecord> records()
+    {
+        Collection<EJRecord> allRecords = getBlockRecords();
+        return allRecords != null ? allRecords.stream() : Stream.empty();
+    }
+
+    /**
+     * Returns the number of records currently held by this block
+     *
+     * @return The number of records within this block
+     */
+    public int getRecordCount()
+    {
+        return _block.getBlockRecordCount();
+    }
+
+    /**
+     * Indicates if this block contains no records
+     *
+     * @return <code>true</code> if the block has no records, otherwise
+     *         <code>false</code>
+     */
+    public boolean isEmpty()
+    {
+        return _block.getBlockRecordCount() == 0;
     }
 }

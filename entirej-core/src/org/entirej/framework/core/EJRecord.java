@@ -21,6 +21,7 @@ package org.entirej.framework.core;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 
 import org.entirej.framework.core.data.EJDataBlock;
 import org.entirej.framework.core.data.EJDataItem;
@@ -338,11 +339,73 @@ public class EJRecord implements Serializable
 
     /**
      * Returns a copy of this record
-     * 
+     *
      * @return The new record
      */
     public EJDataRecord copy()
     {
         return _dataRecord.copy();
+    }
+
+    /**
+     * Returns an {@link Optional} containing the value of the data item with
+     * the given name, or an empty {@link Optional} if the value is
+     * <code>null</code>
+     *
+     * @param itemName
+     *            The name of the item for which the value is required
+     * @return An {@link Optional} containing the item value, or empty if the
+     *         value is <code>null</code>
+     */
+    public Optional<Object> findValue(String itemName)
+    {
+        return Optional.ofNullable(getValue(itemName));
+    }
+
+    /**
+     * Returns an {@link Optional} containing the value of the data item with
+     * the given name, cast to the specified type. Returns an empty
+     * {@link Optional} if the value is <code>null</code> or not an instance of
+     * the specified type
+     *
+     * @param <T>
+     *            The expected type of the value
+     * @param itemName
+     *            The name of the item for which the value is required
+     * @param type
+     *            The expected class of the value
+     * @return An {@link Optional} containing the typed item value, or empty if
+     *         the value is <code>null</code> or not of the expected type
+     */
+    @SuppressWarnings("unchecked")
+    public <T> Optional<T> findValue(String itemName, Class<T> type)
+    {
+        Object value = getValue(itemName);
+        if (type.isInstance(value))
+        {
+            return Optional.of(type.cast(value));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Returns an {@link Optional} containing the {@link EJItem} with the given
+     * name, or an empty {@link Optional} if no such item exists or an error
+     * occurs
+     *
+     * @param itemName
+     *            The name of the item to find
+     * @return An {@link Optional} containing the item, or empty if not found
+     */
+    public Optional<EJItem> findItem(String itemName)
+    {
+        try
+        {
+            return Optional.ofNullable(getItem(itemName));
+        }
+        catch (Exception e)
+        {
+            return Optional.empty();
+        }
     }
 }

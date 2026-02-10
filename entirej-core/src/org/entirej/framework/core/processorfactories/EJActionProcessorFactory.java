@@ -19,7 +19,11 @@
 package org.entirej.framework.core.processorfactories;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.entirej.framework.core.EJActionProcessorException;
 import org.entirej.framework.core.EJApplicationException;
@@ -39,6 +43,7 @@ import org.entirej.framework.core.properties.EJCoreProperties;
 
 public class EJActionProcessorFactory implements Serializable
 {
+    private static final Logger logger = LoggerFactory.getLogger(EJActionProcessorFactory.class);
     private static EJActionProcessorFactory _instance;
     private HashMap<String, Class<?>>       _actionProcessors;
     
@@ -275,20 +280,21 @@ public class EJActionProcessorFactory implements Serializable
     private EJFormActionProcessor createNewFormActionProcessorInstance(EJFrameworkManager frameworkManager, String processorName)
     {
         Class<?> processorClass = _actionProcessors.get(processorName);
-        
+
         if (processorClass == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, processorName));
         }
-        
+
         Object processorObject;
         try
         {
-            processorObject = processorClass.newInstance();
-            if (processorObject instanceof EJFormActionProcessor)
+            logger.debug("Creating form action processor: {}", processorName);
+            processorObject = processorClass.getDeclaredConstructor().newInstance();
+            if (processorObject instanceof EJFormActionProcessor processor)
             {
-                return (EJFormActionProcessor) processorObject;
+                return processor;
             }
             else
             {
@@ -296,18 +302,13 @@ public class EJActionProcessorFactory implements Serializable
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorName, "EJFormActionProcessor"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
-                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
         }
     }
-    
+
     /**
      * Creates a new <code>EJBlockActionProcessor</code> from the class instance
      * stored within the cache
@@ -320,20 +321,21 @@ public class EJActionProcessorFactory implements Serializable
     private EJBlockActionProcessor createNewBlockActionProcessorInstance(EJFrameworkManager frameworkManager, String processorName)
     {
         Class<?> processorClass = _actionProcessors.get(processorName);
-        
+
         if (processorClass == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, processorName));
         }
-        
+
         Object processorObject;
         try
         {
-            processorObject = processorClass.newInstance();
-            if (processorObject instanceof EJBlockActionProcessor)
+            logger.debug("Creating block action processor: {}", processorName);
+            processorObject = processorClass.getDeclaredConstructor().newInstance();
+            if (processorObject instanceof EJBlockActionProcessor processor)
             {
-                return (EJBlockActionProcessor) processorObject;
+                return processor;
             }
             else
             {
@@ -341,12 +343,7 @@ public class EJActionProcessorFactory implements Serializable
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorName, "EJBlockActionProcessor"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
-                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
@@ -356,20 +353,21 @@ public class EJActionProcessorFactory implements Serializable
     private EJLovActionProcessor createNewLovActionProcessorInstance(EJFrameworkManager frameworkManager, String processorName)
     {
         Class<?> processorClass = _actionProcessors.get(processorName);
-        
+
         if (processorClass == null)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, processorName));
         }
-        
+
         Object processorObject;
         try
         {
-            processorObject = processorClass.newInstance();
-            if (processorObject instanceof EJLovActionProcessor)
+            logger.debug("Creating LOV action processor: {}", processorName);
+            processorObject = processorClass.getDeclaredConstructor().newInstance();
+            if (processorObject instanceof EJLovActionProcessor processor)
             {
-                return (EJLovActionProcessor) processorObject;
+                return processor;
             }
             else
             {
@@ -377,12 +375,7 @@ public class EJActionProcessorFactory implements Serializable
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorName, "EJLovActionProcessor"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
-                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorName), e);
@@ -404,14 +397,15 @@ public class EJActionProcessorFactory implements Serializable
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, "createNewMenuActionProcessorInstance"));
         }
-        
+
         Object processorObject;
         try
         {
-            processorObject = processorClass.newInstance();
-            if (processorObject instanceof EJMenuActionProcessor)
+            logger.debug("Creating menu action processor: {}", processorClass.getName());
+            processorObject = processorClass.getDeclaredConstructor().newInstance();
+            if (processorObject instanceof EJMenuActionProcessor processor)
             {
-                return (EJMenuActionProcessor) processorObject;
+                return processor;
             }
             else
             {
@@ -419,12 +413,7 @@ public class EJActionProcessorFactory implements Serializable
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorClass.getName(), "EJMenuActionProcessor"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
-                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);
@@ -440,14 +429,15 @@ public class EJActionProcessorFactory implements Serializable
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.NULL_PROCESSOR_NAME_PASSED_TO_METHOD, "createNewApplicationActionProcessorInstance"));
         }
-        
+
         Object processorObject;
         try
         {
-            processorObject = processorClass.newInstance();
-            if (processorObject instanceof EJApplicationActionProcessor)
+            logger.debug("Creating application action processor: {}", processorClass.getName());
+            processorObject = processorClass.getDeclaredConstructor().newInstance();
+            if (processorObject instanceof EJApplicationActionProcessor processor)
             {
-                return (EJApplicationActionProcessor) processorObject;
+                return processor;
             }
             else
             {
@@ -455,12 +445,7 @@ public class EJActionProcessorFactory implements Serializable
                         EJFrameworkMessage.INVALID_ACTION_PROCESSOR_NAME, processorClass.getName(), "EJApplicationActionProcessor"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
-                    EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(
                     EJFrameworkMessage.UNABLE_TO_CREATE_ACTION_PROCESSOR, processorClass.getName()), e);

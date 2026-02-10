@@ -97,15 +97,11 @@ public class EJDefaultServicePojoHelper implements Serializable
 
             pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
 
-            return pojoClass.newInstance();
+            return pojoClass.getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(new EJMessage("Unable to instantiate pojo from service: " + pojoClass), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(new EJMessage("Unable to access pojo from service: " + pojoClass), e);
         }
     }
 
@@ -214,15 +210,11 @@ public class EJDefaultServicePojoHelper implements Serializable
         {
 
             Class<?> pojoClass = getPojoFromService(_blockProperties.getBlockService().getClass());
-            return pojoClass.newInstance();
+            return pojoClass.getDeclaredConstructor().newInstance();
         }
-        catch (InstantiationException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(new EJMessage("Unable to instantiate service pojo: " + baseEntityObject), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(new EJMessage("Unable to access service pojo: " + baseEntityObject), e);
         }
     }
 

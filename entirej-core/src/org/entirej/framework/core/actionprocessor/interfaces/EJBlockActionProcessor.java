@@ -50,7 +50,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param queryCriteria
      *            The query criteria for this block
      */
-    public void preQuery(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
+    default public void preQuery(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException { }
 
     /**
      * Called for each record of a queried block. The <code>EJrRecord</code> is
@@ -68,7 +68,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record retrieved
      */
-    public void postQuery(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void postQuery(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called after a block has fully completed its query action
@@ -84,7 +84,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The block upon which the query was made
      * @throws EJActionProcessorException
      */
-    public void postBlockQuery(EJForm form, EJBlock block) throws EJActionProcessorException;
+    default public void postBlockQuery(EJForm form, EJBlock block) throws EJActionProcessorException { }
 
     /**
      * Called before a record is deleted from the block but not from the blocks
@@ -97,7 +97,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record to be deleted
      */
-    public void preDelete(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void preDelete(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called after a record has been deleted from the data block but not from
@@ -110,7 +110,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record that was deleted
      */
-    public void postDelete(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void postDelete(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called before a record is inserted into the data block
@@ -128,7 +128,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            The record which will be inserted
      * 
      */
-    public void preInsert(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void preInsert(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called after the given record is inserted into the block
@@ -138,7 +138,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record that was inserted
      */
-    public void postInsert(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void postInsert(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called before the given record is updated within the data block
@@ -148,7 +148,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record that will be updated
      */
-    public void preUpdate(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void preUpdate(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called after the given record has been updated within the data block
@@ -158,7 +158,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The record that was updated
      */
-    public void postUpdate(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void postUpdate(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * If the <code>Block</code> asked a question then the answer of
@@ -173,9 +173,9 @@ public interface EJBlockActionProcessor extends Serializable
      *            required to ask the question and to return the answer to this
      *            action processor
      */
-    public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
-    
-    
+    default public void questionAnswered(EJQuestion question) throws EJActionProcessorException { }
+
+
     /**
      * Called each time the user navigated to a new record. The
      * <code>EJRecord</code> given, is the record that was navigated to, i.e.
@@ -186,7 +186,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param record
      *            The new current record
      */
-    public void newRecordInstance(EJForm form, EJRecord record) throws EJActionProcessorException;
+    default public void newRecordInstance(EJForm form, EJRecord record) throws EJActionProcessorException { }
 
     /**
      * Called when an LOV is activated on the given screen item
@@ -209,7 +209,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param displayReason
      *            The reason for the lov activation
      */
-    public void lovActivated(EJForm form, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException;
+    default public void lovActivated(EJForm form, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException { }
 
     /**
      * Called after a value has been chosen or the LOV is closed
@@ -225,7 +225,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            <code>false</code> indicates the lov was closed but no value
      *            was chosen
      */
-    public void lovCompleted(EJForm form, EJScreenItem screenItem, boolean valueChosen) throws EJActionProcessorException;
+    default public void lovCompleted(EJForm form, EJScreenItem screenItem, boolean valueChosen) throws EJActionProcessorException { }
 
     /**
      * Called when validation is required on a given record
@@ -248,7 +248,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @see EJBlockActionProcessor#validateQueryCriteria(EJForm,
      *      EJQueryCriteria)
      */
-    public void validateRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException;
+    default public void validateRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException { }
 
     /**
      * Used to validate the given query criteria before a query is made on the
@@ -263,7 +263,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param queryCriteria
      *            The query criteria that should be validated
      */
-    public void validateQueryCriteria(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
+    default public void validateQueryCriteria(EJForm form, EJQueryCriteria queryCriteria) throws EJActionProcessorException { }
 
     /**
      * Called after a user modifies an item
@@ -289,7 +289,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            then the record will contain all items available in the LOV
      *            mapping
      */
-    public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues) throws EJActionProcessorException;
+    default public void validateItem(EJForm form, String blockName, String itemName, EJScreenType screenType, EJRecord newValues) throws EJActionProcessorException { }
 
     /**
      * This method is called after the item has been changed and validated
@@ -308,7 +308,7 @@ public interface EJBlockActionProcessor extends Serializable
      *            
      * @throws EJActionProcessorException
      */
-    public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+    default public void postItemChanged(EJForm form, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException { }
 
     /**
      * Called each time an item with an action command is modified on the main
@@ -330,7 +330,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param screenType
      *            The screen from where this method was called
      */
-    public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException;
+    default public void executeActionCommand(EJForm form, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException { }
 
     /**
      * Called when a record is created for one of the screens. This allows
@@ -343,7 +343,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param recordType
      *            The type of record to be initialised
      */
-    public void initialiseRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException;
+    default public void initialiseRecord(EJForm form, EJRecord record, EJRecordType recordType) throws EJActionProcessorException { }
 
     /**
      * Called before a query, insert or update screen is opened
@@ -358,7 +358,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param screenType
      *            The type of screen that is being opened
      */
-    public void preOpenScreen(EJBlock block, EJRecord record, EJScreenType screenType) throws EJActionProcessorException;
+    default public void preOpenScreen(EJBlock block, EJRecord record, EJScreenType screenType) throws EJActionProcessorException { }
 
     /**
      * Called when an update operation is cancelled by the user
@@ -366,7 +366,7 @@ public interface EJBlockActionProcessor extends Serializable
      * @param block
      *            The block that has had the update operation cancelled
      */
-    public void whenUpdateCancelled(EJBlock block) throws EJActionProcessorException;
+    default public void whenUpdateCancelled(EJBlock block) throws EJActionProcessorException { }
 
     /**
      * Called when an insert operation is cancelled by the user
@@ -374,5 +374,5 @@ public interface EJBlockActionProcessor extends Serializable
      * @param block
      *            The block that has had the insert operation cancelled
      */
-    public void whenInsertCancelled(EJBlock block) throws EJActionProcessorException;
+    default public void whenInsertCancelled(EJBlock block) throws EJActionProcessorException { }
 }

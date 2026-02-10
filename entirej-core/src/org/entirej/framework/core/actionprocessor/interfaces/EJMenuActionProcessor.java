@@ -33,7 +33,7 @@ public interface EJMenuActionProcessor extends Serializable
      * @param command
      *            The command being executed
      */
-    public void executeActionCommand( String command) throws EJActionProcessorException;
+    default public void executeActionCommand( String command) throws EJActionProcessorException { }
     
     /**
      * Called before a form is opened
@@ -43,7 +43,7 @@ public interface EJMenuActionProcessor extends Serializable
      * @param form
      *            The form which is to be opened
      */
-    public void preOpenForm( EJForm form) throws EJActionProcessorException;
+    default public void preOpenForm( EJForm form) throws EJActionProcessorException { }
     
     /**
      * Called after a form has been closed
@@ -53,6 +53,6 @@ public interface EJMenuActionProcessor extends Serializable
      * @param form
      *            The form which has been closed
      */
-    public void formClosed(EJForm form) throws EJActionProcessorException;
+    default public void formClosed(EJForm form) throws EJActionProcessorException { }
     
 }

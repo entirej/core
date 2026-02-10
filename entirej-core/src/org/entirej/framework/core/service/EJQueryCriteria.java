@@ -317,9 +317,61 @@ public class EJQueryCriteria extends EJStatementCriteria implements Serializable
                 return s;
             }
         }
-        
+
         // there was no sort with the given name
         return null;
     }
-    
+
+    /**
+     * Fluent method to add a {@link EJRestriction} to this criteria
+     *
+     * @param restriction
+     *            The restriction to add
+     * @return This {@link EJQueryCriteria} instance for method chaining
+     */
+    public EJQueryCriteria withRestriction(EJRestriction<?> restriction)
+    {
+        add(restriction);
+        return this;
+    }
+
+    /**
+     * Fluent method to add a {@link EJQuerySort} to this criteria
+     *
+     * @param sort
+     *            The sort to add
+     * @return This {@link EJQueryCriteria} instance for method chaining
+     */
+    public EJQueryCriteria withSort(EJQuerySort sort)
+    {
+        add(sort);
+        return this;
+    }
+
+    /**
+     * Fluent method to set the page size
+     *
+     * @param pageSize
+     *            The size of the pages to retrieve
+     * @return This {@link EJQueryCriteria} instance for method chaining
+     */
+    public EJQueryCriteria withPageSize(int pageSize)
+    {
+        setPageSize(pageSize);
+        return this;
+    }
+
+    /**
+     * Fluent method to set the page number
+     *
+     * @param pageNumber
+     *            The number of the page to be retrieved
+     * @return This {@link EJQueryCriteria} instance for method chaining
+     */
+    public EJQueryCriteria withPageNumber(int pageNumber)
+    {
+        setPageNumber(pageNumber);
+        return this;
+    }
+
 }

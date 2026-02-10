@@ -22,28 +22,33 @@ import java.io.Serializable;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EJBlockServiceFactory implements Serializable
 {
+    private static final Logger logger = LoggerFactory.getLogger(EJBlockServiceFactory.class);
+
     public EJBlockServiceFactory()
     {
     }
-    
+
     public EJBlockService<?> createBlockService(String serviceClassName)
     {
         if (serviceClassName == null || serviceClassName.trim().length() == 0)
         {
             return null;
         }
-        
+
         try
         {
+            logger.debug("Creating block service: {}", serviceClassName);
             Class<?> serviceClass = Class.forName(serviceClassName);
-            Object service = serviceClass.newInstance();
-            
-            if (service != null && service instanceof EJBlockService<?>)
+            Object service = serviceClass.getDeclaredConstructor().newInstance();
+
+            if (service instanceof EJBlockService<?> blockService)
             {
-                return (EJBlockService<?>) service;
+                return blockService;
             }
             else
             {
@@ -54,13 +59,9 @@ public class EJBlockServiceFactory implements Serializable
         {
             throw new EJApplicationException(new EJMessage("Unable to find service class: " + serviceClassName), e);
         }
-        catch (InstantiationException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(new EJMessage("Unable to instanciate service class: " + serviceClassName), e);
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(new EJMessage("Illegal access exception when trying to access service class: " + serviceClassName), e);
         }
     }
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.entirej.framework.core.actionprocessor.interfaces.EJFormActionProcessor;
 import org.entirej.framework.core.data.controllers.EJApplicationLevelParameter;
@@ -1206,5 +1207,26 @@ public class EJForm implements EJFrameworkHelper
 
         _form.removeItemFocusListener(listener);
 
+    }
+
+    /**
+     * Returns an {@link Optional} containing the {@link EJBlock} with the given
+     * name, or an empty {@link Optional} if no such block exists or an error
+     * occurs
+     *
+     * @param blockName
+     *            The name of the block to find
+     * @return An {@link Optional} containing the block, or empty if not found
+     */
+    public Optional<EJBlock> findBlock(String blockName)
+    {
+        try
+        {
+            return Optional.ofNullable(getBlock(blockName));
+        }
+        catch (Exception e)
+        {
+            return Optional.empty();
+        }
     }
 }

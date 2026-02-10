@@ -177,7 +177,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         try
         {
             Class<?> rendererClass = Class.forName(className);
-            Object obj = rendererClass.newInstance();
+            Object obj = rendererClass.getDeclaredConstructor().newInstance();
 
             if (obj instanceof EJApplicationManager)
             {
@@ -193,11 +193,7 @@ public class EJFrameworkManager implements EJMessenger, EJFrameworkHelper
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APP_MANAGER, className), e);
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APP_MANAGER, className), e);
-        }
-        catch (IllegalAccessException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APP_MANAGER, className), e);
         }

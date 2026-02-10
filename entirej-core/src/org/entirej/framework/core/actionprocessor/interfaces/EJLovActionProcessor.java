@@ -56,7 +56,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param displayReason
      *            The reason for the lov activation
      */
-    public void lovActivated(EJLov lov, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException;
+    default public void lovActivated(EJLov lov, EJScreenItem screenItem, EJLovDisplayReason displayReason) throws EJActionProcessorException { }
    
     /**
      * Called after a value has been chosen or the LOV is closed
@@ -72,7 +72,7 @@ public interface EJLovActionProcessor extends Serializable
      *            <code>false</code> indicates the lov was closed but no value
      *            was chosen
      */
-    public void lovCompleted(EJLov lov, EJScreenItem screenItem, boolean valueChosen) throws EJActionProcessorException;
+    default public void lovCompleted(EJLov lov, EJScreenItem screenItem, boolean valueChosen) throws EJActionProcessorException { }
     
     /**
      * If the <code>Lov</code> is asked to ask a question then the answer of
@@ -87,7 +87,7 @@ public interface EJLovActionProcessor extends Serializable
      *            required to ask the question and to return the answer to this
      *            action processor
      */
-    public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
+    default public void questionAnswered(EJQuestion question) throws EJActionProcessorException { }
     
     /**
      * Called before a query is executed. The <code>IQueryCriteria</code> given,
@@ -105,7 +105,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param queryCriteria
      *            The query criteria for this block
      */
-    public void preQuery(EJLov lov, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
+    default public void preQuery(EJLov lov, EJQueryCriteria queryCriteria) throws EJActionProcessorException { }
     
     /**
      * Called for each record retrieved by the block if the lov. The <code>IDataRecord</code>
@@ -123,7 +123,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param record
      *            The record retrieved
      */
-    public void postQuery(EJLov lov, EJRecord record) throws EJActionProcessorException;
+    default public void postQuery(EJLov lov, EJRecord record) throws EJActionProcessorException { }
     
     /**
      * Used to validate the given query criteria before a query is made on the
@@ -138,7 +138,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param queryCriteria
      *            The query criteria that should be validated
      */
-    public void validateQueryCriteria(EJLov lov, EJQueryCriteria queryCriteria) throws EJActionProcessorException;
+    default public void validateQueryCriteria(EJLov lov, EJQueryCriteria queryCriteria) throws EJActionProcessorException { }
     
     /**
      * Called after a user modifies an item
@@ -157,7 +157,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param screenType
      *            The screen upon which the item was modified
      */
-    public void validateItem(EJLov lov, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException;
+    default public void validateItem(EJLov lov, String blockName, String itemName, EJScreenType screenType) throws EJActionProcessorException { }
     
     /**
      * Called each time an item with an action command is modified on the main
@@ -179,7 +179,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param screenType
      *            The screen from where this method was called
      */
-    public void executeActionCommand(EJLov lov, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException;
+    default public void executeActionCommand(EJLov lov, String blockName, String command, EJScreenType screenType) throws EJActionProcessorException { }
     
     /**
      * Called whenever a new record is created. The <code>DataRecord</code> is
@@ -191,7 +191,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param record
      *            The newly created record
      */
-    public void whenCreateRecord(EJLov lov, EJRecord record) throws EJActionProcessorException;
+    default public void whenCreateRecord(EJLov lov, EJRecord record) throws EJActionProcessorException { }
     
     /**
      * Called each time the user navigated to a new record. The
@@ -203,7 +203,7 @@ public interface EJLovActionProcessor extends Serializable
      * @param record
      *            The new current record
      */
-    public void newRecordInstance(EJLov lov, EJRecord record) throws EJActionProcessorException;
+    default public void newRecordInstance(EJLov lov, EJRecord record) throws EJActionProcessorException { }
     
     /**
      * Called before a query screen is opened, if the lov uses a query screen
@@ -215,7 +215,7 @@ public interface EJLovActionProcessor extends Serializable
      *            The lov from which this method is called
      * @throws EJActionProcessorException
      */
-    public void preOpenQueryScreen(EJLov lov) throws EJActionProcessorException;
+    default public void preOpenQueryScreen(EJLov lov) throws EJActionProcessorException { }
     
     /**
      * Called when a record is created for one of the screens. This allows
@@ -226,5 +226,5 @@ public interface EJLovActionProcessor extends Serializable
      * @param record
      *            The record to initialise
      */
-    public void initialiseQueryRecord(EJLov lov, EJRecord record) throws EJActionProcessorException;
+    default public void initialiseQueryRecord(EJLov lov, EJRecord record) throws EJActionProcessorException { }
 }

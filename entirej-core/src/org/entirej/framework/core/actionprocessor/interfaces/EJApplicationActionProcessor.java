@@ -33,7 +33,7 @@ public interface EJApplicationActionProcessor extends Serializable
      * @param command
      *            The command being executed
      */
-    public void executeActionCommand(EJFrameworkHelper helper, String command) throws EJActionProcessorException;
+    default public void executeActionCommand(EJFrameworkHelper helper, String command) throws EJActionProcessorException { }
 
     /**
      * Called when application Start
@@ -41,7 +41,7 @@ public interface EJApplicationActionProcessor extends Serializable
      * @param helper
      *            EJFrameworkHelper to access application context
      */
-    public void whenApplicationStart(EJFrameworkHelper helper) throws EJActionProcessorException;
+    default public void whenApplicationStart(EJFrameworkHelper helper) throws EJActionProcessorException { }
 
     /**
      * Called when application ends
@@ -49,7 +49,7 @@ public interface EJApplicationActionProcessor extends Serializable
      * @param helper
      *            EJFrameworkHelper to access application context
      */
-    public void whenApplicationEnd(EJFrameworkHelper helper) throws EJActionProcessorException;
+    default public void whenApplicationEnd(EJFrameworkHelper helper) throws EJActionProcessorException { }
     
     
     
@@ -64,7 +64,7 @@ public interface EJApplicationActionProcessor extends Serializable
      * @param tabPageName
      *            The tab page
      */
-    public void preShowTabPage(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException;
+    default public void preShowTabPage(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException { }
 
     /**
      * Called whenever a user chooses a new tab page on a tab 
@@ -76,6 +76,6 @@ public interface EJApplicationActionProcessor extends Serializable
      * @param tabPageName
      *            The name of the tab within the tab canvas
      */
-    public void tabPageChanged(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException;
+    default public void tabPageChanged(EJFrameworkHelper helper, String tabName, String tabPageName) throws EJActionProcessorException { }
 
 }

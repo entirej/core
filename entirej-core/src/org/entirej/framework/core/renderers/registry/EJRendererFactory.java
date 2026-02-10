@@ -19,7 +19,11 @@
 package org.entirej.framework.core.renderers.registry;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
@@ -42,6 +46,7 @@ import org.entirej.framework.core.renderers.interfaces.EJLovRenderer;
 
 public class EJRendererFactory implements Serializable
 {
+    private static final Logger logger = LoggerFactory.getLogger(EJRendererFactory.class);
     private static EJRendererFactory  _instance;
     private HashMap<String, Class<?>> _formRenderers;
     private HashMap<String, Class<?>> _blockRenderers;
@@ -345,10 +350,11 @@ public class EJRendererFactory implements Serializable
         Object rendererObject;
         try
         {
-            rendererObject = rendererClass.newInstance();
-            if (rendererObject instanceof EJFormRenderer)
+            logger.debug("Creating form renderer instance: {}", rendererName);
+            rendererObject = rendererClass.getDeclaredConstructor().newInstance();
+            if (rendererObject instanceof EJFormRenderer renderer)
             {
-                return (EJFormRenderer) rendererObject;
+                return renderer;
             }
             else
             {
@@ -356,16 +362,12 @@ public class EJRendererFactory implements Serializable
                         "IFormRenderer"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
         }
     }
-    
+
     private EJEditableBlockRenderer createNewBlockRendererInstance(String rendererName)
     {
         Class<?> rendererClass = _blockRenderers.get(rendererName);
@@ -378,10 +380,11 @@ public class EJRendererFactory implements Serializable
         Object rendererObject;
         try
         {
-            rendererObject = rendererClass.newInstance();
-            if (rendererObject instanceof EJEditableBlockRenderer)
+            logger.debug("Creating block renderer instance: {}", rendererName);
+            rendererObject = rendererClass.getDeclaredConstructor().newInstance();
+            if (rendererObject instanceof EJEditableBlockRenderer renderer)
             {
-                return (EJEditableBlockRenderer) rendererObject;
+                return renderer;
             }
             else
             {
@@ -389,15 +392,11 @@ public class EJRendererFactory implements Serializable
                         "IBlockRenderer"));
             }
         }
-        catch (InstantiationException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
         }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
-        }
-        
+
     }
     
     private EJItemRenderer createNewItemRendererInstance(String rendererName)
@@ -412,23 +411,20 @@ public class EJRendererFactory implements Serializable
         Object rendererObject;
         try
         {
-            rendererObject = rendererClass.newInstance();
-            if (rendererObject instanceof EJItemRenderer)
+            logger.debug("Creating item renderer instance: {}", rendererName);
+            rendererObject = rendererClass.getDeclaredConstructor().newInstance();
+            if (rendererObject instanceof EJItemRenderer renderer)
             {
-                return (EJItemRenderer) rendererObject;
+                return renderer;
             }
             else
             {
-                
+
                 throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.INVALID_RENDERER_NAME, rendererName,
                         "IItemRenderer"));
             }
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
-        }
-        catch (IllegalAccessException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
         }
@@ -446,10 +442,11 @@ public class EJRendererFactory implements Serializable
         Object rendererObject;
         try
         {
-            rendererObject = rendererClass.newInstance();
-            if (rendererObject instanceof EJLovRenderer)
+            logger.debug("Creating LOV renderer instance: {}", rendererName);
+            rendererObject = rendererClass.getDeclaredConstructor().newInstance();
+            if (rendererObject instanceof EJLovRenderer renderer)
             {
-                return (EJLovRenderer) rendererObject;
+                return renderer;
             }
             else
             {
@@ -457,15 +454,11 @@ public class EJRendererFactory implements Serializable
                         "ILovRenderer"));
             }
         }
-        catch (InstantiationException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
         }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
-        }
-        
+
     }
     
     private EJApplicationComponentRenderer createNewComponentRendererInstance(String rendererName)
@@ -480,10 +473,11 @@ public class EJRendererFactory implements Serializable
         Object rendererObject;
         try
         {
-            rendererObject = rendererClass.newInstance();
-            if (rendererObject instanceof EJApplicationComponentRenderer)
+            logger.debug("Creating application component renderer instance: {}", rendererName);
+            rendererObject = rendererClass.getDeclaredConstructor().newInstance();
+            if (rendererObject instanceof EJApplicationComponentRenderer renderer)
             {
-                return (EJApplicationComponentRenderer) rendererObject;
+                return renderer;
             }
             else
             {
@@ -491,14 +485,10 @@ public class EJRendererFactory implements Serializable
                         "EJApplicationComponentRenderer"));
             }
         }
-        catch (InstantiationException e)
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
         }
-        catch (IllegalAccessException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_LOAD_RENDERER, rendererName), e);
-        }
-        
+
     }
 }

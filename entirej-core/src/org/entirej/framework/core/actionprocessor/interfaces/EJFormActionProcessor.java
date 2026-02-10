@@ -41,7 +41,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            required to ask the question and to return the answer to this
      *            action processor
      */
-    public void questionAnswered(EJQuestion question) throws EJActionProcessorException;
+    default public void questionAnswered(EJQuestion question) throws EJActionProcessorException { }
 
     /**
      * Called by the file upload dialog after a user has chosen required files
@@ -56,7 +56,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The {@link EJFileUpload} contains a collection of file paths
      *            to the files that the user chose.
      */
-    public void fileUploaded(EJFileUpload fileUpload) throws EJActionProcessorException;
+    default public void fileUploaded(EJFileUpload fileUpload) throws EJActionProcessorException { }
 
     /**
      * This method is called when the user tries to delete a master record in a
@@ -71,7 +71,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @return The message to display or <code>null</code> if the standard
      *         message should be displayed
      */
-    public EJMessage getMasterDetailDeleteViolationMessage(EJForm form, String relationName) throws EJActionProcessorException;
+    default public EJMessage getMasterDetailDeleteViolationMessage(EJForm form, String relationName) throws EJActionProcessorException { return null; }
 
     /**
      * Called before the form is opened
@@ -82,7 +82,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form that will be opened
      */
-    public void preFormOpened(EJForm form) throws EJActionProcessorException;
+    default public void preFormOpened(EJForm form) throws EJActionProcessorException { }
     
     
     /**
@@ -93,7 +93,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form that opened
      */
-    public void postFormOpened(EJForm form); 
+    default public void postFormOpened(EJForm form) { }
 
     /**
      * Called before the form is closed
@@ -104,7 +104,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form that will be closed
      */
-    public void preFormClosed(EJForm form) throws EJActionProcessorException;
+    default public void preFormClosed(EJForm form) throws EJActionProcessorException { }
 
     /**
      * Called when a form commit is made, this allows the developers to react
@@ -114,7 +114,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form that is being saved
      */
-    public void postFormSave(EJForm form) throws EJActionProcessorException;
+    default public void postFormSave(EJForm form) throws EJActionProcessorException { }
 
     /**
      * Called when a user selects a new form to be opened. This will be called
@@ -124,7 +124,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form that is opening
      */
-    public void newFormInstance(EJForm form) throws EJActionProcessorException;
+    default public void newFormInstance(EJForm form) throws EJActionProcessorException { }
 
     /**
      * Called whenever the user navigates to a different block within the form
@@ -134,7 +134,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param blockName
      *            The name of the block that gained focus
      */
-    public void newBlockInstance(EJForm form, String blockName) throws EJActionProcessorException;
+    default public void newBlockInstance(EJForm form, String blockName) throws EJActionProcessorException { }
 
     /**
      * Called before the given tab page is shown
@@ -146,7 +146,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param tabPageName
      *            The tab page
      */
-    public void preShowTabPage(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException;
+    default public void preShowTabPage(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException { }
 
     /**
      * Called whenever a user chooses a new tab page on a tab canvas
@@ -158,7 +158,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param tabPageName
      *            The name of the tab within the tab canvas
      */
-    public void tabPageChanged(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException;
+    default public void tabPageChanged(EJForm form, String tabCanvasName, String tabPageName) throws EJActionProcessorException { }
 
     /**
      * Called before the given drawer page is shown
@@ -170,7 +170,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param drawerPageName
      *            The drawer page
      */
-    public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
+    default public void preShowDrawerPage(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException { }
 
     /**
      * Called whenever a user chooses a new drawer page on a drawer canvas
@@ -182,7 +182,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param drawerPageName
      *            The name of the drawer within the drawer canvas
      */
-    public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException;
+    default public void drawerPageChanged(EJForm form, String drawerCanvasName, String drawerPageName) throws EJActionProcessorException { }
 
     /**
      * Called before a given stacked page will be shown
@@ -194,7 +194,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param stackedPageName
      *            The name of the stacked page that will be shown
      */
-    public void preShowStackedPage(EJForm form, String stackedCanvasName, String stackedPageName) throws EJActionProcessorException;
+    default public void preShowStackedPage(EJForm form, String stackedCanvasName, String stackedPageName) throws EJActionProcessorException { }
 
     /**
      * Called whenever the user chooses a new stacked page from a stacked canvas
@@ -206,7 +206,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param stackedPageName
      *            The name of the stacked page opened
      */
-    public void stackedPageChanged(EJForm form, String stackedCanvasName, String stackedPageName) throws EJActionProcessorException;
+    default public void stackedPageChanged(EJForm form, String stackedCanvasName, String stackedPageName) throws EJActionProcessorException { }
 
     /**
      * Called before a popup canvas with the given name is opened
@@ -216,7 +216,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param popupCanvasName
      *            The name of the popup canvas which is being opened
      */
-    public void preOpenPopupCanvas(EJForm form, String popupCanvasName) throws EJActionProcessorException;
+    default public void preOpenPopupCanvas(EJForm form, String popupCanvasName) throws EJActionProcessorException { }
 
     /**
      * Called before a popup canvas is closed This enables the posibility to
@@ -232,7 +232,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param button
      *            The button that was pressed to close the popup canvas
      */
-    public void popupCanvasClosing(EJForm form, String popupCanvasName, EJPopupButton button) throws EJActionProcessorException;
+    default public void popupCanvasClosing(EJForm form, String popupCanvasName, EJPopupButton button) throws EJActionProcessorException { }
 
     /**
      * Called when a popup canvas is closed
@@ -244,7 +244,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param button
      *            The button that was pressed to close the popup canvas
      */
-    public void popupCanvasClosed(EJForm form, String popupCanvasName, EJPopupButton button) throws EJActionProcessorException;
+    default public void popupCanvasClosed(EJForm form, String popupCanvasName, EJPopupButton button) throws EJActionProcessorException { }
 
     /**
      * Called when a popup canvas is opened
@@ -254,7 +254,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param popupCanvasName
      *            The name of the popup canvas which was opened
      */
-    public void popupCanvasOpened(EJForm form, String popupCanvasName) throws EJActionProcessorException;
+    default public void popupCanvasOpened(EJForm form, String popupCanvasName) throws EJActionProcessorException { }
 
     /**
      * Called when a popup form opened by the forms FormManager is closed
@@ -262,7 +262,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param parameterList
      *            The parameter list from the popup form
      */
-    public void popupFormClosed(EJParameterList parameterList) throws EJActionProcessorException;
+    default public void popupFormClosed(EJParameterList parameterList) throws EJActionProcessorException { }
 
     /**
      * Called when an embedded form opened by the forms FormManager is closed
@@ -270,7 +270,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param parameterList
      *            The parameter list from the embedded form
      */
-    public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException;
+    default public void embeddedFormClosed(EJParameterList parameterList) throws EJActionProcessorException { }
 
     /**
      * This is called whenever the user will navigate to this form
@@ -278,7 +278,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form from which this method is called
      */
-    public void focusGained(EJForm form) throws EJActionProcessorException;
+    default public void focusGained(EJForm form) throws EJActionProcessorException { }
     
     /**
      * This is called whenever the user will navigate out of this form
@@ -286,7 +286,7 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      * @param form
      *            The form from which this method is called
      */
-    public void focusLost(EJForm form) throws EJActionProcessorException;
+    default public void focusLost(EJForm form) throws EJActionProcessorException { }
 
     /**
      * This is called whenever a modal form is closing
@@ -297,5 +297,5 @@ public interface EJFormActionProcessor extends EJBlockActionProcessor
      *            The parameter list that was passed to the modal form when
      *            opening
      */
-    public void modalFormClosing(EJForm form, EJParameterList parameterList) throws EJActionProcessorException;
+    default public void modalFormClosing(EJForm form, EJParameterList parameterList) throws EJActionProcessorException { }
 }

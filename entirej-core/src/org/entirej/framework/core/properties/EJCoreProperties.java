@@ -145,7 +145,7 @@ public class EJCoreProperties implements EJEntireJProperties
     
     public List<EJApplicationLevelParameter> getApplicationLevelParameters ()
     {
-        return new ArrayList<>(_applicationLevelParameters.values().hashCode());
+        return new ArrayList<>(_applicationLevelParameters.values());
     }
     
     public void copyApplicationLevelParameters(EJFrameworkManager frameworkManager)
@@ -168,11 +168,11 @@ public class EJCoreProperties implements EJEntireJProperties
         try
         {
             Class<?> rendererClass = Class.forName(className);
-            Object obj = rendererClass.newInstance();
-            
-            if (obj instanceof EJTranslator)
+            Object obj = rendererClass.getDeclaredConstructor().newInstance();
+
+            if (obj instanceof EJTranslator translator)
             {
-                _applicationTranslator = (EJTranslator) obj;
+                _applicationTranslator = translator;
             }
             else
             {
@@ -185,12 +185,7 @@ public class EJCoreProperties implements EJEntireJProperties
             throw new EJApplicationException(EJMessageFactory.getInstance()
                     .createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APPLICATION_TRANSLATOR, className), e);
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance()
-                    .createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APPLICATION_TRANSLATOR, className), e);
-        }
-        catch (IllegalAccessException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance()
                     .createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_APPLICATION_TRANSLATOR, className), e);
@@ -285,11 +280,11 @@ public class EJCoreProperties implements EJEntireJProperties
             _connectionFactoryClassName = className;
             
             Class<?> factoryClass = Class.forName(className);
-            Object obj = factoryClass.newInstance();
-            
-            if (obj instanceof EJConnectionFactory)
+            Object obj = factoryClass.getDeclaredConstructor().newInstance();
+
+            if (obj instanceof EJConnectionFactory connectionFactory)
             {
-                EJCoreManagedConnectionFactory.getInstane().setConnectionFactory((EJConnectionFactory) obj);
+                EJCoreManagedConnectionFactory.getInstane().setConnectionFactory(connectionFactory);
             }
             else
             {
@@ -301,12 +296,7 @@ public class EJCoreProperties implements EJEntireJProperties
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_TRANSACTION_FACTORY, className),
                     e);
         }
-        catch (InstantiationException e)
-        {
-            throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_TRANSACTION_FACTORY, className),
-                    e);
-        }
-        catch (IllegalAccessException e)
+        catch (ReflectiveOperationException e)
         {
             throw new EJApplicationException(EJMessageFactory.getInstance().createMessage(EJFrameworkMessage.UNABLE_TO_CREATE_TRANSACTION_FACTORY, className),
                     e);

@@ -448,23 +448,19 @@ public class EJStatementExecutor implements Serializable
             {
                 while (rset.next())
                 {
-                    T result = pojoType.newInstance();
-                    
+                    T result = pojoType.getDeclaredConstructor().newInstance();
+
                     for (int i = 1; i <= metaData.getColumnCount(); i++)
                     {
                         helper.setFieldValue(metaData.getColumnLabel(i), result, rset.getObject(i));
                     }
                     results.add(result);
                 }
-                
+
                 if(infoEnabled)
                     logger.info("Query retrieved {} results", results.size());
             }
-            catch (InstantiationException e)
-            {
-                throw new EJApplicationException("Error creating pojo instance", e);
-            }
-            catch (IllegalAccessException e)
+            catch (ReflectiveOperationException e)
             {
                 throw new EJApplicationException("Error creating pojo instance", e);
             }
