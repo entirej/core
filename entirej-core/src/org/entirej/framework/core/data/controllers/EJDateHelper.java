@@ -367,7 +367,7 @@ public class EJDateHelper implements Serializable
     {
         Timestamp newDate1 = createDate(getYear(date1), getMonth(date1), getDayOfMonth(date1));
         Timestamp newDate2 = createDate(getYear(date2), getMonth(date2), getDayOfMonth(date2));
-        int daysAfter = (new Double(getDaysAfter(newDate1, newDate2))).intValue();
+        int daysAfter = (int) getDaysAfter(newDate1, newDate2);
         
         return daysAfter;
     }
