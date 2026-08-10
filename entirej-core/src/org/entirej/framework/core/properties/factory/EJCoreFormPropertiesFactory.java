@@ -22,13 +22,13 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJConstants;
 import org.entirej.framework.core.EJForm;
 import org.entirej.framework.core.EJFrameworkManager;
 import org.entirej.framework.core.EJMessageFactory;
+import org.entirej.framework.core.common.utils.EJXmlParserFactory;
 import org.entirej.framework.core.enumerations.EJCanvasType;
 import org.entirej.framework.core.enumerations.EJFrameworkMessage;
 import org.entirej.framework.core.properties.EJCoreBlockProperties;
@@ -65,12 +65,12 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
 
         try
         {
-            InputStream inStream = getFormPropertiesDocument(formName);
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxPArser = factory.newSAXParser();
             EJCoreFormPropertiesHandler handler = _frameworkManager.getHandlerFactory().createFormHandler(formName, false, false);
-            saxPArser.parse(inStream, handler);
+            try (InputStream inStream = getFormPropertiesDocument(formName))
+            {
+                SAXParser saxParser = EJXmlParserFactory.newSaxParser();
+                saxParser.parse(inStream, handler);
+            }
 
             EJCoreFormProperties formProperties = handler.getFormProperties();
             if (formProperties.getFirstNavigableBlock() == null || formProperties.getFirstNavigableBlock().isEmpty())
@@ -146,12 +146,12 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
 
         try
         {
-            InputStream inStream = getFormPropertiesDocumentForReusableBlock(referencedBlockName);
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxPArser = factory.newSAXParser();
             EJCoreFormPropertiesHandler handler = _frameworkManager.getHandlerFactory().createFormHandler(referencedBlockName, false, true);
-            saxPArser.parse(inStream, handler);
+            try (InputStream inStream = getFormPropertiesDocumentForReusableBlock(referencedBlockName))
+            {
+                SAXParser saxParser = EJXmlParserFactory.newSaxParser();
+                saxParser.parse(inStream, handler);
+            }
 
             // The form properties within the handler are not the same as those
             // past as a parameter
@@ -211,12 +211,12 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
 
         try
         {
-            InputStream inStream = getFormPropertiesDocumentForObjectGroup(objectGroupName);
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxPArser = factory.newSAXParser();
             EJCoreFormPropertiesHandler handler = _frameworkManager.getHandlerFactory().createFormHandler(objectGroupName, false, true);
-            saxPArser.parse(inStream, handler);
+            try (InputStream inStream = getFormPropertiesDocumentForObjectGroup(objectGroupName))
+            {
+                SAXParser saxParser = EJXmlParserFactory.newSaxParser();
+                saxParser.parse(inStream, handler);
+            }
 
             // The form properties within the handler are not the same as those
             // past as a parameter
@@ -292,12 +292,12 @@ public class EJCoreFormPropertiesFactory implements EJFormPropertiesFactory
 
         try
         {
-            InputStream inStream = getFormPropertiesDocumentForReusableLovDefinition(referencedLovDefName);
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxPArser = factory.newSAXParser();
             EJCoreFormPropertiesHandler handler = _frameworkManager.getHandlerFactory().createFormHandler(referencedLovDefName, true, false);
-            saxPArser.parse(inStream, handler);
+            try (InputStream inStream = getFormPropertiesDocumentForReusableLovDefinition(referencedLovDefName))
+            {
+                SAXParser saxParser = EJXmlParserFactory.newSaxParser();
+                saxParser.parse(inStream, handler);
+            }
 
             EJCoreFormProperties formProperties = handler.getFormProperties();
             if (formProperties == null)

@@ -21,10 +21,10 @@ package org.entirej.framework.core.properties.factory;
 import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.entirej.framework.core.EJApplicationException;
 import org.entirej.framework.core.EJFrameworkManager;
+import org.entirej.framework.core.common.utils.EJXmlParserFactory;
 import org.entirej.framework.core.properties.EJFileLoader;
 import org.entirej.framework.core.properties.reader.EJCoreEntireJPropertiesHandler;
 
@@ -54,12 +54,12 @@ public class EJCorePropertiesFactory
         
         try
         {
-            InputStream inStream = EJFileLoader.class.getClassLoader().getResourceAsStream(entireJPropertiesFileName);
-            
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxPArser = factory.newSAXParser();
-            EJCoreEntireJPropertiesHandler handler = manager.getHandlerFactory().createEntireJPropertiesHandler();
-            saxPArser.parse(inStream, handler);
+            try (InputStream inStream = EJFileLoader.class.getClassLoader().getResourceAsStream(entireJPropertiesFileName))
+            {
+                SAXParser saxParser = EJXmlParserFactory.newSaxParser();
+                EJCoreEntireJPropertiesHandler handler = manager.getHandlerFactory().createEntireJPropertiesHandler();
+                saxParser.parse(inStream, handler);
+            }
         }
         catch (Exception e)
         {

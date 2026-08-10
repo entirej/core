@@ -26,7 +26,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -34,6 +33,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import javax.xml.xpath.XPathFactoryConfigurationException;
 
+import org.entirej.framework.core.common.utils.EJXmlParserFactory;
 import org.entirej.framework.core.common.utils.EJParameterChecker;
 import org.entirej.framework.core.interfaces.EJConnectionFactory;
 import org.entirej.framework.core.interfaces.EJFrameworkConnection;
@@ -190,22 +190,10 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
             throw new IllegalArgumentException("The file name passed to loadFileFromClasspath is invalid and cannot be found. FileName: " + fileName);
         }
 
-        try
+        try (inStream)
         {
-            Document document = null;
-            // Initiate DocumentBuilderFactory
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-            // To get a validating parser
-            factory.setValidating(false);
-            // To get one that understands namespaces
-            factory.setNamespaceAware(true);
-
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            // Parse and load into memory the Document
-            document = builder.parse(inStream);
-
-            return document;
+            DocumentBuilder builder = EJXmlParserFactory.newDocumentBuilder(true);
+            return builder.parse(inStream);
         }
         catch (IOException e)
         {

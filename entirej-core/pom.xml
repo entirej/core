@@ -145,7 +145,7 @@
 	<properties>
 		<VERSION>DEVELOPMENT</VERSION>
 		<MAVEN.REPO.PATH>development</MAVEN.REPO.PATH>
-		<GITHUB.OAUTH></GITHUB.OAUTH>
+		<GITHUB.OAUTH>${env.GITHUB_OAUTH}</GITHUB.OAUTH>
 		<built.repo.dir>${project.build.directory}/repo</built.repo.dir>
 	</properties>
 </project>
