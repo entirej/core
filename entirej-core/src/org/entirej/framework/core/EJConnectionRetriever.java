@@ -58,14 +58,44 @@ public class EJConnectionRetriever implements Serializable
 
     public void close()
     {
-
         synchronized (LOCK)
         {
             if (_frameworkConnection != null)
             {
-                _frameworkConnection.commit();
-                _frameworkConnection.close();
-                _frameworkConnection = null;
+                RuntimeException failure = null;
+                try
+                {
+                    _frameworkConnection.commit();
+                }
+                catch (RuntimeException e)
+                {
+                    failure = e;
+                }
+
+                try
+                {
+                    _frameworkConnection.close();
+                }
+                catch (RuntimeException e)
+                {
+                    if (failure == null)
+                    {
+                        failure = e;
+                    }
+                    else
+                    {
+                        failure.addSuppressed(e);
+                    }
+                }
+                finally
+                {
+                    _frameworkConnection = null;
+                }
+
+                if (failure != null)
+                {
+                    throw failure;
+                }
             }
         }
     }
