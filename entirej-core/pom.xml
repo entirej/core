@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>2.0.16</version>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -144,8 +144,79 @@
 	</dependencies>
 	<properties>
 		<VERSION>DEVELOPMENT</VERSION>
+		<slf4j.version>2.0.18</slf4j.version>
 		<MAVEN.REPO.PATH>development</MAVEN.REPO.PATH>
 		<GITHUB.OAUTH>${env.GITHUB_OAUTH}</GITHUB.OAUTH>
 		<built.repo.dir>${project.build.directory}/repo</built.repo.dir>
 	</properties>
+	<!-- Run with: mvn verify -Ptrivy-scan [-Dtrivy.executable=/path/to/trivy] -->
+	<profiles>
+		<profile>
+			<id>trivy-scan</id>
+			<properties>
+				<trivy.executable>trivy</trivy.executable>
+				<trivy.severity>CRITICAL,HIGH</trivy.severity>
+				<trivy.exitCode>1</trivy.exitCode>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.cyclonedx</groupId>
+						<artifactId>cyclonedx-maven-plugin</artifactId>
+						<version>2.9.3</version>
+						<executions>
+							<execution>
+								<id>generate-trivy-sbom</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>makeBom</goal>
+								</goals>
+								<configuration>
+									<outputFormat>json</outputFormat>
+									<outputName>trivy-sbom</outputName>
+									<includeProvidedScope>false</includeProvidedScope>
+									<includeSystemScope>false</includeSystemScope>
+									<includeTestScope>false</includeTestScope>
+									<skipAttach>true</skipAttach>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>3.6.3</version>
+						<executions>
+							<execution>
+								<id>trivy-scan-dependencies</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${trivy.executable}</executable>
+									<arguments>
+										<argument>sbom</argument>
+										<argument>--scanners</argument>
+										<argument>vuln</argument>
+										<argument>--severity</argument>
+										<argument>${trivy.severity}</argument>
+										<argument>--exit-code</argument>
+										<argument>${trivy.exitCode}</argument>
+						<argument>--no-progress</argument>
+						<argument>--quiet</argument>
+						<argument>--format</argument>
+										<argument>json</argument>
+										<argument>--output</argument>
+										<argument>${project.build.directory}/trivy-report.json</argument>
+										<argument>${project.build.directory}/trivy-sbom.json</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
