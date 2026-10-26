@@ -246,11 +246,19 @@ public class EJExpressionBuilder implements Serializable
         }
         else if (restriction.getBetweenHigherValue() != null)
         {
-            return buildLessThan(restriction, values);
+            StringBuilder str = new StringBuilder();
+            str.append(restriction.getAlias() == null ? restriction.getFieldName() : restriction.getAlias());
+            str.append(" < ? ");
+            values.add(new EJStatementParameter(restriction.getBetweenHigherValue()));
+            return str.toString();
         }
         else if (restriction.getBetweenLowerValue() != null)
         {
-            return buildGreaterThan(restriction, values);
+            StringBuilder str = new StringBuilder();
+            str.append(restriction.getAlias() == null ? restriction.getFieldName() : restriction.getAlias());
+            str.append(" > ? ");
+            values.add(new EJStatementParameter(restriction.getBetweenLowerValue()));
+            return str.toString();
         }
         else
         {
@@ -260,6 +268,11 @@ public class EJExpressionBuilder implements Serializable
     
     private static String buildIn(EJRestriction<?> restriction, ArrayList<EJStatementParameter> values)
     {
+        if (restriction.getValueList() == null || restriction.getValueList().isEmpty())
+        {
+            return "1 = 0";
+        }
+
         StringBuffer buffer = new StringBuffer();
         buffer.append(restriction.getAlias() == null ? restriction.getFieldName() : restriction.getAlias());
         buffer.append(" IN (");
@@ -283,6 +296,11 @@ public class EJExpressionBuilder implements Serializable
     
     private static String buildNotIn(EJRestriction<?> restriction, ArrayList<EJStatementParameter> values)
     {
+        if (restriction.getValueList() == null || restriction.getValueList().isEmpty())
+        {
+            return "1 = 1";
+        }
+
         StringBuffer buffer = new StringBuffer();
         buffer.append(restriction.getAlias() == null ? restriction.getFieldName() : restriction.getAlias());
         buffer.append(" NOT IN (");

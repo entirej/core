@@ -78,16 +78,35 @@ public class EJDefaultConnectionFactory implements EJConnectionFactory
         try
         {
             con = DriverManager.getConnection(_connectionUrl, userProps);
-
-            // Need to set autocommit false to allow EntireJ to handle
-            // transactions
-            con.setAutoCommit(false);
+            return configureConnection(con);
         }
         catch (SQLException e)
         {
             throw new EJApplicationException(new EJMessage(e.getMessage()), e);
         }
-        return con;
+    }
+
+    static Connection configureConnection(Connection connection) throws SQLException
+    {
+        try
+        {
+            // Need to set autocommit false to allow EntireJ to handle
+            // transactions
+            connection.setAutoCommit(false);
+            return connection;
+        }
+        catch (SQLException configurationFailure)
+        {
+            try
+            {
+                connection.close();
+            }
+            catch (SQLException closeFailure)
+            {
+                configurationFailure.addSuppressed(closeFailure);
+            }
+            throw configurationFailure;
+        }
     }
     
     private void config()

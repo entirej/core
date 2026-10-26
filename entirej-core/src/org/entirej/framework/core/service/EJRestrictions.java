@@ -102,9 +102,12 @@ public class EJRestrictions
     {
         List<E> values = new ArrayList<E>();
 
-        for (E val : value)
+        if (value != null)
         {
-            values.add(val);
+            for (E val : value)
+            {
+                values.add(val);
+            }
         }
 
         return new In<E>(propertyName, values, serviceItem);
@@ -189,9 +192,12 @@ public class EJRestrictions
     {
         List<E> values = new ArrayList<E>();
 
-        for (E val : value)
+        if (value != null)
         {
-            values.add(val);
+            for (E val : value)
+            {
+                values.add(val);
+            }
         }
 
         return new NotIn<E>(propertyName, values, serviceItem);

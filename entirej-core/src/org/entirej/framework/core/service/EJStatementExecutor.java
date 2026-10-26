@@ -40,6 +40,9 @@ import org.slf4j.LoggerFactory;
 
 public class EJStatementExecutor implements Serializable
 {
+    private static final Pattern TOP_LEVEL_WHERE_PATTERN    = Pattern.compile("\\bwhere\\b", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TOP_LEVEL_ORDER_BY_PATTERN = Pattern.compile("\\border\\s+by\\b", Pattern.CASE_INSENSITIVE);
+
     final Logger logger = LoggerFactory.getLogger(EJStatementExecutor.class);
     
     public int executeDelete(EJForm form, String tableName, EJStatementCriteria criteria, EJStatementParameter... parameters)
@@ -177,7 +180,7 @@ public class EJStatementExecutor implements Serializable
                 {
                     if (restriction.isServiceItemRestriction())
                     {
-                        stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, updateParameters)));
+                        addWhere(stmt, EJExpressionBuilder.buildExpression(restriction, updateParameters));
                     }
                 }
             }
@@ -340,14 +343,14 @@ public class EJStatementExecutor implements Serializable
         if(infoEnabled)
             logger.info("Executing query to return a list of {}\n{}", pojoType, selectStatement);
         
-        StringBuffer stmt = new StringBuffer(selectStatement);
+        StringBuilder stmt = new StringBuilder(selectStatement);
         
         ArrayList<EJStatementParameter> queryValues = new ArrayList<EJStatementParameter>();
         for (EJRestriction<?> restriction : queryCriteria.getAllRestrictions())
         {
             if (restriction.isServiceItemRestriction())
             {
-                stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, queryValues)));
+                addWhere(stmt, EJExpressionBuilder.buildExpression(restriction, queryValues));
             }
         }
         
@@ -356,7 +359,7 @@ public class EJStatementExecutor implements Serializable
         
         for (EJQuerySort sort : queryCriteria.getSorts())
         {
-            stmt.append(addOrderBy(stmt.toString(), sort));
+            addOrderBy(stmt, sort);
         }
         
         if(infoEnabled)
@@ -483,22 +486,25 @@ public class EJStatementExecutor implements Serializable
             ArrayList<EJStatementParameter> allParameters = new ArrayList<EJStatementParameter>(Arrays.asList(parameters));
             if (queryCriteria != null)
             {
-                StringBuffer stmt = new StringBuffer(selectStatement);
+                StringBuilder stmt = new StringBuilder(selectStatement);
+                ArrayList<EJStatementParameter> criteriaParameters = new ArrayList<EJStatementParameter>();
+                int criteriaParameterIndex = parameterIndexForWhereInsertion(selectStatement, allParameters.size());
                 
                 for (EJRestriction<?> restriction : queryCriteria.getAllRestrictions())
                 {
                     if (restriction.isServiceItemRestriction())
                     {
-                        stmt.append(addWhere(stmt.toString(), EJExpressionBuilder.buildExpression(restriction, allParameters)));
+                        addWhere(stmt, EJExpressionBuilder.buildExpression(restriction, criteriaParameters));
                     }
                 }
+                allParameters.addAll(criteriaParameterIndex, criteriaParameters);
                 
                 if(infoEnabled)
                     logger.info("Added the QueryCriteria expressions {}", stmt.toString());
                 
                 for (EJQuerySort sort : queryCriteria.getSorts())
                 {
-                    stmt.append(addOrderBy(stmt.toString(), sort));
+                    addOrderBy(stmt, sort);
                 }
                 
                 selectStatement = stmt.toString();
@@ -555,75 +561,225 @@ public class EJStatementExecutor implements Serializable
         }
     }
     
-    private String addWhere(String statement, String whereClause)
+    private void addWhere(StringBuilder statement, String whereClause)
     {
-        if (containsWhere(statement))
+        if (whereClause == null || whereClause.isBlank())
         {
-            return " AND " + whereClause;
+            throw new EJApplicationException("Cannot execute a statement with an empty restriction predicate");
         }
-        else
-        {
-            return " WHERE " + whereClause;
-        }
+
+        String sql = statement.toString();
+        int orderByPosition = findTopLevelClause(sql, TOP_LEVEL_ORDER_BY_PATTERN);
+        int insertionPosition = orderByPosition >= 0 ? orderByPosition : statementEnd(sql);
+        String connector = containsWhere(sql) ? " AND " : " WHERE ";
+        statement.insert(insertionPosition, connector + whereClause + " ");
     }
     
-    private String addOrderBy(String statement, EJQuerySort sort)
+    private void addOrderBy(StringBuilder statement, EJQuerySort sort)
     {
-        if (containsOrderBy(statement))
-        {
-            return " , " + sort.getSort() + " " + (sort.getType() == EJQuerySortType.ASCENDING ? "ASC" : "DESC");
-        }
-        else
-        {
-            return " ORDER BY " + sort.getSort() + " " + (sort.getType() == EJQuerySortType.ASCENDING ? "ASC" : "DESC");
-        }
+        String sql = statement.toString();
+        String prefix = containsOrderBy(sql) ? " , " : " ORDER BY ";
+        String clause = prefix + sort.getSort() + " " + (sort.getType() == EJQuerySortType.ASCENDING ? "ASC" : "DESC");
+        statement.insert(statementEnd(sql), clause);
     }
-    
+
     private boolean containsWhere(String statement)
     {
-        int nestingLevel = 0;
-        Pattern pattern = Pattern.compile("(\\()|(\\))|(\\s+where\\s+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(" " + statement);
-        while (matcher.find())
-        {
-            if (matcher.start(1) != -1)
-            {
-                nestingLevel++;
-            }
-            if (matcher.start(2) != -1)
-            {
-                nestingLevel--;
-            }
-            if (matcher.start(3) != -1 && nestingLevel == 0)
-            {
-                return true;
-            }
-        }
-        
-        return false;
+        return findTopLevelClause(statement, TOP_LEVEL_WHERE_PATTERN) >= 0;
     }
-    
+
     private boolean containsOrderBy(String statement)
     {
-        int nestingLevel = 0;
-        Pattern pattern = Pattern.compile("(\\()|(\\))|(\\s+order\\s+)", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(" " + statement);
-        while (matcher.find())
+        return findTopLevelClause(statement, TOP_LEVEL_ORDER_BY_PATTERN) >= 0;
+    }
+
+    private int parameterIndexForWhereInsertion(String statement, int parameterCount)
+    {
+        int orderByPosition = findTopLevelClause(statement, TOP_LEVEL_ORDER_BY_PATTERN);
+        int insertionPosition = orderByPosition >= 0 ? orderByPosition : statementEnd(statement);
+        String visibleSql = maskSql(statement, false);
+        int placeholders = 0;
+        for (int i = 0; i < insertionPosition; i++)
         {
-            if (matcher.start(1) != -1)
+            if (visibleSql.charAt(i) == '?')
             {
-                nestingLevel++;
-            }
-            if (matcher.start(2) != -1)
-            {
-                nestingLevel--;
-            }
-            if (matcher.start(3) != -1 && nestingLevel == 0)
-            {
-                return true;
+                placeholders++;
             }
         }
-        return false;
+        return Math.min(placeholders, parameterCount);
+    }
+
+    private int findTopLevelClause(String statement, Pattern clausePattern)
+    {
+        Matcher matcher = clausePattern.matcher(maskSql(statement, true));
+        return matcher.find() ? matcher.start() : -1;
+    }
+
+    private int statementEnd(String statement)
+    {
+        // Ignore trailing comments without treating a quoted final value as whitespace.
+        String visibleSql = maskSql(statement, false);
+        int end = visibleSql.length();
+        while (end > 0 && Character.isWhitespace(visibleSql.charAt(end - 1)))
+        {
+            end--;
+        }
+        return end > 0 && visibleSql.charAt(end - 1) == ';' ? end - 1 : end;
+    }
+
+    private String maskSql(String statement, boolean maskNestedContent)
+    {
+        char[] visible = statement.toCharArray();
+        int nestingLevel = 0;
+        boolean singleQuoted = false;
+        boolean doubleQuoted = false;
+        boolean backtickQuoted = false;
+        boolean bracketQuoted = false;
+        boolean lineComment = false;
+        boolean blockComment = false;
+
+        for (int i = 0; i < visible.length; i++)
+        {
+            char current = statement.charAt(i);
+            char next = i + 1 < visible.length ? statement.charAt(i + 1) : '\0';
+
+            if (lineComment)
+            {
+                visible[i] = ' ';
+                if (current == '\n' || current == '\r')
+                {
+                    lineComment = false;
+                }
+                continue;
+            }
+            if (blockComment)
+            {
+                visible[i] = ' ';
+                if (current == '*' && next == '/')
+                {
+                    visible[++i] = ' ';
+                    blockComment = false;
+                }
+                continue;
+            }
+            if (singleQuoted)
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                if (current == '\'' && next == '\'')
+                {
+                    visible[++i] = maskNestedContent ? ' ' : '_';
+                }
+                else if (current == '\'')
+                {
+                    singleQuoted = false;
+                }
+                continue;
+            }
+            if (doubleQuoted)
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                if (current == '"' && next == '"')
+                {
+                    visible[++i] = maskNestedContent ? ' ' : '_';
+                }
+                else if (current == '"')
+                {
+                    doubleQuoted = false;
+                }
+                continue;
+            }
+            if (backtickQuoted)
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                if (current == '`' && next == '`')
+                {
+                    visible[++i] = maskNestedContent ? ' ' : '_';
+                }
+                else if (current == '`')
+                {
+                    backtickQuoted = false;
+                }
+                continue;
+            }
+            if (bracketQuoted)
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                if (current == ']' && next == ']')
+                {
+                    visible[++i] = maskNestedContent ? ' ' : '_';
+                }
+                else if (current == ']')
+                {
+                    bracketQuoted = false;
+                }
+                continue;
+            }
+
+            if (current == '-' && next == '-')
+            {
+                visible[i] = ' ';
+                visible[++i] = ' ';
+                lineComment = true;
+                continue;
+            }
+            if (current == '/' && next == '*')
+            {
+                visible[i] = ' ';
+                visible[++i] = ' ';
+                blockComment = true;
+                continue;
+            }
+            if (current == '\'')
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                singleQuoted = true;
+                continue;
+            }
+            if (current == '"')
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                doubleQuoted = true;
+                continue;
+            }
+            if (current == '`')
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                backtickQuoted = true;
+                continue;
+            }
+            if (current == '[')
+            {
+                visible[i] = maskNestedContent ? ' ' : '_';
+                bracketQuoted = true;
+                continue;
+            }
+            if (current == '(')
+            {
+                nestingLevel++;
+                if (maskNestedContent)
+                {
+                    visible[i] = ' ';
+                }
+                continue;
+            }
+            if (current == ')')
+            {
+                if (maskNestedContent)
+                {
+                    visible[i] = ' ';
+                }
+                if (nestingLevel > 0)
+                {
+                    nestingLevel--;
+                }
+                continue;
+            }
+            if (maskNestedContent && nestingLevel > 0)
+            {
+                visible[i] = ' ';
+            }
+        }
+        return new String(visible);
     }
     
     public String wrapSelectForPaging(String selectStatement, EJQueryCriteria queryCriteria)
